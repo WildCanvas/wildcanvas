@@ -302,8 +302,10 @@ footer p a { color: rgba(251,246,238,0.4); }
   .fact { padding: 0.9rem 1.5rem; }
   .section { padding: 3.5rem 1.5rem; }
   .intro-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .carousel-slide { height: 320px; }
   .intro-images { grid-template-rows: 220px 220px; }
   .glance-grid { grid-template-columns: 1fr 1fr; }
+  [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
   .photo-full { height: 280px; }
   .photo-pair { grid-template-columns: 1fr; }
   .photo-pair img { height: 260px; }
@@ -338,8 +340,8 @@ footer p a { color: rgba(251,246,238,0.4); }
 <!-- HERO PHOTO -->
 <div class="hero">
   <img class="hero-photo"
-    src="https://static.wixstatic.com/media/590a8f_1983f9c0f43f481b9cf7a98cfb4e0478~mv2.jpg/v1/fill/w_2500,h_1667,al_c,q_85/590a8f_1983f9c0f43f481b9cf7a98cfb4e0478~mv2.jpg"
-    alt="Kōwhai Tent, luxury glamping for couples in Waitomo"/>
+    src="kowhai-tent-luxury-glamping-waitomo-new-zealand.webp"
+    alt="Kōwhai Tent luxury glamping Waitomo New Zealand"/>
   <div class="hero-text">
     <div>
       <p class="eyebrow">Adults Only · Up to 2 Guests</p>
@@ -394,16 +396,28 @@ footer p a { color: rgba(251,246,238,0.4); }
         <a href="#glance" class="btn-outline">See What's Included</a>
       </div>
     </div>
-    <div class="intro-images fade-up">
-      <img class="img-tall"
-        src="https://static.wixstatic.com/media/590a8f_ce6affc2d4e548d2bf105ee9e640c031~mv2.jpg/v1/crop/x_412,y_0,w_1224,h_1536/fill/w_600,h_750,al_c,q_85/outdoor-bath-glamping-nz.jpg"
-        alt="Twin outdoor baths at the Kōwhai Tent"/>
-      <img
-        src="https://static.wixstatic.com/media/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg/v1/fit/w_600,h_370,q_90/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg"
-        alt="Kōwhai Tent interior"/>
-      <img
-        src="https://static.wixstatic.com/media/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg/v1/fit/w_600,h_370,q_90/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg"
-        alt="Views from the Kōwhai Tent"/>
+    <div class="fade-up" style="position:relative;">
+      <!-- CAROUSEL -->
+      <div class="carousel" id="introCarousel">
+        <div class="carousel-track" id="carouselTrack">
+          <img class="carousel-slide"
+            src="https://static.wixstatic.com/media/590a8f_ce6affc2d4e548d2bf105ee9e640c031~mv2.jpg/v1/crop/x_412,y_0,w_1224,h_1536/fill/w_800,h_600,al_c,q_85/outdoor-bath-glamping-nz.jpg"
+            alt="Twin outdoor baths at the Kōwhai Tent"/>
+          <img class="carousel-slide"
+            src="https://static.wixstatic.com/media/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg/v1/fill/w_800,h_600,al_c,q_85/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg"
+            alt="Kōwhai Tent interior"/>
+          <img class="carousel-slide"
+            src="https://static.wixstatic.com/media/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg/v1/fill/w_800,h_600,al_c,q_85/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg"
+            alt="Views from the Kōwhai Tent"/>
+        </div>
+        <button class="carousel-btn carousel-prev" onclick="moveCarousel(-1)">&#8592;</button>
+        <button class="carousel-btn carousel-next" onclick="moveCarousel(1)">&#8594;</button>
+        <div class="carousel-dots" id="carouselDots">
+          <span class="carousel-dot active" onclick="goToSlide(0)"></span>
+          <span class="carousel-dot" onclick="goToSlide(1)"></span>
+          <span class="carousel-dot" onclick="goToSlide(2)"></span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -451,54 +465,44 @@ footer p a { color: rgba(251,246,238,0.4); }
         <div class="glance-item-value"><strong>Movie projector</strong>Watch indoors or outdoors under the stars</div>
       </div>
     </div>
-    <div style="margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(61,46,30,0.1)">
-      <p class="eyebrow">Floor Plan</p>
-      <img
-        src="https://static.wixstatic.com/media/590a8f_2a55060a33624990876d3303e9f8a9e5~mv2.png/v1/fill/w_940,h_436,al_c,q_85/Kowhai%20tent%20layout.png"
-        alt="Kōwhai Tent floor plan"
-        style="max-width:600px;width:100%;margin-top:1.5rem;opacity:0.85"/>
+    <div style="margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(61,46,30,0.1);display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+      <div>
+        <p class="eyebrow">Floor Plan</p>
+        <img
+          src="https://static.wixstatic.com/media/590a8f_2a55060a33624990876d3303e9f8a9e5~mv2.png/v1/fill/w_940,h_436,al_c,q_85/Kowhai%20tent%20layout.png"
+          alt="Kōwhai Tent floor plan"
+          style="width:100%;margin-top:1.5rem;opacity:0.85"/>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;padding:2rem;">
+        <img src="stamp-kowhai.png" alt="Kōwhai Tent" style="width:180px;height:auto;opacity:0.5"/>
+        <p style="font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--muted);text-align:center;line-height:1.7">A private hilltop escape,<br/>redesigned in 2025</p>
+      </div>
     </div>
   </div>
 </section>
 <img class="photo-full"
-  src="https://static.wixstatic.com/media/590a8f_8b7c535022db432c9bcff758b0f40896~mv2.jpg/v1/fit/w_2500,h_1330,al_c/590a8f_8b7c535022db432c9bcff758b0f40896~mv2.jpg"
-  alt="Kōwhai Tent at Wild Canvas Waitomo"/>
+  src="glamping_nz.webp"
+  alt="Kōwhai Tent at sunset, Wild Canvas Waitomo"/>
 
 <!-- VIDEO SECTION -->
 <section class="section" style="background:var(--off-white)">
   <div style="max-width:1100px;margin:0 auto">
     <p class="eyebrow">See it for yourself</p>
     <h2 class="section-title" style="margin-bottom:2.5rem">Watch the <em>Wild Canvas story</em></h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
-
-      <!-- VIDEO 1: Brand Story -->
-      <div class="video-card" onclick="playVideo(this,'OJys5TwMi0I')" style="cursor:pointer;position:relative;background:var(--bark);overflow:hidden">
-        <img
-          src="https://img.youtube.com/vi/OJys5TwMi0I/maxresdefault.jpg"
-          alt="Wild Canvas: The Story Behind New Zealand's Ultimate Glamping Escape"
-          style="width:100%;height:280px;object-fit:cover;display:block;opacity:0.75;transition:opacity 0.3s"/>
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem">
-          <div style="width:56px;height:56px;border-radius:50%;background:var(--candy);display:flex;align-items:center;justify-content:center">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L16 10L7 16V4Z" fill="#3D2E1E"/></svg>
-          </div>
-          <span style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);font-weight:500;font-family:var(--sans)">The Wild Canvas Story</span>
-        </div>
-      </div>
-
-      <!-- VIDEO 2: Kōwhai Tent -->
+    <div style="max-width:800px;margin:0 auto;">
+      <!-- VIDEO: Kōwhai Tent -->
       <div class="video-card" onclick="playVideo(this,'G5w4i3riZNc')" style="cursor:pointer;position:relative;background:var(--bark);overflow:hidden">
         <img
           src="https://img.youtube.com/vi/G5w4i3riZNc/maxresdefault.jpg"
           alt="Kōwhai Tent at Wild Canvas Waitomo"
-          style="width:100%;height:280px;object-fit:cover;display:block;opacity:0.75;transition:opacity 0.3s"/>
+          style="width:100%;height:460px;object-fit:cover;display:block;opacity:0.75;transition:opacity 0.3s"/>
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem">
-          <div style="width:56px;height:56px;border-radius:50%;background:var(--candy);display:flex;align-items:center;justify-content:center">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L16 10L7 16V4Z" fill="#3D2E1E"/></svg>
+          <div style="width:64px;height:64px;border-radius:50%;background:var(--candy);display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M7 4L16 10L7 16V4Z" fill="#3D2E1E"/></svg>
           </div>
-          <span style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);font-weight:500;font-family:var(--sans)">The Kōwhai Tent</span>
+          <span style="font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);font-weight:500;font-family:var(--sans)">Watch the Kōwhai Tent</span>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -507,7 +511,9 @@ footer p a { color: rgba(251,246,238,0.4); }
 <section class="section" style="background:var(--candy)">
   <div style="max-width:1100px;margin:0 auto">
     <p class="eyebrow">Guest Reviews</p>
-    <h2 class="section-title" style="margin-bottom:2.5rem">What guests <em>say about us</em></h2>
+    <div style="text-align:center;margin-bottom:2rem;">
+      <span style="font-family:Georgia,serif;font-size:6rem;line-height:1;color:var(--citrine);display:block;">&ldquo;</span>
+    </div>
     <!-- Google Reviews: Elfsight widget -->
     <div class="elfsight-app-5ab7a5fb-daa4-47a7-a94c-4c0c8acbb8eb" data-elfsight-app-lazy></div>
   </div>
@@ -572,7 +578,7 @@ footer p a { color: rgba(251,246,238,0.4); }
     </div>
     <div class="note-item fade-up">
       <h4>Getting There</h4>
-      <p>A short walk uphill from the carpark (approx. 120m). The track is steep, so pack light. A 4WD or AWD is recommended, and we are happy to drive you up if needed.</p>
+      <p>A short walk uphill from the carpark (approx. 120m). The track is steep, so pack light. A 4WD or AWD is required. Guests are welcome to borrow our Suzuki Jimny free of charge if needed.</p>
     </div>
     <div class="note-item fade-up">
       <h4>Connectivity</h4>
@@ -590,14 +596,14 @@ footer p a { color: rgba(251,246,238,0.4); }
       <div class="addon-card fade-up">
         <div class="addon-text">
           <h3>In-Tent Massages</h3>
-          <p>A therapist comes to you. Book one or two massages to be delivered right at your tent. The perfect way to close a day in the hills.</p>
+          <p>A therapist comes to you. Book one or two massages to be arranged at your tent. The perfect way to close a day in the hills.</p>
           <a href="https://www.wildcanvas.nz/massages" class="addon-link">View massage options →</a>
         </div>
       </div>
       <div class="addon-card fade-up">
         <div class="addon-text">
           <h3>Locally Prepared Catering</h3>
-          <p>From a ready-to-cook gourmet dinner delivered to your tent, to a full breakfast spread waiting when you rise. Let someone else do the cooking.</p>
+          <p>From an antipasto platter waiting on arrival, to a ready-to-cook gourmet dinner with everything prepped and delivered to your tent. Less shopping, less prep, more time to enjoy.</p>
           <a href="https://www.wildcanvas.nz/catering" class="addon-link">View catering options →</a>
         </div>
       </div>
@@ -651,7 +657,7 @@ footer p a { color: rgba(251,246,238,0.4); }
         </tr>
         <tr>
           <td>Access</td>
-          <td class="col-highlight">4WD recommended, 120m uphill walk</td>
+          <td class="col-highlight">4WD or AWD required. Suzuki Jimny available to borrow free of charge. 120m uphill walk.</td>
           <td>Most 2WD · parking nearby</td>
         </tr>
         <tr>
@@ -678,8 +684,8 @@ footer p a { color: rgba(251,246,238,0.4); }
     </div>
     <div class="fade-up">
       <img
-        src="https://static.wixstatic.com/media/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg/v1/fill/w_1000,h_800,al_c,q_85/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg"
-        alt="Waitomo countryside from Wild Canvas"
+        src="waitomo-ruakuri-walk-new-zealand.webp"
+        alt="Ruakuri Walk Waitomo New Zealand"
         style="width:100%;height:380px;object-fit:cover"/>
     </div>
   </div>
@@ -711,6 +717,27 @@ footer p a { color: rgba(251,246,238,0.4); }
 </footer>
 
 <script>
+// Carousel
+let currentSlide = 0;
+const track = document.getElementById('carouselTrack');
+const dots = document.querySelectorAll('.carousel-dot');
+const totalSlides = dots.length;
+
+function updateCarousel() {
+  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+}
+function moveCarousel(dir) {
+  currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+  updateCarousel();
+}
+function goToSlide(n) {
+  currentSlide = n;
+  updateCarousel();
+}
+// Auto advance every 5 seconds
+setInterval(() => moveCarousel(1), 5000);
+
 function playVideo(card, videoId) {
   card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" width="100%" height="280" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block"></iframe>`;
   card.style.cursor = 'default';
