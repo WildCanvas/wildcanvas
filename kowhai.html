@@ -396,23 +396,22 @@ footer p a { color: rgba(251,246,238,0.4); }
         <a href="#glance" class="btn-outline">See What's Included</a>
       </div>
     </div>
-    <div class="fade-up" style="position:relative;">
-      <!-- CAROUSEL -->
+    <div class="fade-up">
       <div class="carousel" id="introCarousel">
-        <div class="carousel-track" id="carouselTrack">
-          <img class="carousel-slide"
-            src="kowhai-tent-interior-views-waitomo.webp"
-            alt="Kōwhai Tent interior with panoramic Waitomo views"/>
-          <img class="carousel-slide"
-            src="kowhai-tent-outdoor-bath-waitomo-new-zealand.webp"
-            alt="Outdoor bath at Kōwhai Tent Waitomo New Zealand"/>
-          <img class="carousel-slide"
-            src="kowhai-tent-outdoor-cinema-campfire-waitomo.webp"
-            alt="Outdoor cinema and campfire at Kōwhai Tent Waitomo"/>
+        <div class="carousel-inner" id="carouselInner">
+          <div class="carousel-item active">
+            <img src="kowhai-tent-interior-views-waitomo.webp" alt="Kōwhai Tent interior with panoramic Waitomo views"/>
+          </div>
+          <div class="carousel-item">
+            <img src="kowhai-tent-outdoor-bath-waitomo-new-zealand.webp" alt="Outdoor bath at Kōwhai Tent Waitomo New Zealand"/>
+          </div>
+          <div class="carousel-item">
+            <img src="kowhai-tent-outdoor-cinema-campfire-waitomo.webp" alt="Outdoor cinema and campfire at Kōwhai Tent Waitomo"/>
+          </div>
         </div>
         <button class="carousel-btn carousel-prev" onclick="moveCarousel(-1)">&#8592;</button>
         <button class="carousel-btn carousel-next" onclick="moveCarousel(1)">&#8594;</button>
-        <div class="carousel-dots" id="carouselDots">
+        <div class="carousel-dots">
           <span class="carousel-dot active" onclick="goToSlide(0)"></span>
           <span class="carousel-dot" onclick="goToSlide(1)"></span>
           <span class="carousel-dot" onclick="goToSlide(2)"></span>
@@ -719,29 +718,17 @@ footer p a { color: rgba(251,246,238,0.4); }
 <script>
 // Carousel
 (function() {
-  const carousel = document.getElementById('introCarousel');
-  if (!carousel) return;
-  const track = document.getElementById('carouselTrack');
-  const slides = track.querySelectorAll('.carousel-slide');
+  const items = document.querySelectorAll('.carousel-item');
   const dots = document.querySelectorAll('.carousel-dot');
+  if (!items.length) return;
   let current = 0;
-  const total = slides.length;
-  const w = carousel.offsetWidth;
-
-  // Set each slide to exact carousel width
-  function setWidths() {
-    const cw = carousel.offsetWidth;
-    slides.forEach(s => { s.style.width = cw + 'px'; });
-    track.style.width = (cw * total) + 'px';
-    goTo(current);
-  }
-  setWidths();
-  window.addEventListener('resize', setWidths);
 
   function goTo(n) {
-    current = (n + total) % total;
-    track.style.left = '-' + (current * carousel.offsetWidth) + 'px';
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    items[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + items.length) % items.length;
+    items[current].classList.add('active');
+    dots[current].classList.add('active');
   }
 
   window.moveCarousel = (dir) => goTo(current + dir);
