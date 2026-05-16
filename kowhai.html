@@ -718,25 +718,36 @@ footer p a { color: rgba(251,246,238,0.4); }
 
 <script>
 // Carousel
-let currentSlide = 0;
-const track = document.getElementById('carouselTrack');
-const dots = document.querySelectorAll('.carousel-dot');
-const totalSlides = dots.length;
+(function() {
+  const carousel = document.getElementById('introCarousel');
+  if (!carousel) return;
+  const track = document.getElementById('carouselTrack');
+  const slides = track.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+  let current = 0;
+  const total = slides.length;
+  const w = carousel.offsetWidth;
 
-function updateCarousel() {
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
-  dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
-}
-function moveCarousel(dir) {
-  currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
-  updateCarousel();
-}
-function goToSlide(n) {
-  currentSlide = n;
-  updateCarousel();
-}
-// Auto advance every 5 seconds
-setInterval(() => moveCarousel(1), 5000);
+  // Set each slide to exact carousel width
+  function setWidths() {
+    const cw = carousel.offsetWidth;
+    slides.forEach(s => { s.style.width = cw + 'px'; });
+    track.style.width = (cw * total) + 'px';
+    goTo(current);
+  }
+  setWidths();
+  window.addEventListener('resize', setWidths);
+
+  function goTo(n) {
+    current = (n + total) % total;
+    track.style.left = '-' + (current * carousel.offsetWidth) + 'px';
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  window.moveCarousel = (dir) => goTo(current + dir);
+  window.goToSlide = (n) => goTo(n);
+  setInterval(() => goTo(current + 1), 5000);
+})();
 
 function playVideo(card, videoId) {
   card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" width="100%" height="280" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block"></iframe>`;
