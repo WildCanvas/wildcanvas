@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kōwhai Tent, Romantic Glamping in Waitomo | Wild Canvas</title>
+<meta name="description" content="A private hilltop escape for two. Twin outdoor baths, indoor fireplace, pizza oven and complete seclusion in the heart of Waitomo. Book the Kōwhai Tent."/>
+<style>
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('P22_Mackinac.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Baton';
+  src: url('Baton-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+:root {
+  --candy:     #F3DAD3;
+  --pistachio: #DFD39D;
+  --citrine:   #FCB236;
+  --harvest:   #C19965;
+  --peachy:    #F6AC89;
+  --cream:     #FBF6EE;
+  --off-white: #F7F1E6;
+  --bark:      #3D2E1E;
+  --bark-mid:  #6B4F3A;
+  --muted:     #8A7B6E;
+  --serif:  'P22Mackinac', Georgia, serif;
+  --display:'Baton', Georgia, serif;
+  --sans:   'Jost', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); font-weight: 300; background: var(--cream); color: var(--bark); overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
+
+/* ── NAV ──────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3.5rem;
+  background: rgba(243,218,211,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(61,46,30,0.08);
+  transition: padding 0.3s, box-shadow 0.3s;
+}
+nav.scrolled { padding: 0.8rem 3.5rem; box-shadow: 0 1px 0 rgba(61,46,30,0.1); }
+.nav-logo img { height: 48px; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 500; color: var(--muted); transition: color 0.2s;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--bark); }
+.nav-book {
+  font-size: 0.67rem; letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 500; padding: 0.58rem 1.5rem;
+  border: 1.5px solid var(--harvest); color: var(--bark);
+  transition: all 0.3s;
+}
+.nav-book:hover { background: var(--harvest); color: var(--cream); }
+
+/* ── HERO PHOTO ───────────────────────── */
+.hero { margin-top: 0; padding-top: 76px; line-height: 0; }
+.hero-photo {
+  width: 100%; height: 580px;
+  object-fit: cover; object-position: center 55%;
+  display: block; line-height: 0;
+}
+.hero-text {
+  background: var(--candy);
+  padding: 3rem 3.5rem 3.5rem;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 2rem; align-items: end;
+}
+.eyebrow {
+  font-size: 0.63rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.eyebrow::before { content:''; width: 20px; height: 1px; background: var(--harvest); flex-shrink: 0; }
+.hero-text h1 {
+  font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 400; color: var(--bark); line-height: 1.1;
+  margin-bottom: 0.8rem; letter-spacing: -0.01em;
+}
+.hero-text h1 em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.hero-sub {
+  font-size: 0.95rem; line-height: 1.85; color: var(--bark-mid);
+  font-weight: 300; max-width: 560px;
+}
+.hero-cta { flex-shrink: 0; }
+
+/* ── BUTTONS ──────────────────────────── */
+.btn-primary {
+  display: inline-block; padding: 0.9rem 2.2rem;
+  background: var(--harvest); color: var(--cream);
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 500; font-family: var(--sans); transition: background 0.3s;
+  border: none; cursor: pointer; white-space: nowrap;
+}
+.btn-primary:hover { background: var(--bark-mid); color: var(--cream); }
+.btn-outline {
+  display: inline-block; padding: 0.9rem 2.2rem;
+  border: 1.5px solid var(--harvest); color: var(--bark);
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 500; font-family: var(--sans); transition: all 0.3s;
+  background: transparent; white-space: nowrap;
+}
+.btn-outline:hover { background: var(--harvest); color: var(--cream); }
+
+/* ── QUICK FACTS STRIP ────────────────── */
+.facts-strip {
+  background: var(--pistachio);
+  display: flex; justify-content: center; flex-wrap: wrap;
+}
+.fact {
+  padding: 1.1rem 2.5rem; text-align: center;
+  border-right: 1px solid rgba(61,46,30,0.12);
+}
+.fact:last-child { border-right: none; }
+.fact-value {
+  font-family: var(--serif); font-size: 1.15rem; font-weight: 400;
+  color: var(--bark); line-height: 1; margin-bottom: 0.25rem;
+}
+.fact-label {
+  font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--bark-mid); font-weight: 500;
+}
+
+/* ── SECTIONS ─────────────────────────── */
+.section { padding: 5.5rem 3.5rem; }
+.section-title {
+  font-family: var(--serif); font-size: clamp(1.7rem, 2.5vw, 2.4rem);
+  font-weight: 400; color: var(--bark); line-height: 1.15;
+  margin-bottom: 1.2rem; letter-spacing: -0.01em;
+}
+.section-title em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.body-text {
+  font-size: 0.93rem; line-height: 1.9; color: var(--bark-mid);
+  font-weight: 300; max-width: 580px;
+}
+
+/* ── INTRO ────────────────────────────── */
+.intro { background: var(--cream); }
+.intro-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center; max-width: 1100px; margin: 0 auto;
+}
+.intro-images { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 300px 300px; gap: 3px; }
+.intro-images img { width: 100%; height: 100%; object-fit: cover; }
+.intro-images .img-tall { grid-row: 1 / 3; }
+
+/* ── AT A GLANCE ──────────────────────── */
+.glance-section { background: var(--off-white); }
+.glance-inner { max-width: 1100px; margin: 0 auto; }
+.glance-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; margin-top: 3rem; background: rgba(61,46,30,0.08);
+}
+.glance-item {
+  background: var(--off-white); padding: 1.8rem 2rem;
+}
+.glance-item-label {
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.4rem;
+}
+.glance-item-value {
+  font-size: 0.88rem; color: var(--bark); font-weight: 300; line-height: 1.6;
+}
+.glance-item-value strong { font-weight: 500; display: block; font-size: 0.95rem; margin-bottom: 0.1rem; }
+
+/* ── PHOTO FULL WIDTH ─────────────────── */
+.photo-full { width: 100%; height: 500px; object-fit: cover; object-position: center; display: block; }
+.photo-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.photo-pair img { width: 100%; height: 400px; object-fit: cover; display: block; }
+
+/* ── WHAT'S INCLUDED ──────────────────── */
+.included-section { background: var(--candy); }
+.included-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+.included-col h3 {
+  font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+  color: var(--bark); margin-bottom: 1.2rem;
+}
+.included-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.included-list li {
+  font-size: 0.85rem; color: var(--bark-mid); font-weight: 300;
+  line-height: 1.5; padding-left: 1.2rem; position: relative;
+}
+.included-list li::before {
+  content: ''; position: absolute; left: 0; top: 0.55em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--harvest);
+}
+
+/* ── TO NOTE ──────────────────────────── */
+.note-section { background: var(--peachy); padding: 4rem 3.5rem; }
+.note-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; }
+.note-item h4 {
+  font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--bark); font-weight: 500; margin-bottom: 0.7rem;
+}
+.note-item p { font-size: 0.83rem; color: var(--bark-mid); font-weight: 300; line-height: 1.7; }
+
+/* ── ADD-ONS ──────────────────────────── */
+.addons-section { background: var(--cream); }
+.addons-inner { max-width: 1100px; margin: 0 auto; }
+.addons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+.addon-card {
+  background: var(--off-white); padding: 2rem;
+  border-top: 2.5px solid var(--pistachio);
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  transition: background 0.3s;
+}
+.addon-card:hover { background: var(--candy); }
+.addon-text h3 {
+  font-family: var(--serif); font-size: 1rem; font-weight: 400;
+  color: var(--bark); margin-bottom: 0.4rem;
+}
+.addon-text p { font-size: 0.8rem; color: var(--muted); font-weight: 300; line-height: 1.7; margin-bottom: 0.8rem; }
+.addon-link {
+  font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; transition: opacity 0.2s;
+}
+.addon-link:hover { opacity: 0.7; }
+
+/* ── COMPARE ──────────────────────────── */
+.compare-section { background: var(--off-white); padding: 5.5rem 3.5rem; }
+.compare-inner { max-width: 900px; margin: 0 auto; }
+table { width: 100%; border-collapse: collapse; margin-top: 2.5rem; }
+th {
+  font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--bark); font-weight: 500; padding: 1rem 1.2rem;
+  border-bottom: 2px solid rgba(61,46,30,0.15); text-align: left;
+}
+th:not(:first-child) { text-align: center; }
+td {
+  font-size: 0.82rem; color: var(--bark-mid); padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid rgba(61,46,30,0.08); font-weight: 300;
+  vertical-align: top; line-height: 1.6;
+}
+td:not(:first-child) { text-align: center; }
+td:first-child { font-weight: 500; color: var(--bark); font-size: 0.78rem; letter-spacing: 0.03em; }
+tr:last-child td { border-bottom: none; }
+.col-highlight { background: rgba(243,218,211,0.4); }
+
+/* ── BOOK CTA ─────────────────────────── */
+.book-section {
+  background: var(--candy); padding: 5rem 3.5rem; text-align: center;
+}
+.book-section .section-title { text-align: center; max-width: 600px; margin: 0 auto 1rem; }
+.book-section .body-text { text-align: center; margin: 0 auto 2.5rem; }
+.book-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.availability-note {
+  margin-top: 1.5rem; font-size: 0.75rem; color: var(--bark-mid);
+  font-weight: 300; letter-spacing: 0.04em;
+}
+
+/* ── EXPLORE AREA ─────────────────────── */
+.explore-section { background: var(--pistachio); padding: 4rem 3.5rem; }
+.explore-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.explore-text .body-text { max-width: 440px; }
+
+/* ── FOOTER ───────────────────────────── */
+footer {
+  background: var(--bark); padding: 3rem 3.5rem 2rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+footer p { font-size: 0.75rem; color: rgba(251,246,238,0.4); font-weight: 300; }
+footer p a { color: rgba(251,246,238,0.4); }
+.footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+.footer-links a {
+  font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(251,246,238,0.4); font-weight: 500; transition: color 0.2s;
+}
+.footer-links a:hover { color: rgba(251,246,238,0.75); }
+
+.video-card:hover img { opacity:0.55 !important; }
+.video-card iframe { width:100%;height:280px;border:none;display:block; }
+.fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ───────────────────────── */
+@media (max-width: 860px) {
+  nav { padding: 1rem 1.5rem; }
+  nav.scrolled { padding: 0.7rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero-photo { height: 320px; }
+  .hero-text { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+  .facts-strip { justify-content: flex-start; }
+  .fact { padding: 0.9rem 1.5rem; }
+  .section { padding: 3.5rem 1.5rem; }
+  .intro-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .intro-images { grid-template-rows: 220px 220px; }
+  .glance-grid { grid-template-columns: 1fr 1fr; }
+  .photo-full { height: 280px; }
+  .photo-pair { grid-template-columns: 1fr; }
+  .photo-pair img { height: 260px; }
+  .included-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .note-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .addons-grid { grid-template-columns: 1fr; }
+  .compare-section { padding: 3.5rem 1.5rem; }
+  .explore-inner { grid-template-columns: 1fr; gap: 2rem; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+}
+</style>
+<script src="https://elfsightcdn.com/platform.js" async></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="https://www.wildcanvas.nz" class="nav-logo">
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:var(--serif);font-size:1rem;letter-spacing:0.1em;color:var(--bark)\'>Wild Canvas</span>'"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://www.wildcanvas.nz/kowhai" class="active">Kōwhai Tent</a></li>
+    <li><a href="https://www.wildcanvas.nz/pohutukawa">Pōhutukawa Tent</a></li>
+    <li><a href="https://www.wildcanvas.nz/catering">Catering</a></li>
+    <li><a href="https://www.wildcanvas.nz/gift">Gift Vouchers</a></li>
+    <li><a href="https://www.wildcanvas.nz/faq">FAQ</a></li>
+  </ul>
+  <a href="https://booking.wildcanvas.nz?tent=kowhai#calendar" class="nav-book">Book Now</a>
+</nav>
+
+<!-- HERO PHOTO -->
+<div class="hero">
+  <img class="hero-photo"
+    src="https://static.wixstatic.com/media/590a8f_1983f9c0f43f481b9cf7a98cfb4e0478~mv2.jpg/v1/fill/w_2500,h_1667,al_c,q_85/590a8f_1983f9c0f43f481b9cf7a98cfb4e0478~mv2.jpg"
+    alt="Kōwhai Tent, luxury glamping for couples in Waitomo"/>
+  <div class="hero-text">
+    <div>
+      <p class="eyebrow">Adults Only · Up to 2 Guests</p>
+      <h1>The Kōwhai Tent: <em>your hilltop for two</em></h1>
+      <p class="hero-sub">High above the Waitomo hills, the Kōwhai Tent is a private world entirely your own. Redesigned in 2025. Slow mornings, twin outdoor baths, an open fire, and complete seclusion.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1.5rem">
+      <img src="stamp-kowhai.png" alt="Kōwhai Tent" style="width:100px;height:auto;opacity:0.5"/>
+      <a href="https://booking.wildcanvas.nz?tent=kowhai#calendar" class="btn-primary">Check Availability</a>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK FACTS -->
+<div class="facts-strip">
+  <div class="fact">
+    <div class="fact-value">2</div>
+    <div class="fact-label">Adults Max</div>
+  </div>
+  <div class="fact">
+    <div class="fact-value">1</div>
+    <div class="fact-label">Bedroom</div>
+  </div>
+  <div class="fact">
+    <div class="fact-value">Twin</div>
+    <div class="fact-label">Outdoor Baths</div>
+  </div>
+  <div class="fact">
+    <div class="fact-value">Off-Grid</div>
+    <div class="fact-label">Solar &amp; Gas</div>
+  </div>
+  <div class="fact">
+    <div class="fact-value">100%</div>
+    <div class="fact-label">Private Hilltop</div>
+  </div>
+  <div class="fact">
+    <div class="fact-value">4G</div>
+    <div class="fact-label">Coverage</div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="section intro">
+  <div class="intro-grid">
+    <div class="fade-up">
+      <p class="eyebrow">The Tent</p>
+      <h2 class="section-title">Slow living, <em>beautifully done</em></h2>
+      <p class="body-text">Thoughtfully redesigned in 2025, the Kōwhai Tent captures the essence of slow living. Inside, you'll find an indoor fireplace, polished floors and soft layers of natural linen and wool. The design is cosy yet refined, with moody hues, tactile materials, and framed hilltop views through glass doors that open to the deck.</p>
+      <p class="body-text" style="margin-top:1rem">Outside, a native landscape design invites you to unwind. Soak in the twin claw foot baths overlooking the valley, share stories by the firepit, or cook under the stars in your private outdoor kitchen.</p>
+      <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap">
+        <a href="https://booking.wildcanvas.nz?tent=kowhai#calendar" class="btn-primary">Book the Kōwhai Tent</a>
+        <a href="#glance" class="btn-outline">See What's Included</a>
+      </div>
+    </div>
+    <div class="intro-images fade-up">
+      <img class="img-tall"
+        src="https://static.wixstatic.com/media/590a8f_ce6affc2d4e548d2bf105ee9e640c031~mv2.jpg/v1/crop/x_412,y_0,w_1224,h_1536/fill/w_600,h_750,al_c,q_85/outdoor-bath-glamping-nz.jpg"
+        alt="Twin outdoor baths at the Kōwhai Tent"/>
+      <img
+        src="https://static.wixstatic.com/media/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg/v1/fit/w_600,h_370,q_90/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg"
+        alt="Kōwhai Tent interior"/>
+      <img
+        src="https://static.wixstatic.com/media/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg/v1/fit/w_600,h_370,q_90/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg"
+        alt="Views from the Kōwhai Tent"/>
+    </div>
+  </div>
+</section>
+
+<!-- AT A GLANCE -->
+<section class="glance-section section" id="glance">
+  <div class="glance-inner">
+    <p class="eyebrow">At a Glance</p>
+    <h2 class="section-title">Everything you <em>need to know</em></h2>
+    <div class="glance-grid">
+      <div class="glance-item">
+        <div class="glance-item-label">Sleeps</div>
+        <div class="glance-item-value"><strong>2 adults</strong>Adults only, perfect for couples</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Setting</div>
+        <div class="glance-item-value"><strong>Private hilltop</strong>Panoramic 360° Waitomo views</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Bathroom</div>
+        <div class="glance-item-value"><strong>1 ensuite</strong>Rain shower, indoor toilet, luxury linens</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Outdoor Baths</div>
+        <div class="glance-item-value"><strong>Twin claw foot tubs</strong>Overlooking the valley</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Heating</div>
+        <div class="glance-item-value"><strong>Indoor wood fireplace</strong>Cosy in every season</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Power</div>
+        <div class="glance-item-value"><strong>Off-grid</strong>Solar lighting, battery packs, 4G coverage</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Kitchen</div>
+        <div class="glance-item-value"><strong>Outdoor setup</strong>Wood-fired pizza oven, Weber BBQ, gas hob</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Firepit</div>
+        <div class="glance-item-value"><strong>Private firepit</strong>Stargazing and marshmallow toasting</div>
+      </div>
+      <div class="glance-item">
+        <div class="glance-item-label">Entertainment</div>
+        <div class="glance-item-value"><strong>Movie projector</strong>Watch indoors or outdoors under the stars</div>
+      </div>
+    </div>
+    <div style="margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(61,46,30,0.1)">
+      <p class="eyebrow">Floor Plan</p>
+      <img
+        src="https://static.wixstatic.com/media/590a8f_2a55060a33624990876d3303e9f8a9e5~mv2.png/v1/fill/w_940,h_436,al_c,q_85/Kowhai%20tent%20layout.png"
+        alt="Kōwhai Tent floor plan"
+        style="max-width:600px;width:100%;margin-top:1.5rem;opacity:0.85"/>
+    </div>
+  </div>
+</section>
+<img class="photo-full"
+  src="https://static.wixstatic.com/media/590a8f_8b7c535022db432c9bcff758b0f40896~mv2.jpg/v1/fit/w_2500,h_1330,al_c/590a8f_8b7c535022db432c9bcff758b0f40896~mv2.jpg"
+  alt="Kōwhai Tent at Wild Canvas Waitomo"/>
+
+<!-- VIDEO SECTION -->
+<section class="section" style="background:var(--off-white)">
+  <div style="max-width:1100px;margin:0 auto">
+    <p class="eyebrow">See it for yourself</p>
+    <h2 class="section-title" style="margin-bottom:2.5rem">Watch the <em>Wild Canvas story</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+
+      <!-- VIDEO 1: Brand Story -->
+      <div class="video-card" onclick="playVideo(this,'OJys5TwMi0I')" style="cursor:pointer;position:relative;background:var(--bark);overflow:hidden">
+        <img
+          src="https://img.youtube.com/vi/OJys5TwMi0I/maxresdefault.jpg"
+          alt="Wild Canvas: The Story Behind New Zealand's Ultimate Glamping Escape"
+          style="width:100%;height:280px;object-fit:cover;display:block;opacity:0.75;transition:opacity 0.3s"/>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--candy);display:flex;align-items:center;justify-content:center">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L16 10L7 16V4Z" fill="#3D2E1E"/></svg>
+          </div>
+          <span style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);font-weight:500;font-family:var(--sans)">The Wild Canvas Story</span>
+        </div>
+      </div>
+
+      <!-- VIDEO 2: Kōwhai Tent -->
+      <div class="video-card" onclick="playVideo(this,'G5w4i3riZNc')" style="cursor:pointer;position:relative;background:var(--bark);overflow:hidden">
+        <img
+          src="https://img.youtube.com/vi/G5w4i3riZNc/maxresdefault.jpg"
+          alt="Kōwhai Tent at Wild Canvas Waitomo"
+          style="width:100%;height:280px;object-fit:cover;display:block;opacity:0.75;transition:opacity 0.3s"/>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--candy);display:flex;align-items:center;justify-content:center">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 4L16 10L7 16V4Z" fill="#3D2E1E"/></svg>
+          </div>
+          <span style="font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--cream);font-weight:500;font-family:var(--sans)">The Kōwhai Tent</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GOOGLE REVIEWS (Elfsight) -->
+<section class="section" style="background:var(--candy)">
+  <div style="max-width:1100px;margin:0 auto">
+    <p class="eyebrow">Guest Reviews</p>
+    <h2 class="section-title" style="margin-bottom:2.5rem">What guests <em>say about us</em></h2>
+    <!-- Google Reviews: Elfsight widget -->
+    <div class="elfsight-app-5ab7a5fb-daa4-47a7-a94c-4c0c8acbb8eb" data-elfsight-app-lazy></div>
+  </div>
+</section>
+
+<!-- WHAT'S INCLUDED -->
+<section class="section included-section">
+  <div class="included-inner">
+    <div class="fade-up">
+      <p class="eyebrow">What's Included</p>
+      <h2 class="section-title">Stocked and <em>ready for you</em></h2>
+      <p class="body-text">Everything has been chosen with care, locally sourced where possible, sustainably made, and ready for you to unwind and enjoy the moment.</p>
+      <a href="https://booking.wildcanvas.nz?tent=kowhai#calendar" class="btn-primary" style="margin-top:2rem;display:inline-block">Reserve Your Stay</a>
+    </div>
+    <div class="fade-up">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem">
+        <div>
+          <h3 class="included-col" style="font-family:var(--serif);font-size:0.95rem;font-weight:400;color:var(--bark);margin-bottom:1rem;letter-spacing:0.01em">A few treats</h3>
+          <ul class="included-list">
+            <li>Freshly baked loaf of bread</li>
+            <li>Milk, butter &amp; farm-fresh eggs</li>
+            <li>S'mores kit: marshmallows &amp; biscuits</li>
+            <li>English Breakfast tea, plunger coffee, hot chocolate</li>
+            <li>Salt, pepper &amp; olive oil</li>
+            <li>Botanical Skincare bath bomb &amp; bubble bath</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="font-family:var(--serif);font-size:0.95rem;font-weight:400;color:var(--bark);margin-bottom:1rem;letter-spacing:0.01em">For your stay</h3>
+          <ul class="included-list">
+            <li>Bath towels &amp; luxury bed linen</li>
+            <li>Eco-friendly paper products</li>
+            <li>Hot water bottles &amp; picnic blankets</li>
+            <li>Torch &amp; battery-powered lanterns</li>
+            <li>Insect repellent</li>
+            <li>Ashley &amp; Co toiletries</li>
+            <li>Firewood &amp; fire starters</li>
+            <li>Movie projector &amp; movie selection</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO PAIR -->
+<div class="photo-pair">
+  <img
+    src="https://static.wixstatic.com/media/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg/v1/fit/w_900,h_600,q_90/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg"
+    alt="Inside the Kōwhai Tent"/>
+  <img
+    src="https://static.wixstatic.com/media/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg/v1/fit/w_900,h_600,q_90/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg"
+    alt="Views from the Kōwhai Tent deck"/>
+</div>
+
+<!-- TO NOTE -->
+<section class="note-section">
+  <div class="note-inner">
+    <div class="note-item fade-up">
+      <h4>Off-Grid</h4>
+      <p>The Kōwhai Tent is fully off-grid. Water is gas-heated and power packs are supplied for small devices. Solar lighting throughout.</p>
+    </div>
+    <div class="note-item fade-up">
+      <h4>Getting There</h4>
+      <p>A short walk uphill from the carpark (approx. 120m). The track is steep, so pack light. A 4WD or AWD is recommended, and we are happy to drive you up if needed.</p>
+    </div>
+    <div class="note-item fade-up">
+      <h4>Connectivity</h4>
+      <p>There's excellent mobile and 4G coverage from the hilltop. We recommend leaving the phone in your bag, the views are better.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="section addons-section">
+  <div class="addons-inner">
+    <p class="eyebrow">Tailor Your Stay</p>
+    <h2 class="section-title">Make it even <em>more special</em></h2>
+    <div class="addons-grid">
+      <div class="addon-card fade-up">
+        <div class="addon-text">
+          <h3>In-Tent Massages</h3>
+          <p>A therapist comes to you. Book one or two massages to be delivered right at your tent. The perfect way to close a day in the hills.</p>
+          <a href="https://www.wildcanvas.nz/massages" class="addon-link">View massage options →</a>
+        </div>
+      </div>
+      <div class="addon-card fade-up">
+        <div class="addon-text">
+          <h3>Locally Prepared Catering</h3>
+          <p>From a ready-to-cook gourmet dinner delivered to your tent, to a full breakfast spread waiting when you rise. Let someone else do the cooking.</p>
+          <a href="https://www.wildcanvas.nz/catering" class="addon-link">View catering options →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="compare-section">
+  <div class="compare-inner">
+    <p class="eyebrow">Comparing the Tents</p>
+    <h2 class="section-title">Kōwhai vs <em>Pōhutukawa</em></h2>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th class="col-highlight">Kōwhai Tent</th>
+          <th>Pōhutukawa Tent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Capacity</td>
+          <td class="col-highlight">2 adults (adults only)</td>
+          <td>Up to 8 guests, kids welcome</td>
+        </tr>
+        <tr>
+          <td>Bedrooms / Bathrooms</td>
+          <td class="col-highlight">1 bed, 1 bath</td>
+          <td>4 beds, 2.5 baths</td>
+        </tr>
+        <tr>
+          <td>Outdoor Water Feature</td>
+          <td class="col-highlight">Twin claw foot baths</td>
+          <td>Cedar hot tub</td>
+        </tr>
+        <tr>
+          <td>Kitchen</td>
+          <td class="col-highlight">Outdoor: pizza oven, Weber BBQ, gas hob</td>
+          <td>Full indoor kitchen + outdoor pizza oven &amp; BBQ</td>
+        </tr>
+        <tr>
+          <td>Power</td>
+          <td class="col-highlight">Off-grid, battery packs, solar lighting</td>
+          <td>Full off-grid power, all appliances</td>
+        </tr>
+        <tr>
+          <td>Heating</td>
+          <td class="col-highlight">Indoor wood fireplace</td>
+          <td>Fireplace + underfloor heating</td>
+        </tr>
+        <tr>
+          <td>Access</td>
+          <td class="col-highlight">4WD recommended, 120m uphill walk</td>
+          <td>Most 2WD · parking nearby</td>
+        </tr>
+        <tr>
+          <td>Add-ons</td>
+          <td class="col-highlight">Massages, Catering</td>
+          <td>Massages, Catering, Private Chef, Cocktail Bartender, Yoga, Pottery</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="https://www.wildcanvas.nz/pohutukawa" class="btn-outline">Explore the Pōhutukawa Tent</a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORE THE AREA -->
+<section class="explore-section">
+  <div class="explore-inner">
+    <div class="fade-up">
+      <p class="eyebrow">Explore the Area</p>
+      <h2 class="section-title">Waitomo on <em>your doorstep</em></h2>
+      <p class="body-text" style="max-width:440px">Waitomo is bursting with things to see and do, the world famous Glowworm Caves, Ruakuri Cave, scenic bush walks, waterfalls, ziplines, and cosy local cafés. Whether you're chasing adventure or a slow day of exploring, it's all nearby.</p>
+      <a href="https://www.wildcanvas.nz/waitomo" class="btn-outline" style="margin-top:2rem;display:inline-block">Discover Waitomo</a>
+    </div>
+    <div class="fade-up">
+      <img
+        src="https://static.wixstatic.com/media/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg/v1/fill/w_1000,h_800,al_c,q_85/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg"
+        alt="Waitomo countryside from Wild Canvas"
+        style="width:100%;height:380px;object-fit:cover"/>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK CTA -->
+<section class="book-section">
+  <p class="eyebrow" style="justify-content:center;display:flex">Ready to Book?</p>
+  <h2 class="section-title">Your private hilltop <em>awaits</em></h2>
+  <p class="body-text">The Kōwhai Tent books quickly, especially weekends and holidays. Check availability now to secure your dates.</p>
+  <div class="book-actions">
+    <a href="https://booking.wildcanvas.nz?tent=kowhai#calendar" class="btn-primary" style="padding:1rem 2.8rem">Reserve the Kōwhai Tent</a>
+    <a href="https://www.wildcanvas.nz/gift" class="btn-outline" style="padding:1rem 2.8rem">Buy a Gift Voucher</a>
+  </div>
+  <p class="availability-note">Questions? Email <a href="mailto:hello@wildcanvas.nz" style="color:var(--harvest)">hello@wildcanvas.nz</a> or call <a href="tel:0211666248" style="color:var(--harvest)">021 166 6248</a></p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo · <a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
+  <div class="footer-links">
+    <a href="https://www.wildcanvas.nz">Home</a>
+    <a href="https://www.wildcanvas.nz/pohutukawa">Pōhutukawa Tent</a>
+    <a href="https://www.wildcanvas.nz/catering">Catering</a>
+    <a href="https://www.wildcanvas.nz/gift">Gift Vouchers</a>
+    <a href="https://www.wildcanvas.nz/faq">FAQ</a>
+    <a href="https://www.wildcanvas.nz/contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+function playVideo(card, videoId) {
+  card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" width="100%" height="280" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block"></iframe>`;
+  card.style.cursor = 'default';
+}
+
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

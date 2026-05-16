@@ -1,0 +1,51 @@
+# Wild Canvas — Netlify Redirects
+# Maps old Wix URLs to new page structure
+# Format: /old-path  /new-path  301
+
+# Core pages — same URLs, 301 just in case Wix added trailing slashes etc.
+/kowhai             /kowhai.html          301
+/pohutukawa         /pohutukawa.html      301
+/catering           /catering.html        301
+/massages           /massages.html        301
+/waitomo            /waitomo.html         301
+/gift               /gift.html            301
+/faq                /faq.html             301
+/aboutus            /about.html           301
+/media              /media.html           301
+/contact            /contact.html         301
+/experiences        /experiences.html     301
+
+# Old booking page — redirect to new booking system
+/booktents          https://booking.wildcanvas.nz  301
+/book               https://booking.wildcanvas.nz  301
+/bookings           https://booking.wildcanvas.nz  301
+
+# News pages — keep pointing to Wix until you migrate news
+/news               https://www.wildcanvas.nz/news  301
+/news/*             https://www.wildcanvas.nz/news/:splat  301
+
+# Old Wix product pages — redirect to new Stripe/Experiences page
+/product-page/antipasto-platter                           /experiences.html  301
+/product-page/gourmet-dinner-for-two-guests-ready-to-cook /experiences.html  301
+/product-page/pizza-ready-to-cook                         /experiences.html  301
+/product-page/option-1-back-neck-and-shoulder-for-two-gguests /massages.html 301
+/product-page/*                                           /experiences.html  301
+
+# Common misspellings and alternates
+/pohutukawa-tent    /pohutukawa.html      301
+/kowhai-tent        /kowhai.html          301
+/glamping           /index.html           301
+/accommodation      /index.html           301
+/accomodation       /index.html           301
+/waitomo-glamping   /index.html           301
+/about              /about.html           301
+/food               /catering.html        301
+/menu               /catering.html        301
+/massage            /massages.html        301
+/vouchers           /gift.html            301
+/gift-vouchers      /gift.html            301
+/press              /media.html           301
+/media-kit          /media.html           301
+
+# Catch-all — anything not matched goes to home
+/*                  /index.html           200

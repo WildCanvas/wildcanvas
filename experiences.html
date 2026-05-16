@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Experiences | Wild Canvas Glamping Waitomo</title>
+<meta name="description" content="Enhance your Wild Canvas stay with catering, massages, private chef, clay shooting, cocktail bartender, pottery and yoga. Add to your booking online."/>
+<link rel="canonical" href="https://www.wildcanvas.nz/experiences"/>
+<style>
+@font-face { font-family:'P22Mackinac'; src:url('P22_Mackinac.otf') format('opentype'); font-weight:400; }
+@font-face { font-family:'P22Mackinac'; src:url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype'); font-weight:700; }
+@font-face { font-family:'Baton'; src:url('Baton-MediumItalic.otf') format('opentype'); font-weight:500; font-style:italic; }
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+:root {
+  --candy:#F3DAD3; --pistachio:#DFD39D; --citrine:#FCB236;
+  --harvest:#C19965; --peachy:#F6AC89; --cream:#FBF6EE;
+  --off-white:#F7F1E6; --bark:#3D2E1E; --bark-mid:#6B4F3A; --muted:#8A7B6E;
+  --serif:'P22Mackinac',Georgia,serif; --display:'Baton',Georgia,serif; --sans:'Jost',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);font-weight:300;background:var(--cream);color:var(--bark);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(243,218,211,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
+.wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
+.wc-nav-logo img{height:46px;display:block;}
+.wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.wc-nav-links>li{position:relative;}
+.wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;font-family:var(--sans);transition:color 0.2s;white-space:nowrap;}
+.wc-nav-links>li>a:hover,.wc-nav-links>li>button:hover,.wc-nav-links>li>a.active{color:var(--bark);}
+.wc-chevron{width:10px;height:10px;flex-shrink:0;transition:transform 0.25s;}
+.wc-nav-links>li.open .wc-chevron{transform:rotate(180deg);}
+.wc-dropdown{position:absolute;top:calc(100% + 8px);left:50%;background:var(--cream);border:1px solid rgba(61,46,30,0.1);box-shadow:0 8px 32px rgba(61,46,30,0.1);min-width:200px;padding:0.5rem 0;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(-6px);transition:opacity 0.2s,transform 0.2s,visibility 0.2s;}
+.wc-nav-links>li.open .wc-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.wc-dropdown a{display:block;padding:0.65rem 1.4rem;font-size:0.75rem;letter-spacing:0.08em;color:var(--bark-mid);font-weight:300;transition:background 0.15s,color 0.15s;white-space:nowrap;}
+.wc-dropdown a:hover{background:var(--candy);color:var(--bark);}
+.wc-dropdown-divider{height:1px;background:rgba(61,46,30,0.08);margin:0.4rem 0;}
+.wc-nav-book{font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;padding:0.6rem 1.5rem;background:var(--harvest);color:var(--cream);border:none;cursor:pointer;font-family:var(--sans);display:inline-block;transition:background 0.3s;margin-left:0.5rem;}
+.wc-nav-book:hover{background:var(--bark-mid);}
+.wc-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.wc-hamburger span{display:block;width:24px;height:1.5px;background:var(--bark);transition:transform 0.25s,opacity 0.25s;}
+.wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.wc-hamburger.open span:nth-child(2){opacity:0;}
+.wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:var(--cream);padding:100px 2rem 2rem;flex-direction:column;gap:0;overflow-y:auto;}
+.wc-mobile-drawer.open{display:flex;}
+.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;padding:1.2rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.08);margin-top:0.5rem;}
+.wc-mobile-section-title:first-child{border-top:none;margin-top:0;}
+.wc-mobile-drawer a{font-size:0.92rem;color:var(--bark);padding:0.6rem 0;font-weight:300;border-bottom:1px solid rgba(61,46,30,0.06);}
+.wc-mobile-drawer a:hover{color:var(--harvest);}
+.wc-mobile-book{margin-top:1.5rem;padding:1rem;background:var(--harvest);color:var(--cream);text-align:center;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
+
+/* HERO */
+.hero{line-height:0;padding-top:76px;background:var(--candy);}
+.hero-photo{width:100%;height:480px;object-fit:cover;object-position:center 40%;display:block;}
+.hero-text{background:var(--candy);padding:3rem 3.5rem 3.5rem;line-height:1.5;}
+.eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
+.hero-text h1{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:400;color:var(--bark);line-height:1.1;margin-bottom:0.9rem;}
+.hero-text h1 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.hero-sub{font-size:0.95rem;line-height:1.85;color:var(--bark-mid);font-weight:300;max-width:620px;}
+
+/* SECTION */
+.section{padding:5.5rem 3.5rem;}
+.section-title{font-family:var(--serif);font-size:clamp(1.7rem,2.5vw,2.3rem);font-weight:400;color:var(--bark);line-height:1.15;margin-bottom:1rem;}
+.section-title em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.body-text{font-size:0.93rem;line-height:1.9;color:var(--bark-mid);font-weight:300;}
+
+/* HOW IT WORKS */
+.how-strip{background:var(--pistachio);padding:2.5rem 3.5rem;}
+.how-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.how-item{text-align:center;}
+.how-num{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--bark);opacity:0.3;line-height:1;margin-bottom:0.5rem;}
+.how-title{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:var(--bark);margin-bottom:0.4rem;}
+.how-desc{font-size:0.8rem;color:var(--bark-mid);font-weight:300;line-height:1.65;}
+
+/* PURCHASABLE EXPERIENCES */
+.purchase-section{background:var(--cream);}
+.purchase-inner{max-width:1100px;margin:0 auto;}
+
+/* EXPERIENCE CARDS — PURCHASABLE */
+.exp-cards{display:flex;flex-direction:column;gap:2px;margin-top:3rem;}
+.exp-card{background:var(--off-white);display:grid;grid-template-columns:280px 1fr auto;align-items:stretch;}
+.exp-card-img{width:280px;height:220px;object-fit:cover;display:block;flex-shrink:0;}
+.exp-card-img-placeholder{width:280px;height:220px;background:var(--pistachio);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.exp-card-body{padding:2rem 2.5rem;}
+.exp-tag{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.5rem;}
+.exp-card-body h3{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;}
+.exp-card-body p{font-size:0.83rem;color:var(--muted);font-weight:300;line-height:1.75;margin-bottom:1rem;}
+.exp-includes{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem;}
+.exp-include-item{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;background:var(--candy);color:var(--bark-mid);font-weight:500;}
+.exp-card-action{padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;border-left:1px solid rgba(61,46,30,0.08);min-width:180px;}
+.exp-price{text-align:center;}
+.exp-price-amount{font-family:var(--serif);font-size:1.8rem;font-weight:400;color:var(--bark);line-height:1;}
+.exp-price-unit{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:0.2rem;}
+.btn-add{display:block;width:100%;padding:0.8rem 1.2rem;background:var(--harvest);color:var(--cream);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:background 0.3s;border:none;cursor:pointer;text-align:center;}
+.btn-add:hover{background:var(--bark-mid);color:var(--cream);}
+.btn-enquire{display:block;width:100%;padding:0.8rem 1.2rem;border:1.5px solid var(--harvest);color:var(--bark);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:all 0.3s;background:transparent;cursor:pointer;text-align:center;}
+.btn-enquire:hover{background:var(--harvest);color:var(--cream);}
+
+/* PIZZA FLAVOURS */
+.pizza-flavours{margin-top:0.8rem;}
+.pizza-flavours-label{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:0.5rem;}
+.pizza-flavours-list{display:flex;flex-direction:column;gap:0.2rem;}
+.pizza-flavour{font-size:0.78rem;color:var(--muted);font-weight:300;padding-left:0.8rem;position:relative;}
+.pizza-flavour::before{content:'';position:absolute;left:0;top:0.5em;width:3px;height:3px;border-radius:50%;background:var(--harvest);}
+
+/* ENQUIRE EXPERIENCES */
+.enquire-section{background:var(--peachy);}
+.enquire-inner{max-width:1100px;margin:0 auto;}
+.enquire-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
+.enquire-card{background:rgba(251,246,238,0.6);padding:2rem;}
+.enquire-badge{display:inline-block;font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--pistachio);color:var(--bark);padding:0.2rem 0.6rem;font-weight:500;margin-bottom:0.7rem;}
+.enquire-card h3{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;}
+.enquire-card p{font-size:0.8rem;color:var(--bark-mid);font-weight:300;line-height:1.75;margin-bottom:1.2rem;}
+.enquire-card a{font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--bark);font-weight:500;border-bottom:1px solid rgba(61,46,30,0.3);padding-bottom:0.1rem;transition:border-color 0.2s;}
+.enquire-card a:hover{border-color:var(--bark);}
+
+/* CATERING NOTE */
+.catering-note{background:var(--off-white);padding:3rem 3.5rem;border-top:1px solid rgba(61,46,30,0.08);}
+.catering-note-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.catering-note h3{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:0.8rem;}
+.catering-note p{font-size:0.83rem;color:var(--muted);font-weight:300;line-height:1.75;}
+.local-list{margin-top:0.8rem;display:flex;flex-direction:column;gap:0.5rem;}
+.local-item{font-size:0.83rem;font-weight:300;}
+.local-item a{color:var(--harvest);font-weight:400;}
+.local-item span{color:var(--muted);}
+
+/* BOOKING NOTE */
+.booking-note{background:var(--candy);padding:4rem 3.5rem;text-align:center;}
+.booking-note h2{font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:400;color:var(--bark);margin-bottom:0.8rem;}
+.booking-note h2 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.booking-note p{font-size:0.88rem;color:var(--bark-mid);font-weight:300;line-height:1.8;max-width:560px;margin:0 auto 2rem;}
+.btn-primary{display:inline-block;padding:0.9rem 2.4rem;background:var(--harvest);color:var(--cream);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:background 0.3s;}
+.btn-primary:hover{background:var(--bark-mid);color:var(--cream);}
+
+/* FOOTER */
+footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;padding-bottom:3rem;border-bottom:1px solid rgba(251,246,238,0.08);}
+.footer-logo img{height:52px;filter:brightness(0) invert(1) opacity(0.6);margin-bottom:1.2rem;}
+.footer-tagline{font-size:0.8rem;color:rgba(251,246,238,0.35);line-height:1.8;font-weight:300;}
+.footer-col h4{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:1.2rem;}
+.footer-col a,.footer-col p{display:block;font-size:0.82rem;color:rgba(251,246,238,0.4);margin-bottom:0.5rem;font-weight:300;line-height:1.7;transition:color 0.2s;}
+.footer-col a:hover{color:rgba(251,246,238,0.75);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:2rem auto 0;flex-wrap:wrap;gap:1rem;}
+.footer-legal{font-size:0.7rem;color:rgba(251,246,238,0.25);}
+.social-links{display:flex;gap:1.5rem;}
+.social-links a{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(251,246,238,0.35);transition:color 0.2s;}
+.social-links a:hover{color:rgba(251,246,238,0.7);}
+
+.fade-up{opacity:0;transform:translateY(22px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  .wc-nav{padding:1rem 1.5rem;} .wc-nav.scrolled{padding:0.7rem 1.5rem;}
+  .wc-nav-links,.wc-nav-book{display:none;} .wc-hamburger{display:flex;}
+  .hero-photo{height:300px;} .hero-text{padding:2.5rem 1.5rem;}
+  .section{padding:3.5rem 1.5rem;}
+  .how-strip{padding:2rem 1.5rem;} .how-inner{grid-template-columns:1fr;}
+  .exp-card{grid-template-columns:1fr;} .exp-card-img{width:100%;height:220px;}
+  .exp-card-img-placeholder{width:100%;}
+  .exp-card-body{padding:1.5rem;}
+  .exp-card-action{border-left:none;border-top:1px solid rgba(61,46,30,0.08);flex-direction:row;justify-content:space-between;padding:1.2rem 1.5rem;}
+  .enquire-grid{grid-template-columns:1fr;}
+  .catering-note-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .catering-note{padding:3rem 1.5rem;}
+  .booking-note{padding:3rem 1.5rem;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+  footer{padding:3rem 1.5rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="wc-nav" id="wc-nav">
+  <a href="/" class="wc-nav-logo">
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1rem;color:#3D2E1E;letter-spacing:0.1em\'>Wild Canvas</span>'"/>
+  </a>
+  <ul class="wc-nav-links" id="wc-nav-links">
+    <li id="drop-stay">
+      <button onclick="toggleDrop('drop-stay')">Stay
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/kowhai">Kōwhai Tent</a>
+        <a href="/pohutukawa">Pōhutukawa Tent</a>
+      </div>
+    </li>
+    <li id="drop-exp">
+      <button onclick="toggleDrop('drop-exp')">Experiences
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/experiences" class="active">All Experiences</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/catering">Food &amp; Catering</a>
+        <a href="/massages">Massages</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/waitomo">Explore Waitomo</a>
+      </div>
+    </li>
+    <li id="drop-about">
+      <button onclick="toggleDrop('drop-about')">About
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/aboutus">Our Story</a>
+        <a href="/media">Media &amp; Press</a>
+        <a href="/news">News</a>
+      </div>
+    </li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/gift">Gift Vouchers</a></li>
+  </ul>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
+  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="wc-mobile-drawer" id="wc-mobile-drawer">
+  <p class="wc-mobile-section-title">Stay</p>
+  <a href="/kowhai">Kōwhai Tent</a>
+  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <p class="wc-mobile-section-title">Experiences</p>
+  <a href="/experiences">All Experiences</a>
+  <a href="/catering">Food &amp; Catering</a>
+  <a href="/massages">Massages</a>
+  <a href="/waitomo">Explore Waitomo</a>
+  <p class="wc-mobile-section-title">About</p>
+  <a href="/aboutus">Our Story</a>
+  <a href="/media">Media &amp; Press</a>
+  <a href="/news">News</a>
+  <p class="wc-mobile-section-title">More</p>
+  <a href="/faq">FAQ</a>
+  <a href="/gift">Gift Vouchers</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-photo"
+    src="https://static.wixstatic.com/media/590a8f_7d96e5a1f7c149faa1cc15c355581486~mv2.jpg/v1/fill/w_2500,h_1406,al_c/590a8f_7d96e5a1f7c149faa1cc15c355581486~mv2.jpg"
+    alt="Wild Canvas catering and experiences"/>
+  <div class="hero-text">
+    <p class="eyebrow">Tailor Your Stay</p>
+    <h1>Experiences to make it <em>unforgettable</em></h1>
+    <p class="hero-sub">Whether you are planning a romantic escape, a family adventure or a celebration with friends, our add-on experiences are designed to elevate every moment. Book ahead or add to an existing reservation.</p>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-strip">
+  <div class="how-inner">
+    <div class="how-item">
+      <div class="how-num">01</div>
+      <div class="how-title">Book your tent</div>
+      <div class="how-desc">Food and massage options are available to add during the booking process at checkout.</div>
+    </div>
+    <div class="how-item">
+      <div class="how-num">02</div>
+      <div class="how-title">Add to an existing stay</div>
+      <div class="how-desc">Already booked? Use the buttons below to purchase add-ons separately and we will coordinate the rest.</div>
+    </div>
+    <div class="how-item">
+      <div class="how-num">03</div>
+      <div class="how-title">Enquire for exclusives</div>
+      <div class="how-desc">Pōhutukawa-exclusive experiences like clay shooting and private chef are arranged by email after booking.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PURCHASABLE: FOOD & CATERING -->
+<section class="section purchase-section">
+  <div class="purchase-inner">
+    <p class="eyebrow">Food &amp; Catering</p>
+    <h2 class="section-title">Ready and waiting <em>when you arrive</em></h2>
+    <p class="body-text">All catering is prepared fresh and waiting at your tent on arrival. Please note we require at least one week's notice for all catering orders.</p>
+
+    <div class="exp-cards">
+
+      <!-- ANTIPASTO PLATTER -->
+      <div class="exp-card fade-up">
+        <img class="exp-card-img"
+          src="https://static.wixstatic.com/media/590a8f_7d96e5a1f7c149faa1cc15c355581486~mv2.jpg/v1/fill/w_560,h_440,al_c,q_85/590a8f_7d96e5a1f7c149faa1cc15c355581486~mv2.jpg"
+          alt="Wild Canvas antipasto platter"/>
+        <div class="exp-card-body">
+          <p class="exp-tag">Both Tents</p>
+          <h3>Antipasto Platter</h3>
+          <p>A generous spread of handcrafted bites, ready to enjoy on arrival. Perfect for grazing as you settle in and take in the views.</p>
+          <div class="exp-includes">
+            <span class="exp-include-item">Homemade seed crackers</span>
+            <span class="exp-include-item">Garlic pita</span>
+            <span class="exp-include-item">Salami &amp; Pastrami</span>
+            <span class="exp-include-item">Cheeses</span>
+            <span class="exp-include-item">Smoked salmon</span>
+            <span class="exp-include-item">Bruschetta</span>
+            <span class="exp-include-item">Sundried tomatoes</span>
+            <span class="exp-include-item">Stuffed red peppers</span>
+            <span class="exp-include-item">Hummus</span>
+            <span class="exp-include-item">Gherkins</span>
+            <span class="exp-include-item">Red pepper jelly</span>
+            <span class="exp-include-item">Caramelised onion relish</span>
+          </div>
+        </div>
+        <div class="exp-card-action">
+          <div class="exp-price">
+            <div class="exp-price-amount">$89</div>
+            <div class="exp-price-unit">NZD per platter</div>
+          </div>
+          <!-- STRIPE LINK: Create a Payment Link in Stripe for $89 and replace the href below -->
+          <a href="https://buy.stripe.com/REPLACE_WITH_PLATTER_LINK" class="btn-add">Add to My Stay</a>
+        </div>
+      </div>
+
+      <!-- PIZZAS -->
+      <div class="exp-card fade-up">
+        <div class="exp-card-img-placeholder">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="#C19965" stroke-width="1.5"/><path d="M24 8v16l10 6" stroke="#C19965" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="exp-card-body">
+          <p class="exp-tag">Both Tents</p>
+          <h3>Ready-to-Cook Pizzas</h3>
+          <p>Handmade 10-inch pizzas with your chosen toppings, ready to go straight into your wood-fired pizza oven. Six flavours to choose from.</p>
+          <div class="pizza-flavours">
+            <div class="pizza-flavours-label">Choose your flavour</div>
+            <div class="pizza-flavours-list">
+              <div class="pizza-flavour">Veggie: roasted capsicum, red onion, courgette, spinach, feta and basil pesto</div>
+              <div class="pizza-flavour">ABC: apricot chicken, bacon and cream cheese</div>
+              <div class="pizza-flavour">Chicken and Cranberry: roasted chicken, cranberry and brie</div>
+              <div class="pizza-flavour">Moroccan Lamb: pulled lamb, olives, feta, sundried tomato and tzatziki</div>
+              <div class="pizza-flavour">Hawaiian: ham, pineapple and mozzarella</div>
+              <div class="pizza-flavour">BBQ Meat Eater: pulled beef, bacon, salami, mozzarella and BBQ sauce</div>
+            </div>
+          </div>
+          <p style="margin-top:0.8rem;font-size:0.78rem;color:var(--muted);font-weight:300">Note your chosen flavour(s) in the Stripe checkout. Order as many as you like.</p>
+        </div>
+        <div class="exp-card-action">
+          <div class="exp-price">
+            <div class="exp-price-amount">$44</div>
+            <div class="exp-price-unit">NZD per pizza</div>
+          </div>
+          <!-- STRIPE LINK: Create a Payment Link in Stripe for $44 (quantity adjustable) and replace the href below -->
+          <a href="https://buy.stripe.com/REPLACE_WITH_PIZZA_LINK" class="btn-add">Add to My Stay</a>
+        </div>
+      </div>
+
+      <!-- GOURMET DINNER -->
+      <div class="exp-card fade-up">
+        <div class="exp-card-img-placeholder" style="background:var(--candy);">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M12 8v12a12 12 0 0024 0V8" stroke="#C19965" stroke-width="1.5" stroke-linecap="round"/><line x1="24" y1="32" x2="24" y2="42" stroke="#C19965" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="42" x2="32" y2="42" stroke="#C19965" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div class="exp-card-body">
+          <p class="exp-tag">Both Tents</p>
+          <h3>Gourmet Dinner for Two</h3>
+          <p>A restaurant-quality meal, prepped and delivered ready for you to cook at your own pace. The salads and passionfruit cheesecake are served ready to eat.</p>
+          <div class="exp-includes">
+            <span class="exp-include-item">2x Beef scotch</span>
+            <span class="exp-include-item">4x Sausages</span>
+            <span class="exp-include-item">Choice of chicken or beef patties</span>
+            <span class="exp-include-item">Volare garlic bread</span>
+            <span class="exp-include-item">2 salads of your choice</span>
+            <span class="exp-include-item">Passionfruit cheesecake</span>
+          </div>
+          <p style="margin-top:0.8rem;font-size:0.78rem;color:var(--muted);font-weight:300">Salad options: Watercress, Blue Cheese and Pear / Pumpkin, Feta and Orzo / Broccoli, Cauliflower and Feta / Roasted Roots and Bacon. Note your choices in checkout.</p>
+        </div>
+        <div class="exp-card-action">
+          <div class="exp-price">
+            <div class="exp-price-amount">$170</div>
+            <div class="exp-price-unit">NZD for two</div>
+          </div>
+          <!-- STRIPE LINK: Create a Payment Link in Stripe for $170 and replace the href below -->
+          <a href="https://buy.stripe.com/REPLACE_WITH_DINNER_LINK" class="btn-add">Add to My Stay</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PURCHASABLE: MASSAGES -->
+<section class="section" style="background:var(--off-white);padding-top:0;padding-bottom:5.5rem;">
+  <div class="purchase-inner" style="max-width:1100px;margin:0 auto;">
+    <p class="eyebrow">Massages</p>
+    <h2 class="section-title">Relaxation <em>delivered to your tent</em></h2>
+    <p class="body-text">Your therapist travels to you and sets up on the verandah or inside, surrounded by nature and rolling farmland. For groups of four or more, additional therapists are arranged so nobody waits. Subject to availability, book early to avoid missing out.</p>
+
+    <div class="exp-cards" style="margin-top:3rem;">
+
+      <!-- MASSAGE OPTION 1 -->
+      <div class="exp-card fade-up">
+        <img class="exp-card-img"
+          src="https://static.wixstatic.com/media/48d0da_c33fe580efc54ee78b487e56f24b1c68~mv2.jpg/v1/fill/w_560,h_440,al_c,q_85/48d0da_c33fe580efc54ee78b487e56f24b1c68~mv2.jpg"
+          alt="Massage at Wild Canvas Waitomo"/>
+        <div class="exp-card-body">
+          <p class="exp-tag">Both Tents · 45 Minutes</p>
+          <h3>Back, Neck and Shoulder</h3>
+          <p>A focused treatment designed to ease tension and stress in your high-tension areas. Using relaxation and Swedish massage techniques to leave you feeling refreshed and restored. Pregnancy massage also available.</p>
+          <div class="exp-includes">
+            <span class="exp-include-item">45 minutes</span>
+            <span class="exp-include-item">Relaxation techniques</span>
+            <span class="exp-include-item">Pregnancy massage available</span>
+            <span class="exp-include-item">Travel and setup included</span>
+          </div>
+        </div>
+        <div class="exp-card-action">
+          <div class="exp-price">
+            <div class="exp-price-amount">$120</div>
+            <div class="exp-price-unit">NZD per person</div>
+          </div>
+          <!-- STRIPE LINK: Create a Payment Link in Stripe for $120 and replace the href below -->
+          <a href="https://buy.stripe.com/REPLACE_WITH_MASSAGE_1_LINK" class="btn-add">Add to My Stay</a>
+        </div>
+      </div>
+
+      <!-- MASSAGE OPTION 2 -->
+      <div class="exp-card fade-up">
+        <img class="exp-card-img"
+          src="https://static.wixstatic.com/media/48d0da_c33fe580efc54ee78b487e56f24b1c68~mv2.jpg/v1/fill/w_560,h_440,al_c,q_85/48d0da_c33fe580efc54ee78b487e56f24b1c68~mv2.jpg"
+          alt="Full body massage at Wild Canvas"/>
+        <div class="exp-card-body">
+          <p class="exp-tag">Both Tents · 1 Hour</p>
+          <h3>Full Body Massage</h3>
+          <p>An indulgent head-to-toe treatment designed to leave you completely relaxed and recharged. From your neck to your toes, tension melts away as your whole body is gently restored.</p>
+          <div class="exp-includes">
+            <span class="exp-include-item">Approximately 1 hour</span>
+            <span class="exp-include-item">Full body treatment</span>
+            <span class="exp-include-item">Swedish techniques</span>
+            <span class="exp-include-item">Travel and setup included</span>
+          </div>
+        </div>
+        <div class="exp-card-action">
+          <div class="exp-price">
+            <div class="exp-price-amount">$150</div>
+            <div class="exp-price-unit">NZD per person</div>
+          </div>
+          <!-- STRIPE LINK: Create a Payment Link in Stripe for $150 and replace the href below -->
+          <a href="https://buy.stripe.com/REPLACE_WITH_MASSAGE_2_LINK" class="btn-add">Add to My Stay</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ENQUIRE: POHUTUKAWA EXCLUSIVES -->
+<section class="section enquire-section">
+  <div class="enquire-inner">
+    <p class="eyebrow">Pōhutukawa Tent Exclusives</p>
+    <h2 class="section-title">Curated experiences <em>like no other</em></h2>
+    <p class="body-text">These experiences are available exclusively for Pōhutukawa Tent guests. To add any of these to your stay, email us after booking and we will arrange everything.</p>
+    <div class="enquire-grid">
+
+      <div class="enquire-card fade-up">
+        <span class="enquire-badge">Pōhutukawa Exclusive</span>
+        <h3>Clay Target Shooting</h3>
+        <p>Set high in the hills with sweeping rural views. Expert supervision, 100 shots shared between participants. Ideal for groups.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Clay Target Shooting Enquiry">Enquire by email →</a>
+      </div>
+
+      <div class="enquire-card fade-up">
+        <span class="enquire-badge">Pōhutukawa Exclusive</span>
+        <h3>Private Cocktail Bartender</h3>
+        <p>A private bartender or mixology class at your tent. Sip expertly crafted cocktails or learn to make your own in a hands-on session.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Cocktail Bartender Enquiry">Enquire by email →</a>
+      </div>
+
+      <div class="enquire-card fade-up">
+        <span class="enquire-badge">Pōhutukawa Exclusive</span>
+        <h3>Private Chef</h3>
+        <p>A gourmet three-course meal prepared and served exclusively for your group. Tailored to your tastes, perfect for special occasions.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Private Chef Enquiry">Enquire by email →</a>
+      </div>
+
+      <div class="enquire-card fade-up">
+        <span class="enquire-badge">Pōhutukawa Exclusive</span>
+        <h3>Pottery Class</h3>
+        <p>A beginner-friendly workshop with all materials and firing included. Pieces dried, glazed, fired, and couriered within 4-6 weeks.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Pottery Class Enquiry">Enquire by email →</a>
+      </div>
+
+      <div class="enquire-card fade-up">
+        <span class="enquire-badge">Pōhutukawa Exclusive</span>
+        <h3>Yoga Session</h3>
+        <p>A personalised session outdoors or inside. Perfect for stress relief, team building, or a mindful moment with friends.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Yoga Session Enquiry">Enquire by email →</a>
+      </div>
+
+      <div class="enquire-card fade-up" style="background:transparent;border:1.5px dashed rgba(61,46,30,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+        <h3 style="font-family:var(--serif);font-size:0.95rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;">Something else in mind?</h3>
+        <p style="font-size:0.8rem;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:1rem;">We love making stays special. Get in touch and we will do our best to make it happen.</p>
+        <a href="mailto:hello@wildcanvas.nz" style="font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--harvest);font-weight:500;border-bottom:1px solid rgba(193,153,101,0.4);padding-bottom:0.1rem;">hello@wildcanvas.nz →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL EATERIES + ORDERING NOTE -->
+<div class="catering-note">
+  <div class="catering-note-inner">
+    <div>
+      <h3>Ordering catering</h3>
+      <p>We require at least one week's notice for all catering orders. If you have dietary requirements or want to adjust an order, just email us and we will sort it out. All food is prepared fresh and waiting at your tent on arrival.</p>
+      <p style="margin-top:1rem"><a href="mailto:hello@wildcanvas.nz" style="color:var(--harvest);font-weight:400">hello@wildcanvas.nz</a> · <a href="tel:0211666248" style="color:var(--harvest);font-weight:400">021 166 6248</a></p>
+    </div>
+    <div>
+      <h3>Local eateries nearby</h3>
+      <p>Most guests choose to dine on site, but if you fancy venturing out there are some great options nearby.</p>
+      <div class="local-list">
+        <div class="local-item"><a href="https://g.co/kgs/ZnFhkfu" target="_blank">Huhu Café</a> <span>— Waitomo, 13 min. Fresh, locally sourced meals.</span></div>
+        <div class="local-item"><a href="https://g.co/kgs/P9bkQdu" target="_blank">Tomō Bar and Eatery</a> <span>— Waitomo, 13 min. Authentic Kiwi pub dining.</span></div>
+        <div class="local-item"><a href="https://g.co/kgs/UWhGjUK" target="_blank">Waitomo Homestead</a> <span>— Waitomo, 13 min. Hearty Kiwi classics in a relaxed setting.</span></div>
+        <div class="local-item"><a href="https://g.co/kgs/ThrZAgN" target="_blank">The Thirsty Weta</a> <span>— Ōtorohanga, 13 min. Vibrant bar and generous pub meals.</span></div>
+        <div class="local-item"><a href="https://g.co/kgs/KMmT9T2" target="_blank">Fat Kiwi Café</a> <span>— Ōtorohanga, 13 min. Great breakfast and brunch.</span></div>
+        <div class="local-item"><a href="https://g.co/kgs/CPZiZLx" target="_blank">Stoked Eatery</a> <span>— Te Kuiti, 10 min. Gourmet burgers and fresh salads.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOOK CTA -->
+<div class="booking-note">
+  <h2>Ready to book your <em>stay?</em></h2>
+  <p>Food and massage options can be added during the booking process. Pōhutukawa exclusive experiences are arranged by email after booking.</p>
+  <a href="https://booking.wildcanvas.nz" class="btn-primary">Book Your Tent</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+        onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/></div>
+      <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Stay</h4>
+      <a href="/kowhai">Kōwhai Tent</a>
+      <a href="/pohutukawa">Pōhutukawa Tent</a>
+      <a href="https://booking.wildcanvas.nz">Book Now</a>
+      <a href="/gift">Gift Vouchers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Experiences</h4>
+      <a href="/experiences">All Experiences</a>
+      <a href="/catering">Food &amp; Catering</a>
+      <a href="/massages">Massages</a>
+      <a href="/waitomo">Explore Waitomo</a>
+    </div>
+    <div class="footer-col">
+      <h4>Wild Canvas</h4>
+      <a href="/aboutus">Our Story</a>
+      <a href="/media">Media &amp; Press</a>
+      <a href="/faq">FAQ</a>
+      <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
+      <a href="tel:0211666248">021 166 6248</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-legal">© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo, New Zealand</p>
+    <div class="social-links">
+      <a href="https://www.facebook.com/waitomoglamping" target="_blank">Facebook</a>
+      <a href="http://www.instagram.com/wildcanvas.nz" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@wild.canvas" target="_blank">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('wc-nav').classList.toggle('scrolled',window.scrollY>50);
+},{passive:true});
+
+function toggleDrop(id){
+  const li=document.getElementById(id);
+  const isOpen=li.classList.contains('open');
+  document.querySelectorAll('.wc-nav-links>li').forEach(el=>{
+    el.classList.remove('open');
+    const btn=el.querySelector('button');
+    if(btn)btn.setAttribute('aria-expanded','false');
+  });
+  if(!isOpen){li.classList.add('open');const btn=li.querySelector('button');if(btn)btn.setAttribute('aria-expanded','true');}
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.wc-nav-links')){
+    document.querySelectorAll('.wc-nav-links>li').forEach(el=>{el.classList.remove('open');});
+  }
+});
+
+function toggleMobile(){
+  const drawer=document.getElementById('wc-mobile-drawer');
+  const burger=document.getElementById('wc-hamburger');
+  const isOpen=drawer.classList.contains('open');
+  drawer.classList.toggle('open',!isOpen);
+  burger.classList.toggle('open',!isOpen);
+  document.body.style.overflow=isOpen?'':'hidden';
+}
+document.querySelectorAll('.wc-mobile-drawer a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.getElementById('wc-mobile-drawer').classList.remove('open');
+    document.getElementById('wc-hamburger').classList.remove('open');
+    document.body.style.overflow='';
+  });
+});
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

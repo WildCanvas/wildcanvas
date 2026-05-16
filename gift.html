@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gift Vouchers | Wild Canvas Glamping Escapes</title>
+<meta name="description" content="Give the gift of Wild Canvas — luxury glamping in Waitomo. Gift vouchers valid for 2 years, delivered by email. Perfect for couples, families and groups."/>
+
+<style>
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('P22_Mackinac.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Baton';
+  src: url('Baton-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+:root {
+  --candy:    #F3DAD3;
+  --pistachio:#DFD39D;
+  --citrine:  #FCB236;
+  --harvest:  #C19965;
+  --peachy:   #F6AC89;
+  --cream:    #FBF6EE;
+  --off-white:#F7F1E6;
+  --bark:     #3D2E1E;
+  --bark-mid: #6B4F3A;
+  --charcoal: #3D2E1E;
+  --muted:    #8A7B6E;
+  --serif: 'P22Mackinac', Georgia, serif;
+  --display: 'Baton', Georgia, serif;
+  --sans: 'Jost', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); font-weight: 300; background: var(--cream); color: var(--charcoal); }
+
+/* ── NAV ─────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.4rem 3.5rem;
+  background: rgba(243,218,211,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(61,46,30,0.08);
+  transition: padding 0.4s, box-shadow 0.4s;
+}
+nav.scrolled {
+  padding: 0.9rem 3.5rem;
+  box-shadow: 0 1px 0 rgba(61,46,30,0.1);
+}
+.nav-logo img {
+  height: 52px;
+  transition: opacity 0.3s;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--bark); }
+.nav-book {
+  font-size: 0.67rem; letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 500; padding: 0.6rem 1.6rem;
+  border: 1.5px solid var(--harvest); color: var(--bark);
+  text-decoration: none; transition: all 0.3s;
+}
+.nav-book:hover { background: var(--harvest); color: var(--cream); }
+
+/* ── HERO ─────────────────────────────── */
+.hero {
+  margin-top: 80px;
+}
+.hero-img {
+  width: 100%; height: 500px;
+  object-fit: cover; object-position: center 40%;
+  display: block;
+}
+.hero-text {
+  background: var(--candy);
+  padding: 3rem 3.5rem;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400; color: var(--bark); line-height: 1.1;
+  margin-bottom: 0.8rem; letter-spacing: -0.01em;
+}
+.hero h1 em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.hero-sub {
+  font-size: 0.95rem; line-height: 1.8; color: var(--bark-mid);
+  font-weight: 300; max-width: 560px;
+}
+
+/* ── PERKS STRIP ──────────────────────── */
+.perks {
+  background: var(--pistachio);
+  display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
+}
+.perk {
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 1rem 2.2rem; font-size: 0.68rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 500; color: var(--bark);
+  border-right: 1px solid rgba(74,55,40,0.15);
+}
+.perk:last-child { border-right: none; }
+.perk-dash { width: 14px; height: 1px; background: var(--harvest); flex-shrink: 0; }
+
+/* ── MAIN LAYOUT ─────────────────────── */
+.page-body {
+  max-width: 1100px; margin: 0 auto;
+  padding: 5rem 3.5rem 6rem;
+  display: grid; grid-template-columns: 1fr 420px; gap: 5rem; align-items: start;
+}
+
+/* ── VOUCHERS ─────────────────────────── */
+.vouchers-col h2 {
+  font-family: var(--serif); font-size: 1.6rem; font-weight: 400;
+  color: var(--charcoal); margin-bottom: 0.5rem;
+}
+.vouchers-col h2 em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.vouchers-intro {
+  font-size: 0.88rem; line-height: 1.85; color: var(--muted);
+  font-weight: 300; margin-bottom: 2.5rem; max-width: 500px;
+}
+
+.voucher-options { display: flex; flex-direction: column; gap: 1px; }
+
+.voucher {
+  background: var(--off-white);
+  border: 1.5px solid transparent;
+  padding: 0; cursor: pointer;
+  transition: border-color 0.25s, background 0.25s;
+  position: relative;
+}
+.voucher.selected {
+  border-color: var(--harvest);
+  background: var(--cream);
+}
+.voucher-inner {
+  display: flex; align-items: stretch; gap: 0;
+}
+.voucher-select {
+  width: 56px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--candy); transition: background 0.25s;
+  padding: 1.8rem 0;
+}
+.voucher.selected .voucher-select { background: var(--harvest); }
+.radio-ring {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2px solid rgba(74,55,40,0.35);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s;
+}
+.voucher.selected .radio-ring { border-color: var(--cream); }
+.radio-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--cream); opacity: 0; transition: opacity 0.2s;
+}
+.voucher.selected .radio-dot { opacity: 1; }
+
+.voucher-body { padding: 1.6rem 1.8rem; flex: 1; }
+.voucher-tag {
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.4rem;
+}
+.voucher-name {
+  font-family: var(--serif); font-size: 1.15rem; font-weight: 400;
+  color: var(--charcoal); margin-bottom: 0.4rem;
+}
+.voucher-desc {
+  font-size: 0.8rem; line-height: 1.65; color: var(--muted);
+  font-weight: 300; margin-bottom: 0.8rem;
+}
+.voucher-includes {
+  display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0;
+}
+.tag {
+  font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.25rem 0.6rem; background: var(--candy); color: var(--bark-mid);
+  font-weight: 500;
+}
+.voucher.selected .tag { background: rgba(193,153,101,0.15); color: var(--bark); }
+
+.voucher-price {
+  padding: 1.6rem 1.8rem 1.6rem 0;
+  display: flex; flex-direction: column; align-items: flex-end;
+  justify-content: center; min-width: 90px; flex-shrink: 0;
+}
+.price-amount {
+  font-family: var(--serif); font-size: 1.45rem; font-weight: 400;
+  color: var(--charcoal); line-height: 1;
+}
+.price-label {
+  font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-top: 0.2rem; font-weight: 500;
+}
+.voucher-badge {
+  position: absolute; top: -10px; right: 1.5rem;
+  background: var(--harvest); color: var(--cream);
+  font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 500; padding: 0.25rem 0.7rem;
+}
+
+/* ── FORM ─────────────────────────────── */
+.form-col {
+  position: sticky; top: 100px;
+}
+.form-card {
+  background: var(--candy); padding: 2.5rem;
+  border: 1px solid rgba(61,46,30,0.12);
+}
+.form-title {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 400;
+  color: var(--bark); margin-bottom: 0.4rem;
+}
+.form-title em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.form-subtitle {
+  font-size: 0.78rem; color: var(--bark-mid);
+  font-weight: 300; line-height: 1.6; margin-bottom: 2rem;
+}
+.selected-summary {
+  background: rgba(193,153,101,0.18); border: 1px solid rgba(193,153,101,0.45);
+  padding: 1rem 1.2rem; margin-bottom: 1.8rem;
+  display: none;
+}
+.selected-summary.visible { display: block; }
+.summary-name {
+  font-size: 0.78rem; color: var(--bark); font-weight: 500; margin-bottom: 0.2rem;
+}
+.summary-price {
+  font-family: var(--serif); font-size: 1.3rem; color: var(--harvest); font-weight: 400;
+}
+
+.field { margin-bottom: 1.3rem; }
+.field label {
+  display: block; font-size: 0.62rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--bark-mid);
+  font-weight: 500; margin-bottom: 0.5rem;
+}
+.field input, .field textarea {
+  width: 100%; padding: 0.75rem 0.9rem;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(61,46,30,0.2);
+  color: var(--bark); font-family: var(--sans);
+  font-size: 0.88rem; font-weight: 300; outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none; border-radius: 0;
+}
+.field input::placeholder, .field textarea::placeholder {
+  color: rgba(61,46,30,0.3);
+}
+.field input:focus, .field textarea:focus {
+  border-color: var(--harvest);
+  background: rgba(255,255,255,0.8);
+}
+.field textarea { resize: vertical; min-height: 70px; line-height: 1.6; }
+.field-hint {
+  font-size: 0.72rem; color: var(--bark-mid);
+  margin-top: 0.4rem; font-weight: 300; line-height: 1.5; opacity: 0.7;
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.btn-purchase {
+  width: 100%; padding: 1.05rem;
+  background: var(--harvest); color: var(--cream);
+  font-family: var(--sans); font-size: 0.75rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 500; border: none; cursor: pointer;
+  transition: background 0.3s; margin-top: 0.5rem;
+}
+.btn-purchase:hover { background: var(--bark-mid); }
+.btn-purchase:disabled {
+  background: rgba(61,46,30,0.12); color: rgba(61,46,30,0.35); cursor: not-allowed;
+}
+
+.form-note {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  margin-top: 1.2rem; font-size: 0.72rem;
+  color: var(--bark-mid); font-weight: 300; line-height: 1.5; opacity: 0.7;
+}
+
+/* ── HOW IT WORKS ─────────────────────── */
+.how-section {
+  background: var(--peachy); padding: 5rem 3.5rem;
+}
+.how-inner { max-width: 1100px; margin: 0 auto; }
+.how-title {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 400;
+  color: var(--bark); text-align: center; margin-bottom: 3rem;
+}
+.how-title em { font-style: italic; font-family: var(--display); }
+.steps {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+}
+.step { text-align: center; }
+.step-num {
+  font-family: var(--serif); font-size: 2.2rem; font-weight: 400;
+  color: var(--bark); line-height: 1; margin-bottom: 0.8rem; opacity: 0.35;
+}
+.step-title {
+  font-size: 0.78rem; letter-spacing: 0.08em; font-weight: 500;
+  color: var(--bark); margin-bottom: 0.5rem;
+}
+.step-desc { font-size: 0.8rem; color: var(--bark-mid); font-weight: 300; line-height: 1.65; }
+
+/* ── FINE PRINT ───────────────────────── */
+.terms-section {
+  background: var(--off-white); padding: 3.5rem 3.5rem;
+  border-top: 1px solid var(--candy);
+}
+.terms-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem;
+}
+.term-item h4 {
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--charcoal); font-weight: 500; margin-bottom: 0.6rem;
+}
+.term-item p {
+  font-size: 0.82rem; color: var(--muted); font-weight: 300; line-height: 1.7;
+}
+
+/* ── FOOTER ───────────────────────────── */
+footer {
+  background: var(--bark); padding: 3rem 3.5rem 2rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+footer p { font-size: 0.75rem; color: rgba(251,246,238,0.45); font-weight: 300; }
+footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a {
+  font-size: 0.67rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(251,246,238,0.4); text-decoration: none; font-weight: 500; transition: color 0.2s;
+}
+.footer-links a:hover { color: rgba(251,246,238,0.75); }
+
+/* ── VALIDATION ───────────────────────── */
+.field input.error, .field textarea.error {
+  border-color: rgba(180,60,60,0.5);
+}
+.field .error-msg {
+  font-size: 0.7rem; color: #A04040; margin-top: 0.4rem; display: none;
+}
+.field.has-error .error-msg { display: block; }
+
+/* ── RESPONSIVE ───────────────────────── */
+@media (max-width: 860px) {
+  .page-body { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 1.5rem 4rem; }
+  .form-col { position: static; }
+  .steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .terms-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  nav { padding: 1rem 1.5rem; }
+  nav.scrolled { padding: 0.7rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero-img { height: 280px; }
+  .hero-text { padding: 2rem 1.5rem; }
+  .perks { flex-direction: column; align-items: flex-start; padding-left: 1.5rem; }
+  .perk { border-right: none; border-bottom: 1px solid rgba(74,55,40,0.15); width: 100%; padding: 0.8rem 0; }
+  .how-section, .terms-section { padding: 3rem 1.5rem; }
+  footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ══════════════════════════════════ -->
+<nav>
+  <a href="https://www.wildcanvas.nz" class="nav-logo">
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas" onerror="this.style.display='none';this.parentElement.textContent='Wild Canvas'"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://www.wildcanvas.nz/kowhai">Kōwhai Tent</a></li>
+    <li><a href="https://www.wildcanvas.nz/pohutukawa">Pōhutukawa Tent</a></li>
+    <li><a href="https://www.wildcanvas.nz/catering">Catering</a></li>
+    <li><a href="https://www.wildcanvas.nz/faq">FAQ</a></li>
+  </ul>
+  <a href="https://booking.wildcanvas.nz" class="nav-book">Book a Tent</a>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════ -->
+<section class="hero">
+  <!-- PHOTO: Replace the src below with your chosen image URL -->
+  <img class="hero-img"
+    src="https://static.wixstatic.com/media/590a8f_081dd59d3f824cf0bca21a96c8d96d1f~mv2.jpg/v1/fill/w_2500,h_1742,al_c/590a8f_081dd59d3f824cf0bca21a96c8d96d1f~mv2.jpg"
+    alt="Wild Canvas luxury glamping Waitomo"/>
+  <div class="hero-text">
+    <p class="eyebrow">Wild Canvas Gift Vouchers</p>
+    <h1>The gift of somewhere <em>unforgettable</em></h1>
+    <p class="hero-sub">A night under canvas in the Waitomo hills — valid for two years, delivered by email. Perfect for every occasion.</p>
+  </div>
+</section>
+
+<!-- ═══ PERKS ═════════════════════════════════ -->
+<div class="perks">
+  <div class="perk"><span class="perk-dash"></span> Delivered by email instantly</div>
+  <div class="perk"><span class="perk-dash"></span> Valid for 2 years</div>
+  <div class="perk"><span class="perk-dash"></span> Print or forward to recipient</div>
+  <div class="perk"><span class="perk-dash"></span> Secure payment via Stripe</div>
+</div>
+
+<!-- ═══ MAIN ═══════════════════════════════════ -->
+<div class="page-body">
+
+  <!-- LEFT: Voucher selection -->
+  <div class="vouchers-col">
+    <h2>Choose your <em>voucher</em></h2>
+    <p class="vouchers-intro">Three experiences to choose from — a romantic night for two, our ultimate couple's package, or the full Pōhutukawa experience for families and groups. Select one below, then fill in your details.</p>
+
+    <div class="voucher-options">
+
+      <!-- VOUCHER 1 -->
+      <div class="voucher" id="v1" onclick="selectVoucher(1)" role="radio" aria-checked="false" tabindex="0">
+        <div class="voucher-inner">
+          <div class="voucher-select">
+            <div class="radio-ring"><div class="radio-dot"></div></div>
+          </div>
+          <div class="voucher-body">
+            <p class="voucher-tag">Kowhai Tent · Adults Only</p>
+            <h3 class="voucher-name">One Night Stay</h3>
+            <p class="voucher-desc">A night in the Kōwhai Tent for two — private hilltop, twin outdoor baths, indoor fireplace, pizza oven, campfire, and movie projector.</p>
+            <div class="voucher-includes">
+              <span class="tag">2 Adults</span>
+              <span class="tag">Outdoor Baths</span>
+              <span class="tag">Fireplace</span>
+              <span class="tag">Pizza Oven</span>
+              <span class="tag">Movie Projector</span>
+            </div>
+          </div>
+          <div class="voucher-price">
+            <div class="price-amount">$590</div>
+            <div class="price-label">NZD</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VOUCHER 2 -->
+      <div class="voucher" id="v2" onclick="selectVoucher(2)" role="radio" aria-checked="false" tabindex="0">
+        <div class="voucher-badge">Most Popular</div>
+        <div class="voucher-inner">
+          <div class="voucher-select">
+            <div class="radio-ring"><div class="radio-dot"></div></div>
+          </div>
+          <div class="voucher-body">
+            <p class="voucher-tag">Kowhai Tent · Adults Only</p>
+            <h3 class="voucher-name">The Ultimate One Night Stay</h3>
+            <p class="voucher-desc">Everything in the standard stay, plus a ready-to-cook gourmet dinner, in-tent massages for two, and a bottle of Champagne on arrival.</p>
+            <div class="voucher-includes">
+              <span class="tag">2 Adults</span>
+              <span class="tag">Gourmet Dinner</span>
+              <span class="tag">2 Massages</span>
+              <span class="tag">Champagne</span>
+              <span class="tag">All Kōwhai Inclusions</span>
+            </div>
+          </div>
+          <div class="voucher-price">
+            <div class="price-amount">$1,159</div>
+            <div class="price-label">NZD</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VOUCHER 3 -->
+      <div class="voucher" id="v3" onclick="selectVoucher(3)" role="radio" aria-checked="false" tabindex="0">
+        <div class="voucher-inner">
+          <div class="voucher-select">
+            <div class="radio-ring"><div class="radio-dot"></div></div>
+          </div>
+          <div class="voucher-body">
+            <p class="voucher-tag">Pohutukawa Tent · Families &amp; Groups</p>
+            <h3 class="voucher-name">One Night Stay</h3>
+            <p class="voucher-desc">A night in the Pōhutukawa Tent — four bedrooms, cedar hot tub, full indoor kitchen, underfloor heating, 360° views. Up to 8 guests. Kids welcome.</p>
+            <div class="voucher-includes">
+              <span class="tag">Up to 8 Guests</span>
+              <span class="tag">Cedar Hot Tub</span>
+              <span class="tag">Full Kitchen</span>
+              <span class="tag">4 Bedrooms</span>
+              <span class="tag">360° Views</span>
+            </div>
+          </div>
+          <div class="voucher-price">
+            <div class="price-amount">$1,635</div>
+            <div class="price-label">NZD</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /voucher-options -->
+  </div><!-- /vouchers-col -->
+
+  <!-- RIGHT: Order form -->
+  <div class="form-col">
+    <div class="form-card">
+      <h2 class="form-title">Your <em>details</em></h2>
+      <p class="form-subtitle">Fill in your details and you'll be taken to our secure payment page. Your voucher will be emailed to you straight after purchase.</p>
+
+      <div class="selected-summary" id="summary">
+        <div class="summary-name" id="summary-name">—</div>
+        <div class="summary-price" id="summary-price">—</div>
+      </div>
+
+      <form id="voucherForm" novalidate>
+
+        <div class="field-row">
+          <div class="field" id="field-firstname">
+            <label for="firstname">Your First Name *</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Emily" autocomplete="given-name"/>
+            <div class="error-msg">Please enter your first name</div>
+          </div>
+          <div class="field" id="field-lastname">
+            <label for="lastname">Your Last Name *</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Scott" autocomplete="family-name"/>
+            <div class="error-msg">Please enter your last name</div>
+          </div>
+        </div>
+
+        <div class="field" id="field-email">
+          <label for="email">Your Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email"/>
+          <div class="field-hint">The voucher will be sent here — please double-check it.</div>
+          <div class="error-msg">Please enter a valid email address</div>
+        </div>
+
+        <div class="field" id="field-phone">
+          <label for="phone">Your Phone Number *</label>
+          <input type="tel" id="phone" name="phone" placeholder="021 123 4567" autocomplete="tel"/>
+          <div class="error-msg">Please enter your phone number</div>
+        </div>
+
+        <div class="field">
+          <label for="recipient">Recipient's Name <span style="opacity:0.5;font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <input type="text" id="recipient" name="recipient" placeholder="Leave blank if unsure"/>
+          <div class="field-hint">If blank, the voucher will be addressed to 'the lucky recipient'.</div>
+        </div>
+
+        <div class="field">
+          <label for="message">Personal Message <span style="opacity:0.5;font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <textarea id="message" name="message" placeholder="Add a note to include on the voucher…"></textarea>
+        </div>
+
+        <button type="submit" class="btn-purchase" id="purchaseBtn" disabled>
+          Select a voucher above to continue
+        </button>
+
+        <div class="form-note">
+          <span>Secure checkout via Stripe — your card details are never handled by us. After payment, the voucher is emailed to you within minutes.</span>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div><!-- /page-body -->
+
+<!-- ═══ HOW IT WORKS ══════════════════════════ -->
+<section class="how-section">
+  <div class="how-inner">
+    <h2 class="how-title">How it <em>works</em></h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Choose your voucher</div>
+        <div class="step-desc">Pick from three experiences — Kōwhai for couples, Ultimate for the full treatment, or Pōhutukawa for groups.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Fill in your details</div>
+        <div class="step-desc">Your name, phone, and email. Add the recipient's name and a personal message if you'd like.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Pay securely</div>
+        <div class="step-desc">You'll go to Stripe's secure checkout. Visa, Mastercard and PayPal accepted. Takes under a minute.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Voucher delivered</div>
+        <div class="step-desc">Your voucher arrives by email straight away — print it, forward it, or tuck it into a card.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TERMS ══════════════════════════════════ -->
+<section class="terms-section">
+  <div class="terms-inner">
+    <div class="term-item">
+      <h4>Validity</h4>
+      <p>All Wild Canvas gift vouchers are valid for two years from the date of purchase, giving plenty of time to plan the perfect escape.</p>
+    </div>
+    <div class="term-item">
+      <h4>Booking</h4>
+      <p>Vouchers are redeemed through our booking system. Subject to availability — we recommend booking well in advance for weekends and school holidays.</p>
+    </div>
+    <div class="term-item">
+      <h4>Refund Policy</h4>
+      <p>Gift vouchers are non-refundable but are fully transferable. If you have any questions, please get in touch at hello@wildcanvas.nz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════ -->
+<footer>
+  <p>© 2025 Wild Canvas · Waitomo, New Zealand · <a href="mailto:hello@wildcanvas.nz" style="color:rgba(251,246,238,0.4);text-decoration:none">hello@wildcanvas.nz</a> · 021 166 6248</p>
+  <div class="footer-links">
+    <a href="https://www.wildcanvas.nz">Home</a>
+    <a href="https://www.wildcanvas.nz/kowhai">Kōwhai Tent</a>
+    <a href="https://www.wildcanvas.nz/pohutukawa">Pōhutukawa Tent</a>
+    <a href="https://www.wildcanvas.nz/faq">FAQ</a>
+    <a href="https://www.wildcanvas.nz/contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+// ─── SCROLL NAV ─────────────────────────────────────────────────────────────
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ─── STRIPE PAYMENT LINKS ───────────────────────────────────────────────────
+// Replace these with your actual Stripe Payment Links once created in Stripe dashboard.
+// In Stripe: Payments → Payment Links → Create Link (set price, name, etc.)
+// Then paste the link URL here.
+const STRIPE_LINKS = {
+  1: 'https://buy.stripe.com/REPLACE_WITH_KOWHAI_ONE_NIGHT_LINK',
+  2: 'https://buy.stripe.com/REPLACE_WITH_ULTIMATE_LINK',
+  3: 'https://buy.stripe.com/REPLACE_WITH_POHUTUKAWA_LINK'
+};
+
+const VOUCHER_NAMES = {
+  1: 'Kōwhai Tent — One Night Stay',
+  2: 'Kōwhai Tent — The Ultimate One Night Stay',
+  3: 'Pōhutukawa Tent — One Night Stay'
+};
+
+const VOUCHER_PRICES = {
+  1: '$590 NZD',
+  2: '$1,159 NZD',
+  3: '$1,635 NZD'
+};
+
+let selectedVoucher = null;
+
+function selectVoucher(id) {
+  selectedVoucher = id;
+
+  // Update visual state
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('v' + i);
+    el.classList.toggle('selected', i === id);
+    el.setAttribute('aria-checked', i === id ? 'true' : 'false');
+  });
+
+  // Update summary
+  document.getElementById('summary-name').textContent = VOUCHER_NAMES[id];
+  document.getElementById('summary-price').textContent = VOUCHER_PRICES[id];
+  document.getElementById('summary').classList.add('visible');
+
+  // Enable button
+  const btn = document.getElementById('purchaseBtn');
+  btn.disabled = false;
+  btn.textContent = 'Continue to Payment →';
+}
+
+// Keyboard support
+document.querySelectorAll('.voucher').forEach((el, idx) => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectVoucher(idx + 1); }
+  });
+});
+
+// ─── FORM SUBMISSION ────────────────────────────────────────────────────────
+document.getElementById('voucherForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  if (!selectedVoucher) {
+    alert('Please select a voucher first.');
+    return;
+  }
+
+  // Validate required fields
+  let valid = true;
+  const required = [
+    { id: 'firstname', fieldId: 'field-firstname' },
+    { id: 'lastname',  fieldId: 'field-lastname' },
+    { id: 'email',     fieldId: 'field-email' },
+    { id: 'phone',     fieldId: 'field-phone' }
+  ];
+
+  required.forEach(f => {
+    const input = document.getElementById(f.id);
+    const field = document.getElementById(f.fieldId);
+    const isEmpty = !input.value.trim();
+    const isInvalidEmail = f.id === 'email' && input.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+
+    if (isEmpty || isInvalidEmail) {
+      field.classList.add('has-error');
+      input.classList.add('error');
+      valid = false;
+    } else {
+      field.classList.remove('has-error');
+      input.classList.remove('error');
+    }
+  });
+
+  if (!valid) return;
+
+  // Build Stripe URL with prefilled customer data
+  // Stripe Payment Links support ?prefilled_email= param
+  const email    = encodeURIComponent(document.getElementById('email').value.trim());
+  const fname    = encodeURIComponent(document.getElementById('firstname').value.trim());
+  const lname    = encodeURIComponent(document.getElementById('lastname').value.trim());
+  const recipient= encodeURIComponent(document.getElementById('recipient').value.trim());
+  const message  = encodeURIComponent(document.getElementById('message').value.trim());
+
+  let stripeUrl = STRIPE_LINKS[selectedVoucher];
+
+  // Prefill email in Stripe checkout
+  stripeUrl += `?prefilled_email=${email}`;
+
+  // Pass customer metadata via client_reference_id isn't possible on Payment Links directly,
+  // but we can include extra info in the URL for your own records via utm params.
+  // These appear in the Stripe dashboard under the payment.
+  stripeUrl += `&client_reference_id=${fname}_${lname}`;
+
+  // Store details in sessionStorage so you can retrieve on success page
+  sessionStorage.setItem('wc_order', JSON.stringify({
+    voucher: VOUCHER_NAMES[selectedVoucher],
+    price: VOUCHER_PRICES[selectedVoucher],
+    firstname: document.getElementById('firstname').value.trim(),
+    lastname: document.getElementById('lastname').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    recipient: document.getElementById('recipient').value.trim(),
+    message: document.getElementById('message').value.trim()
+  }));
+
+  // Update button state
+  const btn = document.getElementById('purchaseBtn');
+  btn.textContent = 'Redirecting to payment…';
+  btn.disabled = true;
+
+  // Redirect to Stripe
+  window.location.href = stripeUrl;
+});
+
+// Live validation clear on type
+['firstname','lastname','email','phone'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    const field = document.getElementById('field-' + id);
+    if (field) {
+      field.classList.remove('has-error');
+      this.classList.remove('error');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FAQ | Wild Canvas Glamping Waitomo</title>
+<meta name="description" content="Frequently asked questions about Wild Canvas glamping in Waitomo. Pricing, check-in, cancellations, food, pets, children and more."/>
+<link rel="canonical" href="https://www.wildcanvas.nz/faq"/>
+<style>
+@font-face{font-family:'P22Mackinac';src:url('P22_Mackinac.otf') format('opentype');font-weight:400;}
+@font-face{font-family:'P22Mackinac';src:url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');font-weight:700;}
+@font-face{font-family:'Baton';src:url('Baton-MediumItalic.otf') format('opentype');font-weight:500;font-style:italic;}
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+:root{
+  --candy:#F3DAD3;--pistachio:#DFD39D;--citrine:#FCB236;
+  --harvest:#C19965;--peachy:#F6AC89;--cream:#FBF6EE;
+  --off-white:#F7F1E6;--bark:#3D2E1E;--bark-mid:#6B4F3A;--muted:#8A7B6E;
+  --serif:'P22Mackinac',Georgia,serif;--display:'Baton',Georgia,serif;--sans:'Jost',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);font-weight:300;background:var(--cream);color:var(--bark);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(243,218,211,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
+.wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
+.wc-nav-logo img{height:46px;display:block;}
+.wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.wc-nav-links>li{position:relative;}
+.wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;font-family:var(--sans);transition:color 0.2s;white-space:nowrap;}
+.wc-nav-links>li>a:hover,.wc-nav-links>li>button:hover,.wc-nav-links>li>a.active{color:var(--bark);}
+.wc-chevron{width:10px;height:10px;flex-shrink:0;transition:transform 0.25s;}
+.wc-nav-links>li.open .wc-chevron{transform:rotate(180deg);}
+.wc-dropdown{position:absolute;top:calc(100% + 8px);left:50%;background:var(--cream);border:1px solid rgba(61,46,30,0.1);box-shadow:0 8px 32px rgba(61,46,30,0.1);min-width:200px;padding:0.5rem 0;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(-6px);transition:opacity 0.2s,transform 0.2s,visibility 0.2s;}
+.wc-nav-links>li.open .wc-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.wc-dropdown a{display:block;padding:0.65rem 1.4rem;font-size:0.75rem;letter-spacing:0.08em;color:var(--bark-mid);font-weight:300;transition:background 0.15s,color 0.15s;white-space:nowrap;}
+.wc-dropdown a:hover{background:var(--candy);color:var(--bark);}
+.wc-dropdown-divider{height:1px;background:rgba(61,46,30,0.08);margin:0.4rem 0;}
+.wc-nav-book{font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;padding:0.6rem 1.5rem;background:var(--harvest);color:var(--cream);border:none;cursor:pointer;font-family:var(--sans);display:inline-block;transition:background 0.3s;margin-left:0.5rem;}
+.wc-nav-book:hover{background:var(--bark-mid);}
+.wc-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.wc-hamburger span{display:block;width:24px;height:1.5px;background:var(--bark);transition:transform 0.25s,opacity 0.25s;}
+.wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.wc-hamburger.open span:nth-child(2){opacity:0;}
+.wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:var(--cream);padding:100px 2rem 2rem;flex-direction:column;gap:0;overflow-y:auto;}
+.wc-mobile-drawer.open{display:flex;}
+.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;padding:1.2rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.08);margin-top:0.5rem;}
+.wc-mobile-section-title:first-child{border-top:none;margin-top:0;}
+.wc-mobile-drawer a{font-size:0.92rem;color:var(--bark);padding:0.6rem 0;font-weight:300;border-bottom:1px solid rgba(61,46,30,0.06);}
+.wc-mobile-drawer a:hover{color:var(--harvest);}
+.wc-mobile-book{margin-top:1.5rem;padding:1rem;background:var(--harvest);color:var(--cream);text-align:center;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
+
+/* HERO */
+.hero{padding-top:76px;background:var(--candy);}
+.hero-photo{width:100%;height:400px;object-fit:cover;object-position:center 55%;display:block;line-height:0;}
+.hero-text{padding:3rem 3.5rem;line-height:1.5;}
+.eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
+.hero-text h1{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:400;color:var(--bark);line-height:1.1;margin-bottom:0.8rem;}
+.hero-text h1 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.hero-sub{font-size:0.93rem;line-height:1.85;color:var(--bark-mid);font-weight:300;max-width:600px;}
+
+/* MAIN LAYOUT */
+.faq-body{max-width:1100px;margin:0 auto;padding:5rem 3.5rem;display:grid;grid-template-columns:220px 1fr;gap:5rem;align-items:start;}
+
+/* CATEGORY SIDEBAR */
+.faq-sidebar{position:sticky;top:110px;}
+.faq-sidebar h3{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:1rem;}
+.faq-sidebar nav{display:flex;flex-direction:column;gap:0;}
+.cat-link{font-size:0.8rem;color:var(--muted);font-weight:300;padding:0.5rem 0;border-bottom:1px solid rgba(61,46,30,0.08);cursor:pointer;transition:color 0.2s;display:block;}
+.cat-link:hover,.cat-link.active{color:var(--bark);font-weight:400;}
+.cat-link.active{color:var(--harvest);font-weight:500;}
+
+/* FAQ CATEGORIES AND ACCORDIONS */
+.faq-main{}
+.faq-category{margin-bottom:3.5rem;}
+.faq-category:last-child{margin-bottom:0;}
+.category-title{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--bark);margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:2px solid var(--pistachio);}
+
+/* ACCORDION */
+.accordion{display:flex;flex-direction:column;gap:1px;}
+.acc-item{background:var(--off-white);}
+.acc-item.open{background:var(--cream);}
+.acc-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.2rem 1.5rem;background:none;border:none;cursor:pointer;text-align:left;font-family:var(--sans);}
+.acc-question{font-size:0.88rem;font-weight:400;color:var(--bark);line-height:1.5;}
+.acc-icon{width:20px;height:20px;flex-shrink:0;position:relative;border:1.5px solid rgba(61,46,30,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.2s,border-color 0.2s;}
+.acc-item.open .acc-icon{background:var(--harvest);border-color:var(--harvest);}
+.acc-icon::before,.acc-icon::after{content:'';position:absolute;background:var(--bark);border-radius:1px;transition:background 0.2s,transform 0.3s,opacity 0.2s;}
+.acc-item.open .acc-icon::before,.acc-item.open .acc-icon::after{background:var(--cream);}
+.acc-icon::before{width:8px;height:1.5px;}
+.acc-icon::after{width:1.5px;height:8px;transform:rotate(0deg);}
+.acc-item.open .acc-icon::after{transform:rotate(90deg);opacity:0;}
+.acc-body{display:none;padding:0 1.5rem 1.5rem;}
+.acc-item.open .acc-body{display:block;}
+.acc-body p{font-size:0.85rem;color:var(--bark-mid);font-weight:300;line-height:1.8;}
+.acc-body p+p{margin-top:0.8rem;}
+.acc-body ul{margin-top:0.6rem;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
+.acc-body ul li{font-size:0.83rem;color:var(--bark-mid);font-weight:300;line-height:1.6;padding-left:1rem;position:relative;}
+.acc-body ul li::before{content:'';position:absolute;left:0;top:0.55em;width:4px;height:4px;border-radius:50%;background:var(--harvest);}
+.acc-body strong{font-weight:500;color:var(--bark);}
+.acc-body a{color:var(--harvest);font-weight:400;}
+.acc-body a:hover{text-decoration:underline;}
+.tent-compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+.tent-compare-col{background:var(--off-white);padding:1rem 1.2rem;}
+.tent-compare-col h4{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.6rem;}
+.tent-compare-col ul{margin-top:0;}
+
+/* CANCELLATION LIST */
+.cancel-section{background:var(--pistachio);padding:5rem 3.5rem;}
+.cancel-inner{max-width:900px;margin:0 auto;}
+.cancel-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;}
+.cancel-card{background:var(--cream);padding:2.5rem;}
+.cancel-card h3{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;}
+.cancel-card p{font-size:0.82rem;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:1.5rem;}
+.form-field{margin-bottom:1rem;}
+.form-field label{display:block;font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:0.4rem;}
+.form-field input{width:100%;padding:0.7rem 0.9rem;background:var(--off-white);border:1px solid rgba(61,46,30,0.15);color:var(--bark);font-family:var(--sans);font-size:0.85rem;font-weight:300;outline:none;transition:border-color 0.2s;border-radius:0;-webkit-appearance:none;}
+.form-field input:focus{border-color:var(--harvest);}
+.form-field input::placeholder{color:rgba(61,46,30,0.3);}
+.btn-subscribe{width:100%;padding:0.85rem;background:var(--harvest);color:var(--cream);font-family:var(--sans);font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;border:none;cursor:pointer;transition:background 0.3s;margin-top:0.5rem;}
+.btn-subscribe:hover{background:var(--bark-mid);}
+.form-success{display:none;margin-top:1rem;font-size:0.82rem;color:var(--bark-mid);font-style:italic;}
+
+/* CONTACT STRIP */
+.contact-strip{background:var(--candy);padding:4rem 3.5rem;text-align:center;}
+.contact-strip h2{font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:400;color:var(--bark);margin-bottom:0.7rem;}
+.contact-strip h2 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.contact-strip p{font-size:0.88rem;color:var(--bark-mid);font-weight:300;margin-bottom:1.5rem;}
+.contact-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;}
+.contact-link{font-size:0.72rem;letter-spacing:0.16em;text-transform:uppercase;font-weight:500;color:var(--bark);border-bottom:1.5px solid var(--harvest);padding-bottom:0.2rem;transition:color 0.2s;}
+.contact-link:hover{color:var(--harvest);}
+
+/* FOOTER */
+footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;padding-bottom:3rem;border-bottom:1px solid rgba(251,246,238,0.08);}
+.footer-logo img{height:52px;filter:brightness(0) invert(1) opacity(0.6);margin-bottom:1.2rem;}
+.footer-tagline{font-size:0.8rem;color:rgba(251,246,238,0.35);line-height:1.8;font-weight:300;}
+.footer-col h4{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:1.2rem;}
+.footer-col a,.footer-col p{display:block;font-size:0.82rem;color:rgba(251,246,238,0.4);margin-bottom:0.5rem;font-weight:300;line-height:1.7;transition:color 0.2s;}
+.footer-col a:hover{color:rgba(251,246,238,0.75);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:2rem auto 0;flex-wrap:wrap;gap:1rem;}
+.footer-legal{font-size:0.7rem;color:rgba(251,246,238,0.25);}
+.social-links{display:flex;gap:1.5rem;}
+.social-links a{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(251,246,238,0.35);transition:color 0.2s;}
+.social-links a:hover{color:rgba(251,246,238,0.7);}
+
+@media(max-width:900px){
+  .wc-nav{padding:1rem 1.5rem;} .wc-nav.scrolled{padding:0.7rem 1.5rem;}
+  .wc-nav-links,.wc-nav-book{display:none;} .wc-hamburger{display:flex;}
+  .hero-photo{height:260px;} .hero-text{padding:2.5rem 1.5rem;}
+  .faq-body{grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem;}
+  .faq-sidebar{position:static;} .faq-sidebar nav{flex-direction:row;flex-wrap:wrap;gap:0.5rem;}
+  .cat-link{border:1px solid rgba(61,46,30,0.15);padding:0.4rem 0.8rem;font-size:0.72rem;border-bottom:1px solid rgba(61,46,30,0.15);}
+  .cat-link.active{background:var(--harvest);color:var(--cream);border-color:var(--harvest);}
+  .cancel-section{padding:3.5rem 1.5rem;} .cancel-grid{grid-template-columns:1fr;}
+  .contact-strip{padding:3rem 1.5rem;}
+  .tent-compare{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+  footer{padding:3rem 1.5rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="wc-nav" id="wc-nav">
+  <a href="/" class="wc-nav-logo">
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1rem;color:#3D2E1E;letter-spacing:0.1em\'>Wild Canvas</span>'"/>
+  </a>
+  <ul class="wc-nav-links" id="wc-nav-links">
+    <li id="drop-stay">
+      <button onclick="toggleDrop('drop-stay')">Stay
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/kowhai">Kōwhai Tent</a>
+        <a href="/pohutukawa">Pōhutukawa Tent</a>
+      </div>
+    </li>
+    <li id="drop-exp">
+      <button onclick="toggleDrop('drop-exp')">Experiences
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/experiences">All Experiences</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/catering">Food &amp; Catering</a>
+        <a href="/massages">Massages</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/waitomo">Explore Waitomo</a>
+      </div>
+    </li>
+    <li id="drop-about">
+      <button onclick="toggleDrop('drop-about')">About
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/aboutus">Our Story</a>
+        <a href="/media">Media &amp; Press</a>
+        <a href="/news">News</a>
+      </div>
+    </li>
+    <li><a href="/faq" class="active">FAQ</a></li>
+    <li><a href="/gift">Gift Vouchers</a></li>
+  </ul>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
+  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="wc-mobile-drawer" id="wc-mobile-drawer">
+  <p class="wc-mobile-section-title">Stay</p>
+  <a href="/kowhai">Kōwhai Tent</a>
+  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <p class="wc-mobile-section-title">Experiences</p>
+  <a href="/experiences">All Experiences</a>
+  <a href="/catering">Food &amp; Catering</a>
+  <a href="/massages">Massages</a>
+  <a href="/waitomo">Explore Waitomo</a>
+  <p class="wc-mobile-section-title">About</p>
+  <a href="/aboutus">Our Story</a>
+  <a href="/media">Media &amp; Press</a>
+  <a href="/news">News</a>
+  <p class="wc-mobile-section-title">More</p>
+  <a href="/faq">FAQ</a>
+  <a href="/gift">Gift Vouchers</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-photo"
+    src="https://static.wixstatic.com/media/590a8f_407c632aa6ab461faad33bd22fc0a725~mv2.jpg/v1/fill/w_2500,h_1667,al_c,q_85/590a8f_407c632aa6ab461faad33bd22fc0a725~mv2.jpg"
+    alt="Wild Canvas glamping Waitomo frequently asked questions"/>
+  <div class="hero-text">
+    <p class="eyebrow">Here to help</p>
+    <h1>Frequently asked <em>questions</em></h1>
+    <p class="hero-sub">Everything you need to know before your stay. Can't find your answer? Email us at <a href="mailto:hello@wildcanvas.nz" style="color:var(--harvest);font-weight:400">hello@wildcanvas.nz</a> and we will get back to you promptly.</p>
+  </div>
+</div>
+
+<!-- FAQ BODY -->
+<div class="faq-body">
+
+  <!-- SIDEBAR -->
+  <aside class="faq-sidebar">
+    <h3>Categories</h3>
+    <nav>
+      <a class="cat-link active" onclick="scrollTo('planning')">Planning Your Stay</a>
+      <a class="cat-link" onclick="scrollTo('tents')">The Tents</a>
+      <a class="cat-link" onclick="scrollTo('food')">Food</a>
+      <a class="cat-link" onclick="scrollTo('policies')">Policies</a>
+      <a class="cat-link" onclick="scrollTo('payments')">Payments &amp; Vouchers</a>
+    </nav>
+  </aside>
+
+  <!-- QUESTIONS -->
+  <div class="faq-main">
+
+    <!-- PLANNING -->
+    <div class="faq-category" id="planning">
+      <h2 class="category-title">Planning Your Stay</h2>
+      <div class="accordion">
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Where are you located?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Both the Kōwhai Tent and the Pōhutukawa Tent are located on Mangarino Road in Hangatiki, Waitomo, in the centre of the North Island of New Zealand.</p>
+            <p>We are approximately 2.5 hours from Auckland, 1.5 hours from Hamilton, and 3 hours from Wellington.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">How do I check availability?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Visit our <a href="https://booking.wildcanvas.nz">booking page</a>, select your preferred tent, and choose a check-in date on the calendar. Available dates will be shown clearly. Dates already booked will be crossed through.</p>
+            <p>If you have questions, email <a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a> and we will help.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Can I join the weekend cancellation list?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Yes. Weekend bookings fill up quickly, but we maintain a cancellation list for both tents. Scroll down this page to sign up and you will be the first to know when a spot becomes available.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">What time is check-in and check-out?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p><strong>Kōwhai Tent:</strong> Check-in from 2pm. Check-out by 11am.</p>
+            <p><strong>Pōhutukawa Tent:</strong> Check-in from 2pm. Check-out by 10am.</p>
+            <p>You are welcome to check in later than 2pm, but we recommend arriving as early as possible to make the most of your stay.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Can we drive to the glamping site?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p><strong>Kōwhai Tent:</strong> There is a 120-metre uphill walk from the carpark to the tent. We recommend packing light. A 4WD or all-wheel-drive vehicle is recommended for the track — you are welcome to borrow ours if needed.</p>
+            <p><strong>Pōhutukawa Tent:</strong> Yes, you can drive all the way to the tent. Most two-wheel-drive vehicles are fine.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Where is the nearest medical centre?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>For minor incidents, a first aid kit is located in the drawer of the sofa bed at each tent.</p>
+            <p>For emergencies, dial 111 and request an ambulance. There is cellphone reception and 4G at both sites. The nearest hospital is Te Kuiti Hospital in Te Kuiti township.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- THE TENTS -->
+    <div class="faq-category" id="tents">
+      <h2 class="category-title">The Tents</h2>
+      <div class="accordion">
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">How much does a night cost?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p><strong>Kōwhai Tent:</strong> $590 NZD per night for up to 2 adults. This rate applies for weekdays, weekends and public holidays. A one-night minimum applies year-round, except between 22 December and 5 January when a three-night minimum is required.</p>
+            <p><strong>Pōhutukawa Tent:</strong> $1,635 NZD per night for up to 8 guests. Same minimum stay conditions apply.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">How many people can stay?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p><strong>Kōwhai Tent:</strong> Maximum 2 adults. One queen bedroom. Adults only.</p>
+            <p><strong>Pōhutukawa Tent:</strong> Maximum 8 guests. Four bedrooms with queen beds. Children very welcome.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Are children allowed?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p><strong>Kōwhai Tent:</strong> Due to the steep hilltop location and various hazards, we are unable to accommodate children at the Kōwhai Tent.</p>
+            <p><strong>Pōhutukawa Tent:</strong> Children are very welcome.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Can I bring my dog?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Unfortunately we cannot accommodate dogs or other animals as Wild Canvas is located on a working farm.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Is there power at the tents?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p><strong>Kōwhai Tent:</strong> The tent is off-grid. Battery-powered lanterns and power packs for charging small devices are provided.</p>
+            <p><strong>Pōhutukawa Tent:</strong> Full power throughout, via a state-of-the-art off-grid system. All appliances run just as they would at home, powered by solar and renewable sources. You would never know it was off-grid.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">How far apart are the two tents?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>The two tents are about 1km apart. They are just visible to each other in the distance, but far enough apart that you will not hear each other and will have complete privacy at each site.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">What is the difference between the two tents?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Both tents offer complete privacy, stunning views and a luxury glamping experience, but they are designed for different groups.</p>
+            <div class="tent-compare">
+              <div class="tent-compare-col">
+                <h4>Kōwhai Tent</h4>
+                <ul>
+                  <li>2 adults max, adults only</li>
+                  <li>1 bedroom, 1 bathroom</li>
+                  <li>Twin outdoor claw foot baths</li>
+                  <li>Indoor fireplace</li>
+                  <li>Outdoor kitchen: pizza oven, Weber, gas hob</li>
+                  <li>Off-grid, battery packs</li>
+                  <li>Movie projector</li>
+                  <li>$590 per night</li>
+                </ul>
+              </div>
+              <div class="tent-compare-col">
+                <h4>Pōhutukawa Tent</h4>
+                <ul>
+                  <li>Up to 8 guests, kids welcome</li>
+                  <li>4 bedrooms, 2.5 bathrooms</li>
+                  <li>Cedar hot tub (pre-heated to 38°C)</li>
+                  <li>Double-sided fireplace and underfloor heating</li>
+                  <li>Full indoor kitchen plus outdoor pizza oven and BBQ</li>
+                  <li>Full power, all appliances</li>
+                  <li>Exclusive add-ons available</li>
+                  <li>$1,635 per night</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOD -->
+    <div class="faq-category" id="food">
+      <h2 class="category-title">Food</h2>
+      <div class="accordion">
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Is food provided or do we bring our own?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>A selection of basics is included with every stay. Beyond that, you will need to bring your own food or add one of our catering options. We recommend stopping at a supermarket on the way as there are no shops immediately nearby.</p>
+            <p><strong>Kōwhai Tent basics included:</strong></p>
+            <ul>
+              <li>4 organic eggs and 750ml organic milk (Puhoi Valley)</li>
+              <li>Butter and a loaf of fresh homemade bread</li>
+              <li>S'mores kit: marshmallows and biscuits</li>
+              <li>Tea, coffee and sugar</li>
+              <li>Condiments: salt, pepper, oil and flour</li>
+            </ul>
+            <p><strong>Pōhutukawa Tent basics included:</strong></p>
+            <ul>
+              <li>Bottle of New Zealand wine</li>
+              <li>Milk, yoghurt, butter, eggs and cereal</li>
+              <li>S'mores kit: marshmallows and biscuits</li>
+              <li>Tea, coffee and sugar</li>
+              <li>Condiments: salt, pepper and oil</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">What catering options are available?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>We offer three catering options that are prepared fresh and waiting at your tent on arrival. At least one week's notice is required.</p>
+            <ul>
+              <li><strong>Antipasto Platter</strong> $89: a generous spread including homemade seed crackers, cheeses, salami, smoked salmon, bruschetta, hummus and more</li>
+              <li><strong>Ready-to-Cook Pizzas</strong> $44 each: 10-inch handmade pizzas in six flavours. Fire them straight in your pizza oven</li>
+              <li><strong>Gourmet Dinner for Two</strong> $170: beef scotch, sausages, choice of chicken or beef patties, garlic bread, two salads of your choice and passionfruit cheesecake</li>
+            </ul>
+            <p>A private chef experience is also available exclusively for Pōhutukawa Tent guests. See our <a href="/experiences">Experiences page</a> for details.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">How do I add catering to my booking?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>You can add catering during the booking process at checkout. If you have already booked, visit our <a href="/experiences">Experiences page</a> and use the "Add to My Stay" button to purchase separately via Stripe. Alternatively, email <a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a> with your order at least one week before your stay.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Are there restaurants nearby?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Most guests choose to dine on site, but there are good options nearby:</p>
+            <ul>
+              <li><strong>Waitomo (13 min):</strong> Huhu Café, Tomō Bar and Eatery, Waitomo Homestead</li>
+              <li><strong>Ōtorohanga (13 min):</strong> The Thirsty Weta, Fat Kiwi Café</li>
+              <li><strong>Te Kuiti (10 min):</strong> Stoked Eatery</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- POLICIES -->
+    <div class="faq-category" id="policies">
+      <h2 class="category-title">Policies</h2>
+      <div class="accordion">
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">What is your cancellation policy?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p><strong>2 weeks or more notice:</strong> Full refund.</p>
+            <p><strong>Less than 2 weeks notice:</strong> 50% refund.</p>
+            <p><strong>Less than 1 week notice:</strong> No refund.</p>
+            <p>If you need to change your dates, please email <a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a>. Our cancellation policy applies to date changes.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">How do I change my booking dates?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Email us at <a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a> and we will do our best to accommodate you. Please note our cancellation policy applies to date changes.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Is there a minimum stay?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>A one-night minimum applies year-round for both tents. Between 22 December and 5 January, a three-night minimum is required.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PAYMENTS & VOUCHERS -->
+    <div class="faq-category" id="payments">
+      <h2 class="category-title">Payments &amp; Vouchers</h2>
+      <div class="accordion">
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">When and how do I pay?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Full payment is required at the time of booking to secure your reservation. A range of credit and debit card options are available at checkout.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">Do you offer gift vouchers?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Yes. Gift vouchers are available for the Kōwhai Tent, the ultimate Kōwhai experience, and the Pōhutukawa Tent. They are valid for 24 months from purchase and can be used on any available date. Vouchers are delivered by email for printing or forwarding. Visit our <a href="/gift">Gift Vouchers page</a> to order.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-btn" onclick="toggleAcc(this)">
+            <span class="acc-question">I have a voucher for Waitomo Hilltop Glamping. Can I still use it?</span>
+            <span class="acc-icon"></span>
+          </button>
+          <div class="acc-body">
+            <p>Yes, your voucher code will still work at checkout. If you would like a reissued Wild Canvas voucher, or if you want to use your voucher towards a different tent, just email us at <a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a> and we will sort it out.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CANCELLATION LIST -->
+<section class="cancel-section">
+  <div class="cancel-inner">
+    <p class="eyebrow">Weekend Cancellation Lists</p>
+    <h2 style="font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:400;color:var(--bark);margin-bottom:0.7rem;">Be first to know when <em style="font-family:var(--display);font-style:italic;color:var(--harvest)">a spot opens up</em></h2>
+    <p style="font-size:0.88rem;color:var(--bark-mid);font-weight:300;max-width:560px;">Weekend bookings fill quickly. Sign up below and we will contact you as soon as a cancellation becomes available for your preferred tent.</p>
+    <div class="cancel-grid">
+
+      <!-- KOWHAI LIST -->
+      <div class="cancel-card">
+        <h3>Kōwhai Tent</h3>
+        <p>For couples and two-person stays. Adults only.</p>
+        <form onsubmit="handleSignup(event,'kowhai-success')">
+          <div class="form-field">
+            <label for="k-first">First Name</label>
+            <input type="text" id="k-first" placeholder="Emily" required/>
+          </div>
+          <div class="form-field">
+            <label for="k-email">Email Address</label>
+            <input type="email" id="k-email" placeholder="you@example.com" required/>
+          </div>
+          <button type="submit" class="btn-subscribe">Join the List</button>
+          <p class="form-success" id="kowhai-success">You are on the list! We will be in touch when a spot opens up.</p>
+        </form>
+      </div>
+
+      <!-- POHUTUKAWA LIST -->
+      <div class="cancel-card">
+        <h3>Pōhutukawa Tent</h3>
+        <p>For families and groups of up to 8 guests. Kids welcome.</p>
+        <form onsubmit="handleSignup(event,'poh-success')">
+          <div class="form-field">
+            <label for="p-first">First Name</label>
+            <input type="text" id="p-first" placeholder="Emily" required/>
+          </div>
+          <div class="form-field">
+            <label for="p-email">Email Address</label>
+            <input type="email" id="p-email" placeholder="you@example.com" required/>
+          </div>
+          <button type="submit" class="btn-subscribe">Join the List</button>
+          <p class="form-success" id="poh-success">You are on the list! We will be in touch when a spot opens up.</p>
+        </form>
+      </div>
+
+    </div>
+    <p style="margin-top:1.5rem;font-size:0.78rem;color:var(--bark-mid);font-weight:300;text-align:center">
+      Note: connect these forms to your email list provider (Mailchimp, ConvertKit etc.) to capture signups properly.
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-strip">
+  <h2>Still have a <em>question?</em></h2>
+  <p>We are happy to help. Get in touch and we will get back to you as soon as we can.</p>
+  <div class="contact-links">
+    <a href="mailto:hello@wildcanvas.nz" class="contact-link">hello@wildcanvas.nz</a>
+    <a href="tel:0211666248" class="contact-link">021 166 6248</a>
+    <a href="https://booking.wildcanvas.nz" class="contact-link">Book Now</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+        onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/></div>
+      <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Stay</h4>
+      <a href="/kowhai">Kōwhai Tent</a>
+      <a href="/pohutukawa">Pōhutukawa Tent</a>
+      <a href="https://booking.wildcanvas.nz">Book Now</a>
+      <a href="/gift">Gift Vouchers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Experiences</h4>
+      <a href="/experiences">All Experiences</a>
+      <a href="/catering">Food &amp; Catering</a>
+      <a href="/massages">Massages</a>
+      <a href="/waitomo">Explore Waitomo</a>
+    </div>
+    <div class="footer-col">
+      <h4>Wild Canvas</h4>
+      <a href="/aboutus">Our Story</a>
+      <a href="/faq">FAQ</a>
+      <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
+      <a href="tel:0211666248">021 166 6248</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-legal">© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo, New Zealand</p>
+    <div class="social-links">
+      <a href="https://www.facebook.com/waitomoglamping" target="_blank">Facebook</a>
+      <a href="http://www.instagram.com/wildcanvas.nz" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@wild.canvas" target="_blank">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav
+window.addEventListener('scroll',()=>{
+  document.getElementById('wc-nav').classList.toggle('scrolled',window.scrollY>50);
+},{passive:true});
+
+function toggleDrop(id){
+  const li=document.getElementById(id);
+  const isOpen=li.classList.contains('open');
+  document.querySelectorAll('.wc-nav-links>li').forEach(el=>{el.classList.remove('open');});
+  if(!isOpen)li.classList.add('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.wc-nav-links'))document.querySelectorAll('.wc-nav-links>li').forEach(el=>el.classList.remove('open'));
+});
+
+function toggleMobile(){
+  const d=document.getElementById('wc-mobile-drawer'),b=document.getElementById('wc-hamburger');
+  const o=d.classList.contains('open');
+  d.classList.toggle('open',!o); b.classList.toggle('open',!o);
+  document.body.style.overflow=o?'':'hidden';
+}
+document.querySelectorAll('.wc-mobile-drawer a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.getElementById('wc-mobile-drawer').classList.remove('open');
+    document.getElementById('wc-hamburger').classList.remove('open');
+    document.body.style.overflow='';
+  });
+});
+
+// Accordion
+function toggleAcc(btn){
+  const item=btn.closest('.acc-item');
+  const isOpen=item.classList.contains('open');
+  // close all in same accordion
+  btn.closest('.accordion').querySelectorAll('.acc-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen)item.classList.add('open');
+}
+
+// Sidebar scroll
+function scrollTo(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const offset=el.getBoundingClientRect().top+window.scrollY-120;
+  window.scrollTo({top:offset,behavior:'smooth'});
+  document.querySelectorAll('.cat-link').forEach(l=>l.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// Highlight sidebar on scroll
+const categories=document.querySelectorAll('.faq-category');
+const catLinks=document.querySelectorAll('.cat-link');
+window.addEventListener('scroll',()=>{
+  let current='';
+  categories.forEach(cat=>{
+    if(cat.getBoundingClientRect().top<180)current=cat.id;
+  });
+  catLinks.forEach(l=>{
+    l.classList.toggle('active',l.getAttribute('onclick')&&l.getAttribute('onclick').includes(current));
+  });
+},{passive:true});
+
+// Cancellation form (visual only - wire to your email provider)
+function handleSignup(e,successId){
+  e.preventDefault();
+  document.getElementById(successId).style.display='block';
+  e.target.querySelector('button').disabled=true;
+  e.target.querySelector('button').textContent='Subscribed';
+}
+</script>
+
+</body>
+</html>

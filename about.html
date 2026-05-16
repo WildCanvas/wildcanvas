@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Our Story | Wild Canvas Luxury Glamping Waitomo</title>
+<meta name="description" content="Wild Canvas is a family-run luxury glamping lodge on a 700-hectare third-generation farm in Waitomo. Meet Emily and Benjamin, and hear the story behind New Zealand's first 5-Star Qualmark glamping experience."/>
+<link rel="canonical" href="https://www.wildcanvas.nz/aboutus"/>
+<style>
+@font-face{font-family:'P22Mackinac';src:url('P22_Mackinac.otf') format('opentype');font-weight:400;}
+@font-face{font-family:'P22Mackinac';src:url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');font-weight:700;}
+@font-face{font-family:'Baton';src:url('Baton-MediumItalic.otf') format('opentype');font-weight:500;font-style:italic;}
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+:root{
+  --candy:#F3DAD3;--pistachio:#DFD39D;--citrine:#FCB236;
+  --harvest:#C19965;--peachy:#F6AC89;--cream:#FBF6EE;
+  --off-white:#F7F1E6;--bark:#3D2E1E;--bark-mid:#6B4F3A;--muted:#8A7B6E;
+  --serif:'P22Mackinac',Georgia,serif;--display:'Baton',Georgia,serif;--sans:'Jost',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);font-weight:300;background:var(--cream);color:var(--bark);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(243,218,211,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
+.wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
+.wc-nav-logo img{height:46px;display:block;}
+.wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.wc-nav-links>li{position:relative;}
+.wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;font-family:var(--sans);transition:color 0.2s;white-space:nowrap;}
+.wc-nav-links>li>a:hover,.wc-nav-links>li>button:hover,.wc-nav-links>li>a.active{color:var(--bark);}
+.wc-chevron{width:10px;height:10px;flex-shrink:0;transition:transform 0.25s;}
+.wc-nav-links>li.open .wc-chevron{transform:rotate(180deg);}
+.wc-dropdown{position:absolute;top:calc(100% + 8px);left:50%;background:var(--cream);border:1px solid rgba(61,46,30,0.1);box-shadow:0 8px 32px rgba(61,46,30,0.1);min-width:200px;padding:0.5rem 0;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(-6px);transition:opacity 0.2s,transform 0.2s,visibility 0.2s;}
+.wc-nav-links>li.open .wc-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.wc-dropdown a{display:block;padding:0.65rem 1.4rem;font-size:0.75rem;letter-spacing:0.08em;color:var(--bark-mid);font-weight:300;transition:background 0.15s,color 0.15s;white-space:nowrap;}
+.wc-dropdown a:hover{background:var(--candy);color:var(--bark);}
+.wc-dropdown-divider{height:1px;background:rgba(61,46,30,0.08);margin:0.4rem 0;}
+.wc-nav-book{font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;padding:0.6rem 1.5rem;background:var(--harvest);color:var(--cream);border:none;cursor:pointer;font-family:var(--sans);display:inline-block;transition:background 0.3s;margin-left:0.5rem;}
+.wc-nav-book:hover{background:var(--bark-mid);}
+.wc-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.wc-hamburger span{display:block;width:24px;height:1.5px;background:var(--bark);transition:transform 0.25s,opacity 0.25s;}
+.wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.wc-hamburger.open span:nth-child(2){opacity:0;}
+.wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:var(--cream);padding:100px 2rem 2rem;flex-direction:column;gap:0;overflow-y:auto;}
+.wc-mobile-drawer.open{display:flex;}
+.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;padding:1.2rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.08);margin-top:0.5rem;}
+.wc-mobile-section-title:first-child{border-top:none;margin-top:0;}
+.wc-mobile-drawer a{font-size:0.92rem;color:var(--bark);padding:0.6rem 0;font-weight:300;border-bottom:1px solid rgba(61,46,30,0.06);}
+.wc-mobile-drawer a:hover{color:var(--harvest);}
+.wc-mobile-book{margin-top:1.5rem;padding:1rem;background:var(--harvest);color:var(--cream);text-align:center;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
+
+/* HERO */
+.hero{padding-top:76px;line-height:0;}
+.hero-photo{width:100%;height:560px;object-fit:cover;object-position:center 45%;display:block;}
+.hero-text{background:var(--candy);padding:3.5rem 3.5rem 4rem;line-height:1.5;}
+.eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
+.hero-text h1{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3.2rem);font-weight:400;color:var(--bark);line-height:1.08;margin-bottom:1rem;}
+.hero-text h1 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.hero-sub{font-size:1rem;line-height:1.9;color:var(--bark-mid);font-weight:300;max-width:620px;}
+
+/* BUTTONS */
+.btn-primary{display:inline-block;padding:0.9rem 2.2rem;background:var(--harvest);color:var(--cream);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:background 0.3s;}
+.btn-primary:hover{background:var(--bark-mid);color:var(--cream);}
+.btn-outline{display:inline-block;padding:0.9rem 2.2rem;border:1.5px solid var(--harvest);color:var(--bark);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:all 0.3s;background:transparent;}
+.btn-outline:hover{background:var(--harvest);color:var(--cream);}
+
+/* SECTIONS */
+.section{padding:6rem 3.5rem;}
+.section-title{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.7rem);font-weight:400;color:var(--bark);line-height:1.15;margin-bottom:1.2rem;}
+.section-title em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.body-text{font-size:0.93rem;line-height:1.9;color:var(--bark-mid);font-weight:300;}
+.body-text+.body-text{margin-top:1rem;}
+
+/* STORY INTRO */
+.story-intro{background:var(--cream);}
+.story-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.story-quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2vw,1.6rem);line-height:1.5;color:var(--bark);border-left:3px solid var(--harvest);padding-left:2rem;margin:2.5rem 0;}
+.story-image-wrap{position:relative;}
+.story-img-main{width:100%;aspect-ratio:4/5;object-fit:cover;}
+.story-img-accent{position:absolute;bottom:-2rem;right:-2rem;width:48%;aspect-ratio:1;object-fit:cover;border:5px solid var(--cream);}
+
+/* MEET US */
+.meet-section{background:var(--off-white);}
+.meet-inner{max-width:1100px;margin:0 auto;}
+.meet-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:start;}
+.person-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;margin-bottom:2rem;}
+.person-name{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--bark);margin-bottom:0.3rem;}
+.person-role{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:1.2rem;}
+
+/* TIMELINE */
+.timeline-section{background:var(--candy);}
+.timeline-inner{max-width:900px;margin:0 auto;}
+.timeline{display:flex;flex-direction:column;gap:0;margin-top:3.5rem;position:relative;}
+.timeline::before{content:'';position:absolute;left:80px;top:0;bottom:0;width:1px;background:rgba(61,46,30,0.15);}
+.timeline-item{display:grid;grid-template-columns:80px 1fr;gap:2.5rem;padding-bottom:3rem;position:relative;}
+.timeline-item:last-child{padding-bottom:0;}
+.timeline-year{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--harvest);text-align:right;padding-top:0.1rem;position:relative;}
+.timeline-year::after{content:'';position:absolute;right:-2.5rem;top:0.55rem;width:8px;height:8px;border-radius:50%;background:var(--harvest);transform:translateX(50%);}
+.timeline-content h3{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;}
+.timeline-content p{font-size:0.85rem;color:var(--muted);font-weight:300;line-height:1.75;}
+
+/* FARM */
+.farm-section{background:var(--cream);}
+.farm-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;}
+.farm-images{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.farm-images img{width:100%;height:260px;object-fit:cover;}
+.farm-images img:first-child{grid-column:1/-1;height:340px;}
+.farm-birds{margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.5rem;}
+.bird-tag{font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.7rem;background:var(--pistachio);color:var(--bark-mid);font-weight:500;}
+
+/* AWARDS */
+.awards-section{background:var(--pistachio);padding:4.5rem 3.5rem;}
+.awards-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;}
+.award-card{background:var(--cream);padding:2rem;}
+.award-year{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.5rem;}
+.award-name{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;line-height:1.35;}
+.award-body{font-size:0.8rem;color:var(--muted);font-weight:300;line-height:1.7;}
+
+/* NEWS SECTION */
+.news-section{background:var(--off-white);}
+.news-inner{max-width:1100px;margin:0 auto;}
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;}
+.news-card{background:var(--cream);}
+.news-card img{width:100%;height:200px;object-fit:cover;}
+.news-card-body{padding:1.5rem;}
+.news-date{font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.5rem;}
+.news-card h3{font-family:var(--serif);font-size:0.95rem;font-weight:400;color:var(--bark);line-height:1.4;margin-bottom:0.8rem;}
+.news-card p{font-size:0.78rem;color:var(--muted);font-weight:300;line-height:1.65;margin-bottom:1rem;}
+.news-link{font-size:0.63rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--harvest);font-weight:500;}
+.news-link:hover{opacity:0.7;}
+
+/* CTA */
+.cta-section{background:var(--candy);padding:5.5rem 3.5rem;text-align:center;}
+.cta-section h2{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.6rem);font-weight:400;color:var(--bark);margin-bottom:1rem;}
+.cta-section h2 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.cta-section p{font-size:0.93rem;color:var(--bark-mid);font-weight:300;max-width:500px;margin:0 auto 2.5rem;line-height:1.85;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* FOOTER */
+footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;padding-bottom:3rem;border-bottom:1px solid rgba(251,246,238,0.08);}
+.footer-logo img{height:52px;filter:brightness(0) invert(1) opacity(0.6);margin-bottom:1.2rem;}
+.footer-tagline{font-size:0.8rem;color:rgba(251,246,238,0.35);line-height:1.8;font-weight:300;}
+.footer-col h4{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:1.2rem;}
+.footer-col a,.footer-col p{display:block;font-size:0.82rem;color:rgba(251,246,238,0.4);margin-bottom:0.5rem;font-weight:300;line-height:1.7;transition:color 0.2s;}
+.footer-col a:hover{color:rgba(251,246,238,0.75);}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:2rem auto 0;flex-wrap:wrap;gap:1rem;}
+.footer-legal{font-size:0.7rem;color:rgba(251,246,238,0.25);}
+.social-links{display:flex;gap:1.5rem;}
+.social-links a{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(251,246,238,0.35);transition:color 0.2s;}
+.social-links a:hover{color:rgba(251,246,238,0.7);}
+
+.fade-up{opacity:0;transform:translateY(22px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+
+/* FULL WIDTH PHOTO */
+.photo-full{width:100%;height:480px;object-fit:cover;display:block;}
+
+@media(max-width:900px){
+  .wc-nav{padding:1rem 1.5rem;} .wc-nav.scrolled{padding:0.7rem 1.5rem;}
+  .wc-nav-links,.wc-nav-book{display:none;} .wc-hamburger{display:flex;}
+  .hero-photo{height:320px;} .hero-text{padding:2.5rem 1.5rem;}
+  .section{padding:4rem 1.5rem;}
+  .story-grid,.meet-grid,.farm-grid{grid-template-columns:1fr;gap:3rem;}
+  .story-img-accent{display:none;}
+  .farm-images img:first-child{height:220px;}
+  .farm-images img{height:180px;}
+  .awards-section{padding:3.5rem 1.5rem;} .awards-inner{grid-template-columns:1fr;}
+  .news-grid{grid-template-columns:1fr;}
+  .timeline::before{left:60px;}
+  .timeline-item{grid-template-columns:60px 1fr;gap:1.5rem;}
+  .timeline-year::after{right:-1.5rem;}
+  .photo-full{height:280px;}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
+  footer{padding:3rem 1.5rem 1.5rem;}
+  .cta-section{padding:4rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="wc-nav" id="wc-nav">
+  <a href="/" class="wc-nav-logo">
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1rem;color:#3D2E1E;letter-spacing:0.1em\'>Wild Canvas</span>'"/>
+  </a>
+  <ul class="wc-nav-links" id="wc-nav-links">
+    <li id="drop-stay">
+      <button onclick="toggleDrop('drop-stay')">Stay
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/kowhai">Kōwhai Tent</a>
+        <a href="/pohutukawa">Pōhutukawa Tent</a>
+      </div>
+    </li>
+    <li id="drop-exp">
+      <button onclick="toggleDrop('drop-exp')">Experiences
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/experiences">All Experiences</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/catering">Food &amp; Catering</a>
+        <a href="/massages">Massages</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/waitomo">Explore Waitomo</a>
+      </div>
+    </li>
+    <li id="drop-about">
+      <button onclick="toggleDrop('drop-about')">About
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/aboutus" class="active">Our Story</a>
+        <a href="/media">Media &amp; Press</a>
+        <a href="/news">News</a>
+      </div>
+    </li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/gift">Gift Vouchers</a></li>
+  </ul>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
+  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="wc-mobile-drawer" id="wc-mobile-drawer">
+  <p class="wc-mobile-section-title">Stay</p>
+  <a href="/kowhai">Kōwhai Tent</a>
+  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <p class="wc-mobile-section-title">Experiences</p>
+  <a href="/experiences">All Experiences</a>
+  <a href="/catering">Food &amp; Catering</a>
+  <a href="/massages">Massages</a>
+  <a href="/waitomo">Explore Waitomo</a>
+  <p class="wc-mobile-section-title">About</p>
+  <a href="/aboutus">Our Story</a>
+  <a href="/media">Media &amp; Press</a>
+  <a href="/news">News</a>
+  <p class="wc-mobile-section-title">More</p>
+  <a href="/faq">FAQ</a>
+  <a href="/gift">Gift Vouchers</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-photo"
+    src="https://static.wixstatic.com/media/590a8f_df65ade988bd472dbb2bba1b08e0bc46~mv2.jpg/v1/fill/w_2500,h_1667,al_c,q_85/590a8f_df65ade988bd472dbb2bba1b08e0bc46~mv2.jpg"
+    alt="Wild Canvas luxury glamping Waitomo New Zealand"/>
+  <div class="hero-text">
+    <p class="eyebrow">Our Story</p>
+    <h1>Born from a farm,<br/>built with <em>love</em></h1>
+    <p class="hero-sub">Wild Canvas is a family-run luxury glamping experience on a 700-hectare, third-generation farm in the heart of Waitomo. Two private hilltop tents. One simple belief: that the best getaways happen when luxury meets nature.</p>
+  </div>
+</div>
+
+<!-- STORY INTRO -->
+<section class="section story-intro">
+  <div class="story-grid">
+    <div class="fade-up">
+      <p class="eyebrow">The Idea</p>
+      <h2 class="section-title">Luxury that <em>belongs</em> outdoors</h2>
+      <p class="body-text">We have always believed there is something special about sleeping under canvas. A feeling that connects you to the land in a way no building can. From inside a tent, you hear the soft rustle of the wind, the distant call of birds at dawn, the gentle hum of farm life below.</p>
+      <blockquote class="story-quote">Glamping, for us, is about reconnecting to nature, to each other, and to yourself, while still enjoying all the comforts that make a stay truly restorative.</blockquote>
+      <p class="body-text">Our tents sit on the farm's most spectacular ridgelines, completely private and surrounded by sweeping views. Here, nature takes centre stage: watch the sun dip behind the hills, the stars appear one by one, and the early morning mist roll through the valleys.</p>
+      <img src="stamp-wildcanvas.png" alt="Wild Canvas Glamping Escapes" style="width:110px;height:auto;opacity:0.45;margin-top:2rem"/>
+    </div>
+    <div class="story-image-wrap fade-up">
+      <img class="story-img-main"
+        src="https://static.wixstatic.com/media/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg/v1/fill/w_800,h_1000,al_c,q_85/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg"
+        alt="Wild Canvas tents on the hillside at dusk"/>
+      <img class="story-img-accent"
+        src="https://static.wixstatic.com/media/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg/v1/fit/w_400,h_400,q_90/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg"
+        alt="Inside a Wild Canvas tent"/>
+    </div>
+  </div>
+</section>
+
+<!-- FULL WIDTH PHOTO -->
+<img class="photo-full"
+  src="https://static.wixstatic.com/media/590a8f_4c94bd84b68244ecb2f6c3abac5b16f4~mv2.jpg/v1/fill/w_2500,h_800,al_c,q_85/Drone.jpg"
+  alt="Aerial view of Wild Canvas farm and tents in Waitomo"/>
+
+<!-- MEET EMILY AND BEN -->
+<section class="section meet-section">
+  <div class="meet-inner">
+    <p class="eyebrow">Meet Your Hosts</p>
+    <h2 class="section-title">Emily &amp; <em>Benjamin</em></h2>
+    <p class="body-text" style="max-width:620px">Proud hosts of Wild Canvas and the family behind everything you experience here. Between us, we bring engineering, design, farming, and a deep love of this land.</p>
+    <div class="meet-grid">
+      <div class="fade-up">
+        <img class="person-img"
+          src="https://static.wixstatic.com/media/590a8f_b877e60e299d4eaa8cb3c4f5570b9af1~mv2.png/v1/fill/w_580,h_773,al_c,q_85/Benjamin%20and%20Emily.png"
+          alt="Emily and Benjamin Scott, founders of Wild Canvas"/>
+        <p class="person-name">Benjamin Scott</p>
+        <p class="person-role">Co-Founder, Farmer</p>
+        <p class="body-text">Ben grew up on this farm and returned in 2016 to help run the family farm after a career in civil engineering. He completed his MBA in 2022, exploring regenerative farming and sustainable business practices, ideas that continue to shape Wild Canvas from energy-efficient design to careful native planting across the farm.</p>
+      </div>
+      <div class="fade-up">
+        <img class="person-img"
+          src="https://static.wixstatic.com/media/590a8f_396baa473284443c934d5fb77c077d40~mv2.jpg/v1/fill/w_980,h_575,al_c,q_85/590a8f_396baa473284443c934d5fb77c077d40~mv2.jpg"
+          alt="Emily and Benjamin Scott at the Pohutukawa Tent"/>
+        <p class="person-name">Emily Scott</p>
+        <p class="person-role">Co-Founder, Creative Director</p>
+        <p class="body-text">Emily grew up in Auckland and, after visiting the farm and seeing its beauty, dreamed of sharing it with others. Originally from South Africa, it felt fitting that the first build was a safari tent — a nod to her birthplace and her love of design. She leads the creative vision behind Wild Canvas, from the interiors to the guest experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section timeline-section">
+  <div class="timeline-inner">
+    <p class="eyebrow">How We Got Here</p>
+    <h2 class="section-title">The Wild Canvas <em>journey</em></h2>
+    <div class="timeline">
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2016</div>
+        <div class="timeline-content">
+          <h3>Back to the land</h3>
+          <p>Ben returns to help run the family farm full time, taking on the third-generation property in Waitomo and beginning to think about what else the land could offer.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2017</div>
+        <div class="timeline-content">
+          <h3>The first tent opens</h3>
+          <p>Wild Canvas opens with its first luxury safari tent. Inspired by Emily's South African roots and a shared love of design and nature, it quickly becomes one of New Zealand's most loved glamping experiences.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2022</div>
+        <div class="timeline-content">
+          <h3>Airbnb Best Design Stay Award</h3>
+          <p>Wild Canvas receives the Airbnb Best Design Stay Award, recognising the thoughtful design and guest experience behind the Kōwhai Tent.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2023</div>
+        <div class="timeline-content">
+          <h3>The Pōhutukawa Tent opens</h3>
+          <p>After two years of meticulous planning, engineering, and building, the Pōhutukawa Tent opens its doors. Four bedrooms, cedar hot tub, full kitchen, and a state-of-the-art sustainable power system.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-content">
+          <h3>5-Star Qualmark Gold Award</h3>
+          <p>Wild Canvas achieves New Zealand's first 5-Star Qualmark Glamping rating, along with the prestigious Gold Sustainable Tourism Business Award.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-content">
+          <h3>The new Kōwhai Tent</h3>
+          <p>The Kōwhai Tent is completely redesigned and relaunched with an indoor fireplace, polished floors, twin claw foot baths and a new native landscape design. A fresh chapter for our most loved couples' retreat.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE FARM -->
+<section class="section farm-section">
+  <div class="farm-grid">
+    <div class="fade-up">
+      <p class="eyebrow">The Farm</p>
+      <h2 class="section-title">700 hectares of <em>Waitomo</em></h2>
+      <p class="body-text">Wild Canvas sits on a working farm, home to both beef and dairy herds, with sheep grazing the paddocks around the Pōhutukawa Tent. Mornings begin with birdsong echoing through the valleys.</p>
+      <p class="body-text body-text">Guests witness real farm life while enjoying complete privacy and comfort. From your hilltop, take in sweeping views of the farmland, breathe fresh country air, and feel immersed in nature, with every luxury just a few steps away.</p>
+      <div class="farm-birds">
+        <span class="bird-tag">Tūī</span>
+        <span class="bird-tag">Kererū</span>
+        <span class="bird-tag">Kingfisher</span>
+        <span class="bird-tag">Fantail</span>
+        <span class="bird-tag">Native Bush</span>
+        <span class="bird-tag">Beef Cattle</span>
+        <span class="bird-tag">Dairy Herd</span>
+      </div>
+    </div>
+    <div class="farm-images fade-up">
+      <img
+        src="https://static.wixstatic.com/media/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg/v1/fit/w_900,h_600,q_90/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg"
+        alt="Waitomo farmland from Wild Canvas"/>
+      <img
+        src="https://static.wixstatic.com/media/590a8f_73e901be6d444e0091eaf79625c1b788~mv2.jpg/v1/fit/w_600,h_400,q_90/590a8f_73e901be6d444e0091eaf79625c1b788~mv2.jpg"
+        alt="Rolling hills at Wild Canvas"/>
+      <img
+        src="https://static.wixstatic.com/media/590a8f_d977d6a6a0d1492db065ba294ea126a4~mv2.jpg/v1/fit/w_600,h_400,q_90/590a8f_d977d6a6a0d1492db065ba294ea126a4~mv2.jpg"
+        alt="Native birds and farmland"/>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards-section">
+  <div class="awards-inner">
+    <div class="award-card fade-up">
+      <p class="award-year">2022</p>
+      <h3 class="award-name">Airbnb Best Design Stay Award</h3>
+      <p class="award-body">Recognised by Airbnb for outstanding design and guest experience at the Kōwhai Tent, one of very few properties in New Zealand to receive this distinction.</p>
+    </div>
+    <div class="award-card fade-up">
+      <p class="award-year">2024</p>
+      <h3 class="award-name">5-Star Qualmark Glamping Rating</h3>
+      <p class="award-body">New Zealand's first and only 5-Star Qualmark glamping experience, independently assessed for quality, safety and guest experience across both tents.</p>
+    </div>
+    <div class="award-card fade-up">
+      <p class="award-year">2024</p>
+      <h3 class="award-name">Qualmark Gold Sustainable Tourism Award</h3>
+      <p class="award-body">Awarded Gold status for sustainable tourism business practices, recognising Wild Canvas's commitment to environmental responsibility and regenerative land management.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST NEWS -->
+<section class="section news-section">
+  <div class="news-inner">
+    <p class="eyebrow">Latest News</p>
+    <h2 class="section-title">From the <em>Wild Canvas journal</em></h2>
+    <div class="news-grid">
+      <div class="news-card fade-up">
+        <img
+          src="https://static.wixstatic.com/media/590a8f_ad387e46887544b087fe5ea0bd93cdce~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/590a8f_ad387e46887544b087fe5ea0bd93cdce~mv2.jpg"
+          alt="Wild Canvas Qualmark Gold Award"/>
+        <div class="news-card-body">
+          <p class="news-date">2024</p>
+          <h3>Wild Canvas Achieves Gold Sustainable Tourism Business Award</h3>
+          <p>We are so proud to share that we completed our first Qualmark evaluation and achieved both the Gold Sustainable Tourism Award and a 5-star Glamping rating.</p>
+          <a href="https://www.wildcanvas.nz/news/qualmarkgold" class="news-link">Read more →</a>
+        </div>
+      </div>
+      <div class="news-card fade-up">
+        <img
+          src="https://static.wixstatic.com/media/590a8f_f1db6ec54f744bc2926c8c9ab00263fd~mv2.jpg/v1/fill/w_600,h_400,al_c,q_85/590a8f_f1db6ec54f744bc2926c8c9ab00263fd~mv2.jpg"
+          alt="Life and Leisure Magazine feature"/>
+        <div class="news-card-body">
+          <p class="news-date">2023</p>
+          <h3>Our Feature in Life &amp; Leisure Magazine</h3>
+          <p>Our journey from conception to canvas was captured beautifully in Life and Leisure. We share the challenges, the victories, and a few tips for anyone thinking about starting a glamping business.</p>
+          <a href="https://www.wildcanvas.nz/news/lifeandleisuremagazine" class="news-link">Read more →</a>
+        </div>
+      </div>
+      <div class="news-card fade-up">
+        <img
+          src="https://static.wixstatic.com/media/590a8f_bd4f91c5ead54e9493b1c4aed5879f10~mv2.png/v1/fill/w_600,h_400,al_c,q_85/590a8f_bd4f91c5ead54e9493b1c4aed5879f10~mv2.png"
+          alt="New Kowhai Tent"/>
+        <div class="news-card-body">
+          <p class="news-date">2025</p>
+          <h3>The New Kōwhai Tent Has Arrived</h3>
+          <p>Now open. Discover the redesigned Kōwhai Tent — a fresh new chapter for our most loved couples' retreat, with an indoor fireplace, polished floors and twin outdoor baths.</p>
+          <a href="https://www.wildcanvas.nz/news/the-new-k%C5%8Dwhai-tent-has-arrived" class="news-link">Read more →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Come and <em>stay with us</em></h2>
+  <p>Two private hilltop tents in the heart of Waitomo. We would love to have you.</p>
+  <div class="cta-btns">
+    <a href="https://booking.wildcanvas.nz" class="btn-primary" style="padding:1rem 2.8rem">Book Your Stay</a>
+    <a href="/gift" class="btn-outline" style="padding:1rem 2.8rem">Gift Vouchers</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+        onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/></div>
+      <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Stay</h4>
+      <a href="/kowhai">Kōwhai Tent</a>
+      <a href="/pohutukawa">Pōhutukawa Tent</a>
+      <a href="https://booking.wildcanvas.nz">Book Now</a>
+      <a href="/gift">Gift Vouchers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Experiences</h4>
+      <a href="/experiences">All Experiences</a>
+      <a href="/catering">Food &amp; Catering</a>
+      <a href="/massages">Massages</a>
+      <a href="/waitomo">Explore Waitomo</a>
+    </div>
+    <div class="footer-col">
+      <h4>Wild Canvas</h4>
+      <a href="/aboutus">Our Story</a>
+      <a href="/media">Media &amp; Press</a>
+      <a href="/faq">FAQ</a>
+      <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
+      <a href="tel:0211666248">021 166 6248</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-legal">© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo, New Zealand</p>
+    <div class="social-links">
+      <a href="https://www.facebook.com/waitomoglamping" target="_blank">Facebook</a>
+      <a href="http://www.instagram.com/wildcanvas.nz" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@wild.canvas" target="_blank">TikTok</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('wc-nav').classList.toggle('scrolled',window.scrollY>50);
+},{passive:true});
+function toggleDrop(id){
+  const li=document.getElementById(id);
+  const isOpen=li.classList.contains('open');
+  document.querySelectorAll('.wc-nav-links>li').forEach(el=>el.classList.remove('open'));
+  if(!isOpen)li.classList.add('open');
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.wc-nav-links'))document.querySelectorAll('.wc-nav-links>li').forEach(el=>el.classList.remove('open'));
+});
+function toggleMobile(){
+  const d=document.getElementById('wc-mobile-drawer'),b=document.getElementById('wc-hamburger');
+  const o=d.classList.contains('open');
+  d.classList.toggle('open',!o);b.classList.toggle('open',!o);
+  document.body.style.overflow=o?'':'hidden';
+}
+document.querySelectorAll('.wc-mobile-drawer a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    document.getElementById('wc-mobile-drawer').classList.remove('open');
+    document.getElementById('wc-hamburger').classList.remove('open');
+    document.body.style.overflow='';
+  });
+});
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
