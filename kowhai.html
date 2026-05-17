@@ -107,16 +107,16 @@ nav.scrolled { padding: 0.8rem 3.5rem; box-shadow: 0 1px 0 rgba(61,46,30,0.1); }
 .btn-primary {
   display: inline-block; padding: 0.9rem 2.2rem;
   background: var(--citrine); color: var(--bark);
-  font-size: 1.05rem; letter-spacing: 0.02em; text-transform: none;
-  font-weight: 500; font-style: italic; font-family: var(--display); transition: background 0.3s;
+  font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 700; font-style: italic; font-family: var(--display); transition: background 0.3s;
   border: none; cursor: pointer; white-space: nowrap;
 }
 .btn-primary:hover { background: #e8a020; color: var(--bark); }
 .btn-outline {
   display: inline-block; padding: 0.9rem 2.2rem;
   border: 1.5px solid var(--harvest); color: var(--bark);
-  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
-  font-weight: 500; font-family: var(--sans); transition: all 0.3s;
+  font-size: 1.05rem; letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 700; font-style: italic; font-family: var(--display); transition: all 0.3s;
   background: transparent; white-space: nowrap;
 }
 .btn-outline:hover { background: var(--harvest); color: var(--cream); }
@@ -337,7 +337,7 @@ footer p a { color: rgba(251,246,238,0.4); }
   background: none; border: 1.5px solid var(--harvest); cursor: pointer;
   color: var(--harvest); font-size: 1rem; width: 34px; height: 34px;
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s; line-height: 1;
+  transition: all 0.2s; line-height: 1; font-family: var(--sans);
 }
 .carousel-next-btn:hover { background: var(--harvest); color: var(--cream); }
 
@@ -581,7 +581,7 @@ footer p a { color: rgba(251,246,238,0.4); }
           <div style="width:64px;height:64px;border-radius:50%;background:var(--candy);display:flex;align-items:center;justify-content:center">
             <svg width="22" height="22" viewBox="0 0 20 20" fill="none"><path d="M7 4L16 10L7 16V4Z" fill="#3D2E1E"/></svg>
           </div>
-          <span style="font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cream);font-weight:500;font-family:var(--sans)">Watch the Kōwhai Tent</span>
+          <span style="font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--cream);font-weight:700;font-style:italic;font-family:var(--display)">Watch the Kōwhai Tent</span>
         </div>
       </div>
     </div>
@@ -592,9 +592,11 @@ footer p a { color: rgba(251,246,238,0.4); }
 <section class="section" style="background:var(--candy)">
   <div style="max-width:1100px;margin:0 auto">
     <p class="eyebrow">Guest Reviews</p>
-    <h2 class="section-title" style="margin-bottom:2rem;">What Kōwhai Tent guests <em>say</em></h2>
-    <div style="text-align:center;margin-bottom:0.5rem;">
-      <span style="font-family:Georgia,serif;font-size:4rem;line-height:1;color:var(--citrine);display:block;">&ldquo;</span>
+    <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;">
+      <h2 class="section-title" style="margin-bottom:0;">What Kōwhai Tent guests <em>say</em></h2>
+<svg width="80" height="60" viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+  <path d="M0 36C0 24 6 14 18 6L22 12C14 17 10 23 10 30H18V60H0V36ZM42 36C42 24 48 14 60 6L64 12C56 17 52 23 52 30H60V60H42V36Z" fill="#FCB236"/>
+</svg>
     </div>
     <!-- Google Reviews: Elfsight widget -->
     <div class="elfsight-app-5ab7a5fb-daa4-47a7-a94c-4c0c8acbb8eb" data-elfsight-app-lazy></div>
