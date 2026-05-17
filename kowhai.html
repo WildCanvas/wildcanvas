@@ -340,6 +340,59 @@ footer p a { color: rgba(251,246,238,0.4); }
   transition: all 0.2s; line-height: 1;
 }
 .carousel-next-btn:hover { background: var(--harvest); color: var(--cream); }
+
+/* PHOTO CAROUSEL */
+.photo-carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: var(--bark);
+}
+.pc-track {
+  display: flex;
+}
+.pc-item {
+  flex-shrink: 0;
+  width: 50%;
+}
+.pc-item img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+.pc-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(251,246,238,0.8);
+  border: none;
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  font-size: 1rem;
+  color: var(--bark);
+  border-radius: 50%;
+  z-index: 5;
+  transition: background 0.2s;
+}
+.pc-btn:hover { background: var(--cream); }
+.pc-prev { left: 1rem; }
+.pc-next { right: 1rem; }
+.pc-counter {
+  position: absolute;
+  bottom: 0.8rem;
+  right: 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.7);
+  font-family: var(--sans);
+  font-weight: 300;
+}
+@media(max-width:900px) {
+  .pc-item { width: 100%; }
+  .pc-item img { height: 280px; }
+}
 </style>
 <script src="https://elfsightcdn.com/platform.js" async></script>
 </head>
@@ -592,14 +645,67 @@ footer p a { color: rgba(251,246,238,0.4); }
   </div>
 </section>
 
-<!-- PHOTO PAIR -->
-<div class="photo-pair">
-  <img
-    src="https://static.wixstatic.com/media/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg/v1/fit/w_900,h_600,q_90/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg"
-    alt="Inside the Kōwhai Tent"/>
-  <img
-    src="https://static.wixstatic.com/media/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg/v1/fit/w_900,h_600,q_90/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg"
-    alt="Views from the Kōwhai Tent deck"/>
+<!-- PHOTO CAROUSEL -->
+<div class="photo-carousel" id="photoCarousel">
+  <div class="pc-track" id="pcTrack">
+          <div class="pc-item">
+            <img src="kowhai-tent-aerial-view-waitomo-new-zealand.webp" alt="Kōwhai Tent aerial view, Waitomo New Zealand" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-interior-bedroom-views-waitomo.webp" alt="Kōwhai Tent interior bedroom with Waitomo views" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-bathroom-ensuite-waitomo.webp" alt="Kōwhai Tent ensuite bathroom" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-deck-outdoor-seating-waitomo.webp" alt="Kōwhai Tent outdoor deck and seating" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-bathroom-views-waitomo-nz.webp" alt="Kōwhai Tent bathroom with panoramic views" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-outdoor-kitchen-pizza-oven-waitomo.webp" alt="Kōwhai Tent outdoor kitchen and pizza oven" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-firepit-sunset-waitomo.webp" alt="Kōwhai Tent firepit at sunset" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-drone-baths-sunset-waitomo.webp" alt="Kōwhai Tent aerial baths at sunset" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-sunset-aerial-waitomo.webp" alt="Kōwhai Tent sunset aerial view Waitomo" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-morning-mist-waitomo.webp" alt="Kōwhai Tent in morning mist Waitomo" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-bedroom-fireplace-waitomo.webp" alt="Kōwhai Tent bedroom with fireplace" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-entrance-morning-light-waitomo.webp" alt="Kōwhai Tent entrance in morning light" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-outdoor-cinema-beanbag-waitomo.webp" alt="Kōwhai Tent outdoor cinema at dusk" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-campfire-night-waitomo.webp" alt="Kōwhai Tent campfire at night Waitomo" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-outdoor-baths-champagne-waitomo.webp" alt="Kōwhai Tent outdoor baths with champagne" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-picnic-views-waitomo.webp" alt="Kōwhai Tent picnic with views Waitomo" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-twin-baths-twilight-waitomo.webp" alt="Kōwhai Tent twin baths at twilight" loading="lazy"/>
+          </div>
+          <div class="pc-item">
+            <img src="kowhai-tent-hilltop-views-waitomo-nz.webp" alt="Kōwhai Tent hilltop views Waitomo New Zealand" loading="lazy"/>
+          </div>
+  </div>
+  <button class="pc-btn pc-prev" onclick="pcMove(-1)">&#8592;</button>
+  <button class="pc-btn pc-next" onclick="pcMove(1)">&#8594;</button>
+  <div class="pc-counter" id="pcCounter">1 / 18</div>
 </div>
 
 <!-- TO NOTE -->
@@ -750,6 +856,40 @@ footer p a { color: rgba(251,246,238,0.4); }
 </footer>
 
 <script>
+
+// Photo Carousel
+(function() {
+  const track = document.getElementById('pcTrack');
+  const counter = document.getElementById('pcCounter');
+  if (!track) return;
+  const items = track.querySelectorAll('.pc-item');
+  const total = items.length;
+  let current = 0;
+
+  function setWidths() {
+    const isMobile = window.innerWidth <= 900;
+    const visible = isMobile ? 1 : 2;
+    const w = track.parentElement.offsetWidth / visible;
+    items.forEach(item => { item.style.width = w + 'px'; });
+    track.style.width = (w * total) + 'px';
+    goTo(current);
+  }
+
+  function goTo(n) {
+    const isMobile = window.innerWidth <= 900;
+    const visible = isMobile ? 1 : 2;
+    current = Math.max(0, Math.min(n, total - visible));
+    const w = track.parentElement.offsetWidth / visible;
+    track.style.transform = 'translateX(-' + (current * w) + 'px)';
+    track.style.transition = 'transform 0.4s ease';
+    if (counter) counter.textContent = (current + 1) + ' – ' + Math.min(current + visible, total) + ' / ' + total;
+  }
+
+  window.pcMove = (dir) => goTo(current + dir);
+  setWidths();
+  window.addEventListener('resize', () => setWidths());
+})();
+
 // Carousel
 (function() {
   const items = document.querySelectorAll('.carousel-item');
