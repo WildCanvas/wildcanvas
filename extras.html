@@ -170,7 +170,7 @@ a { text-decoration: none; color: inherit; }
   background: white; border: 1.5px solid rgba(61,46,30,0.1);
   display: grid; grid-template-columns: 220px 1fr auto;
   cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
-  user-select: none;
+  user-select: none; min-height: 160px;
 }
 .extra-card:hover { border-color: var(--harvest); }
 .extra-card.selected { border-color: var(--harvest); box-shadow: 0 0 0 2px rgba(193,153,101,0.2); }
@@ -570,7 +570,7 @@ function renderExtras() {
     var sel = isSelected ? ' selected' : '';
 
     var imgHtml = ex.img
-      ? '<img class="extra-card-img" src="' + ex.img + '" alt="' + ex.alt + '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"/><div class="extra-card-img-placeholder" style="display:none"></div>'
+      ? '<img class="extra-card-img" src="' + ex.img + '" alt="' + ex.alt + '" style="background:var(--pistachio)" onerror="this.src=\'\';this.style.background=\'#DFD39D\'"/>' 
       : '<div class="extra-card-img-placeholder"></div>';
 
     var detailsHtml = '';
