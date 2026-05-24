@@ -6,23 +6,7 @@
 <title>Wild Canvas | Luxury Glamping in Waitomo, New Zealand</title>
 <meta name="description" content="New Zealand's first and only 5-Star Qualmark glamping. Two private hilltop tents in Waitomo. Outdoor baths, cedar hot tub, complete seclusion. Book your escape."/>
 <link rel="canonical" href="https://www.wildcanvas.nz"/>
-<script src="https://elfsightcdn.com/platform.js" async>
-// Home Carousel
-let homeCurrent = 0;
-document.addEventListener('DOMContentLoaded', function() {
-  const items = document.querySelectorAll('.home-carousel-item');
-  const dots = document.querySelectorAll('.home-dot');
-  window.homeGoTo = function(n) {
-    items[homeCurrent].classList.remove('active');
-    dots[homeCurrent].classList.remove('active');
-    homeCurrent = (n + items.length) % items.length;
-    items[homeCurrent].classList.add('active');
-    dots[homeCurrent].classList.add('active');
-  };
-  setInterval(() => window.homeGoTo(homeCurrent + 1), 5000);
-});
-
-</script>
+<script src="https://elfsightcdn.com/platform.js" async></script>
 <style>
 @font-face {
   font-family: 'P22Mackinac';
@@ -498,7 +482,6 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
         <a href="/experiences">All Experiences</a>
         <div class="wc-dropdown-divider"></div>
         <a href="/catering">Food &amp; Catering</a>
-        <a href="/massages">Massages</a>
         <div class="wc-dropdown-divider"></div>
         <a href="/waitomo">Explore Waitomo</a>
       </div>
@@ -531,7 +514,6 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   <p class="wc-mobile-section-title">Experiences</p>
   <a href="/experiences">All Experiences</a>
   <a href="/catering">Food &amp; Catering</a>
-  <a href="/massages">Massages</a>
   <a href="/waitomo">Explore Waitomo</a>
   <p class="wc-mobile-section-title">About</p>
   <a href="/aboutus">Our Story</a>
@@ -689,7 +671,7 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
       <div class="exp-card fade-up">
         <h3>In-Tent Massages</h3>
         <p>A therapist comes to you. Book one or two massages delivered right at your tent, the perfect close to a day in the Waitomo hills.</p>
-        <a href="/massages" class="exp-link">View massage options →</a>
+        <a href="/experiences" class="exp-link">Book a massage →</a>
       </div>
       <div class="exp-card fade-up">
         <h3>Pōhutukawa Exclusives</h3>
@@ -706,7 +688,7 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
     <div class="fade-up">
       <p class="eyebrow">Guest Reviews</p>
       <h2 class="section-title">What our guests <em>say</em></h2>
-      <p class="body-text">Wild Canvas has been featured across New Zealand's leading publications and consistently earns five-star reviews from guests across Airbnb and Google.</p>
+      <p class="body-text">Wild Canvas has been featured across New Zealand's leading publications and consistently earns five-star reviews from guests across Google.</p>
 
       <a href="https://booking.wildcanvas.nz" class="btn-primary" style="margin-top:2.5rem;display:inline-block">Book Your Stay</a>
     </div>
@@ -742,17 +724,17 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
     <div class="included-item fade-up">
       <div class="included-icon"></div>
       <h3>Thoughtfully Stocked</h3>
-      <p>Fresh bread, farm eggs, s'mores kit, locally sourced provisions and premium toiletries. All ready and waiting when you arrive.</p>
+      <p>Farm eggs, s’mores kits, locally sourced provisions and premium toiletries. Thoughtful touches, ready and waiting for your arrival.</p>
     </div>
     <div class="included-item fade-up">
       <div class="included-icon"></div>
       <h3>Complete Seclusion</h3>
-      <p>Each tent sits on its own private hilltop. No shared check-in, no lobby, no other guests. Just your own piece of Waitomo.</p>
+      <p>Each tent sits on its own private hilltop with panoramic views and no neighbouring guests. Just your own piece of Waitomo.</p>
     </div>
     <div class="included-item fade-up">
       <div class="included-icon"></div>
       <h3>Off-Grid Luxury</h3>
-      <p>Solar lighting, gas-heated water, cedar hot tub and campfire. All the comforts of home, deep in the Waitomo countryside.</p>
+      <p>Cedar hot tubs, campfires and modern comforts, all thoughtfully powered off-grid and surrounded by the Waitomo countryside.</p>
     </div>
   </div>
 </section>
@@ -776,7 +758,7 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
           <span class="location-dot"></span>
           <div>
             <strong>Getting Here</strong>
-            <span>2.5 hrs from Auckland · 1.5 hrs from Hamilton · 3 hrs from Wellington</span>
+            <span>2.5 hrs from Auckland or New Plymouth · 2 hrs from Tauranga or Taupō · 6 hrs from Wellington</span>
           </div>
         </div>
         <div class="location-item">
@@ -837,8 +819,7 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
       <h4>Experiences</h4>
       <a href="/experiences">All Experiences</a>
       <a href="/catering">Food &amp; Catering</a>
-      <a href="/massages">Massages</a>
-      <a href="/waitomo">Explore Waitomo</a>
+          <a href="/waitomo">Explore Waitomo</a>
     </div>
     <div class="footer-col">
       <h4>Wild Canvas</h4>
