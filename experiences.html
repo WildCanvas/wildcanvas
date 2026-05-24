@@ -3,174 +3,317 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Experiences | Wild Canvas Glamping Waitomo</title>
-<meta name="description" content="Enhance your Wild Canvas stay with catering, massages, private chef, clay shooting, cocktail bartender, pottery and yoga. Add to your booking online."/>
-<link rel="canonical" href="https://www.wildcanvas.nz/experiences"/>
+<title>Experiences &amp; Add-Ons | Wild Canvas Waitomo</title>
+<meta name="description" content="Enhance your Wild Canvas stay with catering, massages, clay shooting, private chef, pottery and more. Book ahead or add to an existing reservation."/>
 <style>
-@font-face { font-family:'P22Mackinac'; src:url('P22_Mackinac.otf') format('opentype'); font-weight:400; }
-@font-face { font-family:'P22Mackinac'; src:url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype'); font-weight:700; }
-@font-face { font-family:'Baton'; src:url('Baton-MediumItalic.otf') format('opentype'); font-weight:500; font-style:italic; }
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('P22_Mackinac.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Baton';
+  src: url('Baton-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
 
 :root {
-  --candy:#F3DAD3; --pistachio:#DFD39D; --citrine:#FCB236;
-  --harvest:#C19965; --peachy:#F6AC89; --cream:#FBF6EE;
-  --off-white:#F7F1E6; --bark:#3D2E1E; --bark-mid:#6B4F3A; --muted:#8A7B6E;
-  --serif:'P22Mackinac',Georgia,serif; --display:'Baton',Georgia,serif; --sans:'Jost',system-ui,sans-serif;
+  --candy:     #F3DAD3;
+  --pistachio: #DFD39D;
+  --citrine:   #FCB236;
+  --harvest:   #C19965;
+  --cream:     #FBF6EE;
+  --off-white: #F7F1E6;
+  --bark:      #3D2E1E;
+  --bark-mid:  #6B4F3A;
+  --muted:     #8A7B6E;
+  --serif:  'P22Mackinac', Georgia, serif;
+  --display:'Baton', Georgia, serif;
+  --sans:   'Jost', system-ui, sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--sans);font-weight:300;background:var(--cream);color:var(--bark);overflow-x:hidden;}
-img{display:block;max-width:100%;}
-a{text-decoration:none;color:inherit;}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); font-weight: 300; background: var(--cream); color: var(--bark); overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
 
 /* NAV */
-.wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(243,218,211,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
-.wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
-.wc-nav-logo img{height:46px;display:block;}
-.wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
-.wc-nav-links>li{position:relative;}
-.wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;font-family:var(--sans);transition:color 0.2s;white-space:nowrap;}
-.wc-nav-links>li>a:hover,.wc-nav-links>li>button:hover,.wc-nav-links>li>a.active{color:var(--bark);}
-.wc-chevron{width:10px;height:10px;flex-shrink:0;transition:transform 0.25s;}
-.wc-nav-links>li.open .wc-chevron{transform:rotate(180deg);}
-.wc-dropdown{position:absolute;top:calc(100% + 8px);left:50%;background:var(--cream);border:1px solid rgba(61,46,30,0.1);box-shadow:0 8px 32px rgba(61,46,30,0.1);min-width:200px;padding:0.5rem 0;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(-6px);transition:opacity 0.2s,transform 0.2s,visibility 0.2s;}
-.wc-nav-links>li.open .wc-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
-.wc-dropdown a{display:block;padding:0.65rem 1.4rem;font-size:0.75rem;letter-spacing:0.08em;color:var(--bark-mid);font-weight:300;transition:background 0.15s,color 0.15s;white-space:nowrap;}
-.wc-dropdown a:hover{background:var(--candy);color:var(--bark);}
-.wc-dropdown-divider{height:1px;background:rgba(61,46,30,0.08);margin:0.4rem 0;}
-.wc-nav-book{font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;font-style:italic;font-family:var(--display);padding:0.6rem 1.5rem;background:var(--citrine);color:var(--bark);border:none;cursor:pointer;display:inline-block;transition:background 0.3s;margin-left:0.5rem;}
-.wc-nav-book:hover{background:#e8a020;}
-.wc-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
-.wc-hamburger span{display:block;width:24px;height:1.5px;background:var(--bark);transition:transform 0.25s,opacity 0.25s;}
-.wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
-.wc-hamburger.open span:nth-child(2){opacity:0;}
-.wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
-.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:var(--cream);padding:100px 2rem 2rem;flex-direction:column;gap:0;overflow-y:auto;}
-.wc-mobile-drawer.open{display:flex;}
-.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;padding:1.2rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.08);margin-top:0.5rem;}
-.wc-mobile-section-title:first-child{border-top:none;margin-top:0;}
-.wc-mobile-drawer a{font-size:0.92rem;color:var(--bark);padding:0.6rem 0;font-weight:300;border-bottom:1px solid rgba(61,46,30,0.06);}
-.wc-mobile-drawer a:hover{color:var(--harvest);}
-.wc-mobile-book{margin-top:1.5rem;padding:1rem;background:var(--harvest);color:var(--cream);text-align:center;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
+.wc-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 3.5rem;
+  background: rgba(251,246,238,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(61,46,30,0.08);
+  transition: padding 0.3s, box-shadow 0.3s;
+}
+.wc-nav.scrolled { padding: 0.75rem 3.5rem; box-shadow: 0 1px 0 rgba(61,46,30,0.1); }
+.wc-nav-logo img { height: 46px; display: block; }
+.wc-nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
+.wc-nav-links > li { position: relative; }
+.wc-nav-links > li > a,
+.wc-nav-links > li > button {
+  display: flex; align-items: center; gap: 0.3rem;
+  font-size: 0.67rem; letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 500; color: var(--muted);
+  padding: 0.5rem 0.75rem;
+  background: none; border: none; cursor: pointer;
+  transition: color 0.2s;
+}
+.wc-nav-links > li > a:hover,
+.wc-nav-links > li > button:hover { color: var(--bark); }
+.wc-chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+.wc-nav-links > li.open .wc-chevron { transform: rotate(180deg); }
+.wc-dropdown {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0;
+  background: var(--cream); border: 1px solid rgba(61,46,30,0.1);
+  box-shadow: 0 8px 24px rgba(61,46,30,0.1); min-width: 180px; z-index: 300;
+}
+.wc-nav-links > li.open .wc-dropdown { display: block; }
+.wc-dropdown a {
+  display: block; padding: 0.65rem 1.1rem;
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 400; color: var(--bark-mid);
+  transition: background 0.15s, color 0.15s;
+}
+.wc-dropdown a:hover { background: var(--off-white); color: var(--bark); }
+.wc-dropdown-divider { height: 1px; background: rgba(61,46,30,0.08); margin: 0.3rem 0; }
+.wc-nav-book {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 700; font-style: italic; font-family: var(--display);
+  padding: 0.6rem 1.5rem; background: var(--citrine);
+  color: var(--bark); border: none; cursor: pointer; display: inline-block;
+  transition: background 0.3s; margin-left: 0.5rem;
+}
+.wc-nav-book:hover { background: #e8a020; }
+.wc-hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.wc-hamburger span { display: block; width: 24px; height: 1.5px; background: var(--bark); transition: transform 0.25s, opacity 0.25s; }
+.wc-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.wc-hamburger.open span:nth-child(2) { opacity: 0; }
+.wc-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.wc-mobile-drawer {
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--cream); z-index: 190; flex-direction: column;
+  padding: 6rem 2.5rem 2.5rem; gap: 0; overflow-y: auto;
+}
+.wc-mobile-drawer.open { display: flex; }
+.wc-mobile-section-title {
+  font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; margin: 1.5rem 0 0.5rem; border-top: 1px solid rgba(61,46,30,0.1); padding-top: 1rem;
+}
+.wc-mobile-drawer a {
+  font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--bark); font-weight: 400; padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(61,46,30,0.06);
+}
+.wc-mobile-book {
+  margin-top: 1.5rem; background: var(--citrine); color: var(--bark);
+  text-align: center; padding: 1rem; font-weight: 700; font-style: italic;
+  font-family: var(--display); font-size: 1rem; letter-spacing: 0.08em;
+}
 
 /* HERO */
-.hero{line-height:0;padding-top:76px;background:var(--candy);}
-.hero-photo{width:100%;height:480px;object-fit:cover;object-position:center 40%;display:block;}
-.hero-text{background:var(--candy);padding:3rem 3.5rem 3.5rem;line-height:1.5;}
-.eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
-.eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
-.hero-text h1{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:400;color:var(--bark);line-height:1.1;margin-bottom:0.9rem;}
-.hero-text h1 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
-.hero-sub{font-size:0.95rem;line-height:1.85;color:var(--bark-mid);font-weight:300;max-width:620px;}
+.extras-hero {
+  padding-top: 76px;
+  background: var(--pistachio);
+  padding-bottom: 0;
+  line-height: 0;
+}
+.extras-hero-photo {
+  width: 100%; height: 520px; object-fit: cover; object-position: center 60%;
+  display: block;
+}
+@media (max-width: 900px) {
+  .enquire-grid-inner { grid-template-columns: 1fr !important; }
+  .eateries-grid { grid-template-columns: 1fr !important; padding: 2rem 1.5rem !important; }
+  .massage-notes-grid { grid-template-columns: 1fr !important; padding: 0 1.5rem; }
+ .extras-hero-photo { height: 280px; } }
+.extras-hero-text {
+  padding: 3rem 3.5rem 3.5rem;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 2rem; align-items: end;
+}
+.eyebrow {
+  font-size: 0.63rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.eyebrow::before { content:''; width: 20px; height: 1px; background: var(--harvest); flex-shrink: 0; }
+.extras-hero-text h1 {
+  font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-weight: 400; color: var(--bark); line-height: 1.1;
+  margin-bottom: 0.8rem;
+}
+.extras-hero-text h1 em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.hero-sub { font-size: 0.95rem; line-height: 1.85; color: var(--bark-mid); font-weight: 300; max-width: 560px; }
 
-/* SECTION */
-.section{padding:5.5rem 3.5rem;}
-.section-title{font-family:var(--serif);font-size:clamp(1.7rem,2.5vw,2.3rem);font-weight:400;color:var(--bark);line-height:1.15;margin-bottom:1rem;}
-.section-title em{font-style:italic;font-family:var(--display);color:var(--harvest);}
-.body-text{font-size:0.93rem;line-height:1.9;color:var(--bark-mid);font-weight:300;}
+/* FORM SECTIONS */
+.section { padding: 4.5rem 3.5rem; }
+.section-title {
+  font-family: var(--serif); font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  font-weight: 400; line-height: 1.15; margin-bottom: 0.6rem;
+}
+.section-title em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.body-text { font-size: 0.95rem; line-height: 1.85; color: var(--bark-mid); font-weight: 300; max-width: 600px; }
 
-/* HOW IT WORKS */
-.how-strip{background:var(--pistachio);padding:2.5rem 3.5rem;}
-.how-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
-.how-item{text-align:center;}
-.how-num{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--bark);opacity:0.3;line-height:1;margin-bottom:0.5rem;}
-.how-title{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;color:var(--bark);margin-bottom:0.4rem;}
-.how-desc{font-size:0.8rem;color:var(--bark-mid);font-weight:300;line-height:1.65;}
+/* EXTRAS CARDS */
+.extras-grid { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
 
-/* PURCHASABLE EXPERIENCES */
-.purchase-section{background:var(--cream);}
-.purchase-inner{max-width:1100px;margin:0 auto;}
+.extra-card {
+  background: white; border: 1.5px solid rgba(61,46,30,0.1);
+  display: grid; grid-template-columns: 220px 1fr auto;
+  cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
+  user-select: none; min-height: 160px;
+}
+.extra-card:hover { border-color: var(--harvest); }
+.extra-card.selected { border-color: var(--harvest); box-shadow: 0 0 0 2px rgba(193,153,101,0.2); }
+.extra-card.disabled { opacity: 0.4; pointer-events: none; }
 
-/* EXPERIENCE CARDS — PURCHASABLE */
-.exp-cards{display:flex;flex-direction:column;gap:2px;margin-top:3rem;}
-.exp-card{background:var(--off-white);display:grid;grid-template-columns:280px 1fr auto;align-items:stretch;}
-.exp-card-img{width:280px;height:220px;object-fit:cover;display:block;flex-shrink:0;}
-.exp-card-img-placeholder{width:280px;height:220px;background:var(--pistachio);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.exp-card-body{padding:2rem 2.5rem;}
-.exp-tag{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.5rem;}
-.exp-card-body h3{font-family:var(--serif);font-size:1.2rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;}
-.exp-card-body p{font-size:0.83rem;color:var(--muted);font-weight:300;line-height:1.75;margin-bottom:1rem;}
-.exp-includes{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.5rem;}
-.exp-include-item{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.6rem;background:var(--candy);color:var(--bark-mid);font-weight:500;}
-.exp-card-action{padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;border-left:1px solid rgba(61,46,30,0.08);min-width:180px;}
-.exp-price{text-align:center;}
-.exp-price-amount{font-family:var(--serif);font-size:1.8rem;font-weight:400;color:var(--bark);line-height:1;}
-.exp-price-unit{font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:0.2rem;}
-.btn-add{display:block;width:100%;padding:0.8rem 1.2rem;background:var(--harvest);color:var(--cream);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:background 0.3s;border:none;cursor:pointer;text-align:center;}
-.btn-add:hover{background:var(--bark-mid);color:var(--cream);}
-.btn-enquire{display:block;width:100%;padding:0.8rem 1.2rem;border:1.5px solid var(--harvest);color:var(--bark);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:all 0.3s;background:transparent;cursor:pointer;text-align:center;}
-.btn-enquire:hover{background:var(--harvest);color:var(--cream);}
+.extra-card-img { width: 220px; height: 160px; object-fit: cover; display: block; flex-shrink: 0; }
+.extra-card-img-placeholder {
+  width: 220px; height: 160px; background: var(--pistachio);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
 
-/* PIZZA FLAVOURS */
-.pizza-flavours{margin-top:0.8rem;}
-.pizza-flavours-label{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--bark);font-weight:500;margin-bottom:0.5rem;}
-.pizza-flavours-list{display:flex;flex-direction:column;gap:0.2rem;}
-.pizza-flavour{font-size:0.78rem;color:var(--muted);font-weight:300;padding-left:0.8rem;position:relative;}
-.pizza-flavour::before{content:'';position:absolute;left:0;top:0.5em;width:3px;height:3px;border-radius:50%;background:var(--harvest);}
+.extra-card-body { padding: 1.4rem 1.6rem; }
+.extra-tag {
+  font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.4rem;
+}
+.extra-card-body h3 {
+  font-family: var(--serif); font-size: 1.15rem; font-weight: 400;
+  color: var(--bark); margin-bottom: 0.5rem;
+}
+.extra-card-body p { font-size: 0.82rem; line-height: 1.7; color: var(--bark-mid); font-weight: 300; }
 
-/* ENQUIRE EXPERIENCES */
-.enquire-section{background:var(--peachy);}
-.enquire-inner{max-width:1100px;margin:0 auto;}
-.enquire-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
-.enquire-card{background:rgba(251,246,238,0.6);padding:2rem;}
-.enquire-badge{display:inline-block;font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;background:var(--pistachio);color:var(--bark);padding:0.2rem 0.6rem;font-weight:500;margin-bottom:0.7rem;}
-.enquire-card h3{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;}
-.enquire-card p{font-size:0.8rem;color:var(--bark-mid);font-weight:300;line-height:1.75;margin-bottom:1.2rem;}
-.enquire-card a{font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--bark);font-weight:500;border-bottom:1px solid rgba(61,46,30,0.3);padding-bottom:0.1rem;transition:border-color 0.2s;}
-.enquire-card a:hover{border-color:var(--bark);}
+.extra-details { margin-top: 1rem; border-top: 1px solid rgba(61,46,30,0.08); padding-top: 0.9rem; }
+.detail-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
+.detail-row:last-child { margin-bottom: 0; }
+.detail-row label { font-size: 0.68rem; color: var(--muted); white-space: nowrap; min-width: 120px; letter-spacing: 0.04em; }
+.detail-row select {
+  font-size: 0.78rem; color: var(--bark); border: 1px solid rgba(61,46,30,0.2);
+  padding: 0.35rem 0.5rem; background: white; flex: 1;
+  font-family: var(--sans); cursor: pointer;
+}
+.detail-row select:focus { outline: none; border-color: var(--harvest); }
 
-/* CATERING NOTE */
-.catering-note{background:var(--off-white);padding:3rem 3.5rem;border-top:1px solid rgba(61,46,30,0.08);}
-.catering-note-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
-.catering-note h3{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:0.8rem;}
-.catering-note p{font-size:0.83rem;color:var(--muted);font-weight:300;line-height:1.75;}
-.local-list{margin-top:0.8rem;display:flex;flex-direction:column;gap:0.5rem;}
-.local-item{font-size:0.83rem;font-weight:300;}
-.local-item a{color:var(--harvest);font-weight:400;}
-.local-item span{color:var(--muted);}
+.extra-card-action {
+  padding: 1.4rem 1.6rem; display: flex; flex-direction: column;
+  align-items: flex-end; justify-content: space-between; min-width: 160px;
+  border-left: 1px solid rgba(61,46,30,0.08);
+}
+.extra-price-amount {
+  font-family: var(--serif); font-size: 1.5rem; font-weight: 400; color: var(--bark);
+}
+.extra-price-unit { font-size: 0.68rem; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; margin-top: 0.1rem; }
 
-/* BOOKING NOTE */
-.booking-note{background:var(--candy);padding:4rem 3.5rem;text-align:center;}
-.booking-note h2{font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:400;color:var(--bark);margin-bottom:0.8rem;}
-.booking-note h2 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
-.booking-note p{font-size:0.88rem;color:var(--bark-mid);font-weight:300;line-height:1.8;max-width:560px;margin:0 auto 2rem;}
-.btn-primary{display:inline-block;padding:0.9rem 2.4rem;background:var(--harvest);color:var(--cream);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;font-family:var(--sans);transition:background 0.3s;}
-.btn-primary:hover{background:var(--bark-mid);color:var(--cream);}
+.extra-checkbox {
+  width: 22px; height: 22px; border: 1.5px solid rgba(61,46,30,0.3);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.extra-card.selected .extra-checkbox { background: var(--harvest); border-color: var(--harvest); }
+.extra-checkbox svg { display: none; }
+.extra-card.selected .extra-checkbox svg { display: block; }
+
+.qty-control {
+  display: none; align-items: center; gap: 0.5rem; margin-top: 0.8rem;
+}
+.extra-card.selected .qty-control { display: flex; }
+.qty-btn {
+  width: 28px; height: 28px; border: 1px solid rgba(61,46,30,0.2);
+  background: white; font-size: 1rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; color: var(--bark);
+  transition: background 0.15s;
+}
+.qty-btn:hover { background: var(--off-white); }
+.qty-num { font-size: 0.9rem; font-weight: 500; min-width: 20px; text-align: center; }
+
+/* DETAILS FORM */
+.details-section { background: var(--off-white); }
+.details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2rem; max-width: 700px; }
+.field-full { grid-column: 1 / -1; }
+.field label { display: block; font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-bottom: 0.45rem; }
+.field input, .field select, .field textarea {
+  width: 100%; border: 1px solid rgba(61,46,30,0.2); background: white;
+  padding: 0.75rem 1rem; font-family: var(--sans); font-size: 0.9rem;
+  color: var(--bark); outline: none; transition: border-color 0.2s;
+  border-radius: 0;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--harvest); }
+.field textarea { resize: vertical; min-height: 80px; }
+
+/* TENT FILTER */
+.tent-filter { display: flex; gap: 0.75rem; margin-top: 1.5rem; margin-bottom: 0; }
+.tent-btn {
+  font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+  font-weight: 500; padding: 0.5rem 1.2rem; border: 1.5px solid rgba(61,46,30,0.2);
+  background: white; color: var(--muted); cursor: pointer; transition: all 0.2s;
+}
+.tent-btn.active { background: var(--bark); color: var(--cream); border-color: var(--bark); }
+
+/* ORDER SUMMARY */
+.order-summary {
+  background: var(--bark); color: var(--cream);
+  padding: 2rem 2.5rem; margin-top: 2.5rem; max-width: 700px;
+}
+.order-summary h3 { font-family: var(--serif); font-weight: 400; font-size: 1.1rem; margin-bottom: 1rem; }
+.order-line { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(251,246,238,0.1); }
+.order-line:last-of-type { border-bottom: none; }
+.order-total { display: flex; justify-content: space-between; font-family: var(--serif); font-size: 1.2rem; padding-top: 0.8rem; border-top: 1px solid rgba(251,246,238,0.2); margin-top: 0.5rem; }
+.order-empty { font-size: 0.85rem; color: rgba(251,246,238,0.4); font-style: italic; }
+
+/* BUTTON */
+.btn-primary {
+  display: inline-block; background: var(--citrine); color: var(--bark);
+  font-family: var(--display); font-style: italic; font-weight: 700;
+  font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 1rem 2.5rem; border: none; cursor: pointer;
+  transition: background 0.3s; margin-top: 1.5rem;
+}
+.btn-primary:hover { background: #e8a020; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.notice { font-size: 0.78rem; color: var(--muted); margin-top: 0.8rem; line-height: 1.6; }
 
 /* FOOTER */
-footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
-.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;padding-bottom:3rem;border-bottom:1px solid rgba(251,246,238,0.08);}
-.footer-logo img{height:52px;filter:brightness(0) invert(1) opacity(0.6);margin-bottom:1.2rem;}
-.footer-tagline{font-size:0.8rem;color:rgba(251,246,238,0.35);line-height:1.8;font-weight:300;}
-.footer-col h4{font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:1.2rem;}
-.footer-col a,.footer-col p{display:block;font-size:0.82rem;color:rgba(251,246,238,0.4);margin-bottom:0.5rem;font-weight:300;line-height:1.7;transition:color 0.2s;}
-.footer-col a:hover{color:rgba(251,246,238,0.75);}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:2rem auto 0;flex-wrap:wrap;gap:1rem;}
-.footer-legal{font-size:0.7rem;color:rgba(251,246,238,0.25);}
-.social-links{display:flex;gap:1.5rem;}
-.social-links a{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(251,246,238,0.35);transition:color 0.2s;}
-.social-links a:hover{color:rgba(251,246,238,0.7);}
+footer {
+  background: var(--bark); color: rgba(251,246,238,0.5);
+  padding: 2rem 3.5rem; font-size: 0.75rem; letter-spacing: 0.06em;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-links a { color: rgba(251,246,238,0.4); transition: color 0.2s; }
+.footer-links a:hover { color: rgba(251,246,238,0.8); }
 
-.fade-up{opacity:0;transform:translateY(22px);transition:opacity 0.7s ease,transform 0.7s ease;}
-.fade-up.visible{opacity:1;transform:translateY(0);}
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .enquire-grid-inner { grid-template-columns: 1fr !important; }
+  .eateries-grid { grid-template-columns: 1fr !important; padding: 2rem 1.5rem !important; }
+  .massage-notes-grid { grid-template-columns: 1fr !important; padding: 0 1.5rem; }
 
-@media(max-width:900px){
-  .wc-nav{padding:1rem 1.5rem;} .wc-nav.scrolled{padding:0.7rem 1.5rem;}
-  .wc-nav-links,.wc-nav-book{font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;font-style:italic;font-family:var(--display);padding:0.6rem 1.5rem;background:var(--citrine);color:var(--bark);border:none;cursor:pointer;display:inline-block;transition:background 0.3s;margin-left:0.5rem;} .wc-hamburger{display:flex;}
-  .hero-photo{height:300px;} .hero-text{padding:2.5rem 1.5rem;}
-  .section{padding:3.5rem 1.5rem;}
-  .how-strip{padding:2rem 1.5rem;} .how-inner{grid-template-columns:1fr;}
-  .exp-card{grid-template-columns:1fr;} .exp-card-img{width:100%;height:220px;}
-  .exp-card-img-placeholder{width:100%;}
-  .exp-card-body{padding:1.5rem;}
-  .exp-card-action{border-left:none;border-top:1px solid rgba(61,46,30,0.08);flex-direction:row;justify-content:space-between;padding:1.2rem 1.5rem;}
-  .enquire-grid{grid-template-columns:1fr;}
-  .catering-note-inner{grid-template-columns:1fr;gap:2.5rem;}
-  .catering-note{padding:3rem 1.5rem;}
-  .booking-note{padding:3rem 1.5rem;}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
-  footer{padding:3rem 1.5rem 1.5rem;}
+  .wc-nav { padding: 1rem 1.5rem; }
+  .wc-nav-links { display: none; }
+  .wc-hamburger { display: flex; }
+  .wc-nav-book { display: none; }
+  .extras-hero-text { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+  .section { padding: 3rem 1.5rem; }
+  .extra-card { grid-template-columns: 1fr; }
+  .extra-card-img, .extra-card-img-placeholder { width: 100%; height: 200px; }
+  .extra-card-action { border-left: none; border-top: 1px solid rgba(61,46,30,0.08); flex-direction: row; align-items: center; }
+  .details-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; padding: 2rem 1.5rem; }
 }
 </style>
 </head>
@@ -179,12 +322,13 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
 <!-- NAV -->
 <nav class="wc-nav" id="wc-nav">
   <a href="/" class="wc-nav-logo">
-    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
-      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1rem;color:#3D2E1E;letter-spacing:0.1em\'>Wild Canvas</span>'"/>
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas Glamping Escapes"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1rem;letter-spacing:0.1em;color:#3D2E1E\'>Wild Canvas</span>'"/>
   </a>
   <ul class="wc-nav-links" id="wc-nav-links">
     <li id="drop-stay">
-      <button onclick="toggleDrop('drop-stay')">Stay
+      <button onclick="toggleDrop('drop-stay')" aria-haspopup="true" aria-expanded="false">
+        Stay
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
@@ -193,11 +337,12 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
       </div>
     </li>
     <li id="drop-exp">
-      <button onclick="toggleDrop('drop-exp')">Experiences
+      <button onclick="toggleDrop('drop-exp')" aria-haspopup="true" aria-expanded="false">
+        Experiences
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
-        <a href="/experiences" class="active">All Experiences</a>
+        <a href="/experiences">Experiences &amp; Add-Ons</a>
         <div class="wc-dropdown-divider"></div>
         <a href="/catering">Food &amp; Catering</a>
         <a href="/massages">Massages</a>
@@ -206,7 +351,8 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
       </div>
     </li>
     <li id="drop-about">
-      <button onclick="toggleDrop('drop-about')">About
+      <button onclick="toggleDrop('drop-about')" aria-haspopup="true" aria-expanded="false">
+        About
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
@@ -219,15 +365,18 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
     <li><a href="/gift">Gift Vouchers</a></li>
   </ul>
   <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
-  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<!-- Mobile drawer -->
 <div class="wc-mobile-drawer" id="wc-mobile-drawer">
   <p class="wc-mobile-section-title">Stay</p>
   <a href="/kowhai">Kōwhai Tent</a>
   <a href="/pohutukawa">Pōhutukawa Tent</a>
   <p class="wc-mobile-section-title">Experiences</p>
-  <a href="/experiences">All Experiences</a>
+  <a href="/experiences">Experiences &amp; Add-Ons</a>
   <a href="/catering">Food &amp; Catering</a>
   <a href="/massages">Massages</a>
   <a href="/waitomo">Explore Waitomo</a>
@@ -242,277 +391,144 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
 </div>
 
 <!-- HERO -->
-<div class="hero">
-  <img class="hero-photo"
-    src="https://static.wixstatic.com/media/590a8f_7d96e5a1f7c149faa1cc15c355581486~mv2.jpg/v1/fill/w_2500,h_1406,al_c/590a8f_7d96e5a1f7c149faa1cc15c355581486~mv2.jpg"
-    alt="Wild Canvas catering and experiences"/>
-  <div class="hero-text">
-    <p class="eyebrow">Tailor Your Stay</p>
-    <h1>Experiences to make it <em>unforgettable</em></h1>
-    <p class="hero-sub">Whether you are planning a romantic escape, a family adventure or a celebration with friends, our add-on experiences are designed to elevate every moment. Book ahead or add to an existing reservation.</p>
-  </div>
-</div>
-
-<!-- HOW IT WORKS -->
-<div class="how-strip">
-  <div class="how-inner">
-    <div class="how-item">
-      <div class="how-num">01</div>
-      <div class="how-title">Book your tent</div>
-      <div class="how-desc">Food and massage options are available to add during the booking process at checkout.</div>
-    </div>
-    <div class="how-item">
-      <div class="how-num">02</div>
-      <div class="how-title">Add to an existing stay</div>
-      <div class="how-desc">Already booked? Use the buttons below to purchase add-ons separately and we will coordinate the rest.</div>
-    </div>
-    <div class="how-item">
-      <div class="how-num">03</div>
-      <div class="how-title">Enquire for exclusives</div>
-      <div class="how-desc">Pōhutukawa-exclusive experiences like clay shooting and private chef are arranged by email after booking.</div>
+<div class="extras-hero">
+  <img class="extras-hero-photo"
+    src="wild-canvas-add-ons-champagne-hilltop-waitomo.webp"
+    alt="Couple enjoying champagne on the hilltop at Wild Canvas Waitomo"/>
+  <div class="extras-hero-text">
+    <div>
+      <p class="eyebrow">Experiences to make it unforgettable</p>
+      <h1>Tailor <em>your stay</em></h1>
+      <p class="hero-sub">Whether you are planning a romantic escape, a family adventure or a celebration with friends, our experiences are designed to elevate every moment. Book ahead or add to an existing reservation.</p>
     </div>
   </div>
 </div>
 
-<!-- PURCHASABLE: FOOD & CATERING -->
-<section class="section purchase-section">
-  <div class="purchase-inner">
-    <p class="eyebrow">Food &amp; Catering</p>
-    <h2 class="section-title">Ready and waiting <em>when you arrive</em></h2>
-    <p class="body-text">All catering is prepared fresh and waiting at your tent on arrival. Please note we require at least one week's notice for all catering orders.</p>
+<!-- EXTRAS SELECTION -->
+<section class="section" style="background:var(--cream);">
+  <p class="eyebrow">Choose Your Experiences</p>
+  <h2 class="section-title">What would you like to <em>add?</em></h2>
+  <p class="body-text">Select your tent to see what's available for your stay.</p>
 
-    <div class="exp-cards">
+  <div class="tent-filter">
+    <button class="tent-btn active" onclick="setTent('both')" id="btn-both">All</button>
+    <button class="tent-btn" onclick="setTent('kowhai')" id="btn-kowhai">Kōwhai Tent</button>
+    <button class="tent-btn" onclick="setTent('pohutukawa')" id="btn-pohutukawa">Pōhutukawa Tent</button>
+  </div>
 
-      <!-- ANTIPASTO PLATTER -->
-      <div class="exp-card fade-up">
-        <img class="exp-card-img"
-          src="wild-canvas-antipasto-platter-glamping-waitomo.webp"
-          alt="Wild Canvas antipasto platter glamping Waitomo"/>
-        <div class="exp-card-body">
-          <p class="exp-tag">Both Tents</p>
-          <h3>Antipasto Platter</h3>
-          <p>A generous spread of handcrafted bites, ready to enjoy on arrival. Perfect for grazing as you settle in and take in the views.</p>
-          <div class="exp-includes">
-            <span class="exp-include-item">Homemade seed crackers</span>
-            <span class="exp-include-item">Garlic pita</span>
-            <span class="exp-include-item">Salami &amp; Pastrami</span>
-            <span class="exp-include-item">Cheeses</span>
-            <span class="exp-include-item">Smoked salmon</span>
-            <span class="exp-include-item">Bruschetta</span>
-            <span class="exp-include-item">Sundried tomatoes</span>
-            <span class="exp-include-item">Stuffed red peppers</span>
-            <span class="exp-include-item">Hummus</span>
-            <span class="exp-include-item">Gherkins</span>
-            <span class="exp-include-item">Red pepper jelly</span>
-            <span class="exp-include-item">Caramelised onion relish</span>
-          </div>
-        </div>
-        <div class="exp-card-action">
-          <div class="exp-price">
-            <div class="exp-price-amount">$89</div>
-            <div class="exp-price-unit">NZD per platter</div>
-          </div>
-          <!-- STRIPE LINK: Create a Payment Link in Stripe for $89 and replace the href below -->
-          <a href="https://buy.stripe.com/REPLACE_WITH_PLATTER_LINK" class="btn-add">Add to My Stay</a>
-        </div>
-      </div>
+  <div class="extras-grid" id="extrasGrid"></div>
+</section>
 
-      <!-- PIZZAS -->
-      <div class="exp-card fade-up">
-        <img class="exp-card-img"
-          src="wild-canvas-pizza-oven-glamping-waitomo.webp"
-          alt="Wild Canvas wood-fired pizza glamping Waitomo"/>
-        <div class="exp-card-body">
-          <p class="exp-tag">Both Tents</p>
-          <h3>Ready-to-Cook Pizzas</h3>
-          <p>Handmade 10-inch pizzas with your chosen toppings, ready to go straight into your wood-fired pizza oven. Six flavours to choose from.</p>
-          <div class="pizza-flavours">
-            <div class="pizza-flavours-label">Choose your flavour</div>
-            <div class="pizza-flavours-list">
-              <div class="pizza-flavour">Veggie: roasted capsicum, red onion, courgette, spinach, feta and basil pesto</div>
-              <div class="pizza-flavour">ABC: apricot chicken, bacon and cream cheese</div>
-              <div class="pizza-flavour">Chicken and Cranberry: roasted chicken, cranberry and brie</div>
-              <div class="pizza-flavour">Moroccan Lamb: pulled lamb, olives, feta, sundried tomato and tzatziki</div>
-              <div class="pizza-flavour">Hawaiian: ham, pineapple and mozzarella</div>
-              <div class="pizza-flavour">BBQ Meat Eater: pulled beef, bacon, salami, mozzarella and BBQ sauce</div>
-            </div>
-          </div>
-          <p style="margin-top:0.8rem;font-size:0.78rem;color:var(--muted);font-weight:300">Note your chosen flavour(s) in the Stripe checkout. Order as many as you like.</p>
-        </div>
-        <div class="exp-card-action">
-          <div class="exp-price">
-            <div class="exp-price-amount">$44</div>
-            <div class="exp-price-unit">NZD per pizza</div>
-          </div>
-          <!-- STRIPE LINK: Create a Payment Link in Stripe for $44 (quantity adjustable) and replace the href below -->
-          <a href="https://buy.stripe.com/REPLACE_WITH_PIZZA_LINK" class="btn-add">Add to My Stay</a>
-        </div>
-      </div>
+<!-- DETAILS -->
+<section class="section details-section">
+  <p class="eyebrow">Your Details</p>
+  <h2 class="section-title">Tell us about <em>your booking</em></h2>
+  <p class="body-text">We'll match your order to your reservation.</p>
 
-      <!-- GOURMET DINNER -->
-      <div class="exp-card fade-up">
-        <img class="exp-card-img"
-          src="wild-canvas-gourmet-dinner-glamping-waitomo.webp"
-          alt="Wild Canvas gourmet dinner glamping Waitomo"/>
-        <div class="exp-card-body">
-          <p class="exp-tag">Both Tents</p>
-          <h3>Gourmet Dinner for Two</h3>
-          <p>A restaurant-quality meal, prepped and delivered ready for you to cook at your own pace. The salads and passionfruit cheesecake are served ready to eat.</p>
-          <div class="exp-includes">
-            <span class="exp-include-item">2x Beef scotch</span>
-            <span class="exp-include-item">4x Sausages</span>
-            <span class="exp-include-item">Choice of chicken or beef patties</span>
-            <span class="exp-include-item">Volare garlic bread</span>
-            <span class="exp-include-item">2 salads of your choice</span>
-            <span class="exp-include-item">Passionfruit cheesecake</span>
-          </div>
-          <p style="margin-top:0.8rem;font-size:0.78rem;color:var(--muted);font-weight:300">Salad options: Watercress, Blue Cheese and Pear / Pumpkin, Feta and Orzo / Broccoli, Cauliflower and Feta / Roasted Roots and Bacon. Note your choices in checkout.</p>
-        </div>
-        <div class="exp-card-action">
-          <div class="exp-price">
-            <div class="exp-price-amount">$170</div>
-            <div class="exp-price-unit">NZD for two</div>
-          </div>
-          <!-- STRIPE LINK: Create a Payment Link in Stripe for $170 and replace the href below -->
-          <a href="https://buy.stripe.com/REPLACE_WITH_DINNER_LINK" class="btn-add">Add to My Stay</a>
-        </div>
-      </div>
+  <div class="details-grid">
+    <div class="field">
+      <label for="fname">First Name *</label>
+      <input type="text" id="fname" placeholder="Emily" required/>
+    </div>
+    <div class="field">
+      <label for="lname">Last Name *</label>
+      <input type="text" id="lname" placeholder="Johnson" required/>
+    </div>
+    <div class="field">
+      <label for="email">Email *</label>
+      <input type="email" id="email" placeholder="emily@example.com" required/>
+    </div>
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" placeholder="+64 21 123 456"/>
+    </div>
+    <div class="field">
+      <label for="bookref">Booking Reference</label>
+      <input type="text" id="bookref" placeholder="e.g. WC-2025-123"/>
+    </div>
+    <div class="field">
+      <label for="checkin">Check-in Date *</label>
+      <input type="date" id="checkin" required/>
+    </div>
+    <div class="field field-full">
+      <label for="notes">Notes or Special Requests</label>
+      <textarea id="notes" placeholder="Dietary requirements, allergies, anything else we should know…"></textarea>
+    </div>
+  </div>
 
+  <!-- ORDER SUMMARY -->
+  <div class="order-summary" id="orderSummary">
+    <h3>Your Order</h3>
+    <div id="summaryLines"><p class="order-empty">No experiences selected yet</p></div>
+    <div class="order-total" id="orderTotal" style="display:none">
+      <span>Total</span>
+      <span id="totalAmount"></span>
+    </div>
+  </div>
 
-      <!-- CLAY TARGET SHOOTING -->
-      <div class="exp-card fade-up">
-        <img class="exp-card-img"
-          src="wild-canvas-clay-target-shooting-waitomo-new-zealand.webp"
-          alt="Clay target shooting with panoramic views at Wild Canvas Waitomo New Zealand"/>
-        <div class="exp-card-body">
-          <p class="exp-tag">Pōhutukawa Tent Only</p>
-          <h3>Clay Target Shooting</h3>
-          <p>Set high in the hills with sweeping rural views. Expert supervision provided throughout. 100 shots shared between participants — ideal for groups looking for something a little different.</p>
-          <div class="exp-includes">
-            <span class="exp-include-item">100 shots shared</span>
-            <span class="exp-include-item">Expert supervision</span>
-            <span class="exp-include-item">All equipment provided</span>
-            <span class="exp-include-item">Hilltop rural setting</span>
-          </div>
-        </div>
-        <div class="exp-card-action">
-          <div class="exp-price">
-            <div class="exp-price-amount">$499</div>
-            <div class="exp-price-unit">NZD per session</div>
-          </div>
-          <!-- STRIPE LINK: Create a Payment Link in Stripe for $499 and replace the href below -->
-          <a href="https://buy.stripe.com/REPLACE_WITH_CLAY_SHOOTING_LINK" class="btn-add">Add to My Stay</a>
-        </div>
-      </div>
+  <button class="btn-primary" id="payBtn" onclick="submitOrder()" disabled>Pay Now →</button>
+  <p class="notice">You'll be securely redirected to Stripe to pay by card. Please allow at least one week's notice for catering, and book massages early to secure your preferred time.</p>
+  <p class="notice" style="margin-top:0.3rem">Secured by Stripe &nbsp;·&nbsp; All major cards accepted</p>
+</section>
 
+<!-- MASSAGE NOTES -->
+<section class="section" style="background:var(--off-white);padding-top:0;padding-bottom:3.5rem;">
+  <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;" class="massage-notes-grid">
+    <div>
+      <h4 style="font-family:var(--serif);font-weight:400;font-size:1rem;margin-bottom:0.6rem;">Availability</h4>
+      <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;">Massages are subject to availability. We recommend booking as early as possible, particularly over weekends and peak periods.</p>
+    </div>
+    <div>
+      <h4 style="font-family:var(--serif);font-weight:400;font-size:1rem;margin-bottom:0.6rem;">Groups of Four or More</h4>
+      <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;">For four or more massages, we arrange additional therapists so everyone can be seen without a long wait. Let us know your group size when booking.</p>
+    </div>
+    <div>
+      <h4 style="font-family:var(--serif);font-weight:400;font-size:1rem;margin-bottom:0.6rem;">Pregnancy Massage</h4>
+      <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;">Pregnancy massage is available as part of the back, neck and shoulder option. Please mention this when booking so we can arrange the right therapist.</p>
     </div>
   </div>
 </section>
 
-<!-- PURCHASABLE: MASSAGES -->
-<section class="section" style="background:var(--off-white);padding-top:0;padding-bottom:5.5rem;">
-  <div class="purchase-inner" style="max-width:1100px;margin:0 auto;">
-    <p class="eyebrow">Massages</p>
-    <h2 class="section-title">Relaxation <em>delivered to your tent</em></h2>
-    <p class="body-text">Your therapist travels to you and sets up on the verandah or inside, surrounded by nature and rolling farmland. For groups of four or more, additional therapists are arranged so nobody waits. Subject to availability, book early to avoid missing out.</p>
 
-    <div class="exp-cards" style="margin-top:3rem;">
-
-      <!-- MASSAGE OPTION 1 -->
-      <div class="exp-card fade-up">
-        <img class="exp-card-img"
-          src="wild-canvas-back-neck-shoulder-massage-waitomo.webp"
-          alt="Back neck and shoulder massage at Wild Canvas Waitomo"/>
-        <div class="exp-card-body">
-          <p class="exp-tag">Both Tents · 45 Minutes</p>
-          <h3>Back, Neck and Shoulder</h3>
-          <p>A focused treatment designed to ease tension and stress in your high-tension areas. Using relaxation and Swedish massage techniques to leave you feeling refreshed and restored. Pregnancy massage also available.</p>
-          <div class="exp-includes">
-            <span class="exp-include-item">45 minutes</span>
-            <span class="exp-include-item">Relaxation techniques</span>
-            <span class="exp-include-item">Pregnancy massage available</span>
-            <span class="exp-include-item">Travel and setup included</span>
-          </div>
-        </div>
-        <div class="exp-card-action">
-          <div class="exp-price">
-            <div class="exp-price-amount">$120</div>
-            <div class="exp-price-unit">NZD per person</div>
-          </div>
-          <!-- STRIPE LINK: Create a Payment Link in Stripe for $120 and replace the href below -->
-          <a href="https://buy.stripe.com/REPLACE_WITH_MASSAGE_1_LINK" class="btn-add">Add to My Stay</a>
-        </div>
-      </div>
-
-      <!-- MASSAGE OPTION 2 -->
-      <div class="exp-card fade-up">
-        <img class="exp-card-img"
-          src="wild-canvas-full-body-massage-glamping-waitomo.webp"
-          alt="Full body massage at Wild Canvas glamping Waitomo"/>
-        <div class="exp-card-body">
-          <p class="exp-tag">Both Tents · 1 Hour</p>
-          <h3>Full Body Massage</h3>
-          <p>An indulgent head-to-toe treatment designed to leave you completely relaxed and recharged. From your neck to your toes, tension melts away as your whole body is gently restored.</p>
-          <div class="exp-includes">
-            <span class="exp-include-item">Approximately 1 hour</span>
-            <span class="exp-include-item">Full body treatment</span>
-            <span class="exp-include-item">Swedish techniques</span>
-            <span class="exp-include-item">Travel and setup included</span>
-          </div>
-        </div>
-        <div class="exp-card-action">
-          <div class="exp-price">
-            <div class="exp-price-amount">$150</div>
-            <div class="exp-price-unit">NZD per person</div>
-          </div>
-          <!-- STRIPE LINK: Create a Payment Link in Stripe for $150 and replace the href below -->
-          <a href="https://buy.stripe.com/REPLACE_WITH_MASSAGE_2_LINK" class="btn-add">Add to My Stay</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ENQUIRE: POHUTUKAWA EXCLUSIVES -->
-<section class="section enquire-section">
-  <div class="enquire-inner">
+<!-- POHUTUKAWA EXCLUSIVES -->
+<section class="section" style="background:var(--candy);">
+  <div style="max-width:1100px;margin:0 auto;">
     <p class="eyebrow">Pōhutukawa Tent Exclusives</p>
     <h2 class="section-title">Curated experiences <em>like no other</em></h2>
     <p class="body-text">These experiences are available exclusively for Pōhutukawa Tent guests. To add any of these to your stay, email us after booking and we will arrange everything.</p>
-    <div class="enquire-grid">
+    <div class="enquire-grid-inner" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.5rem;">
 
-<div class="enquire-card fade-up">
-        <span class="enquire-badge">Pōhutukawa Exclusive</span>
-        <h3>Private Cocktail Bartender</h3>
-        <p>A private bartender or mixology class at your tent. Sip expertly crafted cocktails or learn to make your own in a hands-on session.</p>
-        <a href="mailto:hello@wildcanvas.nz?subject=Cocktail Bartender Enquiry">Enquire by email →</a>
+      <div style="background:var(--off-white);padding:2rem;display:flex;flex-direction:column;gap:0.8rem;">
+        <span style="font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);font-weight:500;background:var(--pistachio);padding:0.3rem 0.7rem;display:inline-block;width:fit-content;">Pōhutukawa Exclusive</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:1.1rem;">Private Cocktail Bartender</h3>
+        <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;flex:1;">A private bartender or mixology class at your tent. Sip expertly crafted cocktails or learn to make your own in a hands-on session.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Cocktail Bartender Enquiry" style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--bark);font-weight:500;">Enquire by email →</a>
       </div>
 
-      <div class="enquire-card fade-up">
-        <span class="enquire-badge">Pōhutukawa Exclusive</span>
-        <h3>Private Chef</h3>
-        <p>A gourmet three-course meal prepared and served exclusively for your group. Tailored to your tastes, perfect for special occasions.</p>
-        <a href="mailto:hello@wildcanvas.nz?subject=Private Chef Enquiry">Enquire by email →</a>
+      <div style="background:var(--off-white);padding:2rem;display:flex;flex-direction:column;gap:0.8rem;">
+        <span style="font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);font-weight:500;background:var(--pistachio);padding:0.3rem 0.7rem;display:inline-block;width:fit-content;">Pōhutukawa Exclusive</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:1.1rem;">Private Chef</h3>
+        <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;flex:1;">A gourmet three-course meal prepared and served exclusively for your group. Tailored to your tastes, perfect for special occasions.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Private Chef Enquiry" style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--bark);font-weight:500;">Enquire by email →</a>
       </div>
 
-      <div class="enquire-card fade-up">
-        <span class="enquire-badge">Pōhutukawa Exclusive</span>
-        <h3>Pottery Class</h3>
-        <p>A beginner-friendly workshop with all materials and firing included. Pieces dried, glazed, fired, and couriered within 4-6 weeks.</p>
-        <a href="mailto:hello@wildcanvas.nz?subject=Pottery Class Enquiry">Enquire by email →</a>
+      <div style="background:var(--off-white);padding:2rem;display:flex;flex-direction:column;gap:0.8rem;">
+        <span style="font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);font-weight:500;background:var(--pistachio);padding:0.3rem 0.7rem;display:inline-block;width:fit-content;">Pōhutukawa Exclusive</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:1.1rem;">Pottery Class</h3>
+        <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;flex:1;">A beginner-friendly workshop with all materials and firing included. Pieces dried, glazed, fired, and couriered within 4–6 weeks.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Pottery Class Enquiry" style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--bark);font-weight:500;">Enquire by email →</a>
       </div>
 
-      <div class="enquire-card fade-up">
-        <span class="enquire-badge">Pōhutukawa Exclusive</span>
-        <h3>Yoga Session</h3>
-        <p>A personalised session outdoors or inside. Perfect for stress relief, team building, or a mindful moment with friends.</p>
-        <a href="mailto:hello@wildcanvas.nz?subject=Yoga Session Enquiry">Enquire by email →</a>
+      <div style="background:var(--off-white);padding:2rem;display:flex;flex-direction:column;gap:0.8rem;">
+        <span style="font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);font-weight:500;background:var(--pistachio);padding:0.3rem 0.7rem;display:inline-block;width:fit-content;">Pōhutukawa Exclusive</span>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:1.1rem;">Yoga Session</h3>
+        <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;flex:1;">A personalised session outdoors or inside. Perfect for stress relief, team building, or a mindful moment with friends.</p>
+        <a href="mailto:hello@wildcanvas.nz?subject=Yoga Session Enquiry" style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--bark);font-weight:500;">Enquire by email →</a>
       </div>
 
-      <div class="enquire-card fade-up" style="background:transparent;border:1.5px dashed rgba(61,46,30,0.2);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-        <h3 style="font-family:var(--serif);font-size:0.95rem;font-weight:400;color:var(--bark);margin-bottom:0.5rem;">Something else in mind?</h3>
-        <p style="font-size:0.8rem;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:1rem;">We love making stays special. Get in touch and we will do our best to make it happen.</p>
+      <div style="background:transparent;border:1.5px dashed rgba(61,46,30,0.2);padding:2rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:0.6rem;">
+        <h3 style="font-family:var(--serif);font-size:0.95rem;font-weight:400;color:var(--bark);">Something else in mind?</h3>
+        <p style="font-size:0.82rem;color:var(--muted);font-weight:300;line-height:1.7;">We love making stays special. Get in touch and we will do our best to make it happen.</p>
         <a href="mailto:hello@wildcanvas.nz" style="font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--harvest);font-weight:500;border-bottom:1px solid rgba(193,153,101,0.4);padding-bottom:0.1rem;">hello@wildcanvas.nz →</a>
       </div>
 
@@ -520,118 +536,462 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   </div>
 </section>
 
-<!-- LOCAL EATERIES + ORDERING NOTE -->
-<div class="catering-note">
-  <div class="catering-note-inner">
-    <div>
-      <h3>Ordering catering</h3>
-      <p>We require at least one week's notice for all catering orders. If you have dietary requirements or want to adjust an order, just email us and we will sort it out. All food is prepared fresh and waiting at your tent on arrival.</p>
-      <p style="margin-top:1rem"><a href="mailto:hello@wildcanvas.nz" style="color:var(--harvest);font-weight:400">hello@wildcanvas.nz</a> · <a href="tel:0211666248" style="color:var(--harvest);font-weight:400">021 166 6248</a></p>
-    </div>
-    <div>
-      <h3>Local eateries nearby</h3>
-      <p>Most guests choose to dine on site, but if you fancy venturing out there are some great options nearby.</p>
-      <div class="local-list">
-        <div class="local-item"><a href="https://g.co/kgs/ZnFhkfu" target="_blank">Huhu Café</a> <span>— Waitomo, 13 min. Fresh, locally sourced meals.</span></div>
-        <div class="local-item"><a href="https://g.co/kgs/P9bkQdu" target="_blank">Tomō Bar and Eatery</a> <span>— Waitomo, 13 min. Authentic Kiwi pub dining.</span></div>
-        <div class="local-item"><a href="https://g.co/kgs/UWhGjUK" target="_blank">Waitomo Homestead</a> <span>— Waitomo, 13 min. Hearty Kiwi classics in a relaxed setting.</span></div>
-        <div class="local-item"><a href="https://g.co/kgs/ThrZAgN" target="_blank">The Thirsty Weta</a> <span>— Ōtorohanga, 13 min. Vibrant bar and generous pub meals.</span></div>
-        <div class="local-item"><a href="https://g.co/kgs/KMmT9T2" target="_blank">Fat Kiwi Café</a> <span>— Ōtorohanga, 13 min. Great breakfast and brunch.</span></div>
-        <div class="local-item"><a href="https://g.co/kgs/CPZiZLx" target="_blank">Stoked Eatery</a> <span>— Te Kuiti, 10 min. Gourmet burgers and fresh salads.</span></div>
-      </div>
+<!-- ORDERING NOTE + LOCAL EATERIES -->
+<div style="background:var(--cream);padding:3.5rem 0;"><div class="eateries-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1100px;margin:0 auto;padding:0 3.5rem;">
+  <div>
+    <h3 style="font-family:var(--serif);font-weight:400;font-size:1.1rem;margin-bottom:0.8rem;">Ordering catering</h3>
+    <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;">We require at least one week's notice for all catering orders. If you have dietary requirements or want to adjust an order, just email us and we will sort it out. All food is prepared fresh and waiting at your tent on arrival.</p>
+    <p style="margin-top:1rem;font-size:0.85rem;"><a href="mailto:hello@wildcanvas.nz" style="color:var(--harvest);font-weight:400;">hello@wildcanvas.nz</a> · <a href="tel:0211666248" style="color:var(--harvest);font-weight:400;">021 166 6248</a></p>
+  </div>
+  <div>
+    <h3 style="font-family:var(--serif);font-weight:400;font-size:1.1rem;margin-bottom:0.8rem;">Local eateries nearby</h3>
+    <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;margin-bottom:0.8rem;">Most guests choose to dine on site, but if you fancy venturing out there are some great options nearby.</p>
+    <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.83rem;">
+      <div><a href="https://g.co/kgs/ZnFhkfu" target="_blank" style="color:var(--harvest);">Huhu Café</a> <span style="color:var(--bark-mid);font-weight:300;">— Waitomo, 13 min. Fresh, locally sourced meals.</span></div>
+      <div><a href="https://g.co/kgs/P9bkQdu" target="_blank" style="color:var(--harvest);">Tomō Bar and Eatery</a> <span style="color:var(--bark-mid);font-weight:300;">— Waitomo, 13 min. Authentic Kiwi pub dining.</span></div>
+      <div><a href="https://g.co/kgs/UWhGjUK" target="_blank" style="color:var(--harvest);">Waitomo Homestead</a> <span style="color:var(--bark-mid);font-weight:300;">— Waitomo, 13 min. Hearty Kiwi classics in a relaxed setting.</span></div>
+      <div><a href="https://g.co/kgs/ThrZAgN" target="_blank" style="color:var(--harvest);">The Thirsty Weta</a> <span style="color:var(--bark-mid);font-weight:300;">— Ōtorohanga, 13 min. Vibrant bar and generous pub meals.</span></div>
+      <div><a href="https://g.co/kgs/KMmT9T2" target="_blank" style="color:var(--harvest);">Fat Kiwi Café</a> <span style="color:var(--bark-mid);font-weight:300;">— Ōtorohanga, 13 min. Great breakfast and brunch.</span></div>
+      <div><a href="https://g.co/kgs/CPZiZLx" target="_blank" style="color:var(--harvest);">Stoked Eatery</a> <span style="color:var(--bark-mid);font-weight:300;">— Te Kuiti, 10 min. Gourmet burgers and fresh salads.</span></div>
     </div>
   </div>
 </div>
 
-<!-- BOOK CTA -->
-<div class="booking-note">
-  <h2>Ready to book your <em>stay?</em></h2>
-  <p>Food and massage options can be added during the booking process. Pōhutukawa exclusive experiences are arranged by email after booking.</p>
-  <a href="https://booking.wildcanvas.nz" class="btn-primary">Book Your Tent</a>
-</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo"><img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
-        onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/></div>
-      <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Stay</h4>
-      <a href="/kowhai">Kōwhai Tent</a>
-      <a href="/pohutukawa">Pōhutukawa Tent</a>
-      <a href="https://booking.wildcanvas.nz">Book Now</a>
-      <a href="/gift">Gift Vouchers</a>
-    </div>
-    <div class="footer-col">
-      <h4>Experiences</h4>
-      <a href="/experiences">All Experiences</a>
-      <a href="/catering">Food &amp; Catering</a>
-      <a href="/massages">Massages</a>
-      <a href="/waitomo">Explore Waitomo</a>
-    </div>
-    <div class="footer-col">
-      <h4>Wild Canvas</h4>
-      <a href="/aboutus">Our Story</a>
-      <a href="/media">Media &amp; Press</a>
-      <a href="/faq">FAQ</a>
-      <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
-      <a href="tel:0211666248">021 166 6248</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p class="footer-legal">© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo, New Zealand</p>
-    <div class="social-links">
-      <a href="https://www.facebook.com/waitomoglamping" target="_blank">Facebook</a>
-      <a href="http://www.instagram.com/wildcanvas.nz" target="_blank">Instagram</a>
-      <a href="https://www.tiktok.com/@wild.canvas" target="_blank">TikTok</a>
-    </div>
+  <p>© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo · <a href="mailto:hello@wildcanvas.nz" style="color:rgba(251,246,238,0.6)">hello@wildcanvas.nz</a></p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/experiences">Experiences</a>
+    <a href="/kowhai">Kōwhai Tent</a>
+    <a href="/pohutukawa">Pōhutukawa Tent</a>
+    <a href="/faq">FAQ</a>
   </div>
 </footer>
 
 <script>
-window.addEventListener('scroll',()=>{
-  document.getElementById('wc-nav').classList.toggle('scrolled',window.scrollY>50);
-},{passive:true});
 
-function toggleDrop(id){
-  const li=document.getElementById(id);
-  const isOpen=li.classList.contains('open');
-  document.querySelectorAll('.wc-nav-links>li').forEach(el=>{
-    el.classList.remove('open');
-    const btn=el.querySelector('button');
-    if(btn)btn.setAttribute('aria-expanded','false');
-  });
-  if(!isOpen){li.classList.add('open');const btn=li.querySelector('button');if(btn)btn.setAttribute('aria-expanded','true');}
+var PIZZA_FLAVOURS = [
+  'Veggie - roasted capsicum, red onion, courgette, spinach, feta and basil pesto',
+  'ABC - apricot chicken, bacon & cream cheese',
+  'Chicken & Cranberry - roasted chicken, cranberry and brie',
+  'Moroccan Lamb - pulled lamb, olives, feta, sundried tomato and tzatziki',
+  'Hawaiian - ham, pineapple and mozzarella',
+  'BBQ Meat Eater - pulled beef, bacon, salami, mozzarella and BBQ sauce'
+];
+
+var DINNER_MAINS = [
+  'Peri Peri Chicken Patties',
+  'Beef & Blue Cheese Patties',
+  'Beef & Gouda Patties'
+];
+
+var DINNER_SALADS = [
+  'Watercress, Blue Cheese and Pear',
+  'Pumpkin, Feta and Orzo',
+  'Broccoli, Cauliflower and Feta',
+  'Roasted Roots and Bacon'
+];
+
+var EXTRAS = [
+  {
+    id: 'platter', tents: 'both',
+    name: 'Antipasto Platter', tag: 'Both Tents',
+    desc: 'A generous spread of handcrafted bites ready on arrival. Seed crackers, garlic pita, salami, pastrami, cheeses, smoked salmon, bruschetta, hummus and more.',
+    img: 'wild-canvas-antipasto-platter-glamping-waitomo.webp',
+    alt: 'Wild Canvas antipasto platter glamping Waitomo',
+    price: 89, unit: 'NZD $89 per platter', qty: false, needsDay: true
+  },
+  {
+    id: 'pizza', tents: 'both',
+    name: 'Ready-to-Cook Pizzas', tag: 'Both Tents',
+    desc: 'Handmade 10-inch pizzas ready to fire straight in the wood-fired pizza oven. Choose a flavour for each pizza.',
+    img: 'wild-canvas-pizza-oven-glamping-waitomo.webp',
+    alt: 'Wild Canvas wood-fired pizza glamping Waitomo',
+    price: 44, unit: 'NZD $44 per pizza', qty: true, qtyMin: 1, qtyMax: 10, flavours: true, needsDay: true
+  },
+  {
+    id: 'dinner', tents: 'both',
+    name: 'Gourmet Dinner', tag: 'Both Tents',
+    desc: 'Beef scotch, sausages, your choice of patties, garlic bread, two salads and passionfruit cheesecake. Prepped and ready to cook at your own pace.',
+    img: 'wild-canvas-gourmet-dinner-glamping-waitomo.webp',
+    alt: 'Wild Canvas gourmet dinner glamping Waitomo',
+    price: 85, unit: 'NZD $85 per person', qty: true, qtyMin: 1, qtyMax: 8, dinnerOptions: true, needsDay: true
+  },
+  {
+    id: 'mbns', tents: 'both',
+    name: 'Massage - Back, Neck & Shoulder', tag: 'Both Tents · 45 Minutes',
+    desc: '45-minute in-tent massage targeting high-tension areas using relaxation and Swedish techniques. Pregnancy massage also available.',
+    img: 'wild-canvas-back-neck-shoulder-massage-waitomo.webp',
+    alt: 'Back neck and shoulder massage at Wild Canvas Waitomo',
+    price: 120, unit: 'NZD $120 per person', qty: true, qtyMin: 1, qtyMax: 8, needsTime: true
+  },
+  {
+    id: 'mfull', tents: 'both',
+    name: 'Massage - Full Body', tag: 'Both Tents · 1 Hour',
+    desc: 'An indulgent head-to-toe treatment. For groups of four or more, additional therapists are arranged so nobody waits.',
+    img: 'wild-canvas-full-body-massage-glamping-waitomo.webp',
+    alt: 'Full body massage at Wild Canvas glamping Waitomo',
+    price: 150, unit: 'NZD $150 per person', qty: true, qtyMin: 1, qtyMax: 8, needsTime: true
+  },
+  {
+    id: 'clay', tents: 'pohutukawa',
+    name: 'Clay Target Shooting', tag: 'Pohutukawa Tent Only',
+    desc: 'Set high in the hills with sweeping rural views. Expert supervision, 100 shots shared between participants. Ideal for groups.',
+    img: 'wild-canvas-clay-target-shooting-waitomo-new-zealand.webp',
+    alt: 'Clay target shooting at Wild Canvas Waitomo',
+    price: 499, unit: 'NZD $499 per session', qty: false, needsDay: true
+  }
+];
+
+var selected = {};
+var currentTent = 'both';
+
+function setTent(tent) {
+  currentTent = tent;
+  document.querySelectorAll('.tent-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('btn-' + tent).classList.add('active');
+  renderExtras();
 }
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.wc-nav-links')){
-    document.querySelectorAll('.wc-nav-links>li').forEach(el=>{el.classList.remove('open');});
+
+function renderExtras() {
+  var grid = document.getElementById('extrasGrid');
+  var html = '';
+  EXTRAS.forEach(function(ex) {
+    var visible = currentTent === 'both' || ex.tents === 'both' || ex.tents === currentTent;
+    var isSelected = !!selected[ex.id];
+    var disabled = !visible ? ' disabled' : '';
+    var sel = isSelected ? ' selected' : '';
+
+    var imgHtml = ex.img
+      ? '<img class="extra-card-img" src="' + ex.img + '" alt="' + ex.alt + '" style="background:var(--pistachio)" onerror="this.src=\'\';this.style.background=\'#DFD39D\'"/>' 
+      : '<div class="extra-card-img-placeholder"></div>';
+
+    var detailsHtml = '';
+
+    if (isSelected) {
+      var s = selected[ex.id];
+
+      // Pizza flavours
+      if (ex.flavours) {
+        var qty = s.qty || 1;
+        detailsHtml += '<div class="extra-details" onclick="event.stopPropagation()">';
+        for (var i = 0; i < qty; i++) {
+          var cf = (s.flavours || [])[i] !== undefined ? s.flavours[i] : 0;
+          detailsHtml += '<div class="detail-row"><label>Pizza ' + (i+1) + ' flavour</label><select onchange="setFlavour(\'' + ex.id + '\',' + i + ',this.value)">';
+          PIZZA_FLAVOURS.forEach(function(f, fi) {
+            detailsHtml += '<option value="' + fi + '"' + (cf === fi ? ' selected' : '') + '>' + f.split(' - ')[0] + '</option>';
+          });
+          detailsHtml += '</select></div>';
+        }
+        detailsHtml += '</div>';
+      }
+
+      // Dinner options
+      if (ex.dinnerOptions) {
+        detailsHtml += '<div class="extra-details" onclick="event.stopPropagation()">';
+        detailsHtml += '<div class="detail-row"><label>Choice of patties</label><select onchange="setDinnerMain(\'' + ex.id + '\',this.value)">';
+        DINNER_MAINS.forEach(function(m, mi) {
+          detailsHtml += '<option value="' + mi + '"' + ((s.dinnerMain||0) === mi ? ' selected' : '') + '>' + m + '</option>';
+        });
+        detailsHtml += '</select></div>';
+        detailsHtml += '<div class="detail-row"><label>Salad 1</label><select onchange="setDinnerSalad(\'' + ex.id + '\',0,this.value)">';
+        DINNER_SALADS.forEach(function(sl, si) {
+          detailsHtml += '<option value="' + si + '"' + ((s.salad1||0) === si ? ' selected' : '') + '>' + sl + '</option>';
+        });
+        detailsHtml += '</select></div>';
+        detailsHtml += '<div class="detail-row"><label>Salad 2</label><select onchange="setDinnerSalad(\'' + ex.id + '\',1,this.value)">';
+        DINNER_SALADS.forEach(function(sl, si) {
+          var def = s.salad2 !== undefined ? s.salad2 : 1;
+          detailsHtml += '<option value="' + si + '"' + (def === si ? ' selected' : '') + '>' + sl + '</option>';
+        });
+        detailsHtml += '</select></div>';
+        detailsHtml += '</div>';
+      }
+
+      // Day selector (catering items)
+      if (ex.needsDay) {
+        detailsHtml += '<div class="extra-details" onclick="event.stopPropagation()">'
+          + '<div class="detail-row"><label>Which day?</label><select data-id="' + ex.id + '" onchange="setDay(this)">'
+          + '<option value=""' + (!s.day ? ' selected' : '') + '>Select a day...</option>'
+          + '<option value="1"' + (s.day==="1" ? ' selected' : '') + '>Day 1 (arrival day)</option>'
+          + '<option value="2"' + (s.day==="2" ? ' selected' : '') + '>Day 2</option>'
+          + '<option value="3"' + (s.day==="3" ? ' selected' : '') + '>Day 3</option>'
+          + '<option value="4"' + (s.day==="4" ? ' selected' : '') + '>Day 4</option>'
+          + '<option value="last"' + (s.day==="last" ? ' selected' : '') + '>Last day (departure day)</option>'
+          + '</select></div></div>';
+      }
+
+      // Day + time selector (massages)
+      if (ex.needsTime) {
+        detailsHtml += '<div class="extra-details" onclick="event.stopPropagation()">'
+          + '<div class="detail-row"><label>Preferred day</label><select data-id="' + ex.id + '" onchange="setDay(this)">'
+          + '<option value=""' + (!s.day ? ' selected' : '') + '>Select a day...</option>'
+          + '<option value="1"' + (s.day==="1" ? ' selected' : '') + '>Day 1 (arrival day)</option>'
+          + '<option value="2"' + (s.day==="2" ? ' selected' : '') + '>Day 2</option>'
+          + '<option value="3"' + (s.day==="3" ? ' selected' : '') + '>Day 3</option>'
+          + '<option value="4"' + (s.day==="4" ? ' selected' : '') + '>Day 4</option>'
+          + '<option value="last"' + (s.day==="last" ? ' selected' : '') + '>Last day</option>'
+          + '</select></div>'
+          + '<div class="detail-row"><label>Preferred time</label><select data-id="' + ex.id + '" onchange="setTime(this)">'
+          + '<option value=""' + (!s.time ? ' selected' : '') + '>Select a time...</option>'
+          + '<option value="morning"' + (s.time==="morning" ? ' selected' : '') + '>Morning (9am-12pm)</option>'
+          + '<option value="afternoon"' + (s.time==="afternoon" ? ' selected' : '') + '>Afternoon (12pm-4pm)</option>'
+          + '<option value="evening"' + (s.time==="evening" ? ' selected' : '') + '>Evening (4pm-7pm)</option>'
+          + '</select></div></div>';
+      }
+    }
+
+    // Qty controls
+    var qtyHtml = '';
+    if (ex.qty) {
+      var qty = isSelected ? (selected[ex.id].qty || ex.qtyMin) : ex.qtyMin;
+      qtyHtml = '<div class="qty-control" onclick="event.stopPropagation()">'
+        + '<button class="qty-btn" data-id="' + ex.id + '" data-d="-1" onclick="changeQty(this)">-</button>'
+        + '<span class="qty-num">' + qty + '</span>'
+        + '<button class="qty-btn" data-id="' + ex.id + '" data-d="1" onclick="changeQty(this)">+</button>'
+        + '</div>';
+    }
+
+    html += '<div class="extra-card' + sel + disabled + '" data-id="' + ex.id + '" id="card-' + ex.id + '" onclick="toggleExtra(this)">'
+      + imgHtml
+      + '<div class="extra-card-body">'
+      + '<p class="extra-tag">' + ex.tag + '</p>'
+      + '<h3>' + ex.name + '</h3>'
+      + '<p>' + ex.desc + '</p>'
+      + detailsHtml
+      + '</div>'
+      + '<div class="extra-card-action">'
+      + '<div><div class="extra-price-amount">$' + ex.price + '</div><div class="extra-price-unit">' + ex.unit.replace('NZD $' + ex.price + ' ', '') + '</div></div>'
+      + '<div>'
+      + qtyHtml
+      + '<div class="extra-checkbox"><svg width="14" height="10" viewBox="0 0 14 10" fill="none"><polyline points="1,5 5,9 13,1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+      + '</div>'
+      + '</div>'
+      + '</div>';
+  });
+  grid.innerHTML = html;
+  updateSummary();
+}
+
+function toggleExtra(el) {
+  var id = el.getAttribute("data-id");
+  if (selected[id]) {
+    delete selected[id];
+  } else {
+    var ex = EXTRAS.find(function(e) { return e.id === id; });
+    selected[id] = { qty: ex.qtyMin || 1, flavours: [], dinnerMain: 0, salad1: 0, salad2: 1 };
+  }
+  renderExtras();
+}
+
+function changeQty(btn) {
+  var id = btn.getAttribute("data-id");
+  var delta = parseInt(btn.getAttribute("data-d"));
+  var ex = EXTRAS.find(function(e) { return e.id === id; });
+  if (!selected[id]) return;
+  var newQty = (selected[id].qty || 1) + delta;
+  newQty = Math.max(ex.qtyMin || 1, Math.min(ex.qtyMax || 20, newQty));
+  selected[id].qty = newQty;
+  renderExtras();
+}
+
+function setFlavour(sel) {
+  var id = sel.getAttribute("data-id");
+  var index = parseInt(sel.getAttribute("data-fi"));
+  if (!selected[id]) return;
+  if (!selected[id].flavours) selected[id].flavours = [];
+  selected[id].flavours[index] = parseInt(sel.value);
+}
+
+function setDinnerMain(sel) {
+  var id = sel.getAttribute("data-id");
+  if (!selected[id]) return;
+  selected[id].dinnerMain = parseInt(sel.value);
+}
+
+function setDinnerSalad(sel) {
+  var id = sel.getAttribute("data-id");
+  var index = parseInt(sel.getAttribute("data-si"));
+  if (!selected[id]) return;
+  if (index === 0) selected[id].salad1 = parseInt(sel.value);
+  else selected[id].salad2 = parseInt(sel.value);
+}
+
+function setDay(sel) { var id = sel.getAttribute("data-id"); if (selected[id]) selected[id].day = sel.value; }
+function setTime(sel) { var id = sel.getAttribute("data-id"); if (selected[id]) selected[id].time = sel.value; }
+
+function updateSummary() {
+  var lines = document.getElementById('summaryLines');
+  var totalEl = document.getElementById('orderTotal');
+  var totalAmt = document.getElementById('totalAmount');
+  var payBtn = document.getElementById('payBtn');
+
+  var ids = Object.keys(selected);
+  if (ids.length === 0) {
+    lines.innerHTML = '<p class="order-empty">No experiences selected yet</p>';
+    totalEl.style.display = 'none';
+    payBtn.disabled = true;
+    return;
+  }
+
+  var html = '';
+  var total = 0;
+  ids.forEach(function(id) {
+    var ex = EXTRAS.find(function(e) { return e.id === id; });
+    if (!ex) return;
+    var qty = selected[id].qty || 1;
+    var lineTotal = ex.price * qty;
+    total += lineTotal;
+    html += '<div class="order-line"><span>' + ex.name + (ex.qty ? ' x ' + qty : '') + '</span><span>$' + lineTotal + '</span></div>';
+  });
+
+  lines.innerHTML = html;
+  totalEl.style.display = 'flex';
+  totalAmt.textContent = 'NZD $' + total;
+  payBtn.disabled = false;
+}
+
+function buildExtrasDetail() {
+  var parts = [];
+  Object.keys(selected).forEach(function(id) {
+    var ex = EXTRAS.find(function(e) { return e.id === id; });
+    if (!ex) return;
+    var s = selected[id];
+    var qty = s.qty || 1;
+    var str = ex.name;
+    if (ex.qty) str += ' x ' + qty;
+    if (ex.flavours && s.flavours && s.flavours.length) {
+      var fnames = s.flavours.map(function(fi) { return PIZZA_FLAVOURS[fi] ? PIZZA_FLAVOURS[fi].split(' - ')[0] : ''; });
+      str += ' | Flavours: ' + fnames.join(', ');
+    }
+    if (ex.dinnerOptions) {
+      str += ' | Patties: ' + DINNER_MAINS[s.dinnerMain || 0];
+      str += ' | Salads: ' + DINNER_SALADS[s.salad1 || 0] + ' + ' + DINNER_SALADS[s.salad2 !== undefined ? s.salad2 : 1];
+    }
+    var dayMap = {'1':'Day 1 (arrival)','2':'Day 2','3':'Day 3','4':'Day 4','last':'Last day'};
+    if (s.day) str += ' | Day: ' + (dayMap[s.day] || s.day);
+    var timeMap = {'morning':'Morning (9am-12pm)','afternoon':'Afternoon (12pm-4pm)','evening':'Evening (4pm-7pm)'};
+    if (s.time) str += ' | Time: ' + (timeMap[s.time] || s.time);
+    parts.push(str);
+  });
+  return parts.join(' || ');
+}
+
+function getTotal() {
+  var total = 0;
+  Object.keys(selected).forEach(function(id) {
+    var ex = EXTRAS.find(function(e) { return e.id === id; });
+    if (ex) total += ex.price * (selected[id].qty || 1);
+  });
+  return total;
+}
+
+function submitOrder() {
+  var fname = document.getElementById('fname').value.trim();
+  var lname = document.getElementById('lname').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var checkin = document.getElementById('checkin').value;
+
+  if (!fname || !lname || !email || !checkin) {
+    alert('Please fill in your name, email and check-in date.');
+    return;
+  }
+  if (Object.keys(selected).length === 0) {
+    alert('Please select at least one extra.');
+    return;
+  }
+
+  var btn = document.getElementById('payBtn');
+  btn.textContent = 'Processing...';
+  btn.disabled = true;
+
+  var extrasDetail = buildExtrasDetail();
+  var total = getTotal();
+  var extrasList = Object.keys(selected).map(function(id) {
+    var ex = EXTRAS.find(function(e) { return e.id === id; });
+    return ex ? ex.name : id;
+  });
+
+  var payload = {
+    ref: document.getElementById('bookref').value.trim() || 'EXTRAS',
+    tent: 'Extras Order',
+    checkin: checkin,
+    checkout: checkin,
+    nights: 0,
+    adults: 0,
+    kids: 0,
+    name: fname + ' ' + lname,
+    email: email,
+    phone: document.getElementById('phone').value.trim(),
+    country: '',
+    notes: document.getElementById('notes').value.trim(),
+    hdyhau: '',
+    extras: extrasList.join(', '),
+    extrasDetail: extrasDetail,
+    voucher: '',
+    voucherValue: 0,
+    total: total
+  };
+
+  fetch('/.netlify/functions/create-checkout', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('Payment error: ' + (data.error || 'Unknown error. Please try again.'));
+      btn.textContent = 'Pay Now';
+      btn.disabled = false;
+    }
+  })
+  .catch(function() {
+    alert('Could not connect to payment. Please try again.');
+    btn.textContent = 'Pay Now';
+    btn.disabled = false;
+  });
+}
+
+// Nav
+function toggleDrop(id) {
+  var li = document.getElementById(id);
+  var isOpen = li.classList.contains('open');
+  document.querySelectorAll('.wc-nav-links > li').forEach(function(el) {
+    el.classList.remove('open');
+    var btn = el.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    li.classList.add('open');
+    var btn = li.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.wc-nav-links')) {
+    document.querySelectorAll('.wc-nav-links > li').forEach(function(el) {
+      el.classList.remove('open');
+      var btn = el.querySelector('button[aria-expanded]');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
   }
 });
-
-function toggleMobile(){
-  const drawer=document.getElementById('wc-mobile-drawer');
-  const burger=document.getElementById('wc-hamburger');
-  const isOpen=drawer.classList.contains('open');
-  drawer.classList.toggle('open',!isOpen);
-  burger.classList.toggle('open',!isOpen);
-  document.body.style.overflow=isOpen?'':'hidden';
+function toggleMobile() {
+  var drawer = document.getElementById('wc-mobile-drawer');
+  var btn = document.getElementById('wc-hamburger');
+  var open = drawer.classList.toggle('open');
+  btn.classList.toggle('open', open);
 }
-document.querySelectorAll('.wc-mobile-drawer a').forEach(a=>{
-  a.addEventListener('click',()=>{
-    document.getElementById('wc-mobile-drawer').classList.remove('open');
-    document.getElementById('wc-hamburger').classList.remove('open');
-    document.body.style.overflow='';
-  });
-});
+window.addEventListener('scroll', function() {
+  document.getElementById('wc-nav').classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
 
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
-},{threshold:0.1});
-document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+renderExtras();
 </script>
 </body>
 </html>
