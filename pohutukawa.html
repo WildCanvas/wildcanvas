@@ -25,6 +25,41 @@
   setInterval(() => goTo(current + 1), 5000);
 })();
 
+
+// Photo Gallery Carousel
+document.addEventListener('DOMContentLoaded', function() {
+  const track = document.getElementById('pcTrack');
+  const counter = document.getElementById('pcCounter');
+  if (!track) return;
+  const items = track.querySelectorAll('.pc-item');
+  if (!items.length) return;
+  const total = items.length;
+  let current = 0;
+
+  function setWidths() {
+    const isMobile = window.innerWidth <= 900;
+    const visible = isMobile ? 1 : 2;
+    const w = track.parentElement.offsetWidth / visible;
+    items.forEach(item => { item.style.width = w + 'px'; });
+    track.style.width = (w * total) + 'px';
+    goTo(current);
+  }
+
+  function goTo(n) {
+    const isMobile = window.innerWidth <= 900;
+    const visible = isMobile ? 1 : 2;
+    current = Math.max(0, Math.min(n, total - visible));
+    const w = track.parentElement.offsetWidth / visible;
+    track.style.transform = 'translateX(-' + (current * w) + 'px)';
+    track.style.transition = 'transform 0.4s ease';
+    if (counter) counter.textContent = (current + 1) + ' – ' + Math.min(current + visible, total) + ' / ' + total;
+  }
+
+  window.pcMove = (dir) => goTo(current + dir);
+  setWidths();
+  window.addEventListener('resize', () => setWidths());
+});
+
 </script>
 <style>
 @font-face {
@@ -526,7 +561,7 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
   <div class="hero-text">
     <div>
       <p class="hero-eyebrow">Families &amp; Groups · Up to 8 Guests</p>
-      <h1>The Pōhutukawa Tent: <em>your hilltop for everyone</em></h1>
+      <h1>The Pōhutukawa Tent: <em>Secluded, Spacious, Unforgettable</em></h1>
       <p class="hero-sub">Four bedrooms, a cedar hot tub, full indoor kitchen, underfloor heating and breathtaking 360° views. The ultimate glamping experience, with curated add-ons available exclusively for your group.</p>
       <div style="display:flex;gap:1rem;flex-wrap:wrap">
         <a href="https://booking.wildcanvas.nz?tent=pohutukawa#calendar" class="btn-primary">Check Availability</a>

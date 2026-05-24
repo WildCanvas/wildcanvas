@@ -9,7 +9,7 @@
 <script src="https://elfsightcdn.com/platform.js" async>
 // Home Carousel
 let homeCurrent = 0;
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   const items = document.querySelectorAll('.home-carousel-item');
   const dots = document.querySelectorAll('.home-dot');
   window.homeGoTo = function(n) {
@@ -19,9 +19,8 @@ let homeCurrent = 0;
     items[homeCurrent].classList.add('active');
     dots[homeCurrent].classList.add('active');
   };
-  const homeTotalItems = document.querySelectorAll('.home-carousel-item').length;
   setInterval(() => window.homeGoTo(homeCurrent + 1), 5000);
-})();
+});
 
 </script>
 <style>
