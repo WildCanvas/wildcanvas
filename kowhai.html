@@ -1034,7 +1034,14 @@ function playVideo(card, videoId) {
   card.style.cursor = 'default';
 }
 
-const nav = document.getElementById('nav');
+function toggleMobile() {
+  const nav = document.getElementById('wc-nav-links');
+  const btn = document.getElementById('wc-hamburger');
+  const open = nav.classList.toggle('mobile-open');
+  btn.classList.toggle('open', open);
+}
+
+const nav = document.getElementById('wc-nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
