@@ -394,7 +394,7 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
 <section class="hero">
   <!-- PHOTO: Replace the src below with your chosen image URL -->
   <img class="hero-img"
-    src="https://static.wixstatic.com/media/590a8f_081dd59d3f824cf0bca21a96c8d96d1f~mv2.jpg/v1/fill/w_2500,h_1742,al_c/590a8f_081dd59d3f824cf0bca21a96c8d96d1f~mv2.jpg"
+    src="wild-canvas-gift-voucher-luxury-glamping-waitomo.webp"
     alt="Wild Canvas luxury glamping Waitomo"/>
   <div class="hero-text">
     <p class="eyebrow">Wild Canvas Gift Vouchers</p>
@@ -630,16 +630,6 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
 
-// ─── STRIPE PAYMENT LINKS ───────────────────────────────────────────────────
-// Replace these with your actual Stripe Payment Links once created in Stripe dashboard.
-// In Stripe: Payments → Payment Links → Create Link (set price, name, etc.)
-// Then paste the link URL here.
-const STRIPE_LINKS = {
-  1: 'https://buy.stripe.com/REPLACE_WITH_KOWHAI_ONE_NIGHT_LINK',
-  2: 'https://buy.stripe.com/REPLACE_WITH_ULTIMATE_LINK',
-  3: 'https://buy.stripe.com/REPLACE_WITH_POHUTUKAWA_LINK'
-};
-
 const VOUCHER_NAMES = {
   1: 'Kōwhai Tent — One Night Stay',
   2: 'Kōwhai Tent — The Ultimate One Night Stay',
@@ -650,6 +640,12 @@ const VOUCHER_PRICES = {
   1: '$590 NZD',
   2: '$1,159 NZD',
   3: '$1,635 NZD'
+};
+
+const VOUCHER_AMOUNTS = {
+  1: 590,
+  2: 1159,
+  3: 1635
 };
 
 let selectedVoucher = null;
@@ -718,23 +714,11 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
 
   if (!valid) return;
 
-  // Build Stripe URL with prefilled customer data
-  // Stripe Payment Links support ?prefilled_email= param
-  const email    = encodeURIComponent(document.getElementById('email').value.trim());
-  const fname    = encodeURIComponent(document.getElementById('firstname').value.trim());
-  const lname    = encodeURIComponent(document.getElementById('lastname').value.trim());
-  const recipient= encodeURIComponent(document.getElementById('recipient').value.trim());
-  const message  = encodeURIComponent(document.getElementById('message').value.trim());
-
-  let stripeUrl = STRIPE_LINKS[selectedVoucher];
-
-  // Prefill email in Stripe checkout
-  stripeUrl += `?prefilled_email=${email}`;
-
-  // Pass customer metadata via client_reference_id isn't possible on Payment Links directly,
-  // but we can include extra info in the URL for your own records via utm params.
-  // These appear in the Stripe dashboard under the payment.
-  stripeUrl += `&client_reference_id=${fname}_${lname}`;
+  const email    = document.getElementById('email').value.trim();
+  const fname    = document.getElementById('firstname').value.trim();
+  const lname    = document.getElementById('lastname').value.trim();
+  const recipient= document.getElementById('recipient').value.trim();
+  const message  = document.getElementById('message').value.trim();
 
   // Store details in sessionStorage so you can retrieve on success page
   sessionStorage.setItem('wc_order', JSON.stringify({
@@ -748,13 +732,52 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
     message: document.getElementById('message').value.trim()
   }));
 
-  // Update button state
+  // Call Netlify create-checkout function
   const btn = document.getElementById('purchaseBtn');
-  btn.textContent = 'Redirecting to payment…';
+  btn.textContent = 'Processing…';
   btn.disabled = true;
 
-  // Redirect to Stripe
-  window.location.href = stripeUrl;
+  const payload = {
+    ref: 'GIFT-' + Date.now(),
+    tent: VOUCHER_NAMES[selectedVoucher],
+    checkin: '',
+    checkout: '',
+    nights: 1,
+    adults: selectedVoucher === 3 ? 8 : 2,
+    kids: 0,
+    name: fname + ' ' + lname,
+    email: email,
+    phone: document.getElementById('phone').value.trim(),
+    country: '',
+    notes: 'Gift Voucher. Recipient: ' + (recipient || 'Not specified') + '. Message: ' + (message || 'None'),
+    hdyhau: '',
+    extras: 'Gift Voucher — ' + VOUCHER_NAMES[selectedVoucher],
+    extrasDetail: '',
+    voucher: '',
+    voucherValue: 0,
+    total: VOUCHER_AMOUNTS[selectedVoucher]
+  };
+
+  fetch('/.netlify/functions/create-checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('Payment error: ' + (data.error || 'Unknown error. Please try again.'));
+      btn.textContent = 'Continue to Payment →';
+      btn.disabled = false;
+    }
+  })
+  .catch(function() {
+    alert('Could not connect to payment. Please try again.');
+    btn.textContent = 'Continue to Payment →';
+    btn.disabled = false;
+  });
 });
 
 // Live validation clear on type
