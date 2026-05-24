@@ -345,8 +345,6 @@ footer {
         <a href="/experiences">Experiences &amp; Add-Ons</a>
         <div class="wc-dropdown-divider"></div>
         <a href="/catering">Food &amp; Catering</a>
-        <a href="/massages">Massages</a>
-        <div class="wc-dropdown-divider"></div>
         <a href="/waitomo">Explore Waitomo</a>
       </div>
     </li>
@@ -378,7 +376,6 @@ footer {
   <p class="wc-mobile-section-title">Experiences</p>
   <a href="/experiences">Experiences &amp; Add-Ons</a>
   <a href="/catering">Food &amp; Catering</a>
-  <a href="/massages">Massages</a>
   <a href="/waitomo">Explore Waitomo</a>
   <p class="wc-mobile-section-title">About</p>
   <a href="/aboutus">Our Story</a>
@@ -494,11 +491,11 @@ footer {
 
 
 <!-- POHUTUKAWA EXCLUSIVES -->
-<section class="section" style="background:#E8A07A;">
+<section class="section" style="background:#E8A07A;" id="pohutukawa-exclusives">
   <div style="max-width:1100px;margin:0 auto;">
-    <p class="eyebrow">Pōhutukawa Tent Exclusives</p>
-    <h2 class="section-title">Curated experiences <em>like no other</em></h2>
-    <p class="body-text">These experiences are available exclusively for Pōhutukawa Tent guests. To add any of these to your stay, email us after booking and we will arrange everything.</p>
+    <p class="eyebrow" style="color:rgba(255,255,255,0.85);"><span style="display:inline-block;width:20px;height:1px;background:rgba(255,255,255,0.6);margin-right:0.6rem;vertical-align:middle;"></span>Pōhutukawa Tent Exclusives</p>
+    <h2 class="section-title">Curated experiences <em style="color:rgba(255,255,255,0.75);">like no other</em></h2>
+    <p class="body-text" style="color:rgba(61,46,30,0.75);">These experiences are available exclusively for Pōhutukawa Tent guests. To add any of these to your stay, email us after booking and we will arrange everything.</p>
     <div class="enquire-grid-inner" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.5rem;">
 
       <div style="background:rgba(251,246,238,0.85);padding:2rem;display:flex;flex-direction:column;gap:0.8rem;">
@@ -540,7 +537,7 @@ footer {
 </section>
 
 <!-- ORDERING NOTE + LOCAL EATERIES -->
-<div style="background:var(--cream);padding:3.5rem 0;"><div class="eateries-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1100px;margin:0 auto;padding:0 3.5rem;">
+<div style="background:var(--cream);padding:3.5rem 0 5rem;overflow:visible;"><div class="eateries-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:1100px;margin:0 auto;padding:0 3.5rem 4rem;">
   <div>
     <h3 style="font-family:var(--serif);font-weight:400;font-size:1.1rem;margin-bottom:0.8rem;">Ordering catering</h3>
     <p style="font-size:0.85rem;line-height:1.7;color:var(--bark-mid);font-weight:300;">We require at least one week's notice for all catering orders. If you have dietary requirements or want to adjust an order, just email us and we will sort it out. All food is prepared fresh and waiting at your tent on arrival.</p>
@@ -560,6 +557,13 @@ footer {
   </div>
 </div>
 
+<!-- BOTTOM CTA -->
+<section style="background:var(--candy);text-align:center;padding:5rem 2rem;">
+  <p class="eyebrow" style="justify-content:center;display:flex;">Ready to add something special?</p>
+  <h2 class="section-title">Make your stay <em>unforgettable</em></h2>
+  <p class="body-text" style="margin:1rem auto 2rem;max-width:500px;text-align:center;">Select your experiences above and pay securely online. Everything will be ready and waiting when you arrive.</p>
+  <a href="#extrasGrid" class="btn-primary">Choose Your Experiences</a>
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -620,7 +624,7 @@ var EXTRAS = [
     desc: 'Per person. Beef scotch, sausages, Volare garlic bread, your choice of main, two salad choices and passionfruit cheesecake. Meat prepped and ready to cook; salads and cheesecake served ready to eat. For every 2 people you can choose 1 main meat and 2 salads.',
     img: 'wild-canvas-gourmet-dinner-glamping-waitomo.webp',
     alt: 'Wild Canvas gourmet dinner glamping Waitomo',
-    price: 170, unit: 'NZD $170 for two', qty: false, dinnerOptions: true, needsDay: true
+    price: 170, unit: 'NZD $170 for two', qty: true, qtyMin: 2, qtyMax: 8, dinnerOptions: true, needsDay: true
   },
   {
     id: 'mbns', tents: 'both',
