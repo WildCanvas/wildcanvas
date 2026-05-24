@@ -779,8 +779,8 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
     </div>
     <div class="fade-up">
       <img
-        src="https://static.wixstatic.com/media/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg/v1/fill/w_1200,h_900,al_c,q_85/590a8f_29f02d821e6d4328a07bcdf413ad19d5~mv2.jpg"
-        alt="Wild Canvas location in Waitomo"
+        src="waitomo-glowworm-cave-tubing-new-zealand.webp"
+        alt="Glowworm cave tubing Waitomo New Zealand"
         style="width:100%;height:420px;object-fit:cover"/>
     </div>
   </div>
@@ -842,6 +842,25 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
 </footer>
 
 <script>
+
+// Home Carousel
+(function() {
+  var items = document.querySelectorAll('.home-carousel-item');
+  var dots = document.querySelectorAll('.home-dot');
+  if (!items.length) return;
+  window.homeCurrent = 0;
+
+  window.homeGoTo = function(n) {
+    items[window.homeCurrent].classList.remove('active');
+    dots[window.homeCurrent].classList.remove('active');
+    window.homeCurrent = (n + items.length) % items.length;
+    items[window.homeCurrent].classList.add('active');
+    dots[window.homeCurrent].classList.add('active');
+  };
+
+  setInterval(function() { window.homeGoTo(window.homeCurrent + 1); }, 5000);
+})();
+
 // Nav scroll
 window.addEventListener('scroll', () => {
   document.getElementById('wc-nav').classList.toggle('scrolled', window.scrollY > 50);
