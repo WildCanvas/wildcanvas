@@ -1034,10 +1034,38 @@ function playVideo(card, videoId) {
   card.style.cursor = 'default';
 }
 
+function toggleDrop(id) {
+  const li = document.getElementById(id);
+  const isOpen = li.classList.contains('open');
+  // Close all dropdowns first
+  document.querySelectorAll('.wc-nav-links > li').forEach(el => {
+    el.classList.remove('open');
+    const btn = el.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+  // Toggle the clicked one
+  if (!isOpen) {
+    li.classList.add('open');
+    const btn = li.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.wc-nav-links')) {
+    document.querySelectorAll('.wc-nav-links > li').forEach(el => {
+      el.classList.remove('open');
+      const btn = el.querySelector('button[aria-expanded]');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
 function toggleMobile() {
-  const nav = document.getElementById('wc-nav-links');
+  const drawer = document.getElementById('wc-mobile-drawer');
   const btn = document.getElementById('wc-hamburger');
-  const open = nav.classList.toggle('mobile-open');
+  const open = drawer.classList.toggle('open');
   btn.classList.toggle('open', open);
 }
 
