@@ -6,7 +6,24 @@
 <title>Wild Canvas | Luxury Glamping in Waitomo, New Zealand</title>
 <meta name="description" content="New Zealand's first and only 5-Star Qualmark glamping. Two private hilltop tents in Waitomo. Outdoor baths, cedar hot tub, complete seclusion. Book your escape."/>
 <link rel="canonical" href="https://www.wildcanvas.nz"/>
-<script src="https://elfsightcdn.com/platform.js" async></script>
+<script src="https://elfsightcdn.com/platform.js" async>
+// Home Carousel
+let homeCurrent = 0;
+(function() {
+  const items = document.querySelectorAll('.home-carousel-item');
+  const dots = document.querySelectorAll('.home-dot');
+  window.homeGoTo = function(n) {
+    items[homeCurrent].classList.remove('active');
+    dots[homeCurrent].classList.remove('active');
+    homeCurrent = (n + items.length) % items.length;
+    items[homeCurrent].classList.add('active');
+    dots[homeCurrent].classList.add('active');
+  };
+  const homeTotalItems = document.querySelectorAll('.home-carousel-item').length;
+  setInterval(() => window.homeGoTo(homeCurrent + 1), 5000);
+})();
+
+</script>
 <style>
 @font-face {
   font-family: 'P22Mackinac';
@@ -184,9 +201,9 @@ a { text-decoration: none; color: inherit; }
   display: flex; align-items: center; flex: 1;
   justify-content: space-between; flex-wrap: wrap; gap: 1rem;
 }
-.press-logo { height: 72px; width: auto; max-width: 220px; object-fit: contain; opacity: 0.65; filter: grayscale(100%); transition: opacity 0.3s, filter 0.3s; display: block; }
+.press-logo { height: 79px; width: auto; max-width: 242px; object-fit: contain; opacity: 0.65; filter: grayscale(100%); transition: opacity 0.3s, filter 0.3s; display: block; }
 .press-logo:hover { opacity: 0.9; filter: grayscale(0%); }
-.press-logo-qualmark { filter: grayscale(20%); height: 88px; }
+.press-logo-qualmark { filter: grayscale(20%); height: 97px; }
 .press-logo-qualmark:hover { filter: grayscale(0%); opacity: 1; }
 
 /* ── BUTTONS ──────────────────────────── */
@@ -434,6 +451,31 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .book-section { padding: 4rem 1.5rem; }
 }
+
+/* HOME CAROUSEL */
+.home-carousel { position: relative; width: 100%; }
+.home-carousel-inner { position: relative; width: 100%; }
+.home-carousel-item { display: none; }
+.home-carousel-item.active { display: block; }
+.home-carousel-item img { width: 100%; height: 480px; object-fit: cover; display: block; }
+.home-carousel-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.8rem 0; margin-top: 0.5rem;
+}
+.home-carousel-dots { display: flex; gap: 0.5rem; }
+.home-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(61,46,30,0.2); cursor: pointer; transition: background 0.2s;
+}
+.home-dot.active { background: var(--harvest); }
+.home-carousel-next {
+  background: none; border: 1.5px solid var(--harvest); cursor: pointer;
+  color: var(--harvest); font-size: 1rem; width: 34px; height: 34px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.home-carousel-next:hover { background: var(--harvest); color: var(--cream); }
+@media(max-width:900px) { .home-carousel-item img { height: 300px; } }
 </style>
 </head>
 <body>
@@ -517,7 +559,7 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   <div class="hero-text">
     <div>
       <p class="hero-eyebrow">Waitomo, New Zealand</p>
-      <h1>Where time slows<br/>and <em>memories are made</em></h1>
+      <h1>Where time stops<br/>and <em>memories are made</em></h1>
       <p class="hero-sub">Two luxury safari tents perched on their own private hilltops in the heart of Waitomo. Outdoor baths, cedar hot tub, campfire, birdsong and complete seclusion. Entirely yours.</p>
       <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap">
         <a href="https://booking.wildcanvas.nz" class="btn-primary">Book Your Escape</a>
@@ -562,16 +604,28 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
         </div>
       </div>
     </div>
-    <div class="intro-images fade-up">
-      <img class="img-tall"
-        src="https://static.wixstatic.com/media/590a8f_ce6affc2d4e548d2bf105ee9e640c031~mv2.jpg/v1/crop/x_412,y_0,w_1224,h_1536/fill/w_600,h_750,al_c,q_85/outdoor-bath-glamping-nz.jpg"
-        alt="Outdoor bath at Wild Canvas"/>
-      <img
-        src="https://static.wixstatic.com/media/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg/v1/fit/w_600,h_370,q_90/590a8f_df023f6c46124c47a04944b26e0456db~mv2.jpg"
-        alt="Kōwhai Tent interior"/>
-      <img
-        src="https://static.wixstatic.com/media/590a8f_73e901be6d444e0091eaf79625c1b788~mv2.jpg/v1/fit/w_600,h_370,q_90/590a8f_73e901be6d444e0091eaf79625c1b788~mv2.jpg"
-        alt="Pōhutukawa Tent views"/>
+    <div class="fade-up">
+      <div class="home-carousel">
+        <div class="home-carousel-inner" id="homeCarouselInner">
+          <div class="home-carousel-item active">
+            <img src="pohutukawa-tent-aerial-hilltop-waitomo-new-zealand.webp" alt="Pōhutukawa Tent aerial view Waitomo New Zealand" loading="lazy"/>
+          </div>
+          <div class="home-carousel-item">
+            <img src="kowhai-tent-aerial-sunrise-waitomo-new-zealand.webp" alt="Kōwhai Tent aerial view at sunrise Waitomo" loading="lazy"/>
+          </div>
+          <div class="home-carousel-item">
+            <img src="kowhai-tent-outdoor-cinema-dusk-waitomo.webp" alt="Kōwhai Tent outdoor cinema at dusk Waitomo" loading="lazy"/>
+          </div>
+        </div>
+        <div class="home-carousel-footer">
+          <div class="home-carousel-dots">
+            <span class="home-dot active" onclick="homeGoTo(0)"></span>
+            <span class="home-dot" onclick="homeGoTo(1)"></span>
+            <span class="home-dot" onclick="homeGoTo(2)"></span>
+          </div>
+          <button class="home-carousel-next" onclick="homeGoTo((homeCurrent+1)%3)">&#8594;</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
