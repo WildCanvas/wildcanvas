@@ -1060,6 +1060,58 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
 </footer>
 
 <script>
+
+// Photo Carousel
+(function() {
+  const track = document.getElementById('pcTrack');
+  const counter = document.getElementById('pcCounter');
+  if (!track) return;
+  const items = track.querySelectorAll('.pc-item');
+  const total = items.length;
+  let current = 0;
+
+  function setWidths() {
+    const isMobile = window.innerWidth <= 900;
+    const visible = isMobile ? 1 : 2;
+    const w = track.parentElement.offsetWidth / visible;
+    items.forEach(item => { item.style.width = w + 'px'; });
+    track.style.width = (w * total) + 'px';
+    goTo(current);
+  }
+
+  function goTo(n) {
+    const isMobile = window.innerWidth <= 900;
+    const visible = isMobile ? 1 : 2;
+    current = Math.max(0, Math.min(n, total - visible));
+    const w = track.parentElement.offsetWidth / visible;
+    track.style.transform = 'translateX(-' + (current * w) + 'px)';
+    track.style.transition = 'transform 0.4s ease';
+    if (counter) counter.textContent = (current + 1) + ' – ' + Math.min(current + visible, total) + ' / ' + total;
+  }
+
+  window.pcMove = (dir) => goTo(current + dir);
+  setWidths();
+  window.addEventListener('resize', () => setWidths());
+})();
+
+// Intro Carousel
+(function() {
+  const items = document.querySelectorAll('.carousel-item');
+  const dots = document.querySelectorAll('.carousel-dot');
+  if (!items.length) return;
+  let current = 0;
+  function goTo(n) {
+    items[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + items.length) % items.length;
+    items[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+  window.moveCarousel = (dir) => goTo(current + dir);
+  window.goToSlide = (n) => goTo(n);
+  setInterval(() => goTo(current + 1), 5000);
+})();
+
 // Nav scroll
 window.addEventListener('scroll', () => {
   document.getElementById('wc-nav').classList.toggle('scrolled', window.scrollY > 50);
