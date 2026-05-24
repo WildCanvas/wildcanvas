@@ -586,15 +586,7 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
           </div>
         </div>
 
-        <div class="acc-item">
-          <button class="acc-btn" onclick="toggleAcc(this)">
-            <span class="acc-question">I have a voucher for Waitomo Hilltop Glamping. Can I still use it?</span>
-            <span class="acc-icon"></span>
-          </button>
-          <div class="acc-body">
-            <p>Yes, your voucher code will still work at checkout. If you would like a reissued Wild Canvas voucher, or if you want to use your voucher towards a different tent, just email us at <a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a> and we will sort it out.</p>
-          </div>
-        </div>
+        
 
       </div>
     </div>
@@ -614,14 +606,14 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
       <div class="cancel-card">
         <h3>Kōwhai Tent</h3>
         <p>For couples and two-person stays. Adults only.</p>
-        <form onsubmit="handleSignup(event,'kowhai-success')">
+        <form onsubmit="handleSignup(event,'kowhai-success','Kowhai')">
           <div class="form-field">
             <label for="k-first">First Name</label>
-            <input type="text" id="k-first" placeholder="Emily" required/>
+            <input type="text" id="k-first" data-fname placeholder="" required/>
           </div>
           <div class="form-field">
             <label for="k-email">Email Address</label>
-            <input type="email" id="k-email" placeholder="you@example.com" required/>
+            <input type="email" id="k-email" data-email placeholder="" required/>
           </div>
           <button type="submit" class="btn-subscribe">Join the List</button>
           <p class="form-success" id="kowhai-success">You are on the list! We will be in touch when a spot opens up.</p>
@@ -632,14 +624,14 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
       <div class="cancel-card">
         <h3>Pōhutukawa Tent</h3>
         <p>For families and groups of up to 8 guests. Kids welcome.</p>
-        <form onsubmit="handleSignup(event,'poh-success')">
+        <form onsubmit="handleSignup(event,'poh-success','Pohutukawa')">
           <div class="form-field">
             <label for="p-first">First Name</label>
-            <input type="text" id="p-first" placeholder="Emily" required/>
+            <input type="text" id="p-first" data-fname placeholder="" required/>
           </div>
           <div class="form-field">
             <label for="p-email">Email Address</label>
-            <input type="email" id="p-email" placeholder="you@example.com" required/>
+            <input type="email" id="p-email" data-email placeholder="" required/>
           </div>
           <button type="submit" class="btn-subscribe">Join the List</button>
           <p class="form-success" id="poh-success">You are on the list! We will be in touch when a spot opens up.</p>
@@ -648,7 +640,7 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
 
     </div>
     <p style="margin-top:1.5rem;font-size:0.78rem;color:var(--bark-mid);font-weight:300;text-align:center">
-      Note: connect these forms to your email list provider (Mailchimp, ConvertKit etc.) to capture signups properly.
+
     </p>
   </div>
 </section>
@@ -766,12 +758,36 @@ window.addEventListener('scroll',()=>{
   });
 },{passive:true});
 
-// Cancellation form (visual only - wire to your email provider)
-function handleSignup(e,successId){
+// Cancellation list — submits to Mailchimp via JSONP
+function handleSignup(e, successId, tent) {
   e.preventDefault();
-  document.getElementById(successId).style.display='block';
-  e.target.querySelector('button').disabled=true;
-  e.target.querySelector('button').textContent='Subscribed';
+  var form = e.target;
+  var btn = form.querySelector('button');
+  var fname = form.querySelector('[data-fname]').value.trim();
+  var email = form.querySelector('[data-email]').value.trim();
+  if (!email) { alert('Please enter your email address.'); return; }
+  btn.textContent = 'Joining...';
+  btn.disabled = true;
+  var base = 'https://waitomoglamping.us1.list-manage.com/subscribe/post-json?u=701d2cc7568e38eac9ddd0862&id=012e1538e0&f_id=0052cae4f0';
+  var callbackName = 'mc_cb_' + Date.now();
+  var tag = tent === 'Kowhai' ? '5789310' : '5689926';
+  var url = base + '&EMAIL=' + encodeURIComponent(email) + '&FNAME=' + encodeURIComponent(fname) + '&tags=' + tag + '&b_701d2cc7568e38eac9ddd0862_012e1538e0=&c=' + callbackName;
+  window[callbackName] = function(data) {
+    delete window[callbackName];
+    if (script.parentNode) script.parentNode.removeChild(script);
+    if (data.result === 'success' || (data.msg && data.msg.indexOf('already subscribed') > -1)) {
+      document.getElementById(successId).style.display = 'block';
+      btn.textContent = "You're on the list!";
+    } else {
+      btn.textContent = 'Join the List';
+      btn.disabled = false;
+      var msg = data.msg ? data.msg.replace(/<[^>]+>/g, '') : 'Something went wrong. Please try again.';
+      alert(msg);
+    }
+  };
+  var script = document.createElement('script');
+  script.src = url;
+  document.head.appendChild(script);
 }
 </script>
 
