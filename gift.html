@@ -78,6 +78,14 @@ nav.scrolled {
 }
 .nav-book:hover { background: #e8a020; color: var(--bark); }
 
+/* ── EYEBROW ────────────────────────────── */
+.eyebrow {
+  font-size: 0.63rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.8rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--harvest); flex-shrink: 0; }
+
 /* ── HERO ─────────────────────────────── */
 .hero {
   margin-top: 80px;
@@ -516,26 +524,26 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
         <div class="field-row">
           <div class="field" id="field-firstname">
             <label for="firstname">Your First Name *</label>
-            <input type="text" id="firstname" name="firstname" placeholder="Emily" autocomplete="given-name"/>
+            <input type="text" id="firstname" name="firstname" placeholder="" autocomplete="given-name"/>
             <div class="error-msg">Please enter your first name</div>
           </div>
           <div class="field" id="field-lastname">
             <label for="lastname">Your Last Name *</label>
-            <input type="text" id="lastname" name="lastname" placeholder="Scott" autocomplete="family-name"/>
+            <input type="text" id="lastname" name="lastname" placeholder="" autocomplete="family-name"/>
             <div class="error-msg">Please enter your last name</div>
           </div>
         </div>
 
         <div class="field" id="field-email">
           <label for="email">Your Email Address *</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email"/>
+          <input type="email" id="email" name="email" placeholder="" autocomplete="email"/>
           <div class="field-hint">The voucher will be sent here — please double-check it.</div>
           <div class="error-msg">Please enter a valid email address</div>
         </div>
 
         <div class="field" id="field-phone">
           <label for="phone">Your Phone Number *</label>
-          <input type="tel" id="phone" name="phone" placeholder="021 123 4567" autocomplete="tel"/>
+          <input type="tel" id="phone" name="phone" placeholder="" autocomplete="tel"/>
           <div class="error-msg">Please enter your phone number</div>
         </div>
 
