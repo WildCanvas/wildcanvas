@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>News | Wild Canvas Luxury Glamping Waitomo</title>
+<meta name="description" content="News, stories and updates from Wild Canvas — New Zealand's first 5-Star Qualmark glamping experience in the heart of Waitomo."/>
+<link rel="canonical" href="https://www.wildcanvas.nz/news"/>
+<style>
+@font-face{font-family:'P22Mackinac';src:url('P22_Mackinac.otf') format('opentype');font-weight:400;}
+@font-face{font-family:'P22Mackinac';src:url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');font-weight:700;}
+@font-face{font-family:'Baton';src:url('Baton-MediumItalic.otf') format('opentype');font-weight:500;font-style:italic;}
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+:root{
+  --candy:#F3DAD3;--pistachio:#DFD39D;--citrine:#FCB236;
+  --harvest:#C19965;--cream:#FBF6EE;--off-white:#F7F1E6;
+  --bark:#3D2E1E;--bark-mid:#6B4F3A;--muted:#8A7B6E;
+  --serif:'P22Mackinac',Georgia,serif;--display:'Baton',Georgia,serif;--sans:'Jost',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);font-weight:300;background:var(--cream);color:var(--bark);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(251,246,238,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
+.wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
+.wc-nav-logo img{height:46px;display:block;}
+.wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.wc-nav-links>li{position:relative;}
+.wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;transition:color 0.2s;}
+.wc-nav-links>li>a:hover,.wc-nav-links>li>button:hover{color:var(--bark);}
+.wc-chevron{width:10px;height:10px;transition:transform 0.2s;}
+.wc-nav-links>li.open .wc-chevron{transform:rotate(180deg);}
+.wc-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--cream);border:1px solid rgba(61,46,30,0.1);box-shadow:0 8px 24px rgba(61,46,30,0.1);min-width:180px;z-index:300;}
+.wc-nav-links>li.open .wc-dropdown{display:block;}
+.wc-dropdown a{display:block;padding:0.65rem 1.1rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:400;color:var(--bark-mid);transition:background 0.15s,color 0.15s;}
+.wc-dropdown a:hover{background:var(--off-white);color:var(--bark);}
+.wc-dropdown-divider{height:1px;background:rgba(61,46,30,0.08);margin:0.3rem 0;}
+.wc-nav-book{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;font-style:italic;font-family:var(--display);padding:0.6rem 1.5rem;background:var(--citrine);color:var(--bark);border:none;cursor:pointer;display:inline-block;transition:background 0.3s;margin-left:0.5rem;}
+.wc-nav-book:hover{background:#e8a020;}
+.wc-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.wc-hamburger span{display:block;width:24px;height:1.5px;background:var(--bark);transition:transform 0.25s,opacity 0.25s;}
+.wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.wc-hamburger.open span:nth-child(2){opacity:0;}
+.wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--cream);z-index:190;flex-direction:column;padding:6rem 2.5rem 2.5rem;gap:0;overflow-y:auto;}
+.wc-mobile-drawer.open{display:flex;}
+.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:1.5rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.1);padding-top:1rem;}
+.wc-mobile-drawer a{font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--bark);font-weight:400;padding:0.6rem 0;border-bottom:1px solid rgba(61,46,30,0.06);}
+.wc-mobile-book{margin-top:1.5rem;background:var(--citrine);color:var(--bark);text-align:center;padding:1rem;font-weight:700;font-style:italic;font-family:var(--display);font-size:1rem;letter-spacing:0.08em;}
+
+/* HERO */
+.news-hero{padding-top:76px;background:var(--pistachio);padding:76px 3.5rem 3.5rem;}
+.news-hero-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem;}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
+.news-hero h1{font-family:var(--serif);font-size:clamp(2.5rem,4vw,3.8rem);font-weight:400;color:var(--bark);line-height:1.1;margin-bottom:0.8rem;}
+.news-hero h1 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.news-hero p{font-size:0.95rem;line-height:1.85;color:var(--bark-mid);font-weight:300;max-width:540px;}
+
+/* ARTICLES */
+.articles-section{padding:4rem 3.5rem;max-width:1100px;margin:0 auto;}
+.article-row{display:grid;grid-template-columns:420px 1fr;gap:3.5rem;align-items:start;padding-bottom:3.5rem;margin-bottom:3.5rem;border-bottom:1px solid rgba(61,46,30,0.08);}
+.article-row:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0;}
+.article-img{width:100%;height:280px;object-fit:cover;display:block;}
+.article-img-placeholder{width:100%;height:280px;background:var(--pistachio);display:flex;align-items:center;justify-content:center;}
+.article-tag{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.6rem;}
+.article-date{font-size:0.72rem;color:var(--muted);font-weight:300;margin-bottom:0.8rem;}
+.article-title{font-family:var(--serif);font-size:clamp(1.3rem,2vw,1.7rem);font-weight:400;color:var(--bark);line-height:1.2;margin-bottom:0.8rem;}
+.article-title em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.article-excerpt{font-size:0.9rem;line-height:1.85;color:var(--bark-mid);font-weight:300;margin-bottom:1.2rem;}
+.article-link{font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--bark);font-weight:500;border-bottom:1px solid rgba(61,46,30,0.3);padding-bottom:0.1rem;transition:border-color 0.2s,color 0.2s;}
+.article-link:hover{color:var(--harvest);border-color:var(--harvest);}
+
+/* FOOTER */
+footer{background:var(--bark);color:rgba(251,246,238,0.5);padding:2rem 3.5rem;font-size:0.75rem;letter-spacing:0.06em;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.footer-links a{color:rgba(251,246,238,0.4);transition:color 0.2s;}
+.footer-links a:hover{color:rgba(251,246,238,0.8);}
+
+/* FADE UP */
+.fade-up{opacity:0;transform:translateY(22px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-up.visible{opacity:1;transform:none;}
+
+@media(max-width:900px){
+  .wc-nav{padding:1rem 1.5rem;}
+  .wc-nav-links{display:none;}
+  .wc-hamburger{display:flex;}
+  .wc-nav-book{display:none;}
+  .news-hero{padding:76px 1.5rem 2.5rem;}
+  .articles-section{padding:2.5rem 1.5rem;}
+  .article-row{grid-template-columns:1fr;}
+  .article-img,.article-img-placeholder{height:220px;}
+  footer{flex-direction:column;padding:2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="wc-nav" id="wc-nav">
+  <a href="/" class="wc-nav-logo">
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas Glamping Escapes"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1rem;letter-spacing:0.1em;color:#3D2E1E\'>Wild Canvas</span>'"/>
+  </a>
+  <ul class="wc-nav-links" id="wc-nav-links">
+    <li id="drop-stay">
+      <button onclick="toggleDrop('drop-stay')" aria-haspopup="true" aria-expanded="false">
+        Stay
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/kowhai">Kōwhai Tent</a>
+        <a href="/pohutukawa">Pōhutukawa Tent</a>
+      </div>
+    </li>
+    <li id="drop-exp">
+      <button onclick="toggleDrop('drop-exp')" aria-haspopup="true" aria-expanded="false">
+        Experiences
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/experiences">All Experiences</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/waitomo">Explore Waitomo</a>
+      </div>
+    </li>
+    <li id="drop-about">
+      <button onclick="toggleDrop('drop-about')" aria-haspopup="true" aria-expanded="false">
+        About
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/aboutus">Our Story</a>
+        <a href="/media">Media &amp; Press</a>
+        <a href="/news" class="active">News</a>
+      </div>
+    </li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/gift">Gift Vouchers</a></li>
+  </ul>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
+  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="wc-mobile-drawer" id="wc-mobile-drawer">
+  <p class="wc-mobile-section-title">Stay</p>
+  <a href="/kowhai">Kōwhai Tent</a>
+  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <p class="wc-mobile-section-title">Experiences</p>
+  <a href="/experiences">All Experiences</a>
+  <a href="/waitomo">Explore Waitomo</a>
+  <p class="wc-mobile-section-title">About</p>
+  <a href="/aboutus">Our Story</a>
+  <a href="/media">Media &amp; Press</a>
+  <a href="/news">News</a>
+  <p class="wc-mobile-section-title">More</p>
+  <a href="/faq">FAQ</a>
+  <a href="/gift">Gift Vouchers</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
+</div>
+
+<!-- HERO -->
+<div class="news-hero">
+  <div class="news-hero-inner">
+    <p class="eyebrow">Wild Canvas</p>
+    <h1>News &amp; <em>updates</em></h1>
+    <p>Stories from the farm, behind the scenes, and the latest from Wild Canvas.</p>
+  </div>
+</div>
+
+<!-- ARTICLES -->
+<div class="articles-section">
+
+  <!-- ============================================================
+       HOW TO ADD A NEW ARTICLE:
+       Copy one of the article-row blocks below, paste it at the
+       top of this list (newest first), then update:
+         - article-tag     : category e.g. "Farm Life", "New at Wild Canvas", "Waitomo"
+         - article-date    : e.g. "May 2025"
+         - article-title   : the headline (wrap key words in <em> for italic gold)
+         - article-excerpt : 2–3 sentence summary
+         - article-link    : href="/news/your-article-filename"
+         - img src         : your image filename
+  ================================================================ -->
+
+  <!-- ARTICLE 1 — most recent at top -->
+  <div class="article-row fade-up">
+    <img class="article-img"
+      src="REPLACE-WITH-IMAGE.webp"
+      alt="REPLACE WITH ALT TEXT"
+      onerror="this.style.background='#DFD39D';this.removeAttribute('src')"/>
+    <div class="article-body">
+      <p class="article-tag">REPLACE WITH CATEGORY</p>
+      <p class="article-date">REPLACE WITH DATE</p>
+      <h2 class="article-title">REPLACE WITH <em>HEADLINE</em></h2>
+      <p class="article-excerpt">REPLACE WITH A 2–3 SENTENCE SUMMARY OF THE ARTICLE.</p>
+      <a href="/news/REPLACE-WITH-ARTICLE-URL" class="article-link">Read more →</a>
+    </div>
+  </div>
+
+  <!-- ARTICLE 2 -->
+  <div class="article-row fade-up">
+    <img class="article-img"
+      src="REPLACE-WITH-IMAGE.webp"
+      alt="REPLACE WITH ALT TEXT"
+      onerror="this.style.background='#DFD39D';this.removeAttribute('src')"/>
+    <div class="article-body">
+      <p class="article-tag">REPLACE WITH CATEGORY</p>
+      <p class="article-date">REPLACE WITH DATE</p>
+      <h2 class="article-title">REPLACE WITH <em>HEADLINE</em></h2>
+      <p class="article-excerpt">REPLACE WITH A 2–3 SENTENCE SUMMARY OF THE ARTICLE.</p>
+      <a href="/news/REPLACE-WITH-ARTICLE-URL" class="article-link">Read more →</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo · <a href="mailto:hello@wildcanvas.nz" style="color:rgba(251,246,238,0.6)">hello@wildcanvas.nz</a></p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/experiences">Experiences</a>
+    <a href="/kowhai">Kōwhai Tent</a>
+    <a href="/pohutukawa">Pōhutukawa Tent</a>
+    <a href="/faq">FAQ</a>
+  </div>
+</footer>
+
+<script>
+function toggleDrop(id) {
+  var li = document.getElementById(id);
+  var isOpen = li.classList.contains('open');
+  document.querySelectorAll('.wc-nav-links > li').forEach(function(el) {
+    el.classList.remove('open');
+    var btn = el.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    li.classList.add('open');
+    var btn = li.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.wc-nav-links')) {
+    document.querySelectorAll('.wc-nav-links > li').forEach(function(el) {
+      el.classList.remove('open');
+      var btn = el.querySelector('button[aria-expanded]');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+function toggleMobile() {
+  var drawer = document.getElementById('wc-mobile-drawer');
+  var btn = document.getElementById('wc-hamburger');
+  var open = drawer.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+window.addEventListener('scroll', function() {
+  document.getElementById('wc-nav').classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
