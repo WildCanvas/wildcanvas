@@ -137,6 +137,7 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 900px) {
   .enquire-grid-inner { grid-template-columns: 1fr !important; }
   .eateries-grid { grid-template-columns: 1fr !important; padding: 2rem 1.5rem !important; }
+  .provisions-grid { grid-template-columns: 1fr !important; }
   .massage-notes-grid { grid-template-columns: 1fr !important; padding: 0 1.5rem; }
  .extras-hero-photo { height: 280px; } }
 .extras-hero-text {
@@ -301,6 +302,7 @@ footer {
 @media (max-width: 900px) {
   .enquire-grid-inner { grid-template-columns: 1fr !important; }
   .eateries-grid { grid-template-columns: 1fr !important; padding: 2rem 1.5rem !important; }
+  .provisions-grid { grid-template-columns: 1fr !important; }
   .massage-notes-grid { grid-template-columns: 1fr !important; padding: 0 1.5rem; }
 
   .wc-nav { padding: 1rem 1.5rem; }
@@ -344,7 +346,6 @@ footer {
       <div class="wc-dropdown">
         <a href="/experiences">Experiences &amp; Add-Ons</a>
         <div class="wc-dropdown-divider"></div>
-        <a href="/catering">Food &amp; Catering</a>
         <a href="/waitomo">Explore Waitomo</a>
       </div>
     </li>
@@ -375,7 +376,6 @@ footer {
   <a href="/pohutukawa">Pōhutukawa Tent</a>
   <p class="wc-mobile-section-title">Experiences</p>
   <a href="/experiences">Experiences &amp; Add-Ons</a>
-  <a href="/catering">Food &amp; Catering</a>
   <a href="/waitomo">Explore Waitomo</a>
   <p class="wc-mobile-section-title">About</p>
   <a href="/aboutus">Our Story</a>
@@ -402,6 +402,55 @@ footer {
 </div>
 
 <!-- EXTRAS SELECTION -->
+<!-- WHAT'S INCLUDED -->
+<section style="background:var(--off-white);padding:4rem 3.5rem;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <p class="eyebrow">Already Included</p>
+    <h2 class="section-title">What's waiting <em>when you arrive</em></h2>
+    <p class="body-text" style="margin-bottom:2.5rem;">Every stay comes stocked with provisions so you can settle in straight away. The add-on experiences below go above and beyond.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;" class="provisions-grid">
+      <div>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:1rem;color:var(--bark);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(61,46,30,0.1);">Kōwhai Tent — Included with every stay</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>4 organic eggs and 750ml organic milk (Puhoi Valley)</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Butter and a loaf of fresh homemade bread</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>S'mores kit: marshmallows and biscuits</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>English Breakfast tea, plunger coffee, instant coffee and sugar</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Condiments: salt, pepper, oil and flour</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Outdoor kitchen: wood-fired pizza oven, Weber BBQ and gas hob</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Chilly bin stocked with ice packs for fresh food</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:var(--serif);font-weight:400;font-size:1rem;color:var(--bark);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(61,46,30,0.1);">Pōhutukawa Tent — Included with every stay</h3>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.5rem;">
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Bottle of New Zealand wine</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Milk, yoghurt, butter, eggs and cereal</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>S'mores kit: marshmallows and biscuits</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>English Breakfast tea, plunger coffee and sugar</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Condiments: salt, pepper and oil</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Full indoor kitchen: oven, induction cooktop, microwave, fridge, freezer and dishwasher</li>
+          <li style="font-size:0.85rem;color:var(--bark-mid);font-weight:300;padding-left:1rem;position:relative;">
+            <span style="position:absolute;left:0;color:var(--harvest);">·</span>Outdoor: Morsø wood-fired pizza oven and Weber BBQ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section" style="background:var(--cream);">
   <p class="eyebrow">Choose Your Experiences</p>
   <h2 class="section-title">What would you like to <em>add?</em></h2>
