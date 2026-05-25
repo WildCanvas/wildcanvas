@@ -1101,7 +1101,9 @@ document.querySelectorAll('.wc-mobile-drawer a').forEach(a => {
 // Videos - handle YouTube Shorts by converting to standard embed
 function playVideo(card, videoId) {
   var h = card.offsetHeight || 400;
-  card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" width="100%" height="${h}" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block;width:100%;height:${h}px;"></iframe>`;
+  var extra = 120; // clips YouTube title bar and bottom UI chrome
+  card.style.overflow = 'hidden';
+  card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3" width="100%" height="${h + extra}" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block;width:100%;height:${h + extra}px;margin-top:-60px;"></iframe>`;
   card.style.cursor = 'default';
 }
 
