@@ -773,8 +773,8 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
       <h2 class="section-title">State-of-the-art <em>off-grid power</em></h2>
       <p class="body-text">The Pōhutukawa Tent runs entirely on renewable energy via a purpose-built system — but you would never know it. Every appliance, the hot tub, underfloor heating and hot water all run seamlessly, just as they would at home.</p>
     </div>
-    <div style="overflow:hidden;border-radius:0;">
-    <div class="video-card" onclick="playVideo(this, 'lgd6ZsOjUeM')" style="position:relative;width:100%;height:400px;overflow:hidden;background:var(--bark);cursor:pointer;">
+    <div style="overflow:hidden;border-radius:0;max-width:340px;margin:0 auto;">
+    <div class="video-card" onclick="playVideo(this, 'lgd6ZsOjUeM')" style="position:relative;width:100%;height:600px;overflow:hidden;background:var(--bark);cursor:pointer;">
       <img
         src="pohutukawa-tent-exterior-friends-video-cover.webp"
         alt="Pōhutukawa Tent sustainable power system"
@@ -1100,7 +1100,8 @@ document.querySelectorAll('.wc-mobile-drawer a').forEach(a => {
 
 // Videos - handle YouTube Shorts by converting to standard embed
 function playVideo(card, videoId) {
-  card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" width="100%" height="300" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block"></iframe>`;
+  var h = card.offsetHeight || 400;
+  card.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" width="100%" height="${h}" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block;width:100%;height:${h}px;"></iframe>`;
   card.style.cursor = 'default';
 }
 
