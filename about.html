@@ -181,6 +181,27 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   footer{padding:3rem 1.5rem 1.5rem;}
   .cta-section{padding:4rem 1.5rem;}
 }
+.video-section { background: var(--off-white); }
+.video-inner { max-width: 1100px; margin: 0 auto; }
+.video-wrap {
+  position: relative; cursor: pointer; overflow: hidden;
+}
+.video-thumb { width: 100%; height: 520px; object-fit: cover; opacity: 0.78; display: block; transition: opacity 0.3s; }
+.video-wrap:hover .video-thumb { opacity: 0.6; }
+.video-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+}
+.play-btn {
+  width: 64px; height: 64px; background: var(--candy); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; transition: transform 0.2s;
+}
+.video-wrap:hover .play-btn { transform: scale(1.08); }
+.video-label {
+  font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--cream); font-weight: 500;
+}
+.video-wrap iframe { width: 100%; height: 520px; border: none; display: block; }
 </style>
 </head>
 <body>
@@ -276,7 +297,7 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
         src="wild-canvas-waitomo-farm-landscape.webp"
         alt="Wild Canvas tents on the hillside at dusk"/>
       <img class="story-img-accent"
-        src="wild-canvas-farm-life-accent.webp"
+        src="wild-canvas-4wd-farm-track.webp"
         alt="Inside a Wild Canvas tent"/>
     </div>
   </div>
@@ -296,7 +317,8 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
       <div class="fade-up">
         <img class="person-img"
           src="wild-canvas-hosts-ben-emily-family.webp"
-          alt="Emily and Benjamin Scott, founders of Wild Canvas"/>
+          alt="Emily and Benjamin Scott, founders of Wild Canvas"
+          style="width:50%;height:auto;aspect-ratio:unset;"/>
       </div>
       <div class="fade-up">
         <p class="body-text">Wild Canvas is our family-run glamping experience, set on Benjamin's third-generation Waitomo farm.</p>
@@ -388,13 +410,13 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
     </div>
     <div class="farm-images fade-up">
       <img
-        src="https://static.wixstatic.com/media/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg/v1/fit/w_900,h_600,q_90/590a8f_9c5e0baab0c74d93932af682ff231b6e~mv2.jpg"
+        src="wild-canvas-waitomo-sheep-farm.webp"
         alt="Waitomo farmland from Wild Canvas"/>
       <img
-        src="https://static.wixstatic.com/media/590a8f_73e901be6d444e0091eaf79625c1b788~mv2.jpg/v1/fit/w_600,h_400,q_90/590a8f_73e901be6d444e0091eaf79625c1b788~mv2.jpg"
+        src="wild-canvas-host-ben-with-cattle.webp"
         alt="Rolling hills at Wild Canvas"/>
       <img
-        src="https://static.wixstatic.com/media/590a8f_d977d6a6a0d1492db065ba294ea126a4~mv2.jpg/v1/fit/w_600,h_400,q_90/590a8f_d977d6a6a0d1492db065ba294ea126a4~mv2.jpg"
+        src="wild-canvas-team-welcome.webp"
         alt="Native birds and farmland"/>
     </div>
   </div>
@@ -426,6 +448,26 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
 </section>
 
 <!-- FOOTER -->
+<!-- VIDEO -->
+<section class="section video-section">
+  <div class="video-inner">
+    <p class="eyebrow">See it for yourself</p>
+    <h2 class="section-title">Watch the <em>Wild Canvas story</em></h2>
+    <p style="color:var(--muted);margin-top:0.5rem;max-width:560px;">Filmed as we were building the Pōhutukawa Tent — a behind-the-scenes look at how Wild Canvas came to be.</p>
+    <div class="video-wrap" id="about-video" onclick="playAboutVideo()" style="margin-top:2.5rem">
+      <img class="video-thumb"
+        src="https://img.youtube.com/vi/OJys5TwMi0I/maxresdefault.jpg"
+        alt="Wild Canvas: The Story Behind New Zealand's Ultimate Glamping Escape"/>
+      <div class="video-play">
+        <div class="play-btn">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M8 5L18 11L8 17V5Z" fill="#3D2E1E"/></svg>
+        </div>
+        <span class="video-label">The Wild Canvas Story</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-grid">
     <div>
@@ -494,6 +536,11 @@ const observer=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
 },{threshold:0.1});
 document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+
+function playAboutVideo() {
+  const wrap = document.getElementById('about-video');
+  wrap.innerHTML = '<iframe src="https://www.youtube.com/embed/OJys5TwMi0I?autoplay=1&rel=0" width="100%" height="520" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="display:block"></iframe>';
+}
 </script>
 </body>
 </html>
