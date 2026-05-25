@@ -46,37 +46,35 @@
 html { scroll-behavior: smooth; }
 body { font-family: var(--sans); font-weight: 300; background: var(--cream); color: var(--charcoal); }
 
-/* ── NAV ─────────────────────────────── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1.4rem 3.5rem;
-  background: rgba(243,218,211,0.92);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(61,46,30,0.08);
-  transition: padding 0.4s, box-shadow 0.4s;
-}
-nav.scrolled {
-  padding: 0.9rem 3.5rem;
-  box-shadow: 0 1px 0 rgba(61,46,30,0.1);
-}
-.nav-logo img {
-  height: 52px;
-  transition: opacity 0.3s;
-}
-.nav-links { display: flex; gap: 2rem; list-style: none; }
-.nav-links a {
-  font-size: 0.67rem; letter-spacing: 0.2em; text-transform: uppercase;
-  font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.3s;
-}
-.nav-links a:hover { color: var(--bark); }
-.nav-book {
-  font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase;
-  font-weight: 700; font-style: italic; font-family: var(--display);
-  padding: 0.6rem 1.5rem; background: var(--citrine); color: var(--bark);
-  border: none; transition: all 0.3s; cursor: pointer; display: inline-block;
-}
-.nav-book:hover { background: #e8a020; color: var(--bark); }
+.wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(243,218,211,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
+.wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
+.wc-nav-logo img{height:46px;display:block;}
+.wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.wc-nav-links>li{position:relative;}
+.wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;font-family:var(--sans);transition:color 0.2s;white-space:nowrap;}
+.wc-nav-links>li>a:hover,.wc-nav-links>li>button:hover,.wc-nav-links>li>a.active{color:var(--bark);}
+.wc-chevron{width:10px;height:10px;flex-shrink:0;transition:transform 0.25s;}
+.wc-nav-links>li.open .wc-chevron{transform:rotate(180deg);}
+.wc-dropdown{position:absolute;top:calc(100% + 8px);left:50%;background:var(--cream);border:1px solid rgba(61,46,30,0.1);box-shadow:0 8px 32px rgba(61,46,30,0.1);min-width:200px;padding:0.5rem 0;opacity:0;visibility:hidden;pointer-events:none;transform:translateX(-50%) translateY(-6px);transition:opacity 0.2s,transform 0.2s,visibility 0.2s;}
+.wc-nav-links>li.open .wc-dropdown{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
+.wc-dropdown a{display:block;padding:0.65rem 1.4rem;font-size:0.75rem;letter-spacing:0.08em;color:var(--bark-mid);font-weight:300;transition:background 0.15s,color 0.15s;white-space:nowrap;}
+.wc-dropdown a:hover{background:var(--candy);color:var(--bark);}
+.wc-dropdown-divider{height:1px;background:rgba(61,46,30,0.08);margin:0.4rem 0;}
+.wc-nav-book{font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;font-style:italic;font-family:var(--display);padding:0.6rem 1.5rem;background:var(--citrine);color:var(--bark);border:none;cursor:pointer;display:inline-block;transition:background 0.3s;margin-left:0.5rem;}
+.wc-nav-book:hover{background:#e8a020;}
+.wc-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.wc-hamburger span{display:block;width:24px;height:1.5px;background:var(--bark);transition:transform 0.25s,opacity 0.25s;}
+.wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.wc-hamburger.open span:nth-child(2){opacity:0;}
+.wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:var(--cream);padding:100px 2rem 2rem;flex-direction:column;gap:0;overflow-y:auto;}
+.wc-mobile-drawer.open{display:flex;}
+.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;padding:1.2rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.08);margin-top:0.5rem;}
+.wc-mobile-section-title:first-child{border-top:none;margin-top:0;}
+.wc-mobile-drawer a{font-size:0.92rem;color:var(--bark);padding:0.6rem 0;font-weight:300;border-bottom:1px solid rgba(61,46,30,0.06);}
+.wc-mobile-drawer a:hover{color:var(--harvest);}
+.wc-mobile-book{margin-top:1.5rem;padding:1rem;background:var(--harvest);color:var(--cream);text-align:center;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
+@media(max-width:900px){.wc-nav{padding:1rem 1.5rem;}.wc-nav.scrolled{padding:0.7rem 1.5rem;}.wc-nav-links,.wc-nav-book{display:none;}.wc-hamburger{display:flex;}}
 
 /* ── EYEBROW ────────────────────────────── */
 .eyebrow {
@@ -88,7 +86,7 @@ nav.scrolled {
 
 /* ── HERO ─────────────────────────────── */
 .hero {
-  margin-top: 80px;
+  margin-top: 76px;
 }
 .hero-img {
   width: 100%; height: 500px;
@@ -384,19 +382,65 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
 </head>
 <body>
 
-<!-- ═══ NAV ══════════════════════════════════ -->
-<nav>
-  <a href="https://www.wildcanvas.nz" class="nav-logo">
-    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas" onerror="this.style.display='none';this.parentElement.textContent='Wild Canvas'"/>
+<!-- NAV -->
+<nav class="wc-nav" id="wc-nav">
+  <a href="/" class="wc-nav-logo">
+    <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\"font-family:Georgia,serif;font-size:1rem;color:#3D2E1E;letter-spacing:0.1em\">Wild Canvas</span>'"/>
   </a>
-  <ul class="nav-links">
-    <li><a href="https://www.wildcanvas.nz/kowhai">Kōwhai Tent</a></li>
-    <li><a href="https://www.wildcanvas.nz/pohutukawa">Pōhutukawa Tent</a></li>
-    <li><a href="https://www.wildcanvas.nz/catering">Catering</a></li>
-    <li><a href="https://www.wildcanvas.nz/faq">FAQ</a></li>
+  <ul class="wc-nav-links" id="wc-nav-links">
+    <li id="drop-stay">
+      <button onclick="toggleDrop('drop-stay')">Stay
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/kowhai">Kōwhai Tent</a>
+        <a href="/pohutukawa">Pōhutukawa Tent</a>
+      </div>
+    </li>
+    <li id="drop-exp">
+      <button onclick="toggleDrop('drop-exp')">Experiences
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/experiences">All Experiences</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/waitomo">Explore Waitomo</a>
+      </div>
+    </li>
+    <li id="drop-about">
+      <button onclick="toggleDrop('drop-about')">About
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/aboutus">Our Story</a>
+        <a href="/media">Media &amp; Press</a>
+        <a href="/news">News</a>
+      </div>
+    </li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/gift" class="active">Gift Vouchers</a></li>
   </ul>
-  <a href="https://booking.wildcanvas.nz" class="nav-book">Book a Tent</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
+  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
 </nav>
+
+<div class="wc-mobile-drawer" id="wc-mobile-drawer">
+  <p class="wc-mobile-section-title">Stay</p>
+  <a href="/kowhai">Kōwhai Tent</a>
+  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <p class="wc-mobile-section-title">Experiences</p>
+  <a href="/experiences">All Experiences</a>
+  <a href="/waitomo">Explore Waitomo</a>
+  <p class="wc-mobile-section-title">About</p>
+  <a href="/aboutus">Our Story</a>
+  <a href="/media">Media &amp; Press</a>
+  <a href="/news">News</a>
+  <p class="wc-mobile-section-title">More</p>
+  <a href="/faq">FAQ</a>
+  <a href="/gift">Gift Vouchers</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
+</div>
 
 <!-- ═══ HERO ══════════════════════════════════ -->
 <section class="hero">
@@ -404,10 +448,15 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
   <img class="hero-img"
     src="wild-canvas-gift-voucher-luxury-glamping-waitomo.webp"
     alt="Wild Canvas luxury glamping Waitomo"/>
-  <div class="hero-text">
-    <p class="eyebrow">Wild Canvas Gift Vouchers</p>
-    <h1>The gift of somewhere <em>unforgettable</em></h1>
-    <p class="hero-sub">A night under canvas in the Waitomo hills — valid for two years, delivered by email. Perfect for every occasion.</p>
+  <div class="hero-text" style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;">
+    <div>
+      <p class="eyebrow">Wild Canvas Gift Vouchers</p>
+      <h1>The gift of somewhere <em>unforgettable</em></h1>
+      <p class="hero-sub">A night under canvas in the Waitomo hills — valid for two years, delivered by email. Perfect for every occasion.</p>
+    </div>
+    <div class="hero-stamp" style="padding-right:2rem;">
+      <img src="wild-canvas-where-time-stops-stamp.svg" alt="Wild Canvas Glamping Escapes — where time stops and memories are made" style="width:170px;height:auto;opacity:0.55;"/>
+    </div>
   </div>
 </section>
 
@@ -633,10 +682,26 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
 
 <script>
 // ─── SCROLL NAV ─────────────────────────────────────────────────────────────
-const nav = document.querySelector('nav');
+const nav = document.getElementById('wc-nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
+
+function toggleDrop(id) {
+  document.querySelectorAll('.wc-nav-links > li').forEach(li => {
+    if (li.id !== id) li.classList.remove('open');
+  });
+  document.getElementById(id).classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.wc-nav-links')) {
+    document.querySelectorAll('.wc-nav-links > li').forEach(li => li.classList.remove('open'));
+  }
+});
+function toggleMobile() {
+  document.getElementById('wc-hamburger').classList.toggle('open');
+  document.getElementById('wc-mobile-drawer').classList.toggle('open');
+}
 
 const VOUCHER_NAMES = {
   1: 'Kōwhai Tent — One Night Stay',
