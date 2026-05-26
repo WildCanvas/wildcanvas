@@ -378,6 +378,105 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
   .how-section, .terms-section { padding: 3rem 1.5rem; }
   footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
 }
+footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; max-width: 1100px; margin-left: auto; margin-right: auto; padding-bottom: 3rem; border-bottom: 1px solid rgba(251,246,238,0.08); }
+.footer-logo img { height: 52px; filter: brightness(0) invert(1) opacity(0.6); margin-bottom: 1.2rem; }
+.footer-tagline { font-size: 0.8rem; color: rgba(251,246,238,0.35); line-height: 1.8; font-weight: 300; }
+.footer-col h4 { font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--harvest); font-weight: 500; margin-bottom: 1.2rem; }
+.footer-col a, .footer-col p { display: block; font-size: 0.82rem; color: rgba(251,246,238,0.4); margin-bottom: 0.5rem; font-weight: 300; line-height: 1.7; transition: color 0.2s; }
+.footer-col a:hover { color: rgba(251,246,238,0.75); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 1rem; }
+.footer-legal { font-size: 0.7rem; color: rgba(251,246,238,0.25); }
+.social-links { display: flex; gap: 1.5rem; }
+.social-links a { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(251,246,238,0.35); transition: color 0.2s; }
+.social-links a:hover { color: rgba(251,246,238,0.7); }
+
+/* ── FADE ─────────────────────────────── */
+.fade-up { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ───────────────────────── */
+@media (max-width: 900px) {
+  .wc-nav { padding: 1rem 1.5rem; }
+  .wc-nav.scrolled { padding: 0.7rem 1.5rem; }
+  .wc-nav-links, .wc-nav-book { font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; font-style: italic; font-family: var(--display); padding: 0.6rem 1.5rem; background: var(--citrine); color: var(--bark); border: none; cursor: pointer; display: inline-block; transition: background 0.3s; margin-left: 0.5rem; }
+  .wc-hamburger { display: flex; }
+  .hero-photo { height: 320px; }
+  .hero-text { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.5rem; }
+  .hero-right { border-left: none; border-top: 1px solid rgba(61,46,30,0.12); padding-left: 0; padding-top: 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
+  .facts-strip { justify-content: flex-start; }
+  .fact { padding: 0.9rem 1.2rem; }
+  .section { padding: 3.5rem 1.5rem; }
+  .intro-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .intro-images { grid-template-rows: 220px 180px; }
+  .glance-grid { grid-template-columns: 1fr 1fr; }
+  .photo-full { height: 280px; }
+  .photo-trio { grid-template-columns: 1fr; }
+  .photo-trio img { height: 260px; }
+  .photo-pair { grid-template-columns: 1fr; }
+  .photo-pair img { height: 260px; }
+  .included-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .sustain-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+  .video-grid { grid-template-columns: 1fr; }
+  .exp-grid { grid-template-columns: 1fr 1fr; }
+  .note-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+  .compare-section { padding: 3.5rem 1.5rem; }
+  .area-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .floorplan-section { padding: 3.5rem 1.5rem; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; }
+  footer { padding: 3rem 1.5rem 1.5rem; }
+  .note-section { padding: 3rem 1.5rem; }
+  .book-section { padding: 4rem 1.5rem; }
+}
+
+
+/* PHOTO GALLERY CAROUSEL */
+.photo-carousel { position: relative; overflow: hidden; width: 100%; background: var(--bark); }
+.pc-track { display: flex; }
+.pc-item { flex-shrink: 0; width: 50%; }
+.pc-item img { width: 100%; height: 400px; object-fit: cover; display: block; }
+.pc-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(251,246,238,0.8); border: none; cursor: pointer;
+  width: 38px; height: 38px; font-size: 1rem; color: var(--bark);
+  border-radius: 50%; z-index: 5; transition: background 0.2s;
+}
+.pc-btn:hover { background: var(--cream); }
+.pc-prev { left: 1rem; }
+.pc-next { right: 1rem; }
+.pc-counter {
+  position: absolute; bottom: 0.8rem; right: 1rem;
+  font-size: 0.65rem; letter-spacing: 0.12em; color: rgba(255,255,255,0.7);
+  font-family: var(--sans); font-weight: 300;
+}
+@media(max-width:900px) {
+  .pc-item { width: 100%; }
+  .pc-item img { height: 280px; }
+}
+
+/* CAROUSEL */
+.carousel { position: relative; width: 100%; }
+.carousel-inner { position: relative; width: 100%; }
+.carousel-item { display: none; }
+.carousel-item.active { display: block; }
+.carousel-item img { width: 100%; height: auto; display: block; }
+.carousel-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.8rem 0; margin-top: 0.5rem;
+}
+.carousel-dots { display: flex; gap: 0.5rem; }
+.carousel-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(61,46,30,0.2); cursor: pointer; transition: background 0.2s;
+}
+.carousel-dot.active { background: var(--harvest); }
+.carousel-next-btn {
+  background: none; border: 1.5px solid var(--harvest); cursor: pointer;
+  color: var(--harvest); font-size: 1rem; width: 34px; height: 34px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; line-height: 1; font-family: var(--sans);
+}
+.carousel-next-btn:hover { background: var(--harvest); color: var(--cream); }
 </style>
 </head>
 <body>
@@ -404,7 +503,6 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
       </button>
       <div class="wc-dropdown">
         <a href="/experiences">All Experiences</a>
-        <div class="wc-dropdown-divider"></div>
         <a href="/waitomo">Explore Waitomo</a>
       </div>
     </li>
@@ -670,13 +768,42 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
 
 <!-- ═══ FOOTER ═════════════════════════════════ -->
 <footer>
-  <p>© 2025 Wild Canvas · Waitomo, New Zealand · <a href="mailto:hello@wildcanvas.nz" style="color:rgba(251,246,238,0.4);text-decoration:none">hello@wildcanvas.nz</a> · 021 166 6248</p>
-  <div class="footer-links">
-    <a href="https://www.wildcanvas.nz">Home</a>
-    <a href="https://www.wildcanvas.nz/kowhai">Kōwhai Tent</a>
-    <a href="https://www.wildcanvas.nz/pohutukawa">Pōhutukawa Tent</a>
-    <a href="https://www.wildcanvas.nz/faq">FAQ</a>
-    <a href="https://www.wildcanvas.nz/contact">Contact</a>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+          onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/>
+      </div>
+      <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Stay</h4>
+      <a href="/kowhai">Kōwhai Tent</a>
+      <a href="/pohutukawa">Pōhutukawa Tent</a>
+      <a href="https://booking.wildcanvas.nz?tent=pohutukawa#calendar">Book Now</a>
+      <a href="/gift">Gift Vouchers</a>
+    </div>
+    <div class="footer-col">
+      <h4>Experiences</h4>
+      <a href="/experiences">All Experiences</a>
+          <a href="/waitomo">Explore Waitomo</a>
+    </div>
+    <div class="footer-col">
+      <h4>Wild Canvas</h4>
+      <a href="/aboutus">Our Story</a>
+      <a href="/media">Media &amp; Press</a>
+      <a href="/faq">FAQ</a>
+      <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
+      <a href="tel:0211666248">021 166 6248</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-legal">© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo, New Zealand</p>
+    <div class="social-links">
+      <a href="https://www.facebook.com/waitomoglamping" target="_blank">Facebook</a>
+      <a href="http://www.instagram.com/wildcanvas.nz" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@wild.canvas" target="_blank">TikTok</a>
+    </div>
   </div>
 </footer>
 
