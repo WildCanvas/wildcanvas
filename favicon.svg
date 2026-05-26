@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <clipPath id="clip">
+      <rect width="64" height="64" rx="10"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <!-- Sky -->
+    <rect width="64" height="64" fill="#F3DAD3"/>
+    <rect y="32" width="64" height="32" fill="#F6AC89" opacity="0.55"/>
+    <!-- Ground strip -->
+    <rect y="52" width="64" height="12" fill="#7A9E80"/>
+    <!-- Tent -->
+    <polygon points="32,14 4,52 60,52" fill="#DFD39D"/>
+    <polygon points="32,14 4,52 18,52" fill="#C9BB7A" opacity="0.5"/>
+    <!-- Door -->
+    <polygon points="32,42 25,52 39,52" fill="#2A2535"/>
+    <!-- Star -->
+    <circle cx="15" cy="13" r="2" fill="#FCB236" opacity="0.9"/>
+  </g>
+</svg>
