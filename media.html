@@ -123,13 +123,7 @@ h1 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
 .glance-card-link:hover{opacity:0.7;}
 
 /* CREDITS */
-.credits-section{background:var(--off-white);padding:4rem 3.5rem;}
-.credits-inner{max-width:1100px;margin:0 auto;}
 .credits-title{font-family:var(--serif);font-size:1rem;font-weight:400;color:var(--bark);margin-bottom:1.5rem;}
-.credits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-.credit-item{padding:1.2rem 1.5rem;background:var(--cream);}
-.credit-role{font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.3rem;}
-.credit-name{font-size:0.85rem;color:var(--bark);font-weight:300;}
 
 /* CONTACT */
 .contact-section{background:var(--candy);padding:5rem 3.5rem;text-align:center;}
@@ -168,7 +162,6 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   .press-img img{height:240px;}
   .press-body{padding:2rem 1.5rem;}
   .glance-section{padding:3.5rem 1.5rem;} .glance-grid{grid-template-columns:1fr;}
-  .credits-section{padding:3rem 1.5rem;} .credits-grid{grid-template-columns:1fr 1fr;}
   .contact-section{padding:3.5rem 1.5rem;}
   .footer-grid{grid-template-columns:1fr 1fr;gap:2rem;}
   footer{padding:3rem 1.5rem 1.5rem;}
@@ -241,10 +234,15 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   <img class="hero-photo"
     src="wild-canvas-pohutukawa-tent-dusk-exterior-waitomo.webp"
     alt="Wild Canvas Pōhutukawa tent at dusk Waitomo New Zealand"/>
-  <div class="hero-text">
-    <p class="eyebrow">Media &amp; Press</p>
-    <h1>Wild Canvas <em>in the media</em></h1>
-    <p class="hero-sub">Recent press features, high-resolution images, and everything journalists and tourism partners need to tell the Wild Canvas story.</p>
+  <div class="hero-text" style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;">
+    <div>
+      <p class="eyebrow">Media &amp; Press</p>
+      <h1>Wild Canvas <em>in the media</em></h1>
+      <p class="hero-sub">Recent press features, high-resolution images, and everything journalists and tourism partners need to tell the Wild Canvas story.</p>
+    </div>
+    <div style="margin-right:2rem;">
+      <img src="wild-canvas-media-press-stamp.svg" alt="Wild Canvas Glamping Escapes stamp" style="width:130px;height:auto;opacity:0.55;"/>
+    </div>
   </div>
 </div>
 
@@ -379,26 +377,6 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
 </section>
 
 <!-- PHOTOGRAPHER CREDITS -->
-<section class="credits-section">
-  <div class="credits-inner">
-    <h2 class="credits-title">Photographer Credits</h2>
-    <div class="credits-grid">
-      <div class="credit-item">
-        <p class="credit-role">Photography</p>
-        <p class="credit-name">Tessa Chrisp</p>
-      </div>
-      <div class="credit-item">
-        <p class="credit-role">Drone Photography</p>
-        <p class="credit-name">Lisa Sun</p>
-      </div>
-      <div class="credit-item">
-        <p class="credit-role">Life &amp; Leisure Feature</p>
-        <p class="credit-name">Words: Sarah Templeton</p>
-      </div>
-    </div>
-    <p style="margin-top:1.5rem;font-size:0.8rem;color:var(--muted);font-weight:300">Please credit photographers appropriately when using downloaded images. For additional credits or permissions, email <a href="mailto:hello@wildcanvas.nz" style="color:var(--harvest)">hello@wildcanvas.nz</a>.</p>
-  </div>
-</section>
 
 <!-- CONTACT -->
 <section class="contact-section">
