@@ -804,7 +804,7 @@ var EXTRAS = [
     desc: 'Per person. Beef scotch, sausages, Volare garlic bread, your choice of main, two salad choices and passionfruit cheesecake. Meat prepped and ready to cook; salads and cheesecake served ready to eat. For every 2 people you can choose 1 main meat and 2 salads.',
     img: 'wild-canvas-gourmet-dinner-glamping-waitomo.webp',
     alt: 'Wild Canvas gourmet dinner glamping Waitomo',
-    price: 170, unit: 'NZD $170 for two', qty: true, qtyMin: 2, qtyMax: 8, dinnerOptions: true, needsDay: true
+    price: 85, unit: 'NZD $85 per person (min. 2)', qty: true, qtyMin: 2, qtyMax: 8, step: 2, dinnerOptions: true, needsDay: true
   },
   {
     id: 'mbns', tents: 'both',
@@ -875,25 +875,37 @@ function renderExtras() {
         detailsHtml += '</div>';
       }
 
-      // Dinner options
+      // Dinner options — 1 main + 2 salads per 2 guests
       if (ex.dinnerOptions) {
+        var numSets = Math.ceil((s.qty || 2) / 2);
+        if (!s.dinnerSets) s.dinnerSets = [];
+        for (var si2 = s.dinnerSets.length; si2 < numSets; si2++) {
+          s.dinnerSets.push({main:0, salad1:0, salad2:1});
+        }
         detailsHtml += '<div class="extra-details" onclick="event.stopPropagation()">';
-        detailsHtml += '<div class="detail-row"><label>Choice of patties</label><select onchange="setDinnerMain(\'' + ex.id + '\',this.value)">';
-        DINNER_MAINS.forEach(function(m, mi) {
-          detailsHtml += '<option value="' + mi + '"' + ((s.dinnerMain||0) === mi ? ' selected' : '') + '>' + m + '</option>';
-        });
-        detailsHtml += '</select></div>';
-        detailsHtml += '<div class="detail-row"><label>Salad 1</label><select onchange="setDinnerSalad(\'' + ex.id + '\',0,this.value)">';
-        DINNER_SALADS.forEach(function(sl, si) {
-          detailsHtml += '<option value="' + si + '"' + ((s.salad1||0) === si ? ' selected' : '') + '>' + sl + '</option>';
-        });
-        detailsHtml += '</select></div>';
-        detailsHtml += '<div class="detail-row"><label>Salad 2</label><select onchange="setDinnerSalad(\'' + ex.id + '\',1,this.value)">';
-        DINNER_SALADS.forEach(function(sl, si) {
-          var def = s.salad2 !== undefined ? s.salad2 : 1;
-          detailsHtml += '<option value="' + si + '"' + (def === si ? ' selected' : '') + '>' + sl + '</option>';
-        });
-        detailsHtml += '</select></div>';
+        detailsHtml += '<p style="font-size:0.78rem;color:var(--muted);margin-bottom:0.6rem;">Every 2 guests share 1 main choice and 2 salads.</p>';
+        for (var setN = 0; setN < numSets; setN++) {
+          var setLabel = numSets > 1 ? 'Guests ' + (setN*2+1) + '–' + (setN*2+2) : 'Your choices';
+          var curSet = s.dinnerSets[setN] || {main:0,salad1:0,salad2:1};
+          detailsHtml += '<div style="margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(61,46,30,0.08);">';
+          detailsHtml += '<p style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.4rem;">' + setLabel + '</p>';
+          detailsHtml += '<div class="detail-row"><label>Main</label><select onchange="setDinnerField(\'' + ex.id + '\',' + setN + ',\'main\',this)">';
+          DINNER_MAINS.forEach(function(m, mi) {
+            detailsHtml += '<option value="' + mi + '"' + (curSet.main === mi ? ' selected' : '') + '>' + m + '</option>';
+          });
+          detailsHtml += '</select></div>';
+          detailsHtml += '<div class="detail-row"><label>Salad 1</label><select onchange="setDinnerField(\'' + ex.id + '\',' + setN + ',\'salad1\',this)">';
+          DINNER_SALADS.forEach(function(sl, sli) {
+            detailsHtml += '<option value="' + sli + '"' + (curSet.salad1 === sli ? ' selected' : '') + '>' + sl + '</option>';
+          });
+          detailsHtml += '</select></div>';
+          detailsHtml += '<div class="detail-row"><label>Salad 2</label><select onchange="setDinnerField(\'' + ex.id + '\',' + setN + ',\'salad2\',this)">';
+          DINNER_SALADS.forEach(function(sl, sli) {
+            detailsHtml += '<option value="' + sli + '"' + (curSet.salad2 === sli ? ' selected' : '') + '>' + sl + '</option>';
+          });
+          detailsHtml += '</select></div>';
+          detailsHtml += '</div>';
+        }
         detailsHtml += '</div>';
       }
 
@@ -968,7 +980,7 @@ function toggleExtra(el) {
     delete selected[id];
   } else {
     var ex = EXTRAS.find(function(e) { return e.id === id; });
-    selected[id] = { qty: ex.qtyMin || 1, flavours: [], dinnerMain: 0, salad1: 0, salad2: 1 };
+    selected[id] = { qty: ex.qtyMin || 1, flavours: [], dinnerSets: [{main:0,salad1:0,salad2:1}] };
   }
   renderExtras();
 }
@@ -980,6 +992,8 @@ function changeQty(btn) {
   if (!selected[id]) return;
   var newQty = (selected[id].qty || 1) + delta;
   newQty = Math.max(ex.qtyMin || 1, Math.min(ex.qtyMax || 20, newQty));
+  // Enforce even numbers for dinner (step:2)
+  if (ex.step === 2) newQty = Math.round(newQty / 2) * 2;
   selected[id].qty = newQty;
   renderExtras();
 }
@@ -992,7 +1006,7 @@ function setFlavour(sel) {
   selected[id].flavours[index] = parseInt(sel.value);
 }
 
-function setDinnerSet(sel) {
+function setDinnerField(sel) {
   var id = sel.getAttribute("data-id");
   var setIdx = parseInt(sel.getAttribute("data-set"));
   var field = sel.getAttribute("data-field");
@@ -1000,6 +1014,7 @@ function setDinnerSet(sel) {
   if (!selected[id].dinnerSets) selected[id].dinnerSets = [];
   if (!selected[id].dinnerSets[setIdx]) selected[id].dinnerSets[setIdx] = {main:0,salad1:0,salad2:1};
   selected[id].dinnerSets[setIdx][field] = parseInt(sel.value);
+  renderExtras();
 }
 
 
