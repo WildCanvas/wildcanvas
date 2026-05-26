@@ -170,8 +170,10 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
    .hero-text{padding:2.5rem 1.5rem;} .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; } .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; } .hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}
 @media(max-width:900px){.hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; }.hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; }.hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}}
   .section{padding:4rem 1.5rem;}
-  .story-grid,.meet-grid,.farm-grid{grid-template-columns:1fr;gap:3rem;}
+  .story-grid,.meet-grid,.farm-grid{grid-template-columns:1fr !important;gap:3rem;}
+  .person-img{aspect-ratio:3/2;max-height:280px;}
   .story-img-accent{display:none;}
+  .story-img-main{display:none;}
   .farm-images img:first-child{height:220px;}
   .farm-images img{height:160px;}
   .awards-section{padding:3.5rem 1.5rem;} .awards-inner{grid-template-columns:1fr;}
