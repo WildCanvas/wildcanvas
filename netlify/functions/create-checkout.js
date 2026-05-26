@@ -54,8 +54,8 @@ exports.handler = async function(event) {
         voucher: voucher || '',
         voucherValue: String(voucherValue || 0),
       },
-      success_url: 'https://booking.wildcanvas.nz/?success=1&ref=' + encodeURIComponent(ref) + '&email=' + encodeURIComponent(email),
-      cancel_url: 'https://booking.wildcanvas.nz/?cancelled=1',
+      success_url: 'https://wildcanvas.nz/booking.html?success=1&ref=' + encodeURIComponent(ref) + '&email=' + encodeURIComponent(email),
+cancel_url: 'https://wildcanvas.nz/booking.html?cancelled=1',
     });
 
     return {
