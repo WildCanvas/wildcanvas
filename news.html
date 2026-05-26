@@ -29,7 +29,7 @@ a{text-decoration:none;color:inherit;}
 .wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(243,218,211,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
 .wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
 .wc-nav-logo img{height:46px;width:auto;display:block;}
-@media(max-width:900px){.wc-nav-logo img{height:38px;width:auto;}}
+@media(max-width:900px){.wc-nav-logo img{height:52px;width:auto;}}
 .wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
 .wc-nav-links>li{position:relative;}
 .wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;font-family:var(--sans);transition:color 0.2s;white-space:nowrap;text-decoration:none;}
@@ -269,6 +269,24 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
   <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
 </nav>
 
+<div class="wc-mobile-drawer" id="wc-mobile-drawer">
+  <p class="wc-mobile-section-title">Stay</p>
+  <a href="/kowhai">Kōwhai Tent</a>
+  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <p class="wc-mobile-section-title">Experiences</p>
+  <a href="/experiences">All Experiences</a>
+  <a href="/catering">Food &amp; Catering</a>
+  <a href="/waitomo">Explore Waitomo</a>
+  <p class="wc-mobile-section-title">About</p>
+  <a href="/aboutus">Our Story</a>
+  <a href="/media">Media &amp; Press</a>
+  <a href="/news">News</a>
+  <p class="wc-mobile-section-title">More</p>
+  <a href="/faq">FAQ</a>
+  <a href="/gift">Gift Vouchers</a>
+  <a href="booking.html" class="wc-mobile-book">Book Now</a>
+</div>
+
 <main>
   <div class="coming-soon">
     <p class="eyebrow">Wild Canvas News</p>
@@ -337,6 +355,12 @@ function toggleMobile() {
   document.getElementById('wc-hamburger').classList.toggle('open');
   document.getElementById('wc-mobile-drawer').classList.toggle('open');
 }
+document.querySelectorAll('.wc-mobile-drawer a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('wc-mobile-drawer').classList.remove('open');
+    document.getElementById('wc-hamburger').classList.remove('open');
+  });
+});
 </script>
 </body>
 </html>
