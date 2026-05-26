@@ -1,0 +1,9 @@
+{
+  "name": "wildcanvas-booking",
+  "version": "1.0.0",
+  "description": "Wild Canvas booking system",
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "node-fetch": "^2.6.9"
+  }
+}
