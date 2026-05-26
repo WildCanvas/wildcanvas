@@ -12,7 +12,7 @@
 /faq                /faq.html             301
 /aboutus            /about.html           301
 /media              /media.html           301
-/contact            /contact.html         301
+/contact            /index.html           301
 /experiences        /experiences.html     301
 
 # Old booking page — redirect to new booking system
