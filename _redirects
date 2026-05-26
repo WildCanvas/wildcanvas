@@ -5,8 +5,8 @@
 # Core pages — same URLs, 301 just in case Wix added trailing slashes etc.
 /kowhai             /kowhai.html          301
 /pohutukawa         /pohutukawa.html      301
-/catering           /catering.html        301
-/massages           /massages.html        301
+/catering           /experiences.html     301
+/massages           /experiences.html     301
 /waitomo            /waitomo.html         301
 /gift               /gift.html            301
 /faq                /faq.html             301
@@ -28,7 +28,7 @@
 /product-page/antipasto-platter                           /experiences.html  301
 /product-page/gourmet-dinner-for-two-guests-ready-to-cook /experiences.html  301
 /product-page/pizza-ready-to-cook                         /experiences.html  301
-/product-page/option-1-back-neck-and-shoulder-for-two-gguests /massages.html 301
+/product-page/option-1-back-neck-and-shoulder-for-two-gguests /experiences.html 301
 /product-page/*                                           /experiences.html  301
 
 # Common misspellings and alternates
@@ -39,9 +39,9 @@
 /accomodation       /index.html           301
 /waitomo-glamping   /index.html           301
 /about              /about.html           301
-/food               /catering.html        301
-/menu               /catering.html        301
-/massage            /massages.html        301
+/food               /experiences.html     301
+/menu               /experiences.html     301
+/massage            /experiences.html     301
 /vouchers           /gift.html            301
 /gift-vouchers      /gift.html            301
 /press              /media.html           301
