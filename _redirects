@@ -16,9 +16,9 @@
 /experiences        /experiences.html     301
 
 # Old booking page — redirect to new booking system
-/booktents          https://booking.wildcanvas.nz  301
-/book               https://booking.wildcanvas.nz  301
-/bookings           https://booking.wildcanvas.nz  301
+/booktents    /booking.html    301
+/book         /booking.html    301
+/bookings     /booking.html    301
 
 # News pages — keep pointing to Wix until you migrate news
 /news               https://www.wildcanvas.nz/news  301
