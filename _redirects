@@ -1,44 +1,31 @@
 # Wild Canvas — Netlify Redirects
-# Maps old Wix URLs to new page structure
-# Format: /old-path  /new-path  301
 
-# Core pages — same URLs, 301 just in case Wix added trailing slashes etc.
-/kowhai             /kowhai.html          301
-/pohutukawa         /pohutukawa.html      301
+# Clean URLs (200 = serve file without changing browser address)
+/about          /about.html          200
+/kowhai         /kowhai.html         200
+/pohutukawa     /pohutukawa.html     200
+/experiences    /experiences.html    200
+/faq            /faq.html            200
+/gift           /gift.html           200
+/waitomo        /waitomo.html        200
+/media          /media.html          200
+/news           /news.html           200
+/booking        /booking.html        200
+
+# Maps old Wix URLs to new page structure
+/kowhai-tent        /kowhai.html          301
+/pohutukawa-tent    /pohutukawa.html      301
 /catering           /experiences.html     301
 /massages           /experiences.html     301
-/waitomo            /waitomo.html         301
-/gift               /gift.html            301
-/faq                /faq.html             301
 /aboutus            /about.html           301
-/media              /media.html           301
 /contact            /index.html           301
-/experiences        /experiences.html     301
-
-# Old booking page — redirect to new booking system
-/booktents    /booking.html    301
-/book         /booking.html    301
-/bookings     /booking.html    301
-
-# News pages — keep pointing to Wix until you migrate news
-/news               https://www.wildcanvas.nz/news  301
-/news/*             https://www.wildcanvas.nz/news/:splat  301
-
-# Old Wix product pages — redirect to new Stripe/Experiences page
-/product-page/antipasto-platter                           /experiences.html  301
-/product-page/gourmet-dinner-for-two-guests-ready-to-cook /experiences.html  301
-/product-page/pizza-ready-to-cook                         /experiences.html  301
-/product-page/option-1-back-neck-and-shoulder-for-two-gguests /experiences.html 301
-/product-page/*                                           /experiences.html  301
-
-# Common misspellings and alternates
-/pohutukawa-tent    /pohutukawa.html      301
-/kowhai-tent        /kowhai.html          301
+/booktents          /booking.html         301
+/book               /booking.html         301
+/bookings           /booking.html         301
 /glamping           /index.html           301
 /accommodation      /index.html           301
 /accomodation       /index.html           301
 /waitomo-glamping   /index.html           301
-/about              /about.html           301
 /food               /experiences.html     301
 /menu               /experiences.html     301
 /massage            /experiences.html     301
@@ -46,6 +33,16 @@
 /gift-vouchers      /gift.html            301
 /press              /media.html           301
 /media-kit          /media.html           301
+
+# Old Wix product pages
+/product-page/antipasto-platter                                /experiences.html  301
+/product-page/gourmet-dinner-for-two-guests-ready-to-cook      /experiences.html  301
+/product-page/pizza-ready-to-cook                              /experiences.html  301
+/product-page/option-1-back-neck-and-shoulder-for-two-gguests  /experiences.html  301
+/product-page/*                                                /experiences.html  301
+
+# News — keep pointing to Wix until migrated
+/news/*             https://www.wildcanvas.nz/news/:splat  301
 
 # Catch-all — anything not matched goes to home
 /*                  /index.html           200
