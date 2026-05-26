@@ -58,7 +58,7 @@ a { text-decoration: none; color: inherit; }
 }
 .wc-nav.scrolled { padding: 0.75rem 3.5rem; box-shadow: 0 1px 0 rgba(61,46,30,0.1); }
 .wc-nav-logo img { height: 46px; width: auto; display: block; }
-@media(max-width:900px){.wc-nav-logo img{height:38px;width:auto;}}
+@media(max-width:900px){.wc-nav-logo img{height:52px;width:auto;}}
 .wc-nav-links { display: flex; align-items: center; gap: 0.25rem; list-style: none; }
 .wc-nav-links > li { position: relative; }
 .wc-nav-links > li > a,
@@ -142,11 +142,10 @@ a { text-decoration: none; color: inherit; }
   .provisions-grid { grid-template-columns: 1fr !important; }
   .massage-notes-grid { grid-template-columns: 1fr !important; padding: 0 1.5rem; }
   .extras-hero-photo { height: 280px; }
-  .extras-hero-text { grid-template-columns: 2fr 1fr !important; padding: 2rem 1.5rem !important; align-items: center !important; gap: 1rem !important; }
-  .extras-hero-text { grid-template-columns: 2fr 1fr !important; padding: 2rem 1.5rem !important; align-items: center !important; gap: 1rem !important; }
-  .hero-stamp { display: flex; align-items: center; justify-content: center; }
-  .hero-stamp img { width: 80px !important; margin-right: 0 !important; }
-  .eyebrow { white-space: normal; flex-wrap: wrap; letter-spacing: 0.12em; font-size: 0.58rem; }
+  .extras-hero-text { grid-template-columns: 1fr !important; padding: 2rem 1.5rem !important; }
+  .extras-hero-eyebrow { display: flex; flex-wrap: wrap; white-space: normal; }
+  .hero-stamp { display: flex !important; justify-content: flex-start; margin-top: 1rem; }
+  .hero-stamp img { width: 70px !important; margin-right: 0 !important; opacity: 0.5; }
 }
 .extras-hero-text {
   padding: 3rem 3.5rem 3.5rem;
@@ -317,10 +316,10 @@ footer {
   .wc-nav-links { display: none; }
   .wc-nav-book { display: none; }
   .wc-hamburger { display: flex; }
-  .extras-hero-text { grid-template-columns: 2fr 1fr !important; padding: 2rem 1.5rem !important; align-items: center !important; gap: 1rem !important; }
-  .hero-stamp { display: flex !important; align-items: center; justify-content: center; }
-  .hero-stamp img { width: 80px !important; margin-right: 0 !important; }
-  .eyebrow { white-space: normal; flex-wrap: wrap; letter-spacing: 0.12em; font-size: 0.58rem; }
+  .extras-hero-text { grid-template-columns: 1fr !important; padding: 2rem 1.5rem !important; }
+  .extras-hero-eyebrow { display: flex; flex-wrap: wrap; white-space: normal; }
+  .hero-stamp { display: flex !important; justify-content: flex-start; margin-top: 1rem; }
+  .hero-stamp img { width: 70px !important; margin-right: 0 !important; opacity: 0.5; }
   .section { padding: 3rem 1.5rem; }
   .extra-card { grid-template-columns: 1fr; }
   .extra-card-img, .extra-card-img-placeholder { width: 100%; height: 200px; }
@@ -512,7 +511,7 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
     alt="Couple enjoying champagne on the hilltop at Wild Canvas Waitomo"/>
   <div class="extras-hero-text">
     <div>
-      <p class="eyebrow">Experiences to make it unforgettable</p>
+      <p class="eyebrow extras-hero-eyebrow">Experiences to make it unforgettable</p>
       <h1>Tailor <em>your stay</em></h1>
       <p class="hero-sub">Whether you are planning a romantic escape, a family adventure or a celebration with friends, our experiences are designed to elevate every moment. Book ahead or add to an existing reservation.</p>
     </div>
