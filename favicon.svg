@@ -6,6 +6,10 @@
   </defs>
   <g clip-path="url(#clip)">
     <rect width="64" height="64" fill="#F6AC89"/>
+    <!-- 4-point stars in light pink -->
+    <polygon points="48,6 49,9 52,10 49,11 48,14 47,11 44,10 47,9" fill="#F3DAD3" opacity="0.8"/>
+    <polygon points="56,14 56.8,16.5 59,17 56.8,17.5 56,20 55.2,17.5 53,17 55.2,16.5" fill="#F3DAD3" opacity="0.6"/>
+    <polygon points="54,5 54.5,6.8 56,7 54.5,7.2 54,9 53.5,7.2 52,7 53.5,6.8" fill="#F3DAD3" opacity="0.5"/>
     <rect y="52" width="64" height="12" fill="#3D5A47"/>
     <polygon points="32,10 2,52 62,52" fill="#DFD39D"/>
     <polygon points="32,10 2,52 20,52" fill="#C9BB7A" opacity="0.6"/>
