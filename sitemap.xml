@@ -1,88 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://www.wildcanvas.nz/</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-
   <url>
     <loc>https://www.wildcanvas.nz/kowhai</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-
   <url>
     <loc>https://www.wildcanvas.nz/pohutukawa</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-
+  <url>
+    <loc>https://www.wildcanvas.nz/booking.html</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
   <url>
     <loc>https://www.wildcanvas.nz/experiences</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <url>
-    <loc>https://www.wildcanvas.nz/catering</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://www.wildcanvas.nz/massages</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <url>
     <loc>https://www.wildcanvas.nz/gift</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
   <url>
     <loc>https://www.wildcanvas.nz/waitomo</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
   <url>
     <loc>https://www.wildcanvas.nz/faq</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
-    <loc>https://www.wildcanvas.nz/aboutus</loc>
-    <lastmod>2025-05-15</lastmod>
+    <loc>https://www.wildcanvas.nz/about</loc>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
   <url>
     <loc>https://www.wildcanvas.nz/media</loc>
-    <lastmod>2025-05-15</lastmod>
+    <lastmod>2026-05-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-
   <url>
-    <loc>https://www.wildcanvas.nz/contact</loc>
-    <lastmod>2025-05-15</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://www.wildcanvas.nz/news</loc>
+    <lastmod>2026-05-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
-
 </urlset>
