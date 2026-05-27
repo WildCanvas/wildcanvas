@@ -5,21 +5,10 @@
     </clipPath>
   </defs>
   <g clip-path="url(#clip)">
-    <!-- Rich dark background -->
-    <rect width="64" height="64" fill="#2A2535"/>
-    <!-- Warm peachy-pink sky -->
-    <rect width="64" height="54" fill="#F6AC89"/>
-    <!-- Lighter pink upper sky -->
-    <rect width="64" height="34" fill="#F3DAD3"/>
-    <!-- Ground - dark bark so canvas tent pops above it -->
+    <rect width="64" height="64" fill="#F6AC89"/>
     <rect y="52" width="64" height="12" fill="#3D5A47"/>
-    <!-- Tent - canvas/pistachio, clear against pink -->
     <polygon points="32,10 2,52 62,52" fill="#DFD39D"/>
-    <!-- Shadow side -->
     <polygon points="32,10 2,52 20,52" fill="#C9BB7A" opacity="0.6"/>
-    <!-- Door - dark so it reads clearly -->
     <polygon points="32,40 24,52 40,52" fill="#2A2535"/>
-    <!-- Star -->
-    <circle cx="50" cy="11" r="2.5" fill="#FCB236"/>
   </g>
 </svg>
