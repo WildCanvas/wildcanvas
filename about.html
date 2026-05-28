@@ -48,13 +48,36 @@ a{text-decoration:none;color:inherit;}
 .wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
 .wc-hamburger.open span:nth-child(2){opacity:0;}
 .wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
-.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:190;background:var(--cream);padding:100px 2rem 2rem;flex-direction:column;gap:0;overflow-y:auto;}
-.wc-mobile-drawer.open{display:flex;}
-.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--harvest);font-weight:500;padding:1.2rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.08);margin-top:0.5rem;}
-.wc-mobile-section-title:first-child{border-top:none;margin-top:0;}
-.wc-mobile-drawer a{font-size:0.92rem;color:var(--bark);padding:0.6rem 0;font-weight:300;border-bottom:1px solid rgba(61,46,30,0.06);}
+.wc-mobile-drawer {
+  display: none; position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0; z-index: 190;
+  background: var(--cream); padding: 90px 2rem 1.5rem;
+  flex-direction: column; gap: 0; overflow-y: auto;
+}
+.wc-mobile-drawer.open { display: flex; }
+.wc-mobile-section-title {
+  font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; padding: 0.9rem 0 0.4rem;
+  border-top: 1px solid rgba(61,46,30,0.08); margin-top: 0.4rem;
+}
+.wc-mobile-section-title:first-child { border-top: none; margin-top: 0; }
+.wc-mobile-drawer a {
+  font-size: 0.92rem; color: var(--bark); padding: 0.5rem 0;
+  text-decoration: none; font-weight: 300; letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(61,46,30,0.06);
+}
 .wc-mobile-drawer a:hover{color:var(--harvest);}
-.wc-mobile-book{margin-top:1.5rem;padding:1rem;background:var(--harvest);color:var(--cream);text-align:center;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
+.wc-mobile-tent { display: flex !important; flex-direction: column !important; gap: 0.2rem; color: var(--bark) !important; font-weight: 400 !important; font-size: 1rem !important; }
+.wc-mobile-tent-desc { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 300; }
+.wc-dropdown-tent {
+  display: flex !important; flex-direction: column; gap: 0.15rem;
+  padding: 0.75rem 1.4rem !important;
+  border-bottom: 1px solid rgba(61,46,30,0.06);
+}
+.wc-dropdown-tent:last-of-type { border-bottom: none; }
+.wc-dropdown-tent { color: var(--bark) !important; font-weight: 400 !important; font-size: 0.82rem !important; letter-spacing: 0.04em !important; }
+.wc-dropdown-desc { font-size: 0.65rem; letter-spacing: 0.08em; color: var(--muted); font-weight: 300; text-transform: uppercase; }
+.wc-mobile-book{margin-top: 1.5rem;padding:1rem;background:var(--harvest);color:var(--cream);text-align:center;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;}
 
 /* HERO */
 .hero{padding-top:76px;line-height:0;}
@@ -231,8 +254,8 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
-        <a href="/kowhai">Kōwhai Tent</a>
-        <a href="/pohutukawa">Pōhutukawa Tent</a>
+        <a href="/kowhai" class="wc-dropdown-tent">Kōwhai Tent<span class="wc-dropdown-desc">Couples · 2 guests</span></a>
+        <a href="/pohutukawa" class="wc-dropdown-tent">Pōhutukawa Tent<span class="wc-dropdown-desc">Families &amp; groups · up to 8</span></a>
       </div>
     </li>
     <li id="drop-exp">
@@ -240,7 +263,7 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
-        <a href="/experiences">All Experiences</a>
+        <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
         <a href="/waitomo">Explore Waitomo</a>
       </div>
     </li>
@@ -263,10 +286,10 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
 
 <div class="wc-mobile-drawer" id="wc-mobile-drawer">
   <p class="wc-mobile-section-title">Stay</p>
-  <a href="/kowhai">Kōwhai Tent</a>
-  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <a href="/kowhai" class="wc-mobile-tent">Kōwhai Tent<span class="wc-mobile-tent-desc">Couples · 2 guests</span></a>
+  <a href="/pohutukawa" class="wc-mobile-tent">Pōhutukawa Tent<span class="wc-mobile-tent-desc">Families &amp; groups · up to 8</span></a>
   <p class="wc-mobile-section-title">Experiences</p>
-  <a href="/experiences">All Experiences</a>
+  <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
   <a href="/waitomo">Explore Waitomo</a>
   <p class="wc-mobile-section-title">About</p>
   <a href="/aboutus">Our Story</a>
@@ -485,14 +508,14 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
     </div>
     <div class="footer-col">
       <h4>Stay</h4>
-      <a href="/kowhai">Kōwhai Tent</a>
-      <a href="/pohutukawa">Pōhutukawa Tent</a>
+      <a href="/kowhai" class="wc-dropdown-tent">Kōwhai Tent<span class="wc-dropdown-desc">Couples · 2 guests</span></a>
+      <a href="/pohutukawa" class="wc-dropdown-tent">Pōhutukawa Tent<span class="wc-dropdown-desc">Families &amp; groups · up to 8</span></a>
       <a href="booking.html">Book Now</a>
       <a href="/gift">Gift Vouchers</a>
     </div>
     <div class="footer-col">
       <h4>Experiences</h4>
-      <a href="/experiences">All Experiences</a>
+      <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
         <a href="/waitomo">Explore Waitomo</a>
     </div>
     <div class="footer-col">
