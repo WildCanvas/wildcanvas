@@ -140,9 +140,11 @@ a { text-decoration: none; color: inherit; }
 .wc-dropdown-tent { color: var(--bark) !important; font-weight: 400 !important; font-size: 0.82rem !important; letter-spacing: 0.04em !important; }
 .wc-dropdown-desc { font-size: 0.65rem; letter-spacing: 0.08em; color: var(--muted); font-weight: 300; text-transform: uppercase; }
 .wc-mobile-book {
-  margin-top: 1.5rem; padding: 1rem;
-  background: var(--harvest); color: var(--cream); text-align: center;
-  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500;
+  margin-top: 1.5rem; padding: 1rem 2rem;
+  background: var(--citrine); color: var(--bark); text-align: center;
+  font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 700; font-style: italic; font-family: var(--display);
+  text-decoration: none; display: block;
 }
 
 /* ── HERO ──────────────────────────────── */
@@ -184,6 +186,7 @@ a { text-decoration: none; color: inherit; }
   font-weight: 700; font-style: italic; font-family: var(--display); transition: background 0.3s; border: none; cursor: pointer; white-space: nowrap;
 }
 .btn-primary:hover { background: #e8a020; color: var(--bark); }
+.hero-stamp-cta { display: flex; flex-direction: column; align-items: flex-end; gap: 1.5rem; }
 .btn-outline {
   display: inline-block; padding: 0.9rem 2.2rem;
   border: 1.5px solid var(--harvest); color: var(--bark);
@@ -365,8 +368,8 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
   .hero-photo { height: 45vh; min-height: 260px; }
   .hero-text { grid-template-columns: 1fr; gap: 2rem; padding: 2.5rem 1.5rem; }
   .hero-right { border-left: none; border-top: 1px solid rgba(61,46,30,0.12); padding-left: 0; padding-top: 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
-  .facts-strip { justify-content: flex-start; }
-  .fact { padding: 0.9rem 1.2rem; }
+  .facts-strip { justify-content: center; flex-wrap: wrap; }
+  .fact { padding: 0.9rem 1.2rem; text-align: center; }
   .section { padding: 3.5rem 1.5rem; }
   .intro-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .intro-images { grid-template-rows: 220px 180px; }
@@ -389,6 +392,8 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
   .power-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
   .power-section { padding: 3rem 1.5rem !important; }
   .note-section { padding: 3rem 1.5rem; }
+  .hero-stamp-cta { align-items: center !important; justify-content: center !important; width: 100%; }
+  .hero-stamp-cta .btn-primary { font-size: 0.85rem !important; padding: 0.85rem 2rem !important; letter-spacing: 0.12em !important; width: auto !important; }
   .book-section { padding: 4rem 1.5rem; }
 }
 
@@ -528,7 +533,7 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
       <h1>The Pōhutukawa Tent: <em>Secluded, Spacious, Unforgettable</em></h1>
       <p class="hero-sub">Four bedrooms, a cedar hot tub, full indoor kitchen, underfloor heating and breathtaking 360° views. The ultimate glamping experience, with curated add-ons available exclusively for your group.</p>
     </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1.5rem">
+    <div class="hero-stamp-cta">
       <img src="wild-canvas-pohutukawa-tent-stamp-green.svg" alt="Pōhutukawa Tent — Wild Canvas Glamping" style="width:130px;height:auto;opacity:0.85"/>
       <a href="booking.html#calendar" class="btn-primary">Check Availability</a>
     </div>
@@ -654,13 +659,17 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
       <p class="included-subtitle">For your stay</p>
       <ul class="included-list">
         <li>Bath towels and luxury bed linen</li>
-        <li>Hot water bottles and picnic blankets</li>
         <li>Torch and battery-powered lanterns</li>
         <li>Insect repellent</li>
         <li>Firewood and fire starters</li>
-        <li>Movie projector and movie selection</li>
+        <li>Board games and books</li>
         <li>Cedar hot tub pre-heated to 38°C</li>
         <li>Full kitchen: cookware, dinnerware, dishwasher</li>
+      </ul>
+      <p class="included-subtitle">Bathroom amenities</p>
+      <ul class="included-list">
+        <li>Hand soap, body wash, shampoo and conditioner by Ashley &amp; Co</li>
+        <li>Dyson Airwrap hairdryer</li>
       </ul>
     </div>
   </div>
