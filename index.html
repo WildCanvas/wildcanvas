@@ -408,9 +408,10 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   .wc-hamburger { display: flex; }
   .section { padding: 4rem 1.5rem; }
   .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; }
-  .hero-descriptor { display: block; font-size: 1.15rem; font-weight: 400; font-family: var(--serif); color: var(--bark); line-height: 1.35; margin-bottom: 0.75rem; }
-  .hero-text h1 { font-size: 1.5rem; opacity: 0.7; }
+  .hero-descriptor { display: block; font-size: clamp(1.6rem, 5vw, 2.2rem); font-weight: 400; font-family: var(--serif); color: var(--bark); line-height: 1.15; margin-bottom: 1.5rem; letter-spacing: -0.01em; }
+  .hero-text h1 { font-size: 1.5rem; opacity: 0.7; display: none; }
   .hero-sub-detail { display: none; }
+  .hero-sub { display: none; }
   .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; }
   .hero-stamp img { width: 110px !important; margin-right: 0 !important; opacity: 0.55; }
   .hero-text-right { padding-left: 0; border-left: none; border-top: 1px solid rgba(61,46,30,0.1); padding-top: 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
@@ -566,7 +567,7 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
       <p class="hero-eyebrow">Waitomo, New Zealand</p>
       <p class="hero-descriptor">Two luxury safari tents perched on their own private hilltops.</p>
       <h1 style="margin-top:0.75rem;">Where time stops<br/>and <em>memories are made</em></h1>
-      <p class="hero-sub hero-sub-detail">Outdoor baths, cedar hot tub, campfire, birdsong and complete seclusion. Entirely yours.</p>
+      <p class="hero-sub">Two luxury safari tents perched on their own private hilltops in the heart of Waitomo. Outdoor baths, cedar hot tub, campfire, birdsong and complete seclusion. Entirely yours.</p>
       <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap">
         <a href="booking.html" class="btn-primary">Book Your Escape</a>
         <a href="#tents" class="btn-outline">Explore the Tents</a>
