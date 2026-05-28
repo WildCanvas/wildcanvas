@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wild Canvas · Host Dashboard</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,serif;background:#DFD39D;color:#2A2535;min-height:100vh;}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.login-box{background:#FAF6EE;border:1px solid rgba(42,37,53,.15);padding:2.5rem;text-align:center;max-width:380px;width:90%;}
+.login-logo{font-size:1.5rem;font-weight:700;letter-spacing:.15em;color:#2A2535;margin-bottom:.2rem;}
+.login-sub{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#7A6A58;margin-bottom:2rem;}
+.login-title{font-size:1.1rem;font-style:italic;margin-bottom:.5rem;}
+.login-desc{font-size:.8rem;color:#7A6A58;margin-bottom:1.5rem;}
+.g-signin-btn{display:inline-flex;align-items:center;gap:.6rem;background:#fff;border:1.5px solid rgba(42,37,53,.2);padding:.7rem 1.4rem;cursor:pointer;font-family:Georgia,serif;font-size:.82rem;color:#2A2535;transition:border-color .2s;}
+.g-signin-btn:hover{border-color:#2A2535;}
+.g-signin-btn img{width:18px;height:18px;}
+
+/* HEADER */
+.hdr{background:#2A2535;color:#fff;padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.hdr-logo{font-size:1rem;font-weight:700;letter-spacing:.12em;}
+.hdr-user{font-size:.72rem;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:.75rem;}
+.hdr-signout{background:none;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);padding:.28rem .7rem;cursor:pointer;font-family:Georgia,serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;}
+.hdr-signout:hover{border-color:#fff;color:#fff;}
+
+/* NAV TABS */
+.tabs{background:#FAF6EE;border-bottom:2px solid rgba(42,37,53,.1);display:flex;padding:0 1.5rem;}
+.tab{padding:.8rem 1.25rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:#7A6A58;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab.active{color:#2A2535;border-bottom-color:#FCB236;}
+.tab:hover{color:#2A2535;}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+
+/* STATS BAR */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+.stat{background:#FAF6EE;border:1px solid rgba(42,37,53,.12);padding:1rem 1.2rem;}
+.stat-val{font-size:1.6rem;font-weight:700;font-style:italic;color:#2A2535;}
+.stat-lbl{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#7A6A58;margin-top:.2rem;}
+
+/* CALENDAR */
+.cal-wrap{background:#FAF6EE;border:1px solid rgba(42,37,53,.12);padding:1.25rem;margin-bottom:1.5rem;}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.cal-title{font-size:1.1rem;font-weight:700;font-style:italic;}
+.cal-nav{background:none;border:1.5px solid #2A2535;color:#2A2535;width:30px;height:30px;cursor:pointer;font-size:1rem;font-family:Georgia,serif;}
+.cal-nav:hover{background:#2A2535;color:#fff;}
+.cal-legend{display:flex;gap:1rem;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:.3rem;font-size:.68rem;color:#7A6A58;}
+.legdot{width:12px;height:12px;border-radius:2px;}
+
+/* CALENDAR GRID */
+.cal-grid{display:grid;grid-template-columns:80px repeat(31,1fr);border:1px solid rgba(42,37,53,.1);}
+.cal-cell{border-right:1px solid rgba(42,37,53,.08);border-bottom:1px solid rgba(42,37,53,.08);min-height:36px;display:flex;align-items:center;justify-content:center;font-size:.72rem;position:relative;}
+.cal-cell.header{background:#2A2535;color:#fff;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;min-height:28px;}
+.cal-cell.date-header{background:rgba(42,37,53,.06);font-size:.65rem;color:#7A6A58;min-height:26px;}
+.cal-cell.tent-label{background:#FAF6EE;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;color:#7A6A58;justify-content:flex-start;padding-left:.4rem;font-weight:700;word-break:break-word;line-height:1.2;}
+.cal-cell.booked-k{background:none;}
+.cal-cell.booked-p{background:none;}
+.cal-cell.blocked{background:#F3DAD3;cursor:pointer;}
+.cal-cell.today{outline:2px solid #2A2535;outline-offset:-2px;}
+.cal-cell.past{opacity:.4;}
+.cal-cell.available{background:#EAF0E6;}
+.booking-bar{position:absolute;inset:2px;border-radius:2px;display:flex;align-items:center;padding:0 4px;font-size:.6rem;color:#2A2535;font-weight:700;overflow:hidden;white-space:nowrap;cursor:pointer;}
+
+/* BOOKINGS LIST */
+.bookings-list{display:flex;flex-direction:column;gap:.75rem;}
+.bcard{background:#FAF6EE;border:1px solid rgba(42,37,53,.12);padding:1.1rem 1.25rem;cursor:pointer;transition:border-color .2s;}
+.bcard:hover{border-color:#C19965;}
+.bcard-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;}
+.bcard-ref{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#7A6A58;}
+.bcard-status{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.18rem .5rem;}
+.status-confirmed{background:#EAF0E6;color:#3D5A47;}
+.status-cancelled{background:#F3DAD3;color:#b08878;}
+.bcard-name{font-size:1rem;font-weight:700;font-style:italic;color:#2A2535;}
+.bcard-details{font-size:.78rem;color:#7A6A58;margin-top:.25rem;}
+.bcard-total{font-size:.95rem;font-weight:700;font-style:italic;color:#2A2535;}
+
+/* BLOCK DATES */
+.block-form{background:#FAF6EE;border:1px solid rgba(42,37,53,.12);padding:1.25rem;margin-bottom:1.5rem;}
+.block-title{font-size:1rem;font-weight:700;font-style:italic;margin-bottom:1rem;}
+.form-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:.75rem;align-items:end;}
+.fg{display:flex;flex-direction:column;gap:.3rem;}
+label{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:#7A6A58;}
+input,select{font-family:Georgia,serif;font-size:.84rem;color:#2A2535;background:#fff;border:1.5px solid rgba(42,37,53,.18);padding:.5rem .7rem;width:100%;}
+input:focus,select:focus{border-color:#2A2535;outline:none;}
+
+/* BLOCKED LIST */
+.blocked-list{display:flex;flex-direction:column;gap:.5rem;margin-top:1rem;}
+.blk-item{background:#fff;border:1px solid rgba(42,37,53,.12);padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between;}
+.blk-info{font-size:.8rem;color:#2A2535;}
+.blk-sub{font-size:.68rem;color:#7A6A58;margin-top:.15rem;}
+.blk-del{background:none;border:1.5px solid rgba(42,37,53,.2);color:#b08878;padding:.3rem .7rem;cursor:pointer;font-family:Georgia,serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;}
+.blk-del:hover{background:#F3DAD3;border-color:#b08878;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(42,37,53,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem;}
+.modal{background:#FAF6EE;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;padding:1.75rem;}
+.modal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;}
+.modal-title{font-size:1.2rem;font-weight:700;font-style:italic;}
+.modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:#7A6A58;line-height:1;}
+.modal-ref{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#7A6A58;margin-bottom:1rem;}
+.modal-row{display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid rgba(42,37,53,.08);font-size:.82rem;}
+.modal-row:last-child{border:none;}
+.modal-lbl{color:#7A6A58;}
+.modal-val{font-weight:600;text-align:right;max-width:60%;}
+.modal-actions{display:flex;gap:.6rem;margin-top:1.25rem;flex-wrap:wrap;}
+
+/* BUTTONS */
+.btn{font-family:Georgia,serif;font-size:.65rem;letter-spacing:.13em;text-transform:uppercase;padding:.65rem 1.4rem;cursor:pointer;border:2px solid #2A2535;transition:all .2s;}
+.btn-dark{background:#2A2535;color:#fff;}
+.btn-dark:hover{background:#3a3232;}
+.btn-out{background:none;color:#2A2535;}
+.btn-out:hover{background:#2A2535;color:#fff;}
+.btn-red{background:none;color:#b08878;border-color:#b08878;}
+.btn-red:hover{background:#F3DAD3;}
+.btn-sm{padding:.4rem .85rem;font-size:.6rem;}
+.btn-gold{background:#FCB236;color:#2A2535;border-color:#FCB236;font-weight:700;}
+
+/* SEARCH */
+.search-bar{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.search-input{flex:1;min-width:200px;font-family:Georgia,serif;font-size:.84rem;color:#2A2535;background:#FAF6EE;border:1.5px solid rgba(42,37,53,.18);padding:.55rem .8rem;}
+.filter-select{font-family:Georgia,serif;font-size:.82rem;color:#2A2535;background:#FAF6EE;border:1.5px solid rgba(42,37,53,.18);padding:.55rem .8rem;}
+
+/* EMPTY */
+.empty{text-align:center;padding:3rem;color:#7A6A58;font-size:.85rem;font-style:italic;}
+
+/* LOADING */
+.loading{text-align:center;padding:2rem;color:#7A6A58;font-size:.82rem;}
+
+@media(max-width:600px){
+  .stats{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr 1fr;}
+  .cal-grid{overflow-x:auto;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-wrap">
+    <div class="login-box">
+      <div class="login-logo">WILD CANVAS</div>
+      <div class="login-sub">Host Dashboard</div>
+      <div class="login-title">Welcome back</div>
+      <div class="login-desc">Enter the host password to access the dashboard.</div>
+      <div style="display:flex;flex-direction:column;gap:.75rem;margin-top:.5rem;">
+        <input type="password" id="pw-input" placeholder="Password" style="font-family:Georgia,serif;font-size:.9rem;border:1.5px solid rgba(42,37,53,.2);padding:.65rem .85rem;text-align:center;letter-spacing:.1em;" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="btn btn-dark" onclick="doLogin()" style="width:100%;justify-content:center;">Sign in</button>
+      </div>
+      <p id="login-error" style="color:#b08878;font-size:.75rem;margin-top:.75rem;display:none;">Incorrect password. Please try again.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" style="display:none;">
+
+  <div class="hdr">
+    <div class="hdr-logo">WILD CANVAS · HOST DASHBOARD</div>
+    <div class="hdr-user">
+      <span id="user-email"></span>
+      <button class="hdr-signout" onclick="signOut()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('overview')">Overview</div>
+    <div class="tab" onclick="showTab('calendar')">Calendar</div>
+    <div class="tab" onclick="showTab('bookings')">Bookings</div>
+    <div class="tab" onclick="showTab('block')">Block Dates</div>
+  </div>
+
+  <div class="main">
+
+    <!-- OVERVIEW TAB -->
+    <div id="tab-overview">
+      <div class="stats" id="stats-bar">
+        <div class="stat"><div class="stat-val" id="s-upcoming">—</div><div class="stat-lbl">Upcoming bookings</div></div>
+        <div class="stat"><div class="stat-val" id="s-month">—</div><div class="stat-lbl">This month</div></div>
+        <div class="stat"><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Future revenue</div></div>
+        <div class="stat"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">All bookings</div></div>
+      </div>
+      <div id="upcoming-list" class="bookings-list"><div class="loading">Loading bookings…</div></div>
+    </div>
+
+    <!-- CALENDAR TAB -->
+    <div id="tab-calendar" style="display:none;">
+      <div class="cal-wrap">
+        <div class="cal-hdr">
+          <button class="cal-nav" onclick="chCalMo(-1)">&#8249;</button>
+          <div>
+            <div class="cal-title" id="cal-mo-title"></div>
+            <div class="cal-legend" style="margin-top:.4rem;">
+              <div class="leg"><div class="legdot" style="background:#0F9D58;border-radius:3px;"></div>Kōwhai booking</div>
+              <div class="leg"><div class="legdot" style="background:#F4896B;border-radius:3px;"></div>Pōhutukawa booking</div>
+              <div class="leg"><div class="legdot" style="background:#F3DAD3"></div>Blocked</div>
+              <div class="leg"><div class="legdot" style="background:#EAF0E6"></div>Available</div>
+            </div>
+          </div>
+          <button class="cal-nav" onclick="chCalMo(1)">&#8250;</button>
+        </div>
+        <div id="cal-grid-wrap" style="overflow-x:auto;"></div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS TAB -->
+    <div id="tab-bookings" style="display:none;">
+      <div class="search-bar">
+        <input class="search-input" type="text" id="search-input" placeholder="Search by name, email or reference…" oninput="filterBookings()">
+        <select class="filter-select" id="filter-tent" onchange="filterBookings()">
+          <option value="">All tents</option>
+          <option value="kowhai">Kōwhai</option>
+          <option value="pohutukawa">Pōhutukawa</option>
+        </select>
+        <select class="filter-select" id="filter-status" onchange="filterBookings()">
+          <option value="">All statuses</option>
+          <option value="Confirmed">Confirmed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div id="bookings-list" class="bookings-list"><div class="loading">Loading bookings…</div></div>
+    </div>
+
+    <!-- BLOCK DATES TAB -->
+    <div id="tab-block" style="display:none;">
+      <div class="block-form">
+        <div class="block-title">Block off dates</div>
+        <div class="form-row">
+          <div class="fg"><label>Tent</label>
+            <select id="blk-tent">
+              <option value="kowhai">Kōwhai</option>
+              <option value="pohutukawa">Pōhutukawa</option>
+              <option value="both">Both tents</option>
+            </select>
+          </div>
+          <div class="fg"><label>From</label><input type="date" id="blk-from"></div>
+          <div class="fg"><label>To</label><input type="date" id="blk-to"></div>
+          <div class="fg"><label>Reason (optional)</label><input type="text" id="blk-reason" placeholder="e.g. Maintenance"></div>
+          <div class="fg"><label>&nbsp;</label><button class="btn btn-dark" onclick="addBlock()">Block dates</button></div>
+        </div>
+      </div>
+      <div class="block-title" style="font-size:.9rem;margin-bottom:.6rem;">Currently blocked</div>
+      <div id="blocked-list"><div class="loading">Loading…</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOOKING DETAIL MODAL -->
+<div class="modal-overlay" id="modal" style="display:none;" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modal-name"></div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-ref" id="modal-ref"></div>
+    <div id="modal-body"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────────────────
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL78iWtDb2jUZ5yHhCO8wonBrmqO2lRGoRxjaVFvOtYBiDNTY_qPpBihWJfwm-WfWmUg/exec';
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+var currentUser = null;
+var allBookings = [];
+var allBlocked = [];
+var calYear = new Date().getFullYear();
+var calMonth = new Date().getMonth();
+
+// ── AUTH ──────────────────────────────────────────────────────────────────
+var PASSWORD = 'sossysos';
+
+function doLogin() {
+  var pw = document.getElementById('pw-input').value;
+  if (pw === PASSWORD) {
+    currentUser = {email: 'hello@wildcanvas.nz', name: 'Wild Canvas Host'};
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    document.getElementById('user-email').textContent = 'Wild Canvas Host';
+    loadAll();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+function signOut() {
+  currentUser = null;
+  document.getElementById('login-screen').style.display = 'block';
+  document.getElementById('dashboard').style.display = 'none';
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+function loadAll() {
+  loadBookings();
+  loadBlocked();
+}
+
+function loadBookings() {
+  fetch(SCRIPT_URL + '?action=bookings&email=' + encodeURIComponent(currentUser.email))
+    .then(function(r){return r.json();})
+    .then(function(data){
+      allBookings = (data.bookings || []).map(function(b){
+        b.checkin = toDateStr(b.checkin);
+        b.checkout = toDateStr(b.checkout);
+        if ((b.name||'').includes('Janine')) console.log('Janine checkin:', b.checkin, 'checkout:', b.checkout);
+        return b;
+      }).sort(function(a,b){return a.checkin > b.checkin ? 1:-1;});
+      renderOverview();
+      renderBookingsList();
+      renderCalendar();
+    })
+    .catch(function(){
+      document.getElementById('upcoming-list').innerHTML = '<div class="empty">Could not load bookings. Check your Apps Script URL is set up correctly.</div>';
+    });
+}
+
+function loadBlocked() {
+  fetch(SCRIPT_URL + '?action=blocked&email=' + encodeURIComponent(currentUser.email))
+    .then(function(r){return r.json();})
+    .then(function(data){
+      allBlocked = data.blocked || [];
+      renderBlockedList();
+    });
+}
+
+// ── OVERVIEW ──────────────────────────────────────────────────────────────
+function renderOverview() {
+  var today = new Date(); today.setHours(0,0,0,0);
+  var upcoming = allBookings.filter(function(b){ return new Date(b.checkin) >= today && b.status !== 'Cancelled'; });
+  var thisMonth = allBookings.filter(function(b){
+    var d = new Date(b.checkin);
+    return d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear() && b.status !== 'Cancelled';
+  });
+  var today2 = new Date(); today2.setHours(0,0,0,0);
+  var revenue = allBookings.filter(function(b){
+    return b.status !== 'Cancelled' && new Date(b.checkin) >= today2;
+  }).reduce(function(s,b){return s + (parseFloat(b.total)||0);},0);
+
+  document.getElementById('s-upcoming').textContent = upcoming.length;
+  document.getElementById('s-month').textContent = thisMonth.length;
+  document.getElementById('s-revenue').textContent = 'NZD $' + Math.round(revenue).toLocaleString();
+  document.getElementById('s-total').textContent = allBookings.filter(function(b){return b.status !== 'Cancelled';}).length;
+
+  var list = document.getElementById('upcoming-list');
+  if (upcoming.length === 0) { list.innerHTML = '<div class="empty">No upcoming bookings</div>'; return; }
+  list.innerHTML = '<div style="font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:#7A6A58;margin-bottom:.75rem;">Upcoming stays</div>' +
+    upcoming.slice(0,5).map(function(b){ return bookingCard(b); }).join('');
+}
+
+// ── BOOKINGS LIST ─────────────────────────────────────────────────────────
+function renderBookingsList() {
+  var list = document.getElementById('bookings-list');
+  if (allBookings.length === 0) { list.innerHTML = '<div class="empty">No bookings yet</div>'; return; }
+  list.innerHTML = allBookings.slice().reverse().map(function(b){ return bookingCard(b); }).join('');
+}
+
+function filterBookings() {
+  var q = document.getElementById('search-input').value.toLowerCase();
+  var tent = document.getElementById('filter-tent').value.toLowerCase();
+  var status = document.getElementById('filter-status').value;
+  var filtered = allBookings.filter(function(b){
+    var matchQ = !q || (b.name||'').toLowerCase().includes(q) || (b.email||'').toLowerCase().includes(q) || (b.ref||'').toLowerCase().includes(q);
+    var matchTent = !tent || (b.tent||'').toLowerCase().includes(tent);
+    var matchStatus = !status || b.status === status;
+    return matchQ && matchTent && matchStatus;
+  });
+  var list = document.getElementById('bookings-list');
+  if (filtered.length === 0) { list.innerHTML = '<div class="empty">No bookings match your search</div>'; return; }
+  list.innerHTML = filtered.slice().reverse().map(function(b){ return bookingCard(b); }).join('');
+}
+
+function bookingCard(b) {
+  var nights = nightsBetween(b.checkin, b.checkout);
+  var tentShort = (b.tent||'').includes('whai') ? 'Kōwhai' : 'Pōhutukawa';
+  return '<div class="bcard" onclick=\'openBooking(' + JSON.stringify(b).replace(/'/g,"&#39;") + ')\'>' +
+    '<div class="bcard-top">' +
+      '<span class="bcard-ref">' + (b.ref||'—') + ' · ' + tentShort + '</span>' +
+      '<span class="bcard-status status-' + (b.status||'confirmed').toLowerCase() + '">' + (b.status||'Confirmed') + '</span>' +
+    '</div>' +
+    '<div style="display:flex;align-items:baseline;justify-content:space-between;">' +
+      '<div class="bcard-name">' + (b.name||'—') + '</div>' +
+      '<div class="bcard-total">NZD $' + (parseFloat(b.total)||0).toLocaleString() + '</div>' +
+    '</div>' +
+    '<div class="bcard-details">' + fmtDate(b.checkin) + ' → ' + fmtDate(b.checkout) + ' · ' + nights + ' night' + (nights!==1?'s':'') + ' · ' + (b.adults||1) + ' guest' + ((b.adults||1)!==1?'s':'') + '</div>' +
+  '</div>';
+}
+
+// ── CALENDAR ──────────────────────────────────────────────────────────────
+function chCalMo(d){ calMonth+=d; if(calMonth>11){calMonth=0;calYear++;} if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); }
+
+function renderCalendar() {
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-mo-title').textContent = MONTHS[calMonth] + ' ' + calYear;
+
+  var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  var today = new Date(); today.setHours(0,0,0,0);
+
+  var gridCols = '100px repeat(' + daysInMonth + ', minmax(26px, 1fr))';
+  var h = '<div style="overflow-x:auto;">';
+  h += '<div style="display:grid;grid-template-columns:' + gridCols + ';min-width:600px;">';
+
+  var DOW = ['S','M','T','W','T','F','S'];
+
+  // Header row - day of week
+  h += '<div class="cal-cell header" style="font-size:.55rem;border-bottom:1px solid rgba(255,255,255,.1);"></div>';
+  for (var d=1; d<=daysInMonth; d++) {
+    var date = new Date(calYear, calMonth, d);
+    var isPast = date < today;
+    var dow = DOW[date.getDay()];
+    var isWeekend = date.getDay() === 0 || date.getDay() === 6;
+    h += '<div class="cal-cell date-header' + (isPast?' past':'') + '" style="font-size:.6rem;color:' + (isWeekend?'#C19965':'#7A6A58') + ';border-bottom:none;min-height:18px;padding:0;">' + dow + '</div>';
+  }
+
+  // Header row - date numbers
+  h += '<div class="cal-cell header" style="font-size:.55rem;">Tent</div>';
+  for (var d=1; d<=daysInMonth; d++) {
+    var date = new Date(calYear, calMonth, d);
+    var isToday = date.toDateString() === today.toDateString();
+    var isPast = date < today;
+    h += '<div class="cal-cell date-header' + (isToday?' today':'') + (isPast?' past':'') + '" style="min-height:22px;">' + d + '</div>';
+  }
+
+  // Render a tent row with spanning booking bars
+  function renderTentRow(tent) {
+    var color = tent === 'kowhai' ? '#0F9D58' : '#F4896B';
+    var textColor = tent === 'kowhai' ? '#fff' : '#fff';
+    var label = tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+
+    var shortLabel = tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+    h += '<div class="cal-cell tent-label" style="font-size:.58rem;padding-left:.4rem;">' + shortLabel + '</div>';
+
+    // Build a map of what's on each day
+    var dayMap = {}; // dateStr -> {type, booking/block, isStart, isEnd, span}
+    for (var d=1; d<=daysInMonth; d++) {
+      var dateStr = dsStr(calYear, calMonth, d);
+      // Check bookings
+      for (var i=0; i<allBookings.length; i++) {
+        var b = allBookings[i];
+        if (b.status === 'Cancelled') continue;
+        var tentMatch = tent === 'kowhai' ? (b.tent||'').toLowerCase().includes('whai') : (b.tent||'').toLowerCase().includes('hutu');
+        if (!tentMatch) continue;
+        if (dateStr >= b.checkin && dateStr < b.checkout) {
+          // isStart = first day of booking OR first day of this month (booking spans from prev month)
+          var firstDayOfMonth = dsStr(calYear, calMonth, 1);
+          var isStart = dateStr === b.checkin || dateStr === firstDayOfMonth;
+          dayMap[dateStr] = {type:'booking', b:b, idx:allBookings.indexOf(b), isStart: isStart};
+          break;
+        }
+      }
+      // Check blocks
+      if (!dayMap[dateStr]) {
+        for (var i=0; i<allBlocked.length; i++) {
+          var blk = allBlocked[i];
+          if (blk.tent !== tent && blk.tent !== 'both') continue;
+          if (dateStr >= blk.date_from && dateStr <= blk.date_to) {
+            var firstDayOfMonth = dsStr(calYear, calMonth, 1);
+            var isStart = dateStr === blk.date_from || dateStr === firstDayOfMonth;
+            dayMap[dateStr] = {type:'block', blk:blk, idx:allBlocked.indexOf(blk), isStart: isStart};
+            break;
+          }
+        }
+      }
+    }
+
+    // Render cells
+    var d = 1;
+    while (d <= daysInMonth) {
+      var dateStr = dsStr(calYear, calMonth, d);
+      var date = new Date(calYear, calMonth, d);
+      var isPast = date < today;
+      var info = dayMap[dateStr];
+
+      if (info && info.isStart) {
+        // Calculate span
+        var span = 0;
+        var cur = d;
+        while (cur <= daysInMonth) {
+          var cs = dsStr(calYear, calMonth, cur);
+          var ci = dayMap[cs];
+          if (!ci) break;
+          if (info.type === 'booking' && ci.type === 'booking' && ci.b.ref === info.b.ref) { span++; cur++; }
+          else if (info.type === 'block' && ci.type === 'block' && ci.blk._row === info.blk._row) { span++; cur++; }
+          else break;
+        }
+
+        if (info.type === 'booking') {
+          var nights = nightsBetween(info.b.checkin, info.b.checkout);
+          var name = (info.b.name||'Guest').split(' ')[0];
+          var label2 = name + (nights > 1 ? ' · ' + nights + 'n' : '');
+          h += '<div style="grid-column:span ' + span + ';position:relative;padding:2px 1px;">' +
+            '<div data-booking="' + info.idx + '" style="background:' + color + ';color:' + textColor + ';border-radius:4px;padding:3px 7px;font-size:.72rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;height:28px;display:flex;align-items:center;">' +
+            label2 + '</div></div>';
+        } else {
+          h += '<div style="grid-column:span ' + span + ';position:relative;padding:2px 1px;">' +
+            '<div data-blocked="' + info.idx + '" style="background:#F3DAD3;color:#b08878;border-radius:4px;padding:3px 7px;font-size:.68rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;height:28px;display:flex;align-items:center;border:1px dashed #E8C8BE;">✕ ' + (info.blk.reason||'Blocked') + '</div></div>';
+        }
+        d += span;
+      } else if (info && !info.isStart) {
+        // Already covered by span — skip (shouldn't happen with span logic)
+        d++;
+      } else {
+        // Empty cell
+        var cellCls = 'cal-cell' + (isPast ? ' past' : ' available');
+        var clickAttr = !isPast ? 'data-date="' + dateStr + '" data-tent="' + tent + '"' : '';
+        h += '<div class="' + cellCls + '" ' + clickAttr + ' style="cursor:' + (isPast?'default':'pointer') + ';min-height:32px;padding:2px 1px;"></div>';
+        d++;
+      }
+    }
+  }
+
+  renderTentRow('kowhai');
+  renderTentRow('pohutukawa');
+
+  h += '</div></div>';
+  document.getElementById('cal-grid-wrap').innerHTML = h;
+
+  // Event delegation
+  document.getElementById('cal-grid-wrap').onclick = function(e) {
+    var el = e.target.closest('[data-booking],[data-blocked],[data-date]');
+    if (!el) return;
+    if (el.dataset.booking !== undefined) openBooking(allBookings[parseInt(el.dataset.booking)]);
+    else if (el.dataset.blocked !== undefined) openBlockedCell(allBlocked[parseInt(el.dataset.blocked)]);
+    else if (el.dataset.date) quickBlock(el.dataset.date, el.dataset.tent);
+  };
+}
+
+function openBlockedCell(blk) {
+  var tentLabel = blk.tent === 'both' ? 'Both tents' : blk.tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+  if (confirm('BLOCKED: ' + tentLabel + '\n' + fmtDate(blk.date_from) + ' → ' + fmtDate(blk.date_to) + '\nReason: ' + (blk.reason || 'Manual block') + '\n\nClick OK to remove this block.')) {
+    removeBlock(blk._row);
+  }
+}
+
+function quickBlock(dateStr, tent) {
+  var tentLabel = tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+  var reason = prompt('Block ' + tentLabel + ' on ' + fmtDate(dateStr) + '\n\nReason (optional — press OK to confirm):');
+  if (reason === null) return;
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({action:'block', tent:tent, date_from:dateStr, date_to:dateStr, reason:reason||'Manual block', blocked_by:currentUser.email})
+  })
+  .then(function(r){return r.json();})
+  .then(function(){ loadAll(); renderCalendar(); })
+  .catch(function(){ alert('Error blocking date.'); });
+}
+
+
+// ── BLOCK DATES ───────────────────────────────────────────────────────────
+function addBlock() {
+  var tent = document.getElementById('blk-tent').value;
+  var from = document.getElementById('blk-from').value;
+  var to = document.getElementById('blk-to').value;
+  var reason = document.getElementById('blk-reason').value.trim();
+
+  if (!from || !to) { alert('Please select both a start and end date.'); return; }
+  if (to < from) { alert('End date must be after start date.'); return; }
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({action:'block', tent:tent, date_from:from, date_to:to, reason:reason, blocked_by:currentUser.email})
+  })
+  .then(function(r){return r.json();})
+  .then(function(){
+    document.getElementById('blk-from').value = '';
+    document.getElementById('blk-to').value = '';
+    document.getElementById('blk-reason').value = '';
+    loadBlocked();
+    loadBookings();
+  })
+  .catch(function(){ alert('Error saving block. Please try again.'); });
+}
+
+function renderBlockedList() {
+  var list = document.getElementById('blocked-list');
+  if (allBlocked.length === 0) { list.innerHTML = '<div class="empty">No dates currently blocked</div>'; return; }
+  list.innerHTML = '<div class="blocked-list">' +
+    allBlocked.map(function(blk) {
+      var tentLabel = blk.tent === 'both' ? 'Both tents' : blk.tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+      return '<div class="blk-item">' +
+        '<div>' +
+          '<div class="blk-info">' + tentLabel + ' · ' + fmtDate(blk.date_from) + ' to ' + fmtDate(blk.date_to) + '</div>' +
+          '<div class="blk-sub">' + (blk.reason || 'Manual block') + '</div>' +
+        '</div>' +
+        '<button class="blk-del" onclick="removeBlock(' + blk._row + ')">Remove</button>' +
+      '</div>';
+    }).join('') +
+  '</div>';
+}
+
+function removeBlock(row) {
+  if (!confirm('Remove this date block?')) return;
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({action:'unblock', row:row})
+  })
+  .then(function(r){return r.json();})
+  .then(function(){ loadBlocked(); loadBookings(); })
+  .catch(function(){ alert('Error removing block.'); });
+}
+
+// ── BOOKING MODAL ─────────────────────────────────────────────────────────
+function openBooking(b) {
+  var nights = nightsBetween(b.checkin, b.checkout);
+  document.getElementById('modal-name').textContent = b.name || '—';
+  document.getElementById('modal-ref').textContent = (b.ref||'') + ' · ' + (b.status||'Confirmed');
+
+  var rows = [
+    ['Tent', b.tent||'—'],
+    ['Check-in', fmtDate(b.checkin)],
+    ['Check-out', fmtDate(b.checkout)],
+    ['Nights', nights],
+    ['Guests', (b.adults||1) + ' adult' + ((b.adults||1)!==1?'s':'') + (b.kids>0?' + '+b.kids+' child'+(b.kids>1?'ren':''):'')],
+    ['Email', '<a href="mailto:'+b.email+'" style="color:#2A2535">'+b.email+'</a>'],
+    ['Phone', b.phone||'—'],
+    ['Country', b.country||'—'],
+    ['Extras', b.extras||'None'],
+    ['Total paid', 'NZD $' + (parseFloat(b.total)||0).toLocaleString()],
+    ['Voucher', b.voucher ? b.voucher + ' (NZD $' + b.voucherValue + ')' : 'None'],
+    ['Notes', b.notes||'None'],
+    ['Booked on', b.created ? new Date(b.created).toLocaleDateString('en-NZ') : '—'],
+  ];
+
+  document.getElementById('modal-body').innerHTML = rows.map(function(r){
+    return '<div class="modal-row"><span class="modal-lbl">'+r[0]+'</span><span class="modal-val">'+r[1]+'</span></div>';
+  }).join('');
+
+  var actions = '<a href="mailto:'+b.email+'?subject=Your Wild Canvas Booking '+b.ref+'" class="btn btn-dark btn-sm">Email guest</a>';
+  if (b.status !== 'Cancelled') {
+    actions += '<button class="btn btn-red btn-sm" onclick="cancelBooking(\''+b.ref+'\')">Cancel booking</button>';
+  }
+  document.getElementById('modal-actions').innerHTML = actions;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal')) {
+    document.getElementById('modal').style.display = 'none';
+  }
+}
+
+function cancelBooking(ref) {
+  if (!confirm('Cancel booking ' + ref + '? This cannot be undone.')) return;
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({action:'update_status', ref:ref, status:'Cancelled'})
+  })
+  .then(function(r){return r.json();})
+  .then(function(){ closeModal(); loadAll(); })
+  .catch(function(){ alert('Error updating booking.'); });
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function showTab(name) {
+  ['overview','calendar','bookings','block'].forEach(function(t){
+    document.getElementById('tab-'+t).style.display = t===name?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach(function(t,i){
+    t.className = 'tab' + (['overview','calendar','bookings','block'][i]===name?' active':'');
+  });
+  if (name==='calendar') renderCalendar();
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function dsStr(y,m,d){ return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'); }
+
+function parseDate(s) {
+  if (!s) return null;
+  s = String(s).trim().replace(/^'+/, '');  // strip Google Sheets plain text apostrophe
+  // Always parse as local date to avoid timezone shifts
+  // Handle ISO format: 2026-05-14 or 2026-05-14T...
+  var iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return new Date(parseInt(iso[1]), parseInt(iso[2])-1, parseInt(iso[3]));
+  // Handle dd/mm/yyyy
+  var dmy = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (dmy) return new Date(parseInt(dmy[3]), parseInt(dmy[2])-1, parseInt(dmy[1]));
+  // Handle Google Sheets serial date (number)
+  var num = parseFloat(s);
+  if (!isNaN(num) && num > 40000) {
+    // Google Sheets date serial: days since Dec 30 1899
+    var msPerDay = 86400000;
+    var epoch = new Date(1899, 11, 30).getTime();
+    return new Date(epoch + num * msPerDay);
+  }
+  // Fallback - parse and convert to local
+  var d = new Date(s);
+  if (isNaN(d.getTime())) return null;
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+}
+
+function toDateStr(s) {
+  if (!s) return '';
+  s = String(s).trim().replace(/^'+/, '');
+  var d = parseDate(s);
+  if (!d) return '';
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function fmtDate(s) {
+  if (!s) return '—';
+  var d = parseDate(s);
+  if (!d) return '—';
+  return d.toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short'});
+}
+
+function nightsBetween(ci, co) {
+  if (!ci || !co) return 0;
+  var a = parseDate(ci), b = parseDate(co);
+  if (!a || !b) return 0;
+  return Math.round((b - a) / 86400000);
+}
+</script>
+</body>
+</html>
