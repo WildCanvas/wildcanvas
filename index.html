@@ -100,6 +100,14 @@ a { text-decoration: none; color: inherit; }
 }
 .wc-dropdown a:hover { background: var(--candy); color: var(--bark); }
 .wc-dropdown-divider { height: 1px; background: rgba(61,46,30,0.08); margin: 0.4rem 0; }
+.wc-dropdown-tent {
+  display: flex !important; flex-direction: column; gap: 0.15rem;
+  padding: 0.75rem 1.4rem !important;
+  border-bottom: 1px solid rgba(61,46,30,0.06);
+}
+.wc-dropdown-tent:last-of-type { border-bottom: none; }
+.wc-dropdown-tent { color: var(--bark) !important; font-weight: 400 !important; font-size: 0.82rem !important; letter-spacing: 0.04em !important; }
+.wc-dropdown-desc { font-size: 0.65rem; letter-spacing: 0.08em; color: var(--muted); font-weight: 300; text-transform: uppercase; }
 .wc-nav-book { font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; font-style: italic; font-family: var(--display); padding: 0.6rem 1.5rem; background: var(--citrine); color: var(--bark); border: none; cursor: pointer; display: inline-block; transition: background 0.3s; margin-left: 0.5rem; }
 .wc-nav-book:hover { background: #e8a020; }
 .wc-hamburger {
@@ -135,6 +143,8 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
   font-weight: 500; text-decoration: none;
 }
+.wc-mobile-tent { display: flex !important; flex-direction: column !important; gap: 0.2rem; color: var(--bark) !important; font-weight: 400 !important; font-size: 1rem !important; }
+.wc-mobile-tent-desc { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 300; }
 
 /* ── HERO ──────────────────────────────── */
 .hero { line-height: 0; }
@@ -165,6 +175,7 @@ a { text-decoration: none; color: inherit; }
   font-size: 0.95rem; line-height: 1.85; color: var(--bark-mid);
   font-weight: 300; max-width: 560px;
 }
+.hero-descriptor { display: none; }
 
 
 /* ── TRUST STRIP ──────────────────────── */
@@ -397,12 +408,15 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   .wc-hamburger { display: flex; }
   .section { padding: 4rem 1.5rem; }
   .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; }
+  .hero-descriptor { display: block; font-size: 1.15rem; font-weight: 400; color: var(--bark); line-height: 1.35; margin-bottom: 0.75rem; }
+  .hero-text h1 { font-size: 1.5rem; opacity: 0.7; }
+  .hero-sub-detail { display: none; }
   .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; }
   .hero-stamp img { width: 110px !important; margin-right: 0 !important; opacity: 0.55; }
   .hero-text-right { padding-left: 0; border-left: none; border-top: 1px solid rgba(61,46,30,0.1); padding-top: 1.5rem; flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
   .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; }
   .hero-stamp img { width: 110px !important; margin-right: 0 !important; opacity: 0.55; }
-  .hero-photo { height: 60vh; min-height: 340px; }
+  .hero-photo { height: 45vh; min-height: 260px; object-position: 65% 60%; }
   .trust-strip { justify-content: flex-start; padding: 0 1.5rem; }
   .trust-item { padding: 0.8rem 1.2rem; }
   .intro-inner { grid-template-columns: 1fr; gap: 3rem; }
@@ -420,6 +434,21 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   footer { padding: 3rem 1.5rem 1.5rem; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .book-section { padding: 4rem 1.5rem; }
+
+  /* ── MOBILE FONT SIZES ── */
+  .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.16em; }
+  .eyebrow { font-size: 0.75rem; letter-spacing: 0.16em; }
+  .hero-sub { font-size: 1rem; line-height: 1.7; }
+  .section-sub { font-size: 1rem; line-height: 1.7; }
+  .exp-card p { font-size: 0.88rem; line-height: 1.75; }
+  .tent-desc { font-size: 0.9rem; line-height: 1.7; }
+  .included-item p { font-size: 0.88rem; }
+  .location-item span { font-size: 0.9rem; }
+  .press-as-seen { font-size: 0.75rem; letter-spacing: 0.16em; }
+  .book-note { font-size: 0.82rem; }
+  .footer-col a, .footer-col p { font-size: 0.88rem; }
+  .footer-legal { font-size: 0.75rem; }
+  .trust-item { font-size: 0.82rem; }
 }
 
 /* HOME CAROUSEL */
@@ -471,8 +500,8 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
-        <a href="/kowhai">Kōwhai Tent</a>
-        <a href="/pohutukawa">Pōhutukawa Tent</a>
+        <a href="/kowhai" class="wc-dropdown-tent">Kōwhai Tent<span class="wc-dropdown-desc">Couples · 2 guests</span></a>
+        <a href="/pohutukawa" class="wc-dropdown-tent">Pōhutukawa Tent<span class="wc-dropdown-desc">Families &amp; groups · up to 8</span></a>
       </div>
     </li>
     <li id="drop-exp">
@@ -511,8 +540,8 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
 <!-- Mobile drawer -->
 <div class="wc-mobile-drawer" id="wc-mobile-drawer">
   <p class="wc-mobile-section-title">Stay</p>
-  <a href="/kowhai">Kōwhai Tent</a>
-  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <a href="/kowhai" class="wc-mobile-tent">Kōwhai Tent<span class="wc-mobile-tent-desc">Couples · 2 guests</span></a>
+  <a href="/pohutukawa" class="wc-mobile-tent">Pōhutukawa Tent<span class="wc-mobile-tent-desc">Families &amp; groups · up to 8</span></a>
   <p class="wc-mobile-section-title">Experiences</p>
   <a href="/experiences">All Experiences</a>
   <a href="/catering">Food &amp; Catering</a>
@@ -535,8 +564,9 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   <div class="hero-text">
     <div>
       <p class="hero-eyebrow">Waitomo, New Zealand</p>
+      <p class="hero-descriptor">Two luxury safari tents perched on their own private hilltops in the heart of Waitomo.</p>
       <h1>Where time stops<br/>and <em>memories are made</em></h1>
-      <p class="hero-sub">Two luxury safari tents perched on their own private hilltops in the heart of Waitomo. Outdoor baths, cedar hot tub, campfire, birdsong and complete seclusion. Entirely yours.</p>
+      <p class="hero-sub hero-sub-detail">Outdoor baths, cedar hot tub, campfire, birdsong and complete seclusion. Entirely yours.</p>
       <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap">
         <a href="booking.html" class="btn-primary">Book Your Escape</a>
         <a href="#tents" class="btn-outline">Explore the Tents</a>
