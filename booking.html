@@ -1119,6 +1119,22 @@ loadAvailability(function(){});
     }
     document.getElementById('steps').style.display = 'none';
     window.history.replaceState({}, document.title, window.location.pathname);
+
+    // Meta Pixel / GTM conversion event
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'booking_complete',
+      booking_ref: ref,
+      tent: stored.tent || '',
+      checkin: stored.checkin || '',
+      checkout: stored.checkout || '',
+      nights: stored.nights || 0,
+      adults: stored.adults || 1,
+      kids: stored.kids || 0,
+      total: stored.total || 0,
+      voucher: stored.voucher || '',
+      currency: 'NZD'
+    });
   } else if (params.get('cancelled') === '1') {
     alert('Payment was cancelled. Your details have been saved — scroll down to try again.');
     window.history.replaceState({}, document.title, window.location.pathname);
