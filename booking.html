@@ -466,22 +466,24 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 var BLK = { kowhai: [], pohutukawa: [] };
 var BLK_LOADED = false;
+var BLK_PROMISE = null;
+
+// Kick off availability fetch immediately on page load — before any tent is selected
+BLK_PROMISE = fetch(SCRIPT_URL + '?action=availability')
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    BLK.kowhai = data.kowhai || [];
+    BLK.pohutukawa = data.pohutukawa || [];
+    BLK_LOADED = true;
+  })
+  .catch(function(){
+    BLK_LOADED = true;
+  });
 
 function loadAvailability(callback) {
   if (BLK_LOADED) { if(callback) callback(); return; }
-  fetch(SCRIPT_URL + '?action=availability')
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      BLK.kowhai = data.kowhai || [];
-      BLK.pohutukawa = data.pohutukawa || [];
-      BLK_LOADED = true;
-      if (callback) callback();
-    })
-    .catch(function(){
-      // If fetch fails, just show empty calendar
-      BLK_LOADED = true;
-      if (callback) callback();
-    });
+  // Data is already in-flight — just wait for it
+  BLK_PROMISE.then(function(){ if(callback) callback(); });
 }
 
 
