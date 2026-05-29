@@ -1104,6 +1104,17 @@ loadAvailability(function(){});
   }
 })();
 
+// Auto-select tent from URL parameter
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const tent = params.get('tent');
+  if (tent === 'kowhai' || tent === 'pohutukawa') {
+    window.addEventListener('DOMContentLoaded', function() {
+      selTent(tent);
+    });
+  }
+})();
+
 </script>
 </body>
 </html>
