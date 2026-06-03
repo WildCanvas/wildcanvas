@@ -7,7 +7,8 @@ exports.handler = async function(event) {
 
   try {
     const data = JSON.parse(event.body);
-    const { tent, checkin, checkout, nights, adults, kids, name, email, phone, country, notes, extras, ref, total, voucher, voucherValue } = data;
+    const { tent, checkin, checkout, nights, adults, kids, name, email, phone, country, notes, extras, ref, total, voucher, voucherValue,
+            isGiftVoucher, giftVoucherName, giftVoucherAmount, giftVoucherType, giftRecipient, giftMessage } = data;
 
     if (!total || total <= 0) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid total amount.' }) };
@@ -16,10 +17,44 @@ exports.handler = async function(event) {
     const kidsStr = kids > 0 ? ' + ' + kids + ' child' + (kids !== 1 ? 'ren' : '') : '';
     const voucherStr = voucherValue > 0 ? ' (after NZD $' + voucherValue + ' voucher credit)' : '';
     const extrasStr = extras && extras !== 'None' ? ' | Extras: ' + extras : '';
-    const description =
-      'Check-in: ' + checkin + '  ·  Check-out: ' + checkout +
-      '  ·  ' + adults + ' adult' + (adults !== 1 ? 's' : '') + kidsStr +
-      voucherStr + extrasStr;
+    const description = isGiftVoucher
+      ? 'Gift Voucher — ' + giftVoucherName + (giftRecipient ? ' · For: ' + giftRecipient : '')
+      : 'Check-in: ' + checkin + '  ·  Check-out: ' + checkout +
+        '  ·  ' + adults + ' adult' + (adults !== 1 ? 's' : '') + kidsStr +
+        voucherStr + extrasStr;
+
+    // Metadata shared across both the Checkout Session and the PaymentIntent
+    // (PaymentIntent metadata is what the Apps Script webhook reads)
+    const sharedMetadata = isGiftVoucher ? {
+      ref:               ref,
+      name:              name,
+      phone:             phone || '',
+      isGiftVoucher:     'true',
+      giftVoucherType:   String(giftVoucherType   || ''),
+      giftVoucherName:   giftVoucherName           || '',
+      giftVoucherAmount: String(giftVoucherAmount  || ''),
+      giftRecipient:     giftRecipient             || '',
+      giftMessage:       (giftMessage              || '').slice(0, 500),
+      buyerName:         name                      || '',
+      buyerEmail:        email                     || '',
+      buyerPhone:        phone                     || '',
+    } : {
+      ref:          ref,
+      tent:         tent,
+      checkin:      checkin,
+      checkout:     checkout,
+      nights:       String(nights),
+      adults:       String(adults),
+      kids:         String(kids),
+      name:         name,
+      phone:        phone || '',
+      country:      country || '',
+      notes:        notes || '',
+      extras:       extras || 'None',
+      voucher:      voucher || '',
+      voucherValue: String(voucherValue || 0),
+      isGiftVoucher: 'false',
+    };
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -28,7 +63,9 @@ exports.handler = async function(event) {
           price_data: {
             currency: 'nzd',
             product_data: {
-              name: tent + ' — ' + nights + ' night' + (nights !== 1 ? 's' : ''),
+              name: isGiftVoucher
+                ? 'Wild Canvas Gift Voucher — ' + giftVoucherName
+                : tent + ' — ' + nights + ' night' + (nights !== 1 ? 's' : ''),
               description: description,
             },
             unit_amount: Math.round(total * 100),
@@ -38,24 +75,17 @@ exports.handler = async function(event) {
       ],
       mode: 'payment',
       customer_email: email,
-      metadata: {
-        ref: ref,
-        tent: tent,
-        checkin: checkin,
-        checkout: checkout,
-        nights: String(nights),
-        adults: String(adults),
-        kids: String(kids),
-        name: name,
-        phone: phone || '',
-        country: country || '',
-        notes: notes || '',
-        extras: extras || 'None',
-        voucher: voucher || '',
-        voucherValue: String(voucherValue || 0),
+      metadata: sharedMetadata,
+      // Copy metadata to the PaymentIntent — this is what the Apps Script webhook receives
+      payment_intent_data: {
+        metadata: sharedMetadata,
       },
-      success_url: 'https://wildcanvas.nz/booking.html?success=1&ref=' + encodeURIComponent(ref) + '&email=' + encodeURIComponent(email),
-cancel_url: 'https://wildcanvas.nz/booking.html?cancelled=1',
+      success_url: isGiftVoucher
+        ? 'https://wildcanvas.nz/gift.html?success=1&ref=' + encodeURIComponent(ref)
+        : 'https://wildcanvas.nz/booking.html?success=1&ref=' + encodeURIComponent(ref) + '&email=' + encodeURIComponent(email),
+      cancel_url: isGiftVoucher
+        ? 'https://wildcanvas.nz/gift.html?cancelled=1'
+        : 'https://wildcanvas.nz/booking.html?cancelled=1',
     });
 
     return {
