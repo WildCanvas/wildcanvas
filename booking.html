@@ -468,6 +468,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>
 var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzL78iWtDb2jUZ5yHhCO8wonBrmqO2lRGoRxjaVFvOtYBiDNTY_qPpBihWJfwm-WfWmUg/exec";
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAnzgM2WW4PupFox-OQWSOVaxxUJvmqVe0drs6tFw8BNxj1VJtHz-KJYJxDF8YKdmf/exec';
 
 var S = {
   tent: null, ci: null, co: null,
@@ -515,40 +516,17 @@ var PIZZA_FLAVOURS = [
   'BBQ Meat Eater - pulled beef, bacon, salami, mozzarella & BBQ sauce'
 ];
 
-var VOUCHERS = {
-  "12100": {value:590,name:"Chantelle McQueen",expired:false},
-  "13234": {value:590,name:"Andrea Anderson",expired:false},
-  "9082": {value:590,name:"Sean Botherway",expired:false},
-  "10781": {value:590,name:"Olivia McFarlane",expired:false},
-  "10991": {value:590,name:"Stefan Bolton",expired:false},
-  "11351": {value:590,name:"Polly Prideaux",expired:true},
-  "119292": {value:590,name:"Venza",expired:false},
-  "119934": {value:590,name:"Helen Wemyss",expired:false},
-  "121134": {value:590,name:"Hayden Duffy",expired:false},
-  "122494": {value:590,name:"Fraser Higham",expired:false},
-  "12444": {value:590,name:"Dave Archibald",expired:false},
-  "12544": {value:590,name:"Yvonne Piebe",expired:false},
-  "13902": {value:590,name:"Hayley Baker",expired:false},
-  "155501": {value:590,name:"Nicole Forbes",expired:true},
-  "15608": {value:590,name:"Catherine Sheehan",expired:false},
-  "199747": {value:623,name:"Lynne Wilkins",expired:false},
-  "21664": {value:590,name:"Paula Holdt",expired:false},
-  "22553": {value:590,name:"Rob Ginns",expired:false},
-  "25742": {value:590,name:"Julie Brown",expired:false},
-  "26576": {value:590,name:"Greg Smith",expired:false},
-  "31318": {value:590,name:"Caleb Ihaia",expired:false},
-  "48826": {value:760,name:"Sara",expired:false},
-  "68932": {value:1293,name:"Carolyn May",expired:false},
-  "712357": {value:1090,name:"Tom Mathis",expired:false},
-  "71331": {value:1090,name:"Eddie Freeman",expired:false},
-  "74519": {value:1059,name:"matt frost",expired:false},
-  "77381": {value:983,name:"Jeremy Rees",expired:true},
-  "77527": {value:1160,name:"Watne Laursen",expired:false},
-  "77729": {value:1090,name:"Nikki Canter-burg",expired:false},
-  "78893": {value:1090,name:"Kate Morgan",expired:false},
-  "Jax&Jp": {value:1059,name:"Maggie Patterson",expired:false},
-  "CGOSK": {value:2031,name:"Artem Tsapko",expired:false}
-};
+async function validateVoucherCode(code) {
+  var url = APPS_SCRIPT_URL + '?action=validate&code=' + encodeURIComponent(code.trim().toUpperCase());
+  try {
+    var response = await fetch(url);
+    if (!response.ok) throw new Error('Network error');
+    var data = await response.json();
+    return data;
+  } catch (err) {
+    return { valid: false, error: 'Could not check voucher. Please try again.' };
+  }
+}
 
 var EXTRAS = [
   {id:'platter',tents:'both',name:'Antipasto Platter',desc:'Seed crackers, bruschetta, salami, pastrami, smoked salmon, cheeses, stuffed peppers, hummus and more. Ready on arrival.',price:'NZD $89',num:89},
@@ -915,35 +893,24 @@ function renderSummary() {
 
 
 
-function applyVoucher() {
+async function applyVoucher() {
   var code = document.getElementById('voucher-input').value.trim().toUpperCase();
   var msg = document.getElementById('voucher-msg');
   if (!code) { msg.style.color='#b08878'; msg.textContent='Please enter a voucher code.'; return; }
-  
-  // Check exact match first, then case-insensitive
-  var v = VOUCHERS[code];
-  if (!v) {
-    // Try matching against all keys case-insensitively
-    var keys = Object.keys(VOUCHERS);
-    for (var i=0; i<keys.length; i++) {
-      if (keys[i].toUpperCase() === code) { v = VOUCHERS[keys[i]]; code = keys[i]; break; }
-    }
-  }
 
-  if (!v) {
+  msg.style.color='#888'; msg.textContent='Checking voucher…';
+
+  var result = await validateVoucherCode(code);
+
+  if (result.valid === true) {
+    S.voucher = code;
+    S.voucherValue = result.amount;
+    msg.style.color='#3D5A47';
+    msg.textContent = '✔ Voucher applied — NZD $' + result.amount.toLocaleString() + ' credit.';
+  } else {
     S.voucher = null; S.voucherValue = 0;
-    msg.style.color='#b08878'; msg.textContent='Voucher code not recognised. Please check and try again.';
-    return;
+    msg.style.color='#b08878'; msg.textContent = result.error || 'Voucher code not recognised. Please check and try again.';
   }
-  if (v.expired) {
-    S.voucher = null; S.voucherValue = 0;
-    msg.style.color='#b08878'; msg.textContent='This voucher has expired.';
-    return;
-  }
-  S.voucher = code;
-  S.voucherValue = v.value;
-  msg.style.color='#3D5A47';
-  msg.textContent = '✔ Voucher applied — NZD $' + v.value.toLocaleString() + ' credit for ' + v.name + '.';
 }
 
 function confirmBooking() {
@@ -1135,6 +1102,13 @@ loadAvailability(function(){});
       voucher: stored.voucher || '',
       currency: 'NZD'
     });
+    if (stored.voucher) {
+      fetch(APPS_SCRIPT_URL + '?action=redeem', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: stored.voucher }),
+      }).catch(function(){});
+    }
   } else if (params.get('cancelled') === '1') {
     alert('Payment was cancelled. Your details have been saved — scroll down to try again.');
     window.history.replaceState({}, document.title, window.location.pathname);
