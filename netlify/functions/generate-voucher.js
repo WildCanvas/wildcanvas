@@ -29,7 +29,7 @@ exports.handler = async function(event) {
     }
 
     // In Netlify functions, the repo root is at /var/task
-    const basePath = path.join('/var/task/vouchers', baseName);
+    const basePath = path.join(__dirname, baseName);
     if (!fs.existsSync(basePath)) {
       return { statusCode: 500, body: JSON.stringify({ error: `Base image not found: ${basePath}` }) };
     }
