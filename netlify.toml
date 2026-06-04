@@ -3,7 +3,4 @@
 
 [functions]
   node_bundler = "esbuild"
-
-# Python function needs its own directory with requirements.txt
-[functions."generate-voucher"]
-  runtime = "python3.9"
+  external_node_modules = ["sharp"]
