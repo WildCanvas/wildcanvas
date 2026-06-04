@@ -1,0 +1,9 @@
+[build]
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Python function needs its own directory with requirements.txt
+[functions."generate-voucher"]
+  runtime = "python3.9"
