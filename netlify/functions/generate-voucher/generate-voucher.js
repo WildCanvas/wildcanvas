@@ -1,6 +1,4 @@
 const sharp = require('sharp');
-const path = require('path');
-const fs = require('fs');
 
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
@@ -18,43 +16,39 @@ exports.handler = async function(event) {
     }
 
     const baseMap = {
-      1: 'base_kowhai.jpg',
-      2: 'base_ultimate.jpg',
-      3: 'base_pohutukawa.jpg',
+      1: 'https://raw.githubusercontent.com/WildCanvas/wildcanvas/main/netlify/functions/generate-voucher/base_kowhai.jpg',
+      2: 'https://raw.githubusercontent.com/WildCanvas/wildcanvas/main/netlify/functions/generate-voucher/base_ultimate.jpg',
+      3: 'https://raw.githubusercontent.com/WildCanvas/wildcanvas/main/netlify/functions/generate-voucher/base_pohutukawa.jpg',
     };
 
-    const baseName = baseMap[voucherType];
-    if (!baseName) {
+    const imageUrl = baseMap[voucherType];
+    if (!imageUrl) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid voucher type' }) };
     }
 
-    // In Netlify functions, the repo root is at /var/task
-    const basePath = path.join(__dirname, baseName);
-    if (!fs.existsSync(basePath)) {
-      return { statusCode: 500, body: JSON.stringify({ error: `Base image not found: ${basePath}` }) };
+    // Fetch the base image from GitHub
+    const imageResponse = await fetch(imageUrl);
+    if (!imageResponse.ok) {
+      return { statusCode: 500, body: JSON.stringify({ error: 'Could not fetch base image: ' + imageResponse.status }) };
     }
+    const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
 
-    // Full resolution is 3602x3870 — text positions tuned to match
-    // Code at (2280, 3230), Expiry at (2321, 3415)
-    // SVG overlay lets us place text precisely at any position
-    const fontSize = 90;
-    const expirySize = 76;
+    // Full resolution is 3602x3870
+    // Code at x=2280, y=3230 — Expiry at x=2321, y=3415
+    const fontSize    = 90;
+    const expirySize  = 76;
 
     const svgOverlay = `<svg width="3602" height="3870" xmlns="http://www.w3.org/2000/svg">
       <style>
-        .code { font-family: serif; font-size: ${fontSize}px; fill: black; }
+        .code   { font-family: serif; font-size: ${fontSize}px;   fill: black; }
         .expiry { font-family: serif; font-size: ${expirySize}px; fill: black; }
       </style>
-      <text x="2280" y="${3230 + fontSize}" class="code">${escapeXml(code)}</text>
+      <text x="2280" y="${3230 + fontSize}"   class="code">${escapeXml(code)}</text>
       <text x="2321" y="${3415 + expirySize}" class="expiry">${escapeXml(expiry)}</text>
     </svg>`;
 
-    const outputBuffer = await sharp(basePath)
-      .composite([{
-        input: Buffer.from(svgOverlay),
-        top: 0,
-        left: 0,
-      }])
+    const outputBuffer = await sharp(imageBuffer)
+      .composite([{ input: Buffer.from(svgOverlay), top: 0, left: 0 }])
       .jpeg({ quality: 95 })
       .toBuffer();
 
@@ -62,7 +56,7 @@ exports.handler = async function(event) {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        image: outputBuffer.toString('base64'),
+        image:    outputBuffer.toString('base64'),
         mimeType: 'image/jpeg',
       }),
     };
