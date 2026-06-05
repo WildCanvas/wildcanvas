@@ -32,32 +32,22 @@ exports.handler = async function(event) {
     }
     const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
 
-    // Render each text string as its own PNG image using sharp
-    // then composite onto the base at the correct position
-    // Code position: x=2280, y=3230 — Expiry: x=2321, y=3415
-    // Font size 300px visually matches the original PSD at full resolution
+    // Resize to 1200px wide first — text coordinates tuned for this size
+    const resizedBuffer = await sharp(imageBuffer)
+      .resize(1200)
+      .jpeg({ quality: 95 })
+      .toBuffer();
 
-    const codeText = await sharp({
-      text: {
-        text: `<span foreground="black" font="300">${escapeXml(code)}</span>`,
-        rgba: true,
-        dpi: 72,
-      }
-    }).png().toBuffer();
+    // Text positions scaled from 3602px original to 1200px
+    // code: x=759, y=1076  expiry: x=773, y=1137
+    // Font sizes: code=30, expiry=25 (tuned for 1200px)
+    const svgOverlay = `<svg width="1200" height="1289" xmlns="http://www.w3.org/2000/svg">
+      <text x="759" y="1106" font-family="serif" font-size="30" fill="black">${escapeXml(code)}</text>
+      <text x="773" y="1162" font-family="serif" font-size="25" fill="black">${escapeXml(expiry)}</text>
+    </svg>`;
 
-    const expiryText = await sharp({
-      text: {
-        text: `<span foreground="black" font="250">${escapeXml(expiry)}</span>`,
-        rgba: true,
-        dpi: 72,
-      }
-    }).png().toBuffer();
-
-    const outputBuffer = await sharp(imageBuffer)
-      .composite([
-        { input: codeText,   top: 3230, left: 2280 },
-        { input: expiryText, top: 3415, left: 2321 },
-      ])
+    const outputBuffer = await sharp(resizedBuffer)
+      .composite([{ input: Buffer.from(svgOverlay), top: 0, left: 0 }])
       .jpeg({ quality: 95 })
       .toBuffer();
 
