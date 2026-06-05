@@ -5,6 +5,7 @@
   "dependencies": {
     "stripe": "^14.0.0",
     "node-fetch": "^2.6.9",
-    "sharp": "^0.33.0"
+    "sharp": "^0.33.0",
+    "@napi-rs/canvas": "^0.1.44"
   }
 }
