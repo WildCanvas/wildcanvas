@@ -1054,11 +1054,11 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
   const stored = JSON.parse(sessionStorage.getItem('wc_order') || '{}');
 
   // Hide main page content
-  document.querySelectorAll('.hero, .perks, .page-body, .how-section, .terms-section, footer').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.hero, .perks, .page-body, .how-section, .terms-section').forEach(el => el.style.display = 'none');
 
   // Build success screen
   const div = document.createElement('div');
-  div.style.cssText = 'min-height:70vh;display:flex;align-items:center;justify-content:center;padding:140px 20px 60px;background:var(--cream);';
+  div.style.cssText = 'min-height:70vh;display:flex;align-items:center;justify-content:center;padding:60px 20px;background:var(--cream);margin-top:80px;';
   div.innerHTML = `
     <div style="max-width:560px;width:100%;text-align:center;">
       <div style="width:64px;height:64px;background:var(--bark);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;">
