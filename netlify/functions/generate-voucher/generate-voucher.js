@@ -26,25 +26,17 @@ exports.handler = async function(event) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid voucher type' }) };
     }
 
-    // Fetch the base image from GitHub
     const imageResponse = await fetch(imageUrl);
     if (!imageResponse.ok) {
       return { statusCode: 500, body: JSON.stringify({ error: 'Could not fetch base image: ' + imageResponse.status }) };
     }
     const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
 
-    // Full resolution is 3602x3870
-    // Code at x=2280, y=3230 — Expiry at x=2321, y=3415
-    const fontSize    = 90;
-    const expirySize  = 76;
-
+    // Base image is 3602x3870px
+    // Font sizes scaled for full resolution
     const svgOverlay = `<svg width="3602" height="3870" xmlns="http://www.w3.org/2000/svg">
-      <style>
-        .code   { font-family: serif; font-size: ${fontSize}px;   fill: black; }
-        .expiry { font-family: serif; font-size: ${expirySize}px; fill: black; }
-      </style>
-      <text x="2280" y="${3230 + fontSize}"   class="code">${escapeXml(code)}</text>
-      <text x="2321" y="${3415 + expirySize}" class="expiry">${escapeXml(expiry)}</text>
+      <text x="2280" y="3370" font-family="serif" font-size="140" fill="black">${escapeXml(code)}</text>
+      <text x="2321" y="3530" font-family="serif" font-size="115" fill="black">${escapeXml(expiry)}</text>
     </svg>`;
 
     const outputBuffer = await sharp(imageBuffer)
