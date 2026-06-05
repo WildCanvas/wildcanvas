@@ -32,18 +32,16 @@ exports.handler = async function(event) {
     }
     const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
 
-    // Resize to 1200px wide first — text coordinates tuned for this size
+    // Resize to 1200px wide first
     const resizedBuffer = await sharp(imageBuffer)
       .resize(1200)
       .jpeg({ quality: 95 })
       .toBuffer();
 
-    // Text positions scaled from 3602px original to 1200px
-    // code: x=759, y=1076  expiry: x=773, y=1137
-    // Font sizes: code=30, expiry=25 (tuned for 1200px)
+    // Use DejaVu Sans — guaranteed available on Linux/Netlify
     const svgOverlay = `<svg width="1200" height="1289" xmlns="http://www.w3.org/2000/svg">
-      <text x="759" y="1106" font-family="serif" font-size="30" fill="black">${escapeXml(code)}</text>
-      <text x="773" y="1162" font-family="serif" font-size="25" fill="black">${escapeXml(expiry)}</text>
+      <text x="759" y="1106" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif" font-size="30" font-weight="bold" fill="black">${escapeXml(code)}</text>
+      <text x="773" y="1162" font-family="DejaVu Sans, Liberation Sans, Arial, sans-serif" font-size="25" fill="black">${escapeXml(expiry)}</text>
     </svg>`;
 
     const outputBuffer = await sharp(resizedBuffer)
