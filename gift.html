@@ -1045,6 +1045,45 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
     }
   });
 });
+
+// ── SUCCESS STATE ──────────────────────────────────────────────────────────
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.get('success')) return;
+
+  // Retrieve order details from sessionStorage
+  const stored = JSON.parse(sessionStorage.getItem('wc_order') || '{}');
+
+  // Hide everything except nav
+  document.querySelectorAll('.hero, section, .voucher-section, form, .gift-form, .vouchers-grid').forEach(el => el.style.display = 'none');
+
+  // Build success screen
+  const div = document.createElement('div');
+  div.style.cssText = 'min-height:70vh;display:flex;align-items:center;justify-content:center;padding:60px 20px;background:var(--cream);';
+  div.innerHTML = `
+    <div style="max-width:560px;width:100%;text-align:center;">
+      <div style="width:64px;height:64px;background:var(--bark);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <p style="font-family:var(--display);font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);margin:0 0 12px;">Gift Voucher Purchased</p>
+      <h1 style="font-family:var(--serif);font-size:2.2rem;font-weight:400;color:var(--bark);margin:0 0 20px;line-height:1.2;">A memorable escape awaits</h1>
+      <p style="font-family:var(--sans);font-size:1rem;color:var(--bark-mid);line-height:1.75;margin:0 0 12px;">Thank you${stored.firstname ? ', ' + stored.firstname : ''} — your Wild Canvas gift voucher is confirmed.</p>
+      <p style="font-family:var(--sans);font-size:1rem;color:var(--bark-mid);line-height:1.75;margin:0 0 32px;">Your voucher code and a printable gift voucher have been sent to <strong>${stored.email || 'your email address'}</strong>. Check your inbox — it should arrive within a few minutes.</p>
+      <div style="background:var(--off-white);border:1.5px solid rgba(193,153,101,0.35);padding:24px 32px;margin:0 0 32px;text-align:left;">
+        ${stored.voucher ? `<p style="font-family:var(--sans);font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;">Voucher</p><p style="font-family:var(--serif);font-size:1.1rem;color:var(--bark);margin:0 0 16px;">${stored.voucher}</p>` : ''}
+        ${stored.recipient ? `<p style="font-family:var(--sans);font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px;">For</p><p style="font-family:var(--serif);font-size:1.1rem;color:var(--bark);margin:0;">${stored.recipient}</p>` : ''}
+      </div>
+      <p style="font-family:var(--sans);font-size:0.9rem;color:var(--bark-mid);line-height:1.75;margin:0;">Questions? <a href="mailto:hello@wildcanvas.nz" style="color:var(--bark);">hello@wildcanvas.nz</a> · 021 166 6248</p>
+    </div>
+  `;
+
+  // Insert after nav
+  const nav = document.querySelector('nav') || document.querySelector('header') || document.body.firstElementChild;
+  nav.insertAdjacentElement('afterend', div);
+
+  // Clear session storage
+  sessionStorage.removeItem('wc_order');
+})();
 </script>
 
 </body>
