@@ -926,13 +926,16 @@ function confirmBooking() {
       BLK.pohutukawa = data.pohutukawa || [];
 
       // Check every night of the stay is still free
-      var d = pd(S.ci);
-      var end = pd(S.co);
+      // Use local date arithmetic (not toISOString) to avoid UTC timezone shift
       var conflict = false;
-      while (d < end) {
-        var ds = d.toISOString().slice(0,10);
+      var cur = new Date(S.ci + 'T00:00:00');
+      var end = new Date(S.co + 'T00:00:00');
+      while (cur < end) {
+        var ds = cur.getFullYear() + '-' +
+          String(cur.getMonth()+1).padStart(2,'0') + '-' +
+          String(cur.getDate()).padStart(2,'0');
         if (isBlocked(S.tent, ds)) { conflict = true; break; }
-        d = new Date(d.getTime() + 86400000);
+        cur.setDate(cur.getDate() + 1);
       }
 
       if (conflict) {
