@@ -1054,7 +1054,7 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
   const stored = JSON.parse(sessionStorage.getItem('wc_order') || '{}');
 
   // Hide main page content
-  document.querySelectorAll('.hero, .perks, .page-body, .how-section, .terms-section').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.hero, .perks, .page-body, .how-section, .terms-section, footer').forEach(el => el.style.display = 'none');
 
   // Build success screen
   const div = document.createElement('div');
