@@ -1076,9 +1076,9 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
     </div>
   `;
 
-  // Insert after nav
-  const nav = document.querySelector('nav') || document.querySelector('header') || document.body.firstElementChild;
-  nav.insertAdjacentElement('afterend', div);
+  // Insert before footer
+  const footer = document.querySelector('footer');
+  footer.insertAdjacentElement('beforebegin', div);
 
   // Clear session storage
   sessionStorage.removeItem('wc_order');
