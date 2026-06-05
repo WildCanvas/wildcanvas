@@ -1,5 +1,5 @@
 const sharp = require('sharp');
-const { createCanvas, registerFont, loadImage } = require('@napi-rs/canvas');
+const { createCanvas, loadImage } = require('@napi-rs/canvas');
 
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
@@ -27,7 +27,6 @@ exports.handler = async function(event) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid voucher type' }) };
     }
 
-    // Fetch and resize base image to 1200px
     const imageResponse = await fetch(imageUrl);
     if (!imageResponse.ok) {
       return { statusCode: 500, body: JSON.stringify({ error: 'Could not fetch base image: ' + imageResponse.status }) };
@@ -35,23 +34,21 @@ exports.handler = async function(event) {
     const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
     const resizedBuffer = await sharp(imageBuffer).resize(1200).jpeg({ quality: 95 }).toBuffer();
 
-    // Draw text using canvas
     const img = await loadImage(resizedBuffer);
     const canvas = createCanvas(img.width, img.height);
     const ctx = canvas.getContext('2d');
 
-    // Draw base image
     ctx.drawImage(img, 0, 0);
 
-    // Draw text
-    ctx.fillStyle = 'black';
-    ctx.font = 'bold 32px sans-serif';
-    ctx.fillText(code, 759, 1100);
+    // Very large text to confirm rendering works
+    ctx.fillStyle = '#000000';
+    ctx.font = '80px sans-serif';
+    ctx.fillText(code, 500, 600);
 
-    ctx.font = '26px sans-serif';
-    ctx.fillText(expiry, 773, 1158);
+    ctx.font = '60px sans-serif';
+    ctx.fillText(expiry, 500, 700);
 
-    const outputBuffer = canvas.toBuffer('image/jpeg');
+    const outputBuffer = canvas.toBuffer('image/jpeg', 95);
 
     return {
       statusCode: 200,
