@@ -1,4 +1,5 @@
 const sharp = require('sharp');
+const { createCanvas, registerFont, loadImage } = require('@napi-rs/canvas');
 
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
@@ -26,51 +27,31 @@ exports.handler = async function(event) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid voucher type' }) };
     }
 
+    // Fetch and resize base image to 1200px
     const imageResponse = await fetch(imageUrl);
     if (!imageResponse.ok) {
       return { statusCode: 500, body: JSON.stringify({ error: 'Could not fetch base image: ' + imageResponse.status }) };
     }
     const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
+    const resizedBuffer = await sharp(imageBuffer).resize(1200).jpeg({ quality: 95 }).toBuffer();
 
-    // Resize to 1200px wide
-    const resizedBuffer = await sharp(imageBuffer)
-      .resize(1200)
-      .jpeg({ quality: 95 })
-      .toBuffer();
+    // Draw text using canvas
+    const img = await loadImage(resizedBuffer);
+    const canvas = createCanvas(img.width, img.height);
+    const ctx = canvas.getContext('2d');
 
-    // Use sharp's native text rendering — no fonts needed
-    // This uses Pango text layout built into libvips
-    const codeImg = await sharp({
-      text: {
-        text: code,
-        font: 'Sans Bold',
-        fontfile: undefined,
-        width: 400,
-        height: 50,
-        rgba: true,
-        dpi: 300,
-      }
-    }).png().toBuffer();
+    // Draw base image
+    ctx.drawImage(img, 0, 0);
 
-    const expiryImg = await sharp({
-      text: {
-        text: expiry,
-        font: 'Sans',
-        fontfile: undefined,
-        width: 400,
-        height: 40,
-        rgba: true,
-        dpi: 300,
-      }
-    }).png().toBuffer();
+    // Draw text
+    ctx.fillStyle = 'black';
+    ctx.font = 'bold 32px sans-serif';
+    ctx.fillText(code, 759, 1100);
 
-    const outputBuffer = await sharp(resizedBuffer)
-      .composite([
-        { input: codeImg,   top: 1063, left: 759 },
-        { input: expiryImg, top: 1130, left: 773 },
-      ])
-      .jpeg({ quality: 95 })
-      .toBuffer();
+    ctx.font = '26px sans-serif';
+    ctx.fillText(expiry, 773, 1158);
+
+    const outputBuffer = canvas.toBuffer('image/jpeg');
 
     return {
       statusCode: 200,
