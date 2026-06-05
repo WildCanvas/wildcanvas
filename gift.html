@@ -658,7 +658,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- VOUCHER 2 -->
       <div class="voucher" id="v2" onclick="selectVoucher(2)" role="radio" aria-checked="false" tabindex="0">
-        <div class="voucher-badge">Most Popular</div>
         <div class="voucher-inner">
           <div class="voucher-select">
             <div class="radio-ring"><div class="radio-dot"></div></div>
@@ -1054,8 +1053,8 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
   // Retrieve order details from sessionStorage
   const stored = JSON.parse(sessionStorage.getItem('wc_order') || '{}');
 
-  // Hide everything except nav
-  document.querySelectorAll('.hero, section, .voucher-section, form, .gift-form, .vouchers-grid').forEach(el => el.style.display = 'none');
+  // Hide main page content
+  document.querySelectorAll('.hero, .perks, .page-body, .how-section, .terms-section').forEach(el => el.style.display = 'none');
 
   // Build success screen
   const div = document.createElement('div');
