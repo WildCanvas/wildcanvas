@@ -32,11 +32,23 @@ exports.handler = async function(event) {
     }
     const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
 
-    // Base image is 3602x3870px
-    // Font sizes scaled for full resolution
-    const svgOverlay = `<svg width="3602" height="3870" xmlns="http://www.w3.org/2000/svg">
-      <text x="2280" y="3370" font-family="serif" font-size="140" fill="black">${escapeXml(code)}</text>
-      <text x="2321" y="3530" font-family="serif" font-size="115" fill="black">${escapeXml(expiry)}</text>
+    // Get actual image dimensions
+    const metadata = await sharp(imageBuffer).metadata();
+    const W = metadata.width;
+    const H = metadata.height;
+
+    // sharp renders SVG at 72dpi into the image pixel space
+    // Scale font size proportionally to image width
+    // At 3602px wide, we want roughly the same visual size as PIL's 90pt
+    // PIL 90pt at 72dpi = 90px, but at full res this needs to be ~300px SVG
+    const codeSize   = Math.round(W * 0.083);  // ~300px at 3602px wide
+    const expirySize = Math.round(W * 0.069);  // ~250px at 3602px wide
+    const codeY      = Math.round(H * 0.850);  // ~3290px
+    const expiryY    = Math.round(H * 0.895);  // ~3465px
+
+    const svgOverlay = `<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">
+      <text x="${Math.round(W * 0.633)}" y="${codeY}"   font-family="serif" font-size="${codeSize}"   fill="black">${escapeXml(code)}</text>
+      <text x="${Math.round(W * 0.644)}" y="${expiryY}" font-family="serif" font-size="${expirySize}" fill="black">${escapeXml(expiry)}</text>
     </svg>`;
 
     const outputBuffer = await sharp(imageBuffer)
