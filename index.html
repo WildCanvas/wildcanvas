@@ -194,6 +194,20 @@ a { text-decoration: none; color: inherit; }
   display: flex; align-items: center; gap: 2rem;
   border-bottom: 1px solid rgba(61,46,30,0.08);
 }
+.review-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid var(--harvest); border-radius: 20px;
+  padding: 6px 14px; white-space: nowrap; flex-shrink: 0;
+  text-decoration: none; transition: background 0.2s ease;
+}
+.review-badge:hover { background: var(--harvest); }
+.review-badge:hover .review-stars,
+.review-badge:hover .review-text { color: var(--cream); }
+.review-stars { font-size: 12px; color: var(--citrine); letter-spacing: 1.5px; line-height: 1; }
+.review-text { font-family: var(--serif); font-size: 0.78rem; color: var(--bark-mid); }
+@media (max-width: 900px) {
+  .review-badge { margin-top: 0.25rem; }
+}
 .press-as-seen {
   font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--muted); font-weight: 500; white-space: nowrap; flex-shrink: 0;
@@ -603,6 +617,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img src="fashion-quarterly.png" alt="Fashion Quarterly" class="press-logo press-logo-fq"/>
     <img src="qualmark.png" alt="5-Star Qualmark Gold" class="press-logo press-logo-qualmark"/>
   </div>
+  <a href="https://share.google/zthv8aILV0jXQaN1e" target="_blank" rel="noopener" class="review-badge" aria-label="Read our 186 five-star Google reviews">
+    <span class="review-stars" aria-hidden="true">★★★★★</span>
+    <span class="review-text">5.0 · 186 Google reviews</span>
+  </a>
 </div>
 
 <!-- INTRO -->
