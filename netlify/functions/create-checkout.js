@@ -13,7 +13,53 @@ exports.handler = async function(event) {
     if (!total || total <= 0) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid total amount.' }) };
     }
+// ── EXPERIENCE / ADD-ONS CHECKOUT ───────────────────────────────────────
+if (data.type === 'experience') {
+  const description = data.extrasDetail
+    ? data.extrasDetail.substring(0, 490)
+    : data.extras || 'Wild Canvas Experiences';
 
+  const experienceMetadata = {
+    type:          'experience',
+    guest_name:    data.name          || '',
+    guest_email:   data.email         || '',
+    guest_phone:   data.phone         || '',
+    booking_ref:   data.ref           || '',
+    checkin:       data.checkin       || '',
+    extras:        (data.extras       || '').substring(0, 490),
+    extras_detail: (data.extrasDetail || '').substring(0, 490),
+    notes:         (data.notes        || '').substring(0, 490),
+  };
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [{
+      price_data: {
+        currency: 'nzd',
+        product_data: {
+          name: 'Wild Canvas Experiences & Add-ons',
+          description: description,
+        },
+        unit_amount: Math.round(total * 100),
+      },
+      quantity: 1,
+    }],
+    mode: 'payment',
+    customer_email: data.email,
+    metadata: experienceMetadata,
+    payment_intent_data: {
+      metadata: experienceMetadata,
+    },
+    success_url: 'https://wildcanvas.nz/experiences?payment=success',
+    cancel_url:  'https://wildcanvas.nz/experiences?payment=cancelled',
+  });
+
+  return {
+    statusCode: 200,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url: session.url }),
+  };
+}
     const kidsStr = kids > 0 ? ' + ' + kids + ' child' + (kids !== 1 ? 'ren' : '') : '';
     const voucherStr = voucherValue > 0 ? ' (after NZD $' + voucherValue + ' voucher credit)' : '';
     const extrasStr = extras && extras !== 'None' ? ' | Extras: ' + extras : '';
