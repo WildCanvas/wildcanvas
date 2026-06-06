@@ -1164,6 +1164,7 @@ function submitOrder() {
   });
 
   var payload = {
+    type: 'experience',
     ref: document.getElementById('bookref').value.trim() || 'EXTRAS',
     tent: 'Extras Order',
     checkin: checkin,
