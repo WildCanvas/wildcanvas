@@ -405,6 +405,72 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
 }
 
 
+/* ── YOUR STAY TIMELINE ───────────────── */
+.stay-section { background: var(--off-white); padding: 5.5rem 3.5rem; }
+.stay-inner { max-width: 1100px; margin: 0 auto; }
+.stay-grid { display: flex; flex-direction: column; gap: 0; margin-top: 3.5rem; }
+.stay-item {
+  display: grid; grid-template-columns: 200px 1fr;
+  gap: 0; position: relative;
+}
+.stay-item:not(:last-child)::after {
+  content: ''; position: absolute;
+  left: 200px; top: 0; bottom: 0;
+  width: 1px; background: rgba(61,46,30,0.1);
+  z-index: 0;
+}
+.stay-left {
+  padding: 2.5rem 2.5rem 2.5rem 0;
+  border-right: 1px solid rgba(61,46,30,0.1);
+  display: flex; flex-direction: column;
+  justify-content: flex-start; align-items: flex-end;
+  text-align: right; gap: 0.4rem;
+}
+.stay-time {
+  font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500;
+}
+.stay-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--harvest); border: 2px solid var(--off-white);
+  outline: 1px solid var(--harvest);
+  position: absolute; left: 196px; top: 2.9rem;
+  z-index: 1;
+}
+.stay-right {
+  display: grid; grid-template-columns: 1fr 340px;
+  gap: 2.5rem; padding: 2.5rem 0 2.5rem 2.5rem;
+  align-items: center; border-bottom: 1px solid rgba(61,46,30,0.06);
+}
+.stay-item:last-child .stay-right { border-bottom: none; }
+.stay-title {
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 400;
+  color: var(--bark); margin-bottom: 0.6rem; line-height: 1.2;
+}
+.stay-title em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.stay-desc { font-size: 0.88rem; color: var(--bark-mid); font-weight: 300; line-height: 1.85; }
+.stay-img {
+  width: 100%; height: 240px; object-fit: cover; display: block;
+}
+@media (max-width: 900px) {
+  .stay-section { padding: 3.5rem 1.5rem; }
+  .stay-item { grid-template-columns: 1fr; }
+  .stay-item::after { display: none; }
+  .stay-left {
+    flex-direction: row; align-items: center; justify-content: flex-start;
+    text-align: left; border-right: none;
+    border-bottom: none; padding: 1.5rem 0 0;
+    gap: 0.75rem;
+  }
+  .stay-dot { display: none; }
+  .stay-right {
+    grid-template-columns: 1fr; gap: 1.2rem;
+    padding: 1rem 0 2rem; border-bottom: 1px solid rgba(61,46,30,0.08);
+  }
+  .stay-img { height: 220px; }
+  .stay-title { font-size: 1.1rem; }
+}
+
 /* PHOTO GALLERY CAROUSEL */
 .photo-carousel { position: relative; overflow: hidden; width: 100%; background: var(--bark); }
 .pc-track { display: flex; }
@@ -628,7 +694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="hero-text">
     <div>
       <p class="eyebrow">Families &amp; Groups · Up to 8 Guests</p>
-      <h1>The Pōhutukawa Tent: <em>Secluded, Spacious, Unforgettable</em></h1>
+      <h1>The Pōhutukawa Tent: <em>made for gathering</em></h1>
       <p class="hero-sub">Four bedrooms, a cedar hot tub, full indoor kitchen, underfloor heating and breathtaking 360° views. The ultimate glamping experience, with curated add-ons available exclusively for your group.</p>
     </div>
     <div class="hero-stamp-cta">
@@ -769,6 +835,94 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li>Hand soap, body wash, shampoo and conditioner by Ashley &amp; Co</li>
         <li>Dyson Airwrap hairdryer</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- YOUR STAY TIMELINE -->
+<section class="stay-section">
+  <div class="stay-inner">
+    <p class="eyebrow">Your Stay</p>
+    <h2 class="section-title">How your time together <em>could look</em></h2>
+    <p class="body-text" style="max-width:560px">Hot tub soaks, outdoor dinners, fireside evenings, and the kind of family time everyone remembers.</p>
+
+    <div class="stay-grid">
+
+      <!-- 1. Arrive -->
+      <div class="stay-item fade-up">
+        <div class="stay-left">
+          <span class="stay-time">Afternoon</span>
+        </div>
+        <div class="stay-dot"></div>
+        <div class="stay-right">
+          <div>
+            <h3 class="stay-title">Arrive &amp; <em>settle in</em></h3>
+            <p class="stay-desc">Check in from 2pm. Take in the views, unpack slowly, and let the kids discover the space. The hot tub is pre-heated and waiting. Open the complimentary wine from the fridge and breathe.</p>
+          </div>
+          <img class="stay-img" src="arriveandsettlein.webp" alt="Guests arriving and settling in at Pōhutukawa Tent, Wild Canvas Waitomo" loading="lazy"/>
+        </div>
+      </div>
+
+      <!-- 2. Afternoon together -->
+      <div class="stay-item fade-up">
+        <div class="stay-left">
+          <span class="stay-time">Late Afternoon</span>
+        </div>
+        <div class="stay-dot"></div>
+        <div class="stay-right">
+          <div>
+            <h3 class="stay-title">Afternoon <em>together</em></h3>
+            <p class="stay-desc">Board games, kites on the lawn, or a massage for a slower start. The hilltop is yours — no neighbours, no schedule.</p>
+          </div>
+          <img class="stay-img" src="lawn_games.webp" alt="Family playing lawn games at Pōhutukawa Tent, glamping Waitomo" loading="lazy"/>
+        </div>
+      </div>
+
+      <!-- 3. Dinner on the hilltop -->
+      <div class="stay-item fade-up">
+        <div class="stay-left">
+          <span class="stay-time">Evening</span>
+        </div>
+        <div class="stay-dot"></div>
+        <div class="stay-right">
+          <div>
+            <h3 class="stay-title">Dinner on <em>the hilltop</em></h3>
+            <p class="stay-desc">Fire up the BBQ or pizza oven, cook together, and gather around the large outdoor table as the sun drops behind the ranges. The hot tub is the obvious next move.</p>
+          </div>
+          <img class="stay-img" src="outdoor_dining.webp" alt="Group dining outdoors at sunset at Pōhutukawa Tent, Waitomo glamping" loading="lazy"/>
+        </div>
+      </div>
+
+      <!-- 4. Make an evening of it -->
+      <div class="stay-item fade-up">
+        <div class="stay-left">
+          <span class="stay-time">Night</span>
+        </div>
+        <div class="stay-dot"></div>
+        <div class="stay-right">
+          <div>
+            <h3 class="stay-title">Make an <em>evening of it</em></h3>
+            <p class="stay-desc">Toast marshmallows around the sculptural firepit, share stories under the stars, and drift inside to the glow of the stone fireplace when the night air turns cool.</p>
+          </div>
+          <img class="stay-img" src="toast_marshmallows.webp" alt="Family toasting marshmallows around the firepit at Pōhutukawa Tent, Waitomo" loading="lazy"/>
+        </div>
+      </div>
+
+      <!-- 5. Wake up slowly -->
+      <div class="stay-item fade-up">
+        <div class="stay-left">
+          <span class="stay-time">Morning</span>
+        </div>
+        <div class="stay-dot"></div>
+        <div class="stay-right">
+          <div>
+            <h3 class="stay-title">Wake up <em>slowly</em></h3>
+            <p class="stay-desc">Coffee, breakfast, and one more relaxed morning together. The BBQ, the hilltop, the hot tub — all still yours until check-out at 10am.</p>
+          </div>
+          <img class="stay-img" src="morning_BBQ.webp" alt="Morning BBQ breakfast at Pōhutukawa Tent, luxury glamping Waitomo" loading="lazy"/>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
