@@ -1242,6 +1242,42 @@ window.addEventListener('scroll', function() {
 }, { passive: true });
 
 renderExtras();
+
+// ── SUCCESS STATE ───────────────────────────────────────────────────────────
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('payment') !== 'success') return;
+
+  // Hide all page sections except nav and footer
+  document.querySelectorAll('.extras-hero, section, .section, [style*="background"]').forEach(function(el) {
+    if (!el.closest('nav') && !el.closest('footer')) el.style.display = 'none';
+  });
+
+  // Build success screen
+  var div = document.createElement('div');
+  div.style.cssText = 'min-height:70vh;display:flex;align-items:center;justify-content:center;padding:60px 20px;background:var(--cream);margin-top:80px;';
+  div.innerHTML = '<div style="max-width:560px;width:100%;text-align:center;">'
+    + '<div style="width:64px;height:64px;background:var(--bark);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;">'
+    + '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+    + '</div>'
+    + '<p style="font-family:var(--display);font-style:italic;font-size:13px;letter-spacing:0.18em;text-transform:uppercase;color:var(--harvest);margin:0 0 12px;">Extras Confirmed</p>'
+    + '<h1 style="font-family:var(--serif);font-size:2.2rem;font-weight:400;color:var(--bark);margin:0 0 20px;line-height:1.2;">You\'re all sorted!</h1>'
+    + '<p style="font-family:var(--sans);font-size:1rem;color:var(--bark-mid);line-height:1.75;margin:0 0 12px;">Your extras order is confirmed and paid. A confirmation has been sent to your email address.</p>'
+    + '<p style="font-family:var(--sans);font-size:1rem;color:var(--bark-mid);line-height:1.75;margin:0 0 32px;">Everything will be ready and waiting when you arrive.</p>'
+    + '<div style="background:var(--off-white);border:1.5px solid rgba(193,153,101,0.35);padding:24px 32px;margin:0 0 32px;text-align:left;">'
+    + '<p style="font-family:var(--sans);font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;">What happens next</p>'
+    + '<p style="font-family:var(--sans);font-size:0.88rem;color:var(--bark-mid);line-height:1.75;margin:0;">Check your email for a full summary of your order. If you have any questions, dietary requirements to flag, or need to make changes, just get in touch.</p>'
+    + '</div>'
+    + '<p style="font-family:var(--sans);font-size:0.9rem;color:var(--bark-mid);line-height:1.75;margin:0;">Questions? <a href="mailto:hello@wildcanvas.nz" style="color:var(--bark);">hello@wildcanvas.nz</a> · 021 166 6248</p>'
+    + '</div>';
+
+  // Insert before footer
+  var footer = document.querySelector('footer');
+  footer.insertAdjacentElement('beforebegin', div);
+
+  // Clean up URL without reloading
+  window.history.replaceState({}, '', window.location.pathname);
+})();
 </script>
 </body>
 </html>
