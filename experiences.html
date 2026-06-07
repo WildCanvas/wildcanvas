@@ -1248,9 +1248,12 @@ renderExtras();
   var params = new URLSearchParams(window.location.search);
   if (params.get('payment') !== 'success') return;
 
-  // Hide all page sections except nav and footer
-  document.querySelectorAll('.extras-hero, section, .section, [style*="background"]').forEach(function(el) {
-    if (!el.closest('nav') && !el.closest('footer')) el.style.display = 'none';
+  // Hide everything inside body except nav and footer
+  document.querySelectorAll('body > *').forEach(function(el) {
+    var tag = el.tagName.toLowerCase();
+    if (tag !== 'nav' && tag !== 'footer' && !el.classList.contains('wc-mobile-drawer')) {
+      el.style.display = 'none';
+    }
   });
 
   // Build success screen
@@ -1271,12 +1274,9 @@ renderExtras();
     + '<p style="font-family:var(--sans);font-size:0.9rem;color:var(--bark-mid);line-height:1.75;margin:0;">Questions? <a href="mailto:hello@wildcanvas.nz" style="color:var(--bark);">hello@wildcanvas.nz</a> · 021 166 6248</p>'
     + '</div>';
 
-  // Insert before footer
-  var footer = document.querySelector('footer');
-  footer.insertAdjacentElement('beforebegin', div);
-
-  // Clean up URL without reloading
-  window.history.replaceState({}, '', window.location.pathname);
+  // Insert after nav
+  var nav = document.querySelector('nav');
+  nav.insertAdjacentElement('afterend', div);
 })();
 </script>
 </body>
