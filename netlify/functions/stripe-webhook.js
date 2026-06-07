@@ -23,6 +23,39 @@ exports.handler = async function(event) {
     const session = stripeEvent.data.object;
     const meta = session.metadata || {};
 
+    // ── EXPERIENCE / ADD-ONS PURCHASE ──────────────────────────────────────
+    if (meta.type === 'experience') {
+      const experienceData = {
+        action: 'experiencePurchase',
+        guestName:    meta.guest_name   || '',
+        guestEmail:   meta.guest_email  || session.customer_email || '',
+        guestPhone:   meta.guest_phone  || '',
+        bookingRef:   meta.booking_ref  || '',
+        checkin:      meta.checkin      || '',
+        extras:       meta.extras       || '',
+        extrasDetail: meta.extras_detail || '',
+        notes:        meta.notes        || '',
+        total:        (session.amount_total / 100),
+        sessionId:    session.id,
+      };
+
+      try {
+        const fetch = require('node-fetch');
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(experienceData)
+        });
+        const result = await response.json();
+        console.log('Apps Script response (experience):', JSON.stringify(result));
+      } catch (err) {
+        console.error('Apps Script error (experience):', err.message);
+      }
+
+      return { statusCode: 200, body: JSON.stringify({ received: true }) };
+    }
+
+    // ── STANDARD BOOKING PURCHASE ───────────────────────────────────────────
     // Only process if we have booking metadata
     if (!meta.ref) {
       return { statusCode: 200, body: 'No metadata, skipping' };
