@@ -466,8 +466,6 @@ document.querySelectorAll('.wc-mobile-drawer a').forEach(a=>{
 // Formspree (free tier), or EmailJS.
 // Netlify Forms is easiest — just add data-netlify="true" to the <form> tag
 // and Netlify handles delivery to your email automatically.
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL78iWtDb2jUZ5yHhCO8wonBrmqO2lRGoRxjaVFvOtYBiDNTY_qPpBihWJfwm-WfWmUg/exec';
-
 document.getElementById('contactForm').addEventListener('submit', function(e){
   e.preventDefault();
   var fname   = document.getElementById('fname').value.trim();
@@ -486,24 +484,24 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
   btn.disabled = true;
   btn.textContent = 'Sending...';
 
-  fetch(APPS_SCRIPT_URL, {
+  var formData = new FormData();
+  formData.append('form-name', 'contact');
+  formData.append('fname', fname);
+  formData.append('lname', lname);
+  formData.append('email', email);
+  formData.append('phone', phone);
+  formData.append('topic', topic);
+  formData.append('message', message);
+
+  fetch('/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      action:  'contactForm',
-      name:    fname + ' ' + lname,
-      email:   email,
-      phone:   phone,
-      topic:   topic,
-      message: message
-    })
+    body: formData
   })
   .then(function() {
     document.getElementById('formSuccess').style.display = 'block';
     btn.textContent = 'Message Sent';
   })
   .catch(function() {
-    // Show success anyway — Apps Script often returns a CORS error on success
     document.getElementById('formSuccess').style.display = 'block';
     btn.textContent = 'Message Sent';
   });
