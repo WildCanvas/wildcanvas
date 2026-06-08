@@ -94,7 +94,7 @@ a{text-decoration:none;color:inherit;}
 
 /* HERO */
 .hero{padding-top:76px;line-height:0;}
-.hero-photo{width:100%;height:45vh;min-height:260px;object-fit:cover;display:block;}
+.hero-photo{width:100%;height: 520px;object-fit:cover;display:block;}
 .hero-text{background:var(--candy);padding:3rem 3.5rem 3.5rem;line-height:1.5;}
 .eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
 .eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
@@ -195,7 +195,6 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   .wc-nav-book { display: none; }
   .wc-hamburger { display: flex; }
   .hero-photo{width:100%;height:45vh;min-height:260px;object-fit:cover;display:block;} .hero-text{padding:2.5rem 1.5rem;} .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; } .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; } .hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}
-@media(max-width:900px){.hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; }.hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; }.hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}}
   .intro-strip{padding:3rem 1.5rem;} .intro-grid{grid-template-columns:1fr;}
   .section{padding:3.5rem 1.5rem;}
   .press-feature,.press-feature:nth-child(even){grid-template-columns:1fr;}
@@ -244,7 +243,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
-        <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
+        <a href="/experiences" class="wc-dropdown-tent">All Experiences<span class="wc-dropdown-desc">Add-ons for your stay</span></a>
+        <div class="wc-dropdown-divider"></div>
         <a href="/waitomo">Explore Waitomo</a>
       </div>
     </li>
@@ -261,7 +261,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <li><a href="/faq">FAQ</a></li>
     <li><a href="/gift">Gift Vouchers</a></li>
   </ul>
-  <a href="booking.html" class="wc-nav-book">Book Now</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
   <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
 </nav>
 
@@ -279,7 +279,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p class="wc-mobile-section-title">More</p>
   <a href="/faq">FAQ</a>
   <a href="/gift">Gift Vouchers</a>
-  <a href="booking.html" class="wc-mobile-book">Book Now</a>
+  <a href="/contact">Contact</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
 </div>
 
 <!-- HERO -->
@@ -460,7 +461,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="footer-col">
       <h4>Experiences</h4>
-      <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
+      <a href="/experiences">All Experiences</a>
           <a href="/waitomo">Explore Waitomo</a>
     </div>
     <div class="footer-col">
@@ -468,6 +469,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="/aboutus">Our Story</a>
       <a href="/media">Media &amp; Press</a>
       <a href="/faq">FAQ</a>
+      <a href="/contact">Contact</a>
       <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
       <a href="tel:0211666248">021 166 6248</a>
     </div>

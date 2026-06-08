@@ -94,7 +94,7 @@ a{text-decoration:none;color:inherit;}
 
 /* HERO */
 .hero{padding-top:76px;line-height:0;}
-.hero-photo{width:100%;height:auto;object-fit:cover;display:block;}
+.hero-photo{width:100%;height: 520px;object-fit:cover;display:block;}
 .hero-text{background:var(--pistachio);padding:3rem 3.5rem 3.5rem;line-height:1.5;}
 .eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
 .eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
@@ -183,7 +183,6 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   .wc-nav-book { display: none; }
   .wc-hamburger { display: flex; }
   .hero-photo{height:45vh;min-height:260px;object-fit:cover;} .hero-text{padding:2.5rem 1.5rem;} .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; } .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; } .hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}
-@media(max-width:900px){.hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; }.hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; }.hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}}
   .distance-strip{padding:1rem 1.5rem;gap:1.5rem;justify-content:flex-start;}
   .section{padding:3.5rem 1.5rem;}
   .attractions-grid{grid-template-columns:1fr 1fr;}
@@ -206,6 +205,73 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   function gtag(){dataLayer.push(arguments);}
   gtag("js", new Date());
   gtag("config", "G-EXW198L4G9");
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TouristDestination",
+      "@id": "https://www.wildcanvas.nz/waitomo#destination",
+      "name": "Waitomo, Waikato, New Zealand",
+      "description": "Waitomo is a district in the Waikato region of New Zealand's North Island, world-famous for its glowworm caves, underground rivers, and dramatic limestone landscape. It is home to the Waitomo Glowworm Caves, Ruakuri Cave, Aranui Cave, and a range of adventure activities including cave tubing, abseiling, and the Lost World experience. Wild Canvas luxury glamping is located in Waitomo and serves as an ideal base for exploring the region.",
+      "url": "https://www.wildcanvas.nz/waitomo",
+      "touristType": ["Adventure travellers", "Luxury travellers", "Nature lovers", "International visitors", "Families", "Couples"],
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -38.2667,
+        "longitude": 175.1000
+      },
+      "includesAttraction": [
+        {
+          "@type": "TouristAttraction",
+          "name": "Waitomo Glowworm Caves",
+          "description": "World-famous caves lit by thousands of native glowworms (Arachnocampa luminosa). A guided boat tour through the Cathedral cavern is one of New Zealand's most iconic experiences.",
+          "url": "https://www.waitomo.com"
+        },
+        {
+          "@type": "TouristAttraction",
+          "name": "Ruakuri Cave",
+          "description": "A 2.5km guided cave walk through dramatic limestone formations and glowworm grottos, considered one of New Zealand's most impressive cave experiences."
+        },
+        {
+          "@type": "TouristAttraction",
+          "name": "Aranui Cave",
+          "description": "A smaller, more intimate cave renowned for its delicate pink and white limestone formations."
+        },
+        {
+          "@type": "TouristAttraction",
+          "name": "Lost World Adventure",
+          "description": "A 100-metre abseil into a vast underground cavern, followed by underground caving, climbing and ziplines — one of New Zealand's most dramatic adventure experiences."
+        },
+        {
+          "@type": "TouristAttraction",
+          "name": "Ruakuri Scenic Reserve & Bush Walk",
+          "description": "A free, accessible 30-minute loop walk through native bush alongside a limestone gorge and natural tunnel. One of the most beautiful short walks in the Waikato."
+        },
+        {
+          "@type": "TouristAttraction",
+          "name": "Hobbiton Movie Set",
+          "description": "The original filming location for The Shire from Peter Jackson's Lord of the Rings and Hobbit trilogies, located in Matamata — approximately 1.5 hours from Wild Canvas."
+        },
+        {
+          "@type": "TouristAttraction",
+          "name": "Wild Canvas Luxury Glamping",
+          "description": "New Zealand's only 5-Star Qualmark glamping property, located in Waitomo. Two exclusively private hilltop safari tents — ideal base for exploring the Waitomo region in comfort and style.",
+          "url": "https://www.wildcanvas.nz"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "url": "https://www.wildcanvas.nz/waitomo",
+      "name": "Explore Waitomo — Wild Canvas",
+      "description": "Your guide to Waitomo — the world famous Glowworm Caves, Lost World Adventures, Ruakuri Walk, ziplines, Hobbiton and more. All within reach of Wild Canvas glamping.",
+      "isPartOf": { "@id": "https://www.wildcanvas.nz/#business" },
+      "about": { "@id": "https://www.wildcanvas.nz/waitomo#destination" }
+    }
+  ]
+}
 </script>
 </head>
 <body>
@@ -235,7 +301,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
-        <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
+        <a href="/experiences" class="wc-dropdown-tent">All Experiences<span class="wc-dropdown-desc">Add-ons for your stay</span></a>
+        <div class="wc-dropdown-divider"></div>
         <a href="/waitomo" class="active">Explore Waitomo</a>
       </div>
     </li>
@@ -252,7 +319,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <li><a href="/faq">FAQ</a></li>
     <li><a href="/gift">Gift Vouchers</a></li>
   </ul>
-  <a href="booking.html" class="wc-nav-book">Book Now</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
   <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
 </nav>
 
@@ -270,7 +337,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p class="wc-mobile-section-title">More</p>
   <a href="/faq">FAQ</a>
   <a href="/gift">Gift Vouchers</a>
-  <a href="booking.html" class="wc-mobile-book">Book Now</a>
+  <a href="/contact">Contact</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
 </div>
 
 <!-- HERO -->
@@ -551,7 +619,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="footer-col">
       <h4>Experiences</h4>
-      <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
+      <a href="/experiences">All Experiences</a>
           <a href="/waitomo">Explore Waitomo</a>
     </div>
     <div class="footer-col">
@@ -559,6 +627,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="/aboutus">Our Story</a>
       <a href="/media">Media &amp; Press</a>
       <a href="/faq">FAQ</a>
+      <a href="/contact">Contact</a>
       <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
       <a href="tel:0211666248">021 166 6248</a>
     </div>

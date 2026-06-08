@@ -94,7 +94,7 @@ a{text-decoration:none;color:inherit;}
 
 /* HERO */
 .hero{padding-top:76px;line-height:0;}
-.hero-photo{width:100%;height:45vh;min-height:260px;object-fit:cover;display:block;}
+.hero-photo{width:100%;height: 520px;object-fit:cover;display:block;}
 .hero-text{background:var(--candy);padding:3.5rem 3.5rem 4rem;line-height:1.5;}
 .eyebrow{font-size:0.63rem;letter-spacing:0.26em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.9rem;display:flex;align-items:center;gap:0.6rem;}
 .eyebrow::before{content:'';width:20px;height:1px;background:var(--harvest);flex-shrink:0;}
@@ -204,7 +204,6 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   .wc-nav-book { display: none; }
   .wc-hamburger { display: flex; }
    .hero-text{padding:2.5rem 1.5rem;} .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; } .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; } .hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}
-@media(max-width:900px){.hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; }.hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; }.hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}}
   .section{padding:4rem 1.5rem;}
   .story-grid,.meet-grid,.farm-grid{grid-template-columns:1fr !important;gap:3rem;}
   .person-img{aspect-ratio:3/2;max-height:280px;object-position:center 20%;}
@@ -252,6 +251,81 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   gtag("js", new Date());
   gtag("config", "G-EXW198L4G9");
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.wildcanvas.nz/#organization",
+      "name": "Wild Canvas",
+      "url": "https://www.wildcanvas.nz",
+      "logo": "https://www.wildcanvas.nz/Wild_Canvas_Logo_Black.png",
+      "description": "Wild Canvas is a luxury glamping property located on Mangarino Road, Hangatiki, in the Waitomo district of Waikato, New Zealand. Founded in 2017 by Emily and Benjamin Scott on a 700-hectare, third-generation family farm, it operates two exclusively private safari-style tents — the Kōwhai Tent for couples and the Pōhutukawa Tent for families and groups. Wild Canvas holds a 5-Star Qualmark Gold glamping rating — the first and only property in New Zealand to achieve this designation — and won Airbnb's Best Design Stay Award. It has been featured in NZ Herald, Kia Ora Magazine, Life & Leisure, and Fashion Quarterly, and holds a 4.9-star rating across more than 200 Google reviews.",
+      "foundingDate": "2017",
+      "foundingLocation": {
+        "@type": "Place",
+        "name": "Waitomo, Waikato, New Zealand"
+      },
+      "founder": [
+        {
+          "@type": "Person",
+          "@id": "https://www.wildcanvas.nz/#emily-scott",
+          "name": "Emily Scott",
+          "jobTitle": "Co-founder & Owner",
+          "worksFor": { "@id": "https://www.wildcanvas.nz/#organization" }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://www.wildcanvas.nz/#benjamin-scott",
+          "name": "Benjamin Scott",
+          "jobTitle": "Co-founder & Owner",
+          "worksFor": { "@id": "https://www.wildcanvas.nz/#organization" }
+        }
+      ],
+      "award": [
+        "5-Star Qualmark Gold Glamping — first and only in New Zealand",
+        "Airbnb Best Design Stay Award 2023"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Mangarino Road",
+        "addressLocality": "Hangatiki",
+        "addressRegion": "Waitomo, Waikato",
+        "addressCountry": "NZ"
+      },
+      "telephone": "+64211666248",
+      "email": "hello@wildcanvas.nz",
+      "sameAs": [
+        "https://www.instagram.com/wildcanvas.nz",
+        "https://www.facebook.com/waitomoglamping",
+        "https://www.tiktok.com/@wild.canvas",
+        "https://www.newzealand.com/nz/plan/business/wild-canvas/"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "200",
+        "bestRating": "5"
+      },
+      "subjectOf": [
+        { "@type": "MediaObject", "name": "NZ Herald feature", "publisher": { "@type": "Organization", "name": "NZ Herald" } },
+        { "@type": "MediaObject", "name": "Kia Ora Magazine feature", "publisher": { "@type": "Organization", "name": "Kia Ora Magazine" } },
+        { "@type": "MediaObject", "name": "Life & Leisure feature", "publisher": { "@type": "Organization", "name": "Life & Leisure" } },
+        { "@type": "MediaObject", "name": "Fashion Quarterly feature", "publisher": { "@type": "Organization", "name": "Fashion Quarterly" } }
+      ]
+    },
+    {
+      "@type": "AboutPage",
+      "url": "https://www.wildcanvas.nz/aboutus",
+      "name": "Our Story — Wild Canvas",
+      "description": "The story behind Wild Canvas — New Zealand's first 5-Star Qualmark glamping experience, founded by Emily and Benjamin Scott on a third-generation family farm in Waitomo.",
+      "about": { "@id": "https://www.wildcanvas.nz/#organization" },
+      "isPartOf": { "@id": "https://www.wildcanvas.nz/#business" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -280,7 +354,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
       </button>
       <div class="wc-dropdown">
-        <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
+        <a href="/experiences" class="wc-dropdown-tent">All Experiences<span class="wc-dropdown-desc">Add-ons for your stay</span></a>
+        <div class="wc-dropdown-divider"></div>
         <a href="/waitomo">Explore Waitomo</a>
       </div>
     </li>
@@ -297,7 +372,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <li><a href="/faq">FAQ</a></li>
     <li><a href="/gift">Gift Vouchers</a></li>
   </ul>
-  <a href="booking.html" class="wc-nav-book">Book Now</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
   <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
 </nav>
 
@@ -315,7 +390,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p class="wc-mobile-section-title">More</p>
   <a href="/faq">FAQ</a>
   <a href="/gift">Gift Vouchers</a>
-  <a href="booking.html" class="wc-mobile-book">Book Now</a>
+  <a href="/contact">Contact</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
 </div>
 
 <!-- HERO -->
@@ -330,6 +406,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="hero-sub">At Wild Canvas, we've created two luxury lodge-style glamping tents perched on their own private hilltops, completely secluded with no one else in sight.</p>
       <p class="hero-sub" style="margin-top:1rem">Our goal has always been to create a glamping experience that blends the best parts of camping, starry nights, crackling fires and the joy of simplicity, with thoughtful design and high-end comforts.</p>
       <p class="hero-sub" style="margin-top:1rem">Designed for couples, families and small groups alike, our tents offer a private escape where you can slow down, reconnect and immerse yourself in the beauty of Waitomo.</p>
+      <!-- Reference summary for search engines and AI -->
+      <p class="hero-sub" style="margin-top:1rem;font-size:0.82rem;opacity:0.7">Wild Canvas is a luxury glamping property located on Mangarino Road, Hangatiki, in the Waitomo district of Waikato, New Zealand. Founded in 2017 by Emily and Benjamin Scott on a 700-hectare, third-generation family farm, it operates two exclusively private safari-style tents — the Kōwhai Tent (for couples, from NZD $590/night) and the Pōhutukawa Tent (for families and groups up to 8, from NZD $1,635/night). Each tent sits on its own private hilltop, over a kilometre apart, with no shared spaces and no neighbouring guests. Wild Canvas holds a 5-Star Qualmark Gold glamping rating — the first and only property in New Zealand to achieve this designation — and won Airbnb's Best Design Stay Award. It has been featured in NZ Herald, Kia Ora Magazine, Life &amp; Leisure, and Fashion Quarterly, and holds a 4.9-star rating across more than 200 Google reviews. Book directly at wildcanvas.nz/booking.</p>
     </div>
     <div class="hero-stamp">
       <img src="wild-canvas-glamping-escapes-nz-stamp.svg" alt="Wild Canvas Glamping Escapes New Zealand stamp" style="width:130px;height:auto;opacity:0.55;"/>
@@ -532,7 +610,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="footer-col">
       <h4>Experiences</h4>
-      <a href="/experiences" class="wc-mobile-tent">All Experiences<span class="wc-mobile-tent-desc">Add-ons for your stay</span></a>
+      <a href="/experiences">All Experiences</a>
         <a href="/waitomo">Explore Waitomo</a>
     </div>
     <div class="footer-col">
@@ -540,6 +618,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="/aboutus">Our Story</a>
       <a href="/media">Media &amp; Press</a>
       <a href="/faq">FAQ</a>
+      <a href="/contact">Contact</a>
       <p style="margin-top:0.8rem"><a href="mailto:hello@wildcanvas.nz">hello@wildcanvas.nz</a></p>
       <a href="tel:0211666248">021 166 6248</a>
     </div>
