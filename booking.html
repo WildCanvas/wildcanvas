@@ -528,23 +528,10 @@ async function validateVoucherCode(code) {
   }
 }
 
-var DINNER_MAINS = [
-  'Peri Peri Chicken Legs',
-  'Beef & Blue Cheese Patties',
-  'Beef & Gouda Patties'
-];
-
-var DINNER_SALADS = [
-  'Watercress, Blue Cheese, Red Onion, Toasted Walnuts & Pear',
-  'Pumpkin, Feta & Orzo with Sundried Tomato Dressing',
-  'Broccoli, Cauliflower & Feta in Creamy Yoghurt Dressing',
-  'Roasted Roots, Bacon, Walnut & Orange (bacon optional)'
-];
-
 var EXTRAS = [
   {id:'platter',tents:'both',name:'Antipasto Platter',desc:'Seed crackers, bruschetta, salami, pastrami, smoked salmon, cheeses, stuffed peppers, hummus and more. Ready on arrival.',price:'NZD $89',num:89},
   {id:'pizza',tents:'both',name:'Wood-fired Pizza',desc:'~10-inch pizzas, prepped and ready to fire in the pizza oven. Choose your flavours below.',price:'NZD $44 each',num:44,qty:true,qtyLabel:'How many pizzas?',qtyMin:1,qtyMax:10,flavours:true},
-  {id:'dinner',tents:'both',name:'Gourmet Dinner',desc:'Per person. Beef scotch, sausages, Volare garlic bread, your choice of main, two salad choices and passionfruit cheesecake. Meat prepped and ready to cook; salads and cheesecake served ready to eat. For every 2 people you can choose 1 main and 2 salads.',price:'NZD $85 per person (min. 2)',num:85,qty:true,qtyLabel:'How many people?',qtyMin:2,qtyMax:8,dinnerOptions:true},
+  {id:'dinner',tents:'both',name:'Gourmet Dinner',desc:'Beef scotch, sausages, your choice of peri peri chicken, beef & blue cheese patties, or beef & gouda patties, garlic bread, choice of salad, and passionfruit cheesecake. Prepped and ready for you to cook at your own pace.',price:'NZD $85 per person',num:85,qty:true,qtyLabel:'How many people?',qtyMin:1,qtyMax:8},
   {id:'mbns',tents:'both',name:'Massage - Back, Neck & Shoulder',desc:'45-min in-tent massage. Eases tension in high-stress areas. Pregnancy massage also available.',price:'NZD $120 per person',num:120,qty:true,qtyLabel:'How many people?',qtyMin:1,qtyMax:8},
   {id:'mfull',tents:'both',name:'Massage - Full Body',desc:'~1 hour head-to-toe treatment. For 4+ people additional therapists arranged.',price:'NZD $150 per person',num:150,qty:true,qtyLabel:'How many people?',qtyMin:1,qtyMax:8},
   {id:'clay',tents:'pohutukawa',name:'Clay Target Shooting',desc:'Exhilarating shooting experience in the hills. Expert supervision, 100 shots shared between participants.',price:'NZD $499 per session',num:499},
@@ -808,35 +795,6 @@ function renderExtras() {
           html += '</select></div>';
         }
       }
-      if (ex.dinnerOptions) {
-        var numSets = q / 2;
-        if (!item.dinnerSets) item.dinnerSets = [];
-        while (item.dinnerSets.length < numSets) item.dinnerSets.push({main:0,salad1:0,salad2:1});
-        item.dinnerSets.length = numSets;
-        html += '<p style="font-size:0.78rem;color:var(--muted);margin:0.5rem 0 0.4rem;">Every 2 guests share 1 main and 2 salads.</p>';
-        for (var si=0; si<numSets; si++) {
-          var curSet = item.dinnerSets[si] || {main:0,salad1:0,salad2:1};
-          html += '<p style="font-size:0.78rem;font-weight:500;margin:0.5rem 0 0.2rem;color:var(--bark)">Guests '+(si*2+1)+'–'+(si*2+2)+'</p>';
-          html += '<div class="xflavour"><span class="xqlbl">Main</span>';
-          html += '<select class="xfsel" onclick="event.stopPropagation()" onchange="setDinnerField(\'' + ex.id + '\',' + si + ',\'main\',this)">';
-          for (var mi=0; mi<DINNER_MAINS.length; mi++) {
-            html += '<option value="'+mi+'"'+(curSet.main===mi?' selected':'')+'>'+DINNER_MAINS[mi]+'</option>';
-          }
-          html += '</select></div>';
-          html += '<div class="xflavour"><span class="xqlbl">Salad 1</span>';
-          html += '<select class="xfsel" onclick="event.stopPropagation()" onchange="setDinnerField(\'' + ex.id + '\',' + si + ',\'salad1\',this)">';
-          for (var sli=0; sli<DINNER_SALADS.length; sli++) {
-            html += '<option value="'+sli+'"'+(curSet.salad1===sli?' selected':'')+'>'+DINNER_SALADS[sli]+'</option>';
-          }
-          html += '</select></div>';
-          html += '<div class="xflavour"><span class="xqlbl">Salad 2</span>';
-          html += '<select class="xfsel" onclick="event.stopPropagation()" onchange="setDinnerField(\'' + ex.id + '\',' + si + ',\'salad2\',this)">';
-          for (var sli2=0; sli2<DINNER_SALADS.length; sli2++) {
-            html += '<option value="'+sli2+'"'+(curSet.salad2===sli2?' selected':'')+'>'+DINNER_SALADS[sli2]+'</option>';
-          }
-          html += '</select></div>';
-        }
-      }
     }
     el.innerHTML = html;
     (function(exid){ el.onclick = function(e){ toggleExtra(exid, e); }; })(ex.id);
@@ -918,16 +876,6 @@ function renderSummary() {
           if (item.flavours[fi]) {
             html += '<div class="sr" style="font-size:.72rem;opacity:.8"><span class="sm" style="padding-left:.5rem">&#8627; Pizza '+(fi+1)+'</span><span>'+item.flavours[fi].split(' - ')[0]+'</span></div>';
           }
-        }
-      }
-      if (ex.dinnerOptions && item.dinnerSets) {
-        var isOdd = (item.qty % 2 === 1);
-        for (var di=0; di<item.dinnerSets.length; di++) {
-          var ds = item.dinnerSets[di];
-          var lastOdd = isOdd && di === item.dinnerSets.length - 1;
-          var glabel = lastOdd ? 'Guest '+(di*2+1) : 'Guests '+(di*2+1)+'–'+(di*2+2);
-          var salads = lastOdd ? DINNER_SALADS[ds.salad1||0] : DINNER_SALADS[ds.salad1||0]+' + '+DINNER_SALADS[ds.salad2!==undefined?ds.salad2:1];
-          html += '<div class="sr" style="font-size:.72rem;opacity:.8"><span class="sm" style="padding-left:.5rem">&#8627; '+glabel+'</span><span>'+DINNER_MAINS[ds.main||0]+', '+salads+'</span></div>';
         }
       }
     }
@@ -1026,15 +974,6 @@ function _doConfirmBooking(btn) {
     if (item.flavours && item.flavours.length) {
       var fl = item.flavours.filter(function(f){return f;});
       if (fl.length) str += ' [' + fl.map(function(f,i){return 'Pizza '+(i+1)+': '+f.split(' - ')[0];}).join(', ') + ']';
-    }
-    if (ex.dinnerOptions && item.dinnerSets && item.dinnerSets.length) {
-      var isOddQ = (q % 2 === 1);
-      str += ' [' + item.dinnerSets.map(function(ds, di) {
-        var lastOddQ = isOddQ && di === item.dinnerSets.length - 1;
-        var glbl = lastOddQ ? 'Guest '+(di*2+1) : 'Guests '+(di*2+1)+'-'+(di*2+2);
-        var slds = lastOddQ ? DINNER_SALADS[ds.salad1||0] : DINNER_SALADS[ds.salad1||0]+' + '+DINNER_SALADS[ds.salad2!==undefined?ds.salad2:1];
-        return glbl+': '+DINNER_MAINS[ds.main||0]+', '+slds;
-      }).join(' | ') + ']';
     }
     extrasList.push(str);
   });
@@ -1165,14 +1104,6 @@ function _doConfirmBooking(btn) {
   });
 }
 
-
-function setDinnerField(id, setIdx, field, sel) {
-  var item = getExtra(id);
-  if (!item) return;
-  if (!item.dinnerSets) item.dinnerSets = [];
-  if (!item.dinnerSets[setIdx]) item.dinnerSets[setIdx] = {main:0,salad1:0,salad2:1};
-  item.dinnerSets[setIdx][field] = parseInt(sel.value);
-}
 
 function setPizzaFlavour(sel) {
   sel.onclick = function(e){ e.stopPropagation(); };
