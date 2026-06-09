@@ -1033,7 +1033,7 @@ function _doConfirmBooking(btn) {
     })
     .then(function(r){ return r.json(); })
     .then(function(data) {
-      if (data.status === 'ok' || data.result === 'ok') {
+      if (data.success === true) {
         // Clear sessionStorage so the success handler doesn't re-post to Apps Script
         try { sessionStorage.removeItem('wc_booking'); } catch(e) {}
         window.location.href = '/booking.html?success=1&ref=' + encodeURIComponent(S.ref) + '&email=' + encodeURIComponent(S.em);
