@@ -1037,7 +1037,7 @@ function _doConfirmBooking(btn) {
         var redeemPromise = S.voucher
           ? fetch('https://script.google.com/macros/s/AKfycbxAnzgM2WW4PupFox-OQWSOVaxxUJvmqVe0drs6tFw8BNxj1VJtHz-KJYJxDF8YKdmf/exec?action=redeem', {
               method: 'POST',
-              body: JSON.stringify({ code: S.voucher })
+              body: JSON.stringify({ code: S.voucher, ref: S.ref })
             }).catch(function(){})
           : Promise.resolve();
         redeemPromise.then(function() {
