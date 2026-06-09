@@ -993,7 +993,7 @@ function _doConfirmBooking(btn) {
   var payable = Math.max(0, total - S.voucherValue);
 
   if (payable === 0) {
-    // Fully covered by voucher - skip payment
+    // Fully covered by voucher — skip Stripe, POST directly to Apps Script
     var confirmMsg = 'Your booking is fully covered by your gift voucher!\n\n' +
       TNAMES[S.tent] + '\n' +
       fmt(S.ci) + ' → ' + fmt(S.co) + ' (' + nights + ' night' + (nights!==1?'s':'') + ')\n' +
@@ -1005,9 +1005,49 @@ function _doConfirmBooking(btn) {
       btn.disabled = false;
       return;
     }
-    document.getElementById('s-ref').textContent = S.ref;
-    document.getElementById('s-email').textContent = S.em;
-    goStep(5);
+
+    var voucherPayload = {
+      action: 'booking',
+      ref: S.ref,
+      tent: TNAMES[S.tent],
+      name: S.fn + ' ' + S.ln,
+      email: S.em,
+      phone: S.ph,
+      country: S.cn,
+      checkin: S.ci,
+      checkout: S.co,
+      nights: nights,
+      adults: S.adults,
+      kids: S.kids,
+      extras: extrasList.join(', ') || 'None',
+      total: 0,
+      voucher: S.voucher || '',
+      voucherValue: S.voucherValue,
+      notes: S.no + (S.hdyhau ? '\nHeard about us via: ' + S.hdyhau : '')
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(voucherPayload)
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (data.status === 'ok' || data.result === 'ok') {
+        // Clear sessionStorage so the success handler doesn't re-post to Apps Script
+        try { sessionStorage.removeItem('wc_booking'); } catch(e) {}
+        window.location.href = '/booking.html?success=1&ref=' + encodeURIComponent(S.ref) + '&email=' + encodeURIComponent(S.em);
+      } else {
+        alert('Booking error: ' + (data.error || 'Unknown error. Please try again.'));
+        btn.textContent = 'Confirm & Pay →';
+        btn.disabled = false;
+      }
+    })
+    .catch(function(err) {
+      alert('Could not complete booking. Please try again or contact us directly.');
+      btn.textContent = 'Confirm & Pay →';
+      btn.disabled = false;
+    });
     return;
   }
 
