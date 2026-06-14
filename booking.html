@@ -1174,7 +1174,6 @@ loadAvailability(function(){});
     }
     document.getElementById('steps').style.display = 'none';
     window.history.replaceState({}, document.title, window.location.pathname);
-
     // Meta Pixel / GTM conversion event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -1190,6 +1189,20 @@ loadAvailability(function(){});
       voucher: stored.voucher || '',
       currency: 'NZD'
     });
+    // GA4 purchase event for Mailchimp revenue tracking
+    if (typeof gtag === 'function') {
+      gtag('event', 'purchase', {
+        transaction_id: ref,
+        value: stored.total || 0,
+        currency: 'NZD',
+        items: [{
+          item_id: stored.tent || '',
+          item_name: stored.tent === 'kowhai' ? 'Kōwhai Tent' : 'Pōhutukawa Tent',
+          quantity: stored.nights || 1,
+          price: stored.total || 0
+        }]
+      });
+    }
     if (stored.voucher) {
       fetch(APPS_SCRIPT_URL + '?action=redeem', {
         method: 'POST',
@@ -1202,7 +1215,6 @@ loadAvailability(function(){});
     window.history.replaceState({}, document.title, window.location.pathname);
   }
 })();
-
 // Auto-select tent from URL parameter
 (function() {
   const params = new URLSearchParams(window.location.search);
@@ -1217,7 +1229,6 @@ loadAvailability(function(){});
     });
   }
 })();
-
 </script>
 </body>
 </html>
