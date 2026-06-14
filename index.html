@@ -1028,23 +1028,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 style="font-family:var(--serif);font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:400;color:var(--cream);line-height:1.2;margin-bottom:1rem;">Planning a future <em style="font-style:italic;font-family:var(--display);color:var(--harvest);">escape?</em></h2>
     <p style="font-size:0.9rem;line-height:1.85;color:rgba(251,246,238,0.55);font-weight:300;margin-bottom:2.5rem;">Join our mailing list and be the first to hear about availability, last-minute openings, gift ideas, and occasional special offers.</p>
 
-    <form action="https://waitomoglamping.us1.list-manage.com/subscribe/post?u=701d2cc7568e38eac9ddd0862&amp;id=012e1538e0&amp;f_id=0059cae4f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" style="display:flex;flex-direction:column;gap:0.75rem;">
+    <form id="wc-mailchimp-form" style="display:flex;flex-direction:column;gap:0.75rem;">
 
       <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-        <input type="text" name="FNAME" placeholder="First name" style="flex:1;min-width:120px;padding:0.85rem 1.1rem;background:rgba(251,246,238,0.08);border:1px solid rgba(251,246,238,0.15);color:var(--cream);font-family:var(--sans);font-size:0.85rem;font-weight:300;outline:none;" />
-        <input type="email" name="EMAIL" placeholder="Email address" required style="flex:2;min-width:200px;padding:0.85rem 1.1rem;background:rgba(251,246,238,0.08);border:1px solid rgba(251,246,238,0.15);color:var(--cream);font-family:var(--sans);font-size:0.85rem;font-weight:300;outline:none;" />
+        <input type="text" id="wc-mc-fname" placeholder="First name" style="flex:1;min-width:120px;padding:0.85rem 1.1rem;background:rgba(251,246,238,0.08);border:1px solid rgba(251,246,238,0.15);color:var(--cream);font-family:var(--sans);font-size:0.85rem;font-weight:300;outline:none;" />
+        <input type="email" id="wc-mc-email" placeholder="Email address" required style="flex:2;min-width:200px;padding:0.85rem 1.1rem;background:rgba(251,246,238,0.08);border:1px solid rgba(251,246,238,0.15);color:var(--cream);font-family:var(--sans);font-size:0.85rem;font-weight:300;outline:none;" />
       </div>
 
-      <!-- Mailchimp bot protection -->
-      <div aria-hidden="true" style="position:absolute;left:-5000px;">
-        <input type="text" name="b_701d2cc7568e38eac9ddd0862_012e1538e0" tabindex="-1" value=""/>
-      </div>
-      <input type="hidden" name="tags" value="5789306"/>
-
-      <button type="submit" style="padding:0.9rem 2rem;background:var(--citrine);color:var(--bark);font-family:var(--display);font-size:1rem;font-weight:700;font-style:italic;letter-spacing:0.06em;border:none;cursor:pointer;transition:background 0.3s;">JOIN THE LIST</button>
+      <button type="submit" id="wc-mc-btn" style="padding:0.9rem 2rem;background:var(--citrine);color:var(--bark);font-family:var(--display);font-size:1rem;font-weight:700;font-style:italic;letter-spacing:0.06em;border:none;cursor:pointer;transition:background 0.3s;">JOIN THE LIST</button>
     </form>
 
-    <p style="margin-top:1.2rem;font-size:0.7rem;color:rgba(251,246,238,0.25);font-weight:300;">No spam. Unsubscribe any time.</p>
+    <div id="wc-mc-success" style="display:none;margin-top:1.5rem;">
+      <p style="font-size:1rem;color:var(--cream);font-family:var(--serif);font-style:italic;">You're on the list — we'll be in touch.</p>
+    </div>
+
+    <p id="wc-mc-note" style="margin-top:1.2rem;font-size:0.7rem;color:rgba(251,246,238,0.25);font-weight:300;">No spam. Unsubscribe any time.</p>
+
+    <script>
+    document.getElementById('wc-mailchimp-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('wc-mc-email').value;
+      var fname = document.getElementById('wc-mc-fname').value;
+      var btn = document.getElementById('wc-mc-btn');
+      if (!email) return;
+      btn.textContent = 'Joining…';
+      btn.disabled = true;
+      var url = 'https://waitomoglamping.us1.list-manage.com/subscribe/post-json?u=701d2cc7568e38eac9ddd0862&id=012e1538e0&f_id=0059cae4f0&EMAIL=' + encodeURIComponent(email) + '&FNAME=' + encodeURIComponent(fname) + '&tags=5789306&b_701d2cc7568e38eac9ddd0862_012e1538e0=&c=wcMailchimpCb';
+      var script = document.createElement('script');
+      script.src = url;
+      document.body.appendChild(script);
+    });
+    function wcMailchimpCb(data) {
+      var form = document.getElementById('wc-mailchimp-form');
+      var success = document.getElementById('wc-mc-success');
+      var note = document.getElementById('wc-mc-note');
+      form.style.display = 'none';
+      note.style.display = 'none';
+      success.style.display = 'block';
+    }
+    </script>
   </div>
 </section>
 
