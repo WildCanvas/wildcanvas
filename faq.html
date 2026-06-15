@@ -197,7 +197,7 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
     .wc-nav-links { display: none; }
   .wc-nav-book { display: none; }
   .wc-hamburger { display: flex; }
-   .hero-photo { height: 45vh; min-height: 260px; } .hero-text{padding:2.5rem 1.5rem;} .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; } .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; } .hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}
+   .hero-text{padding:2.5rem 1.5rem;} .hero-text { grid-template-columns: 1fr !important; gap: 1rem; padding: 2rem 1.5rem !important; } .hero-stamp { display: flex !important; justify-content: center; margin-top: 0.5rem; } .hero-stamp img{width:110px !important;margin-right:0 !important;opacity:0.55;}
   .faq-body{grid-template-columns:1fr;gap:2rem;padding:3rem 1.5rem;}
   .faq-sidebar{position:static;} .faq-sidebar nav{flex-direction:row;flex-wrap:wrap;gap:0.5rem;}
   .cat-link{border:1px solid rgba(61,46,30,0.15);padding:0.4rem 0.8rem;font-size:0.72rem;border-bottom:1px solid rgba(61,46,30,0.15);}
@@ -308,11 +308,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <aside class="faq-sidebar">
     <h3>Categories</h3>
     <nav>
-      <a class="cat-link active" onclick="scrollTo('planning')">Planning Your Stay</a>
-      <a class="cat-link" onclick="scrollTo('tents')">The Tents</a>
-      <a class="cat-link" onclick="scrollTo('food')">Food</a>
-      <a class="cat-link" onclick="scrollTo('policies')">Policies</a>
-      <a class="cat-link" onclick="scrollTo('payments')">Payments &amp; Vouchers</a>
+      <a class="cat-link active" onclick="scrollToFaq('planning')">Planning Your Stay</a>
+      <a class="cat-link" onclick="scrollToFaq('tents')">The Tents</a>
+      <a class="cat-link" onclick="scrollToFaq('food')">Food</a>
+      <a class="cat-link" onclick="scrollToFaq('policies')">Policies</a>
+      <a class="cat-link" onclick="scrollToFaq('payments')">Payments &amp; Vouchers</a>
     </nav>
   </aside>
 
@@ -793,10 +793,15 @@ function toggleAcc(btn){
 }
 
 // Sidebar scroll
-function scrollTo(id){
+function scrollToFaq(id){
   const el=document.getElementById(id);
   if(!el)return;
-  const offset=el.getBoundingClientRect().top+window.scrollY-120;
+  // On mobile the sidebar is static above the content, account for its height
+  const isMobile=window.innerWidth<=900;
+  const navHeight=120;
+  const sidebarEl=document.querySelector('.faq-sidebar');
+  const sidebarHeight=isMobile&&sidebarEl?sidebarEl.offsetHeight+16:0;
+  const offset=el.getBoundingClientRect().top+window.scrollY-navHeight-sidebarHeight;
   window.scrollTo({top:offset,behavior:'smooth'});
   document.querySelectorAll('.cat-link').forEach(l=>l.classList.remove('active'));
   event.target.classList.add('active');
