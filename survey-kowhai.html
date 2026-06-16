@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kōwhai Tent — Guest Feedback | Wild Canvas</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  @font-face {
+    font-family: 'Jost';
+    src: url('https://fonts.gstatic.com/s/jost/v14/92zPtBhPNqw79Ij1E865zBUv7myjJAVGPokMmuTl.woff2') format('woff2');
+    font-weight: 300 700;
+    font-display: swap;
+  }
+
+  :root {
+    --bark: #3B2F2F;
+    --candy: #C8503A;
+    --harvest: #8B6F47;
+    --citrine: #C9A84C;
+    --cream: #FAF7F2;
+    --off-white: #F2EDE6;
+    --text: #2C2018;
+    --text-muted: #7A6A5A;
+    --border: rgba(59,47,47,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  .wc-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--cream);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .wc-nav a img { height: 36px; display: block; }
+
+  /* PROGRESS */
+  .progress-wrap {
+    height: 3px;
+    background: var(--off-white);
+    position: sticky;
+    top: 64px;
+    z-index: 99;
+  }
+  .progress-fill {
+    height: 3px;
+    background: var(--harvest);
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* LAYOUT */
+  .survey-outer {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .survey-header {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+  .survey-eyebrow {
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--harvest);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .survey-title {
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--bark);
+    line-height: 1.2;
+    font-style: italic;
+  }
+  .survey-intro {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    line-height: 1.7;
+  }
+  .step-count {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 1.75rem;
+    letter-spacing: .03em;
+  }
+
+  /* STEPS */
+  .step { display: none; }
+  .step.active { display: block; }
+
+  .qlabel {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--bark);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .qsub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  /* OPTIONS */
+  .opts { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: #fff;
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 13px 18px;
+    text-align: left;
+    font-size: 15px;
+    font-family: 'Jost', sans-serif;
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    line-height: 1.4;
+  }
+  .opt-btn:hover { border-color: var(--harvest); background: var(--off-white); }
+  .opt-btn.selected {
+    border: 1.5px solid var(--harvest);
+    color: var(--harvest);
+    background: var(--off-white);
+    font-weight: 500;
+  }
+
+  /* CHECKBOXES */
+  .check-group { display: flex; flex-direction: column; gap: 10px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 18px;
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .check-item:hover { border-color: var(--harvest); background: var(--off-white); }
+  .check-item.selected { border: 1.5px solid var(--harvest); background: var(--off-white); }
+  .check-item input[type=checkbox] { accent-color: var(--harvest); width: 17px; height: 17px; flex-shrink: 0; }
+
+  /* STARS */
+  .stars { display: flex; gap: 8px; margin: 0.75rem 0; }
+  .star { font-size: 30px; cursor: pointer; color: #D5C9BC; transition: color 0.1s; line-height: 1; }
+  .star.lit { color: var(--citrine); }
+
+  /* TEXTAREA */
+  textarea {
+    width: 100%;
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-family: 'Jost', sans-serif;
+    color: var(--text);
+    background: #fff;
+    resize: vertical;
+    min-height: 100px;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  textarea:focus { outline: none; border-color: var(--harvest); }
+  textarea::placeholder { color: var(--text-muted); }
+
+  /* NAV ROW */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  .btn-next {
+    background: var(--bark);
+    color: var(--cream);
+    border: none;
+    border-radius: 4px;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.15s;
+  }
+  .btn-next:hover { background: #2a2020; }
+  .btn-next:disabled { opacity: 0.35; cursor: default; }
+  .btn-back {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'Jost', sans-serif;
+    cursor: pointer;
+    padding: 4px 0;
+    letter-spacing: .03em;
+  }
+  .btn-back:hover { color: var(--text); }
+
+  /* THANK YOU */
+  .thank-you {
+    text-align: center;
+    padding: 3rem 1rem;
+  }
+  .thank-you .emblem {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    opacity: 0.5;
+  }
+  .thank-you h2 {
+    font-size: 26px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--bark);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .thank-you p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    max-width: 420px;
+    margin: 0 auto 1.75rem;
+  }
+  .google-btn {
+    display: inline-block;
+    background: var(--bark);
+    color: var(--cream);
+    border: none;
+    border-radius: 4px;
+    padding: 13px 32px;
+    font-size: 14px;
+    font-family: 'Jost', sans-serif;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .google-btn:hover { background: #2a2020; }
+
+  /* FOOTER */
+  .survey-footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 0.5px solid var(--border);
+    margin-top: 4rem;
+  }
+  .survey-footer img { height: 28px; opacity: 0.5; }
+  .survey-footer p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 10px;
+    letter-spacing: .02em;
+  }
+
+  @media (max-width: 480px) {
+    .survey-outer { padding: 2rem 1rem 4rem; }
+    .survey-title { font-size: 22px; }
+    .qlabel { font-size: 16px; }
+    .opt-btn, .check-item { font-size: 14px; padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="wc-nav">
+  <a href="https://wildcanvas.nz"><img src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="Wild Canvas"></a>
+</nav>
+<div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="survey-outer">
+  <div class="survey-header">
+    <p class="survey-eyebrow">Guest Feedback</p>
+    <h1 class="survey-title">Kōwhai Tent</h1>
+    <p class="survey-intro">Thank you for staying with us. This takes about 2 minutes and genuinely helps us improve.</p>
+  </div>
+
+  <div class="step-count" id="stepCount"></div>
+
+  <!-- STEP 1 -->
+  <div class="step active" id="s1">
+    <p class="qlabel">How clean and well-presented was the tent when you arrived?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'q1','Very satisfied')">Very satisfied</button>
+      <button class="opt-btn" onclick="sel(this,'q1','Satisfied')">Satisfied</button>
+      <button class="opt-btn" onclick="sel(this,'q1','Neutral')">Neutral</button>
+      <button class="opt-btn" onclick="sel(this,'q1','Dissatisfied')">Dissatisfied</button>
+      <button class="opt-btn" onclick="sel(this,'q1','Very dissatisfied')">Very dissatisfied</button>
+    </div>
+    <div class="nav-row"><span></span><button class="btn-next" id="next1" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="s2">
+    <p class="qlabel">Did your stay match what you expected from our photos and description?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'q2','Far exceeded my expectations')">Far exceeded my expectations</button>
+      <button class="opt-btn" onclick="sel(this,'q2','Exceeded my expectations')">Exceeded my expectations</button>
+      <button class="opt-btn" onclick="sel(this,'q2','Met my expectations')">Met my expectations</button>
+      <button class="opt-btn" onclick="sel(this,'q2','Fell short of my expectations')">Fell short of my expectations</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next2" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="s3">
+    <p class="qlabel">How would you rate the value for money?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'q3','Exceptional value')">Exceptional value</button>
+      <button class="opt-btn" onclick="sel(this,'q3','Good value')">Good value</button>
+      <button class="opt-btn" onclick="sel(this,'q3','Fair value')">Fair value</button>
+      <button class="opt-btn" onclick="sel(this,'q3','Not great value')">Not great value</button>
+      <button class="opt-btn" onclick="sel(this,'q3','Poor value')">Poor value</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next3" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="s4">
+    <p class="qlabel">What were the highlights of your stay?</p>
+    <p class="qsub">Choose as many as you like.</p>
+    <div class="check-group">
+      <div class="check-item" onclick="tog(this,'q4','Views & setting')"><input type="checkbox"><span>Views &amp; setting</span></div>
+      <div class="check-item" onclick="tog(this,'q4','Comfort & amenities')"><input type="checkbox"><span>Comfort &amp; amenities</span></div>
+      <div class="check-item" onclick="tog(this,'q4','Privacy & seclusion')"><input type="checkbox"><span>Privacy &amp; seclusion</span></div>
+      <div class="check-item" onclick="tog(this,'q4','Outdoor baths')"><input type="checkbox"><span>Outdoor baths</span></div>
+      <div class="check-item" onclick="tog(this,'q4','Cooking')"><input type="checkbox"><span>Cooking</span></div>
+      <div class="check-item" onclick="tog(this,'q4','The fire')"><input type="checkbox"><span>The fire</span></div>
+      <div class="check-item" onclick="tog(this,'q4','Stargazing')"><input type="checkbox"><span>Stargazing</span></div>
+      <div class="check-item" onclick="tog(this,'q4','Wildlife & farm life')"><input type="checkbox"><span>Wildlife &amp; farm life</span></div>
+      <div class="check-item" onclick="tog(this,'q4','Thoughtful welcome touches')"><input type="checkbox"><span>Thoughtful welcome touches</span></div>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" onclick="goNext()">Next</button></div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step" id="s5">
+    <p class="qlabel">Did you order catering?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'catering','Yes');A.cateringYes=true">Yes</button>
+      <button class="opt-btn" onclick="sel(this,'catering','No');A.cateringYes=false">No</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next5" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step" id="s6">
+    <p class="qlabel">How would you rate the catering?</p>
+    <div class="stars" id="catStars">
+      <span class="star" onclick="rateStar('cat',1)">★</span>
+      <span class="star" onclick="rateStar('cat',2)">★</span>
+      <span class="star" onclick="rateStar('cat',3)">★</span>
+      <span class="star" onclick="rateStar('cat',4)">★</span>
+      <span class="star" onclick="rateStar('cat',5)">★</span>
+    </div>
+    <p class="qsub" style="margin-top:6px">Any dishes you loved, or suggestions? (optional)</p>
+    <textarea id="catText" placeholder="e.g. The charcuterie board was a favourite…"></textarea>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next6" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step" id="s7">
+    <p class="qlabel">Did you order massages?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'massage','Yes');A.massageYes=true">Yes</button>
+      <button class="opt-btn" onclick="sel(this,'massage','No');A.massageYes=false">No</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next7" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step" id="s8">
+    <p class="qlabel">How would you rate the massage service?</p>
+    <div class="stars" id="masStars">
+      <span class="star" onclick="rateStar('mas',1)">★</span>
+      <span class="star" onclick="rateStar('mas',2)">★</span>
+      <span class="star" onclick="rateStar('mas',3)">★</span>
+      <span class="star" onclick="rateStar('mas',4)">★</span>
+      <span class="star" onclick="rateStar('mas',5)">★</span>
+    </div>
+    <p class="qsub" style="margin-top:6px">Any feedback? (optional)</p>
+    <textarea id="masText" placeholder="Tell us about your experience…"></textarea>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next8" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 9 -->
+  <div class="step" id="s9">
+    <p class="qlabel">When did you first start thinking about visiting Wild Canvas?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'q9','It was a spontaneous decision')">It was a spontaneous decision</button>
+      <button class="opt-btn" onclick="sel(this,'q9','A few weeks before I booked')">A few weeks before I booked</button>
+      <button class="opt-btn" onclick="sel(this,'q9','A few months before I booked')">A few months before I booked</button>
+      <button class="opt-btn" onclick="sel(this,'q9','I had been thinking about it for over a year')">I had been thinking about it for over a year</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next9" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 10 -->
+  <div class="step" id="s10">
+    <p class="qlabel">What brought you to Wild Canvas?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'q10','Anniversary or milestone')">Anniversary or milestone</button>
+      <button class="opt-btn" onclick="sel(this,'q10','Birthday')">Birthday</button>
+      <button class="opt-btn" onclick="sel(this,'q10','Honeymoon or proposal')">Honeymoon or proposal</button>
+      <button class="opt-btn" onclick="sel(this,'q10','Just a treat — no occasion')">Just a treat — no occasion</button>
+      <button class="opt-btn" onclick="sel(this,'q10','Travelling through New Zealand')">Travelling through New Zealand</button>
+      <button class="opt-btn" onclick="sel(this,'q10','Other')">Other</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next10" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 11 -->
+  <div class="step" id="s11">
+    <p class="qlabel">Where did you travel from?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'q11','Waikato / Bay of Plenty')">Waikato / Bay of Plenty</button>
+      <button class="opt-btn" onclick="sel(this,'q11','Auckland')">Auckland</button>
+      <button class="opt-btn" onclick="sel(this,'q11','Wellington')">Wellington</button>
+      <button class="opt-btn" onclick="sel(this,'q11','Other New Zealand')">Other New Zealand</button>
+      <button class="opt-btn" onclick="sel(this,'q11','Australia')">Australia</button>
+      <button class="opt-btn" onclick="sel(this,'q11','United States or Canada')">United States or Canada</button>
+      <button class="opt-btn" onclick="sel(this,'q11','UK or Europe')">UK or Europe</button>
+      <button class="opt-btn" onclick="sel(this,'q11','Asia')">Asia</button>
+      <button class="opt-btn" onclick="sel(this,'q11','Other')">Other</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next11" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 12 -->
+  <div class="step" id="s12">
+    <p class="qlabel">Is there anything that could have made your stay even better?</p>
+    <p class="qsub">Optional — even small things help us improve.</p>
+    <textarea id="enhanceText" placeholder="e.g. Better instructions for the pizza oven…"></textarea>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" onclick="goNext()">Next</button></div>
+  </div>
+
+  <!-- STEP 13 -->
+  <div class="step" id="s13">
+    <p class="qlabel">How likely are you to recommend Wild Canvas to a friend or family member?</p>
+    <div class="opts">
+      <button class="opt-btn" onclick="sel(this,'q13','Very likely');A.nps='positive'">Very likely</button>
+      <button class="opt-btn" onclick="sel(this,'q13','Likely');A.nps='positive'">Likely</button>
+      <button class="opt-btn" onclick="sel(this,'q13','Unlikely');A.nps='negative'">Unlikely</button>
+      <button class="opt-btn" onclick="sel(this,'q13','Very unlikely');A.nps='negative'">Very unlikely</button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next13" onclick="goNext()" disabled>Next</button></div>
+  </div>
+
+  <!-- IMPROVE -->
+  <div class="step" id="sImprove">
+    <p class="qlabel">We're sorry to hear that. Please tell us what fell short.</p>
+    <p class="qsub">Your honest feedback helps us fix things that matter — thank you for taking the time.</p>
+    <textarea id="improveText" placeholder="We genuinely want to understand…" style="min-height:130px"></textarea>
+    <div class="nav-row">
+      <button class="btn-back" onclick="showImproveBack()">← Back</button>
+      <button class="btn-next" onclick="finish()">Submit</button>
+    </div>
+  </div>
+
+  <!-- DONE -->
+  <div class="step" id="sDone">
+    <div class="thank-you">
+      <img class="emblem" src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="">
+      <h2 id="doneTitle">Thank you for your feedback</h2>
+      <p id="doneMsg"></p>
+      <div id="googlePrompt" style="display:none">
+        <a class="google-btn" href="https://g.page/r/CfABnBGXWiHqEBM/review" target="_blank" rel="noopener">Leave a Google review ↗</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="survey-footer">
+  <a href="https://wildcanvas.nz"><img src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="Wild Canvas"></a>
+  <p>© Wild Canvas · Waitomo, New Zealand</p>
+</footer>
+
+<script>
+const steps = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13'];
+const stepMap = {q1:1,q2:2,q3:3,catering:5,massage:7,q9:9,q10:10,q11:11,q13:13};
+const total = steps.length;
+let idx = 0;
+const A = {cateringYes:null, massageYes:null, nps:null};
+const multi = {};
+
+function showStep(i) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(steps[i]).classList.add('active');
+  idx = i;
+  document.getElementById('progressFill').style.width = Math.round((i / total) * 100) + '%';
+  document.getElementById('stepCount').textContent = (i + 1) + ' of ' + total;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function goNext() {
+  const cur = steps[idx];
+  if (cur === 's5' && A.cateringYes === false) { showStep(idx + 2); return; }
+  if (cur === 's7' && A.massageYes === false) { showStep(idx + 2); return; }
+  if (cur === 's13') {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    if (A.nps === 'negative') {
+      document.getElementById('sImprove').classList.add('active');
+      document.getElementById('progressFill').style.width = '95%';
+      document.getElementById('stepCount').textContent = '';
+    } else {
+      finish();
+    }
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    return;
+  }
+  showStep(idx + 1);
+}
+
+function goBack() {
+  const cur = steps[idx];
+  if (cur === 's7' && A.cateringYes === false) { showStep(idx - 2); return; }
+  if (cur === 's9' && A.massageYes === false) { showStep(idx - 2); return; }
+  if (idx > 0) showStep(idx - 1);
+}
+
+function showImproveBack() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('s13').classList.add('active');
+  document.getElementById('progressFill').style.width = Math.round((12 / total) * 100) + '%';
+  document.getElementById('stepCount').textContent = '13 of ' + total;
+}
+
+function sel(el, key, val) {
+  el.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  A[key] = val;
+  const n = stepMap[key];
+  const btn = document.getElementById('next' + n);
+  if (btn) btn.disabled = false;
+}
+
+function tog(el, key, val) {
+  el.classList.toggle('selected');
+  el.querySelector('input').checked = el.classList.contains('selected');
+  if (!multi[key]) multi[key] = [];
+  const i = multi[key].indexOf(val);
+  if (i > -1) multi[key].splice(i, 1); else multi[key].push(val);
+}
+
+function rateStar(type, n) {
+  const id = type === 'cat' ? 'catStars' : 'masStars';
+  document.getElementById(id).querySelectorAll('.star').forEach((s, i) => s.classList.toggle('lit', i < n));
+  A[type + 'Stars'] = n;
+  const btn = document.getElementById(type === 'cat' ? 'next6' : 'next8');
+  if (btn) btn.disabled = false;
+}
+
+function finish() {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('sDone').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('stepCount').textContent = '';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  if (A.nps === 'positive') {
+    document.getElementById('doneMsg').textContent = "We're so glad you had a wonderful time. It was a joy to host you at Wild Canvas.";
+    document.getElementById('googlePrompt').style.display = 'block';
+  } else {
+    document.getElementById('doneMsg').textContent = "Thank you for being honest with us. We'll take your feedback seriously and use it to improve.";
+  }
+}
+
+showStep(0);
+</script>
+</body>
+</html>
