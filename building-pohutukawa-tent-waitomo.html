@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Building the Pōhutukawa Tent — How We Did It | Wild Canvas Waitomo</title>
+<meta name="description" content="How we designed and built the Pōhutukawa Tent at Wild Canvas — from bespoke engineering and off-grid power systems to landscape design and four-bedroom luxury glamping in Waitomo."/>
+<link rel="canonical" href="https://www.wildcanvas.nz/news/building-pohutukawa-tent-waitomo"/>
+<style>
+@font-face{font-family:'P22Mackinac';src:url('../P22_Mackinac.otf') format('opentype');font-weight:400;}
+@font-face{font-family:'P22Mackinac';src:url('../Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');font-weight:700;}
+@font-face{font-family:'Baton';src:url('../Baton-MediumItalic.otf') format('opentype');font-weight:500;font-style:italic;}
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+:root{
+  --candy:#F3DAD3;--pistachio:#DFD39D;--citrine:#FCB236;
+  --harvest:#C19965;--cream:#FBF6EE;--off-white:#F7F1E6;
+  --bark:#3D2E1E;--bark-mid:#6B4F3A;--muted:#8A7B6E;
+  --serif:'P22Mackinac',Georgia,serif;--display:'Baton',Georgia,serif;--sans:'Jost',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);font-weight:300;background:var(--cream);color:var(--bark);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.wc-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 3.5rem;background:rgba(251,246,238,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(61,46,30,0.08);transition:padding 0.3s,box-shadow 0.3s;}
+.wc-nav.scrolled{padding:0.75rem 3.5rem;box-shadow:0 1px 0 rgba(61,46,30,0.1);}
+.wc-nav-logo img{height:46px;display:block;}
+.wc-nav-links{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.wc-nav-links>li{position:relative;}
+.wc-nav-links>li>a,.wc-nav-links>li>button{display:flex;align-items:center;gap:0.3rem;font-size:0.67rem;letter-spacing:0.18em;text-transform:uppercase;font-weight:500;color:var(--muted);padding:0.5rem 0.75rem;background:none;border:none;cursor:pointer;transition:color 0.2s;}
+.wc-nav-links>li>a:hover,.wc-nav-links>li>button:hover{color:var(--bark);}
+.wc-chevron{width:10px;height:10px;transition:transform 0.2s;}
+.wc-nav-links>li.open .wc-chevron{transform:rotate(180deg);}
+.wc-dropdown{display:none;position:absolute;top:calc(100% + 4px);left:0;background:var(--cream);border:1px solid rgba(61,46,30,0.1);box-shadow:0 8px 24px rgba(61,46,30,0.1);min-width:180px;z-index:300;}
+.wc-nav-links>li.open .wc-dropdown{display:block;}
+.wc-dropdown a{display:block;padding:0.65rem 1.1rem;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:400;color:var(--bark-mid);transition:background 0.15s,color 0.15s;}
+.wc-dropdown a:hover{background:var(--off-white);color:var(--bark);}
+.wc-dropdown-divider{height:1px;background:rgba(61,46,30,0.08);margin:0.3rem 0;}
+.wc-nav-book{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;font-style:italic;font-family:var(--display);padding:0.6rem 1.5rem;background:var(--citrine);color:var(--bark);border:none;cursor:pointer;display:inline-block;transition:background 0.3s;margin-left:0.5rem;}
+.wc-nav-book:hover{background:#e8a020;}
+.wc-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.wc-hamburger span{display:block;width:24px;height:1.5px;background:var(--bark);transition:transform 0.25s,opacity 0.25s;}
+.wc-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.wc-hamburger.open span:nth-child(2){opacity:0;}
+.wc-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.wc-mobile-drawer{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--cream);z-index:190;flex-direction:column;padding:6rem 2.5rem 2.5rem;gap:0;overflow-y:auto;}
+.wc-mobile-drawer.open{display:flex;}
+.wc-mobile-section-title{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);font-weight:500;margin:1.5rem 0 0.5rem;border-top:1px solid rgba(61,46,30,0.1);padding-top:1rem;}
+.wc-mobile-drawer a{font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--bark);font-weight:400;padding:0.6rem 0;border-bottom:1px solid rgba(61,46,30,0.06);}
+.wc-mobile-book{margin-top:1.5rem;background:var(--citrine);color:var(--bark);text-align:center;padding:1rem;font-weight:700;font-style:italic;font-family:var(--display);font-size:1rem;letter-spacing:0.08em;}
+
+/* ARTICLE */
+.article-hero{padding-top:76px;}
+.article-hero img{width:100%;height:auto;display:block;}
+.article-wrap{max-width:720px;margin:0 auto;padding:4rem 2rem 5rem;}
+.back-link{font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);font-weight:500;display:inline-flex;align-items:center;gap:0.4rem;margin-bottom:2.5rem;transition:color 0.2s;}
+.back-link:hover{color:var(--harvest);}
+.article-tag{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.5rem;}
+.article-date{font-size:0.75rem;color:var(--muted);font-weight:300;margin-bottom:1.2rem;}
+.article-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:400;color:var(--bark);line-height:1.15;margin-bottom:1.5rem;}
+.article-title em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.article-lead{font-size:1.05rem;line-height:1.9;color:var(--bark-mid);font-weight:300;margin-bottom:2rem;border-left:3px solid var(--harvest);padding-left:1.5rem;}
+.article-body p{font-size:0.95rem;line-height:1.9;color:var(--bark-mid);font-weight:300;margin-bottom:1.2rem;}
+.article-body h2{font-family:var(--serif);font-size:1.3rem;font-weight:400;color:var(--bark);margin:2.5rem 0 0.8rem;}
+.article-body h3{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--bark);margin:2rem 0 0.6rem;}
+.article-body img{width:100%;height:auto;margin:2rem 0;}
+.article-body blockquote{font-family:var(--serif);font-style:italic;font-size:1.15rem;line-height:1.6;color:var(--bark);border-left:3px solid var(--harvest);padding-left:1.5rem;margin:2rem 0;}
+.article-divider{height:1px;background:rgba(61,46,30,0.08);margin:3rem 0;}
+
+/* CTA */
+.article-cta{background:var(--pistachio);padding:3rem;text-align:center;margin-top:3rem;}
+.article-cta h3{font-family:var(--serif);font-weight:400;font-size:1.4rem;margin-bottom:0.6rem;}
+.article-cta h3 em{font-style:italic;font-family:var(--display);color:var(--harvest);}
+.article-cta p{font-size:0.9rem;color:var(--bark-mid);font-weight:300;margin-bottom:1.5rem;}
+.btn-primary{display:inline-block;background:var(--citrine);color:var(--bark);font-family:var(--display);font-style:italic;font-weight:700;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;padding:1rem 2.5rem;}
+.btn-primary:hover{background:#e8a020;}
+
+/* FOOTER */
+footer{background:var(--bark);color:rgba(251,246,238,0.5);padding:2rem 3.5rem;font-size:0.75rem;letter-spacing:0.06em;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.footer-links a{color:rgba(251,246,238,0.4);transition:color 0.2s;}
+.footer-links a:hover{color:rgba(251,246,238,0.8);}
+
+@media(max-width:900px){
+  .wc-nav{padding:1rem 1.5rem;}
+  .wc-nav-links{display:none;}
+  .wc-hamburger{display:flex;}
+  .wc-nav-book{display:none;}
+  .article-wrap{padding:3rem 1.5rem 4rem;}
+  footer{flex-direction:column;padding:2rem 1.5rem;}
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "Building the Pōhutukawa Tent — How We Did It",
+  "description": "How we designed and built the Pōhutukawa Tent at Wild Canvas — from bespoke structural engineering and off-grid renewable power to four-bedroom luxury glamping in Waitomo, New Zealand.",
+  "datePublished": "2023-01-28",
+  "dateModified": "2023-01-28",
+  "author": { "@type": "Organization", "name": "Wild Canvas" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Wild Canvas",
+    "logo": { "@type": "ImageObject", "url": "https://www.wildcanvas.nz/Wild_Canvas_Logo_Black.png" }
+  },
+  "mainEntityOfPage": "https://www.wildcanvas.nz/news/building-pohutukawa-tent-waitomo",
+  "image": "https://www.wildcanvas.../pohutukawa-tent-exterior-bifold-doors-render-waitomo.webp",
+  "keywords": "building a glamping tent New Zealand, luxury glamping construction, off grid glamping power system, bespoke glamping design, Waitomo glamping"
+}
+</script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="wc-nav" id="wc-nav">
+  <a href="/" class="wc-nav-logo">
+    <img src="../Wild_Canvas_Logo_Black.png" alt="Wild Canvas Glamping Escapes"
+      onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1rem;letter-spacing:0.1em;color:#3D2E1E\'>Wild Canvas</span>'"/>
+  </a>
+  <ul class="wc-nav-links" id="wc-nav-links">
+    <li id="drop-stay">
+      <button onclick="toggleDrop('drop-stay')" aria-haspopup="true" aria-expanded="false">
+        Stay
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/kowhai">Kōwhai Tent</a>
+        <a href="/pohutukawa">Pōhutukawa Tent</a>
+      </div>
+    </li>
+    <li id="drop-exp">
+      <button onclick="toggleDrop('drop-exp')" aria-haspopup="true" aria-expanded="false">
+        Experiences
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/experiences">All Experiences</a>
+        <div class="wc-dropdown-divider"></div>
+        <a href="/waitomo">Explore Waitomo</a>
+      </div>
+    </li>
+    <li id="drop-about">
+      <button onclick="toggleDrop('drop-about')" aria-haspopup="true" aria-expanded="false">
+        About
+        <svg class="wc-chevron" viewBox="0 0 10 10" fill="none" stroke="#8A7B6E" stroke-width="1.5"><polyline points="2,3 5,7 8,3"/></svg>
+      </button>
+      <div class="wc-dropdown">
+        <a href="/aboutus">Our Story</a>
+        <a href="/media">Media &amp; Press</a>
+        <a href="/news">News</a>
+      </div>
+    </li>
+    <li><a href="/faq">FAQ</a></li>
+    <li><a href="/gift">Gift Vouchers</a></li>
+  </ul>
+  <a href="https://booking.wildcanvas.nz" class="wc-nav-book">Book Now</a>
+  <button class="wc-hamburger" id="wc-hamburger" onclick="toggleMobile()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="wc-mobile-drawer" id="wc-mobile-drawer">
+  <p class="wc-mobile-section-title">Stay</p>
+  <a href="/kowhai">Kōwhai Tent</a>
+  <a href="/pohutukawa">Pōhutukawa Tent</a>
+  <p class="wc-mobile-section-title">Experiences</p>
+  <a href="/experiences">All Experiences</a>
+  <a href="/waitomo">Explore Waitomo</a>
+  <p class="wc-mobile-section-title">About</p>
+  <a href="/aboutus">Our Story</a>
+  <a href="/media">Media &amp; Press</a>
+  <a href="/news">News</a>
+  <p class="wc-mobile-section-title">More</p>
+  <a href="/faq">FAQ</a>
+  <a href="/gift">Gift Vouchers</a>
+  <a href="https://booking.wildcanvas.nz" class="wc-mobile-book">Book Now</a>
+</div>
+
+<!-- HERO IMAGE — use a 2000x900 landscape photo -->
+<div class="article-hero">
+  <img src="../pohutukawa-tent-exterior-bifold-doors-render-waitomo.webp" alt="Construction of the Pōhutukawa Tent at Wild Canvas, Waitomo — bespoke luxury glamping build in New Zealand"/>
+</div>
+
+<!-- ARTICLE CONTENT -->
+<div class="article-wrap">
+
+  <a href="/news" class="back-link">← Back to News</a>
+
+  <p class="article-tag">BEHIND THE SCENES</p>
+  <p class="article-date">January 2023</p>
+  <h1 class="article-title">Building the <em>Pōhutukawa Tent</em> — How We Did It</h1>
+
+  <p class="article-lead">We built our first glampsite in 2017, and almost immediately we were dreaming of a second. After a full year of designing and another year of building, the Pōhutukawa Tent is finally here — and it's unlike anything we've built before.</p>
+
+  <div class="article-body">
+
+    <p>To keep the sense of having the hilltops entirely to yourselves, this will most likely be our last glampsite on this farm. So we wanted to push the boundaries of glamping design and create the ultimate group experience. Four bedrooms, a main bathroom, an ensuite, a powder room, and double-glazed glass windows and doors so you can soak in the panoramic views of rural New Zealand in any weather.</p>
+
+    <img src="../pohutukawa-tent-calla-landscape-masterplan-waitomo.webp" alt="Pōhutukawa Tent exterior with panoramic views across Waitomo farmland"/>
+
+    <h2>The design challenges</h2>
+
+    <p>The design phase took just over a year. Building a luxury tent that meets New Zealand's strict building code is not straightforward — and we wouldn't have it any other way. Some of the key challenges we worked through:</p>
+
+    <p>Engineering a structure to withstand New Zealand's high wind zone requirements. Designing a way to support heavy double-glazed windows and doors without solid walls or a ceiling to fix to. Creating a glass-enclosed corridor connecting the two tent structures. Designing an off-grid power system capable of providing the heat and electricity required — using renewable energy sources. Heating 133m² of space with a 5m apex. And creating sound privacy and ventilation for the bathrooms.</p>
+
+    <p>A big emphasis throughout was the connection to the outdoors — a space where guests can take in the views, spend quality time together, and experience the excitement of sleeping under canvas without compromising on comfort or luxury.</p>
+
+    <p>For the interiors, we worked with <strong>Designwell</strong>, who completely nailed the brief and were an absolute dream to collaborate with. The outdoor spaces were brought to life by <strong>Calla Landscapes</strong>, whose creative vision for the grounds genuinely blew us away.</p>
+
+    <img src="../pohutukawa-tent-dining-kitchen-render-waitomo.webp" alt="Pōhutukawa Tent interior — kitchen and dining area with bi-fold doors opening to the outdoors"/>
+
+    <h2>The engineering</h2>
+
+    <p>The structure is bespoke in every aspect of its design. The first phase was determining the general layout — two adjacent tents connected by an adjoining portal frame structure. Being in an extremely high wind zone, the standardised tent design required a full engineering redesign to meet New Zealand structural standards. Before manufacture, hours of coordination between manufacturers, structural engineers, and us as project managers were required.</p>
+
+    <p>The changes that resulted were significant: tent heights were extended, steel pole sizes were increased, and ceiling lattice beams were added — all to withstand the 1-in-500-year design wind loads required by our building code.</p>
+
+    <img src="../pohutukawa-tent-structural-engineering-drawings-waitomo.webp" alt="Glulam portal frame structure connecting the two Pōhutukawa tents at Wild Canvas"/>
+
+    <p>The central portal frame connecting the two tents is constructed from engineered glulam timber beams. This portal structure supports the sides of each tent, allowing the tent support poles to be removed entirely — giving a clear, unobstructed five-metre span between tents. The interface where the tents and portal structure meet required detailed design to ensure weather-tightness, materials compatibility, and long-term ease of maintenance.</p>
+
+    <p>To give guests views from every room, we incorporated large bay windows and bi-fold doors throughout. Glulam timber window support frames were designed to carry the joinery — cantilevering from the concrete foundations, acting independently of the tent structure itself.</p>
+
+    <img src="../pohutukawa-tent-exterior-corridor-render-waitomo.webp" alt="Double-glazed bi-fold doors and bay windows in the Pōhutukawa Tent with views across Waitomo"/>
+
+    <h2>Off-grid power</h2>
+
+    <p>The Pōhutukawa Tent runs entirely off-grid, powered by two primary renewable energy sources.</p>
+
+    <p>First, 14 × 370W solar panels provide 5.1kW of solar capacity — producing up to 12kWh per day in winter and 20kWh per day in summer. A 48V battery bank stores up to 36kWh. The solar system powers all lighting, appliances, and electrical systems, with any excess electricity fed into a thermal battery (domestic hot water and buffer tank) rather than being wasted.</p>
+
+    <img src="../pohutukawa-tent-eastern-hot-tub-deck-render-waitomo.webp" alt="Solar panels powering the off-grid Pōhutukawa glamping tent at Wild Canvas, Waitomo"/>
+
+    <p>The second energy source is a 20kW wood pellet boiler — responsible for heating the domestic hot water, buffer tank (for the hot tub), and underfloor heating system. Wood pellets are a by-product of the forestry industry, making this a carbon-neutral heat source: the carbon released during burning has already been sequestered from the atmosphere as the tree grew. The boiler is fully automated — an auger feeds pellets into the burning chamber as energy demand rises and falls.</p>
+
+    <p>A 9kVA generator serves as backup for extended periods of cloud cover. All of this is housed in a purpose-built plant room on site.</p>
+
+    <img src="../pohutukawa-tent-master-bedroom-render-waitomo.webp" alt="Off-grid plant room housing the solar battery bank and wood pellet boiler system at Wild Canvas"/>
+
+    <h2>The landscape</h2>
+
+    <p>The eastern side of the tent features a cedar hot tub, fire pit, and seating — the perfect spot to watch the sunrise. The western side has a pizza oven, BBQ, fire pit, and more seating for evenings under the stars. Calla Landscapes designed both outdoor areas, and the result is a space that feels as considered as the interior.</p>
+
+    <img src="../pohutukawa-tent-eastern-hot-tub-landscape-render-waitomo.webp" alt="Cedar hot tub and fire pit on the eastern side of the Pōhutukawa Tent at Wild Canvas, Waitomo"/>
+
+    <p>We're incredibly proud of what's been built here. It's taken a huge amount of work from a lot of talented people, and we can't wait to welcome guests to experience it.</p>
+
+  </div>
+
+  <div class="article-divider"></div>
+
+  <!-- CTA -->
+  <div class="article-cta">
+    <h3>Experience the <em>Pōhutukawa Tent</em></h3>
+    <p>Four bedrooms, a cedar hot tub, pizza oven, and panoramic Waitomo views — all off-grid.</p>
+    <a href="/pohutukawa" class="btn-primary">View the Pōhutukawa Tent</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo · <a href="mailto:hello@wildcanvas.nz" style="color:rgba(251,246,238,0.6)">hello@wildcanvas.nz</a></p>
+  <div class="footer-links">
+    <a href="/">Home</a>
+    <a href="/experiences">Experiences</a>
+    <a href="/kowhai">Kōwhai Tent</a>
+    <a href="/pohutukawa">Pōhutukawa Tent</a>
+    <a href="/faq">FAQ</a>
+  </div>
+</footer>
+
+<script>
+function toggleDrop(id) {
+  var li = document.getElementById(id);
+  var isOpen = li.classList.contains('open');
+  document.querySelectorAll('.wc-nav-links > li').forEach(function(el) {
+    el.classList.remove('open');
+    var btn = el.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    li.classList.add('open');
+    var btn = li.querySelector('button[aria-expanded]');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.wc-nav-links')) {
+    document.querySelectorAll('.wc-nav-links > li').forEach(function(el) {
+      el.classList.remove('open');
+      var btn = el.querySelector('button[aria-expanded]');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+function toggleMobile() {
+  var drawer = document.getElementById('wc-mobile-drawer');
+  var btn = document.getElementById('wc-hamburger');
+  var open = drawer.classList.toggle('open');
+  btn.classList.toggle('open', open);
+}
+window.addEventListener('scroll', function() {
+  document.getElementById('wc-nav').classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+</script>
+</body>
+</html>
