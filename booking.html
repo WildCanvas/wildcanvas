@@ -19,6 +19,36 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   gtag('js', new Date());
   gtag('config', 'G-EXW198L4G9');
 </script>
+<!-- Capture gclid from Google Ads click so it survives the Stripe round-trip -->
+<script>
+(function captureGclid() {
+  var params = new URLSearchParams(window.location.search);
+  var gclid = params.get('gclid');
+  if (gclid) {
+    try {
+      localStorage.setItem('wc_gclid', JSON.stringify({
+        value: gclid,
+        capturedAt: Date.now()
+      }));
+    } catch (e) {}
+  }
+})();
+function getStoredGclid() {
+  try {
+    var stored = localStorage.getItem('wc_gclid');
+    if (!stored) return null;
+    var parsed = JSON.parse(stored);
+    var THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+    if (Date.now() - parsed.capturedAt > THIRTY_DAYS_MS) {
+      localStorage.removeItem('wc_gclid');
+      return null;
+    }
+    return parsed.value;
+  } catch (e) {
+    return null;
+  }
+}
+</script>
 <title>Book Your Stay · Wild Canvas</title>
 <style>
 @font-face {
@@ -1025,7 +1055,8 @@ function _doConfirmBooking(btn) {
       total: 0,
       voucher: S.voucher || '',
       voucherValue: S.voucherValue,
-      notes: S.no + (S.hdyhau ? '\nHeard about us via: ' + S.hdyhau : '')
+      notes: S.no + (S.hdyhau ? '\nHeard about us via: ' + S.hdyhau : ''),
+      gclid: getStoredGclid() || ''
     };
 
     fetch(SCRIPT_URL, {
@@ -1080,7 +1111,8 @@ function _doConfirmBooking(btn) {
     extrasDetail: extrasDetail,
     voucher: S.voucher || '',
     voucherValue: S.voucherValue,
-    total: payable
+    total: payable,
+    gclid: getStoredGclid() || ''
   };
 
   fetch('/.netlify/functions/create-checkout', {
@@ -1175,6 +1207,7 @@ loadAvailability(function(){});
     }
     document.getElementById('steps').style.display = 'none';
     window.history.replaceState({}, document.title, window.location.pathname);
+    var gclid = getStoredGclid();
     // Meta Pixel / GTM conversion event
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
@@ -1188,7 +1221,8 @@ loadAvailability(function(){});
       kids: stored.kids || 0,
       total: stored.total || 0,
       voucher: stored.voucher || '',
-      currency: 'NZD'
+      currency: 'NZD',
+      gclid: gclid || undefined
     });
     // GA4 purchase event for Mailchimp revenue tracking
     if (typeof gtag === 'function') {
@@ -1196,6 +1230,7 @@ loadAvailability(function(){});
         transaction_id: ref,
         value: stored.total || 0,
         currency: 'NZD',
+        gclid: gclid || undefined,
         items: [{
           item_id: stored.tent || '',
           item_name: stored.tent === 'kowhai' ? 'Kōwhai Tent' : 'Pōhutukawa Tent',
@@ -1204,6 +1239,8 @@ loadAvailability(function(){});
         }]
       });
     }
+    // Clean up — gclid has done its job
+    if (gclid) { try { localStorage.removeItem('wc_gclid'); } catch(e) {} }
     if (stored.voucher) {
       fetch(APPS_SCRIPT_URL + '?action=redeem', {
         method: 'POST',
