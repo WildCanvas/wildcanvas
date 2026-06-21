@@ -324,8 +324,9 @@ textarea::placeholder { color: var(--muted); }
       <button class="opt-btn" onclick="sel(this,'q10','Honeymoon or proposal')">Honeymoon or proposal</button>
       <button class="opt-btn" onclick="sel(this,'q10','Just a treat — no occasion')">Just a treat — no occasion</button>
       <button class="opt-btn" onclick="sel(this,'q10','Travelling through New Zealand')">Travelling through New Zealand</button>
-      <button class="opt-btn" onclick="sel(this,'q10','Other')">Other</button>
+      <button class="opt-btn" onclick="selOther(this,'q10')">Other</button>
     </div>
+    <textarea id="q10OtherText" placeholder="Tell us a little more…" style="display:none; min-height:60px;"></textarea>
     <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next10" onclick="goNext()" disabled>Next</button></div>
   </div>
 
@@ -350,7 +351,7 @@ textarea::placeholder { color: var(--muted); }
   <div class="step" id="s12">
     <p class="qlabel">Is there anything that could have made your stay even better?</p>
     <p class="qsub">Optional — even small things help us improve.</p>
-    <textarea id="enhanceText" placeholder="e.g. Better instructions for the pizza oven…"></textarea>
+    <textarea id="enhanceText"></textarea>
     <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" onclick="goNext()">Next</button></div>
   </div>
 
@@ -454,6 +455,14 @@ function sel(el, key, val) {
   const n = stepMap[key];
   const btn = document.getElementById('next' + n);
   if (btn) btn.disabled = false;
+  const otherBox = document.getElementById(key + 'OtherText');
+  if (otherBox && val !== 'Other') otherBox.style.display = 'none';
+}
+
+function selOther(el, key) {
+  sel(el, key, 'Other');
+  const box = document.getElementById(key + 'OtherText');
+  if (box) box.style.display = 'block';
 }
 
 function tog(el, key, val) {
@@ -478,6 +487,7 @@ function finish() {
   A.masText = document.getElementById('masText').value.trim();
   A.enhanceText = document.getElementById('enhanceText').value.trim();
   A.improveText = document.getElementById('improveText').value.trim();
+  A.q10OtherText = document.getElementById('q10OtherText').value.trim();
 
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('sDone').classList.add('active');
