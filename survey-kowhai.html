@@ -5,305 +5,193 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kōwhai Tent — Guest Feedback | Wild Canvas</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" type="image/png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
-  @font-face {
-    font-family: 'Jost';
-    src: url('https://fonts.gstatic.com/s/jost/v14/92zPtBhPNqw79Ij1E865zBUv7myjJAVGPokMmuTl.woff2') format('woff2');
-    font-weight: 300 700;
-    font-display: swap;
-  }
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('P22_Mackinac.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Baton';
+  src: url('Baton-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
 
-  :root {
-    --bark: #3B2F2F;
-    --candy: #C8503A;
-    --harvest: #8B6F47;
-    --citrine: #C9A84C;
-    --cream: #FAF7F2;
-    --off-white: #F2EDE6;
-    --text: #2C2018;
-    --text-muted: #7A6A5A;
-    --border: rgba(59,47,47,0.12);
-  }
+:root {
+  --candy:     #F3DAD3;
+  --pistachio: #DFD39D;
+  --citrine:   #FCB236;
+  --harvest:   #C19965;
+  --peachy:    #F6AC89;
+  --cream:     #FBF6EE;
+  --off-white: #F7F1E6;
+  --bark:      #3D2E1E;
+  --bark-mid:  #6B4F3A;
+  --muted:     #8A7B6E;
+  --serif:  'P22Mackinac', Georgia, serif;
+  --display:'Baton', Georgia, serif;
+  --sans:   'Jost', system-ui, sans-serif;
+}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); font-weight: 300; background: var(--cream); color: var(--bark); overflow-x: hidden; min-height: 100vh; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; }
 
-  body {
-    font-family: 'Jost', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 16px;
-    line-height: 1.6;
-  }
+.wc-nav {
+  position: sticky; top: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.2rem 3.5rem;
+  background: rgba(243,218,211,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(61,46,30,0.08);
+}
+.wc-nav-logo img { height: 46px; width: auto; display: block; }
 
-  /* NAV */
-  .wc-nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--cream);
-    border-bottom: 0.5px solid var(--border);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-  }
-  .wc-nav a img { height: 36px; display: block; }
+.progress-wrap { height: 3px; background: var(--off-white); }
+.progress-fill { height: 3px; background: var(--harvest); transition: width 0.4s ease; width: 0%; }
 
-  /* PROGRESS */
-  .progress-wrap {
-    height: 3px;
-    background: var(--off-white);
-    position: sticky;
-    top: 64px;
-    z-index: 99;
-  }
-  .progress-fill {
-    height: 3px;
-    background: var(--harvest);
-    transition: width 0.4s ease;
-    width: 0%;
-  }
+.survey-outer { max-width: 620px; margin: 0 auto; padding: 4rem 1.75rem 6rem; }
 
-  /* LAYOUT */
-  .survey-outer {
-    max-width: 560px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 5rem;
-  }
+.survey-header { margin-bottom: 3rem; text-align: center; }
+.eyebrow {
+  font-size: 0.63rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.9rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+}
+.eyebrow::before, .eyebrow::after { content: ''; width: 20px; height: 1px; background: var(--harvest); flex-shrink: 0; }
+.survey-title {
+  font-family: var(--serif); font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 400; color: var(--bark); line-height: 1.1; letter-spacing: -0.01em;
+}
+.survey-title em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.survey-intro {
+  font-size: 0.93rem; line-height: 1.8; color: var(--bark-mid); font-weight: 300;
+  margin-top: 1rem; max-width: 440px; margin-left: auto; margin-right: auto;
+}
+.step-count {
+  font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); text-align: center; margin-bottom: 2rem; font-weight: 500;
+}
 
-  .survey-header {
-    margin-bottom: 2.5rem;
-    text-align: center;
-  }
-  .survey-eyebrow {
-    font-size: 11px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--harvest);
-    font-weight: 500;
-    margin-bottom: 8px;
-  }
-  .survey-title {
-    font-size: 28px;
-    font-weight: 400;
-    color: var(--bark);
-    line-height: 1.2;
-    font-style: italic;
-  }
-  .survey-intro {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-top: 10px;
-    line-height: 1.7;
-  }
-  .step-count {
-    font-size: 12px;
-    color: var(--text-muted);
-    text-align: center;
-    margin-bottom: 1.75rem;
-    letter-spacing: .03em;
-  }
+.step { display: none; }
+.step.active { display: block; }
 
-  /* STEPS */
-  .step { display: none; }
-  .step.active { display: block; }
+.qlabel {
+  font-family: var(--serif); font-size: 1.3rem; font-weight: 400;
+  color: var(--bark); margin-bottom: 0.4rem; line-height: 1.35; letter-spacing: -0.005em;
+}
+.qsub { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.4rem; font-weight: 300; line-height: 1.6; }
 
-  .qlabel {
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--bark);
-    margin-bottom: 6px;
-    line-height: 1.4;
-  }
-  .qsub {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 1.25rem;
-  }
+.opts { display: flex; flex-direction: column; gap: 10px; }
+.opt-btn {
+  background: #fff; border: 1px solid rgba(61,46,30,0.14); border-radius: 2px;
+  padding: 0.9rem 1.2rem; text-align: left; font-size: 0.92rem;
+  font-family: var(--sans); font-weight: 300; color: var(--bark);
+  cursor: pointer; transition: border-color 0.15s, background 0.15s; line-height: 1.4;
+}
+.opt-btn:hover { border-color: var(--harvest); background: var(--off-white); }
+.opt-btn.selected {
+  border: 1.5px solid var(--harvest); color: var(--bark-mid);
+  background: var(--candy); font-weight: 400;
+}
 
-  /* OPTIONS */
-  .opts { display: flex; flex-direction: column; gap: 10px; }
-  .opt-btn {
-    background: #fff;
-    border: 0.5px solid var(--border);
-    border-radius: 6px;
-    padding: 13px 18px;
-    text-align: left;
-    font-size: 15px;
-    font-family: 'Jost', sans-serif;
-    color: var(--text);
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    line-height: 1.4;
-  }
-  .opt-btn:hover { border-color: var(--harvest); background: var(--off-white); }
-  .opt-btn.selected {
-    border: 1.5px solid var(--harvest);
-    color: var(--harvest);
-    background: var(--off-white);
-    font-weight: 500;
-  }
+.check-group { display: flex; flex-direction: column; gap: 10px; }
+.check-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0.9rem 1.2rem; border: 1px solid rgba(61,46,30,0.14); border-radius: 2px;
+  cursor: pointer; font-size: 0.92rem; font-weight: 300; color: var(--bark);
+  background: #fff; transition: border-color 0.15s, background 0.15s;
+}
+.check-item:hover { border-color: var(--harvest); background: var(--off-white); }
+.check-item.selected { border: 1.5px solid var(--harvest); background: var(--candy); }
+.check-item input[type=checkbox] { accent-color: var(--harvest); width: 17px; height: 17px; flex-shrink: 0; }
 
-  /* CHECKBOXES */
-  .check-group { display: flex; flex-direction: column; gap: 10px; }
-  .check-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 18px;
-    border: 0.5px solid var(--border);
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 15px;
-    color: var(--text);
-    background: #fff;
-    transition: border-color 0.15s, background 0.15s;
-  }
-  .check-item:hover { border-color: var(--harvest); background: var(--off-white); }
-  .check-item.selected { border: 1.5px solid var(--harvest); background: var(--off-white); }
-  .check-item input[type=checkbox] { accent-color: var(--harvest); width: 17px; height: 17px; flex-shrink: 0; }
+.stars { display: flex; gap: 8px; margin: 0.85rem 0; }
+.star { font-size: 30px; cursor: pointer; color: rgba(61,46,30,0.18); transition: color 0.1s; line-height: 1; }
+.star.lit { color: var(--citrine); }
 
-  /* STARS */
-  .stars { display: flex; gap: 8px; margin: 0.75rem 0; }
-  .star { font-size: 30px; cursor: pointer; color: #D5C9BC; transition: color 0.1s; line-height: 1; }
-  .star.lit { color: var(--citrine); }
+textarea {
+  width: 100%; border: 1px solid rgba(61,46,30,0.14); border-radius: 2px;
+  padding: 0.85rem 1rem; font-size: 0.92rem; font-family: var(--sans); font-weight: 300;
+  color: var(--bark); background: #fff; resize: vertical; min-height: 110px;
+  margin-top: 8px; line-height: 1.7;
+}
+textarea:focus { outline: none; border-color: var(--harvest); }
+textarea::placeholder { color: var(--muted); }
 
-  /* TEXTAREA */
-  textarea {
-    width: 100%;
-    border: 0.5px solid var(--border);
-    border-radius: 6px;
-    padding: 13px 16px;
-    font-size: 15px;
-    font-family: 'Jost', sans-serif;
-    color: var(--text);
-    background: #fff;
-    resize: vertical;
-    min-height: 100px;
-    margin-top: 10px;
-    line-height: 1.6;
-  }
-  textarea:focus { outline: none; border-color: var(--harvest); }
-  textarea::placeholder { color: var(--text-muted); }
+.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2.2rem; }
+.btn-next {
+  display: inline-block; padding: 0.9rem 2.2rem;
+  background: var(--harvest); color: var(--cream);
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  font-weight: 500; font-family: var(--sans); transition: background 0.3s;
+  border: none; cursor: pointer;
+}
+.btn-next:hover { background: var(--bark-mid); }
+.btn-next:disabled { opacity: 0.35; cursor: default; }
+.btn-back {
+  background: none; border: none; color: var(--muted); font-size: 0.78rem;
+  font-family: var(--sans); font-weight: 300; cursor: pointer; padding: 4px 0; letter-spacing: 0.02em;
+}
+.btn-back:hover { color: var(--bark); }
 
-  /* NAV ROW */
-  .nav-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 2rem;
-  }
-  .btn-next {
-    background: var(--bark);
-    color: var(--cream);
-    border: none;
-    border-radius: 4px;
-    padding: 12px 32px;
-    font-size: 14px;
-    font-family: 'Jost', sans-serif;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background 0.15s;
-  }
-  .btn-next:hover { background: #2a2020; }
-  .btn-next:disabled { opacity: 0.35; cursor: default; }
-  .btn-back {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 13px;
-    font-family: 'Jost', sans-serif;
-    cursor: pointer;
-    padding: 4px 0;
-    letter-spacing: .03em;
-  }
-  .btn-back:hover { color: var(--text); }
+.thank-you { text-align: center; padding: 3rem 1rem; }
+.thank-you .emblem { height: 46px; width: auto; margin: 0 auto 2rem; opacity: 0.85; }
+.thank-you h2 {
+  font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 400;
+  color: var(--bark); margin-bottom: 1.1rem; line-height: 1.25;
+}
+.thank-you h2 em { font-style: italic; font-family: var(--display); color: var(--harvest); }
+.thank-you p {
+  font-size: 0.93rem; color: var(--bark-mid); line-height: 1.8; font-weight: 300;
+  max-width: 420px; margin: 0 auto 1.85rem;
+}
+.google-btn {
+  display: inline-block; padding: 0.9rem 2.2rem;
+  background: var(--citrine); color: var(--bark);
+  font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 700; font-style: italic; font-family: var(--display);
+  border: none; cursor: pointer; text-decoration: none; transition: background 0.3s;
+}
+.google-btn:hover { background: #e8a020; }
 
-  /* THANK YOU */
-  .thank-you {
-    text-align: center;
-    padding: 3rem 1rem;
-  }
-  .thank-you .emblem {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 1.5rem;
-    opacity: 0.5;
-  }
-  .thank-you h2 {
-    font-size: 26px;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--bark);
-    margin-bottom: 1rem;
-    line-height: 1.3;
-  }
-  .thank-you p {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.7;
-    max-width: 420px;
-    margin: 0 auto 1.75rem;
-  }
-  .google-btn {
-    display: inline-block;
-    background: var(--bark);
-    color: var(--cream);
-    border: none;
-    border-radius: 4px;
-    padding: 13px 32px;
-    font-size: 14px;
-    font-family: 'Jost', sans-serif;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-weight: 500;
-    text-decoration: none;
-    transition: background 0.15s;
-  }
-  .google-btn:hover { background: #2a2020; }
+.survey-footer { text-align: center; padding: 2.5rem; border-top: 1px solid rgba(61,46,30,0.08); margin-top: 4rem; }
+.survey-footer img { height: 32px; opacity: 0.7; margin: 0 auto; }
+.survey-footer p {
+  font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); margin-top: 0.9rem; font-weight: 500;
+}
 
-  /* FOOTER */
-  .survey-footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 0.5px solid var(--border);
-    margin-top: 4rem;
-  }
-  .survey-footer img { height: 28px; opacity: 0.5; }
-  .survey-footer p {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 10px;
-    letter-spacing: .02em;
-  }
-
-  @media (max-width: 480px) {
-    .survey-outer { padding: 2rem 1rem 4rem; }
-    .survey-title { font-size: 22px; }
-    .qlabel { font-size: 16px; }
-    .opt-btn, .check-item { font-size: 14px; padding: 12px 14px; }
-  }
+@media (max-width: 480px) {
+  .wc-nav { padding: 1rem 1.5rem; }
+  .survey-outer { padding: 2.5rem 1.1rem 4rem; }
+  .survey-title { font-size: 1.7rem; }
+  .qlabel { font-size: 1.1rem; }
+  .opt-btn, .check-item { font-size: 0.88rem; padding: 0.8rem 1rem; }
+}
 </style>
 </head>
 <body>
 
 <nav class="wc-nav">
-  <a href="https://wildcanvas.nz"><img src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="Wild Canvas"></a>
+  <a class="wc-nav-logo" href="https://wildcanvas.nz"><img src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="Wild Canvas"></a>
 </nav>
 <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
 
 <div class="survey-outer">
   <div class="survey-header">
-    <p class="survey-eyebrow">Guest Feedback</p>
-    <h1 class="survey-title">Kōwhai Tent</h1>
+    <p class="eyebrow">Guest Feedback</p>
+    <h1 class="survey-title">Kō<em>whai</em> Tent</h1>
     <p class="survey-intro">Thank you for staying with us. This takes about 2 minutes and genuinely helps us improve.</p>
   </div>
 
@@ -482,7 +370,7 @@
   <div class="step" id="sImprove">
     <p class="qlabel">We're sorry to hear that. Please tell us what fell short.</p>
     <p class="qsub">Your honest feedback helps us fix things that matter — thank you for taking the time.</p>
-    <textarea id="improveText" placeholder="We genuinely want to understand…" style="min-height:130px"></textarea>
+    <textarea id="improveText" placeholder="We genuinely want to understand…" style="min-height:140px"></textarea>
     <div class="nav-row">
       <button class="btn-back" onclick="showImproveBack()">← Back</button>
       <button class="btn-next" onclick="finish()">Submit</button>
@@ -493,7 +381,7 @@
   <div class="step" id="sDone">
     <div class="thank-you">
       <img class="emblem" src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="">
-      <h2 id="doneTitle">Thank you for your feedback</h2>
+      <h2>Thank you for your <em>feedback</em></h2>
       <p id="doneMsg"></p>
       <div id="googlePrompt" style="display:none">
         <a class="google-btn" href="https://g.page/r/CfABnBGXWiHqEBM/review" target="_blank" rel="noopener">Leave a Google review ↗</a>
@@ -505,15 +393,16 @@
 
 <footer class="survey-footer">
   <a href="https://wildcanvas.nz"><img src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="Wild Canvas"></a>
-  <p>© Wild Canvas · Waitomo, New Zealand</p>
+  <p>Wild Canvas · Waitomo, New Zealand</p>
 </footer>
 
 <script>
+const SURVEY_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzIDn1fYZ8KzIJzzPe2Xtw7QWghtFoth2m7LLntC3mE9_Ejhq7Py4-rAPDECFAJ5GrwQA/exec';
 const steps = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13'];
 const stepMap = {q1:1,q2:2,q3:3,catering:5,massage:7,q9:9,q10:10,q11:11,q13:13};
 const total = steps.length;
 let idx = 0;
-const A = {cateringYes:null, massageYes:null, nps:null};
+const A = {tent: 'kowhai', cateringYes:null, massageYes:null, nps:null};
 const multi = {};
 
 function showStep(i) {
@@ -584,6 +473,12 @@ function rateStar(type, n) {
 }
 
 function finish() {
+  A.highlights = multi.q4 || [];
+  A.catText = document.getElementById('catText').value.trim();
+  A.masText = document.getElementById('masText').value.trim();
+  A.enhanceText = document.getElementById('enhanceText').value.trim();
+  A.improveText = document.getElementById('improveText').value.trim();
+
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   document.getElementById('sDone').classList.add('active');
   document.getElementById('progressFill').style.width = '100%';
@@ -595,6 +490,14 @@ function finish() {
   } else {
     document.getElementById('doneMsg').textContent = "Thank you for being honest with us. We'll take your feedback seriously and use it to improve.";
   }
+
+  fetch(SURVEY_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(A)
+  }).catch(function(err) {
+    console.error('Survey submission failed', err);
+  });
 }
 
 showStep(0);
