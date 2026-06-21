@@ -1123,6 +1123,28 @@ function _doConfirmBooking(btn) {
   .then(function(r){ return r.json(); })
   .then(function(data) {
     if (data.url) {
+      // Persist booking details so the success handler (after Stripe redirect)
+      // can populate booking_complete / purchase events with real values.
+      try {
+        sessionStorage.setItem('wc_booking', JSON.stringify({
+          ref: S.ref,
+          tent: S.tent,
+          name: S.fn + ' ' + S.ln,
+          email: S.em,
+          phone: S.ph,
+          country: S.cn,
+          checkin: S.ci,
+          checkout: S.co,
+          nights: nights,
+          adults: S.adults,
+          kids: S.kids,
+          extras: extrasList.join(', ') || 'None',
+          total: payable,
+          voucher: S.voucher || '',
+          voucherValue: S.voucherValue,
+          notes: S.no + (S.hdyhau ? '\nHeard about us via: ' + S.hdyhau : '')
+        }));
+      } catch (e) {}
       window.location.href = data.url;
     } else {
       alert('Payment error: ' + (data.error || 'Unknown error. Please try again.'));
