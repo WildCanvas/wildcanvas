@@ -199,7 +199,7 @@ textarea::placeholder { color: var(--muted); }
 
   <!-- STEP 1 -->
   <div class="step active" id="s1">
-    <p class="qlabel">How clean and well-presented was the tent when you arrived?</p>
+    <p class="qlabel">How clean was the tent when you arrived?</p>
     <div class="opts">
       <button class="opt-btn" onclick="sel(this,'q1','Very satisfied')">Very satisfied</button>
       <button class="opt-btn" onclick="sel(this,'q1','Satisfied')">Satisfied</button>
@@ -275,7 +275,7 @@ textarea::placeholder { color: var(--muted); }
       <span class="star" onclick="rateStar('cat',5)">★</span>
     </div>
     <p class="qsub" style="margin-top:6px">Any dishes you loved, or suggestions? (optional)</p>
-    <textarea id="catText" placeholder="e.g. The charcuterie board was a favourite…"></textarea>
+    <textarea id="catText"></textarea>
     <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" id="next6" onclick="goNext()" disabled>Next</button></div>
   </div>
 
@@ -354,7 +354,7 @@ textarea::placeholder { color: var(--muted); }
   <div class="step" id="s12">
     <p class="qlabel">Is there anything that could have made your stay even better?</p>
     <p class="qsub">Optional — even small things help us improve.</p>
-    <textarea id="enhanceText" placeholder="e.g. More outdoor seating for the group…"></textarea>
+    <textarea id="enhanceText"></textarea>
     <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button><button class="btn-next" onclick="goNext()">Next</button></div>
   </div>
 
@@ -388,7 +388,7 @@ textarea::placeholder { color: var(--muted); }
       <h2>Thank you for your <em>feedback</em></h2>
       <p id="doneMsg"></p>
       <div id="googlePrompt" style="display:none">
-        <a class="google-btn" href="https://g.page/r/CfABnBGXWiHqEBM/review" target="_blank" rel="noopener">Leave a Google review ↗</a>
+        <a class="google-btn" href="https://g.page/r/CTtM_WA5-ikUEBM/review" target="_blank" rel="noopener">Leave a Google review ↗</a>
       </div>
     </div>
   </div>
