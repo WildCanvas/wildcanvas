@@ -8,7 +8,7 @@ exports.handler = async function(event) {
   try {
     const data = JSON.parse(event.body);
     const { tent, checkin, checkout, nights, adults, kids, name, email, phone, country, notes, extras, ref, total, voucher, voucherValue,
-            isGiftVoucher, giftVoucherName, giftVoucherAmount, giftVoucherType, giftRecipient, giftMessage } = data;
+            isGiftVoucher, giftVoucherName, giftVoucherAmount, giftVoucherType, giftRecipient, giftMessage, gclid } = data;
 
     if (!total || total <= 0) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid total amount.' }) };
@@ -29,6 +29,7 @@ if (data.type === 'experience') {
     extras:        (data.extras       || '').substring(0, 490),
     extras_detail: (data.extrasDetail || '').substring(0, 490),
     notes:         (data.notes        || '').substring(0, 490),
+    gclid:         data.gclid         || '',
   };
 
   const session = await stripe.checkout.sessions.create({
@@ -84,6 +85,7 @@ if (data.type === 'experience') {
       buyerName:         name                      || '',
       buyerEmail:        email                     || '',
       buyerPhone:        phone                     || '',
+      gclid:             gclid                     || '',
     } : {
       ref:          ref,
       tent:         tent,
@@ -100,6 +102,7 @@ if (data.type === 'experience') {
       voucher:      voucher || '',
       voucherValue: String(voucherValue || 0),
       isGiftVoucher: 'false',
+      gclid:        gclid || '',
     };
 
     const session = await stripe.checkout.sessions.create({
