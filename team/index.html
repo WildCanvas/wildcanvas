@@ -38,6 +38,7 @@ html, body { margin:0; padding:0; background:#FBF6EE; }
   --pohutukawa:#C2412B;
   --addons:#E0A526;
   --roster:#7C5295;
+  --pistachio:#93C572;
   --serif:'P22Mackinac', Georgia, serif;
   --display:'Baton', Georgia, serif;
   --sans:'Jost', system-ui, sans-serif;
@@ -94,6 +95,7 @@ html, body { margin:0; padding:0; background:#FBF6EE; }
 .card.muted { background:transparent; border:1px dashed var(--line); box-shadow:none; }
 
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:11px 17px; border-radius:3px; font-weight:600; font-size:13.5px; transition:background .15s; }
+.btn svg, .btn-text svg { width:16px; height:16px; flex-shrink:0; vertical-align:middle; }
 .btn-primary { background:var(--citrine); color:var(--bark); font-family:var(--display); font-style:italic; font-weight:500; text-transform:uppercase; letter-spacing:0.04em; }
 .btn-primary:active { background:#e7a430; }
 .btn-ghost { background:transparent; border:1px solid var(--line); color:var(--bark); }
@@ -137,7 +139,7 @@ html, body { margin:0; padding:0; background:#FBF6EE; }
 .note-meta { font-size:11.5px; color:var(--muted); margin-top:3px; }
 .note-text.done { text-decoration:line-through; color:#a89a87; }
 .check-btn { width:23px; height:23px; border-radius:4px; border:1.6px solid var(--line); flex-shrink:0; display:flex; align-items:center; justify-content:center; background:#fff; transition:background .15s; }
-.check-btn.checked { background:var(--bark); border-color:var(--bark); color:#fff; }
+.check-btn.checked { background:var(--pistachio); border-color:var(--pistachio); color:#2F4A1E; }
 .check-btn svg { width:13px; height:13px; }
 
 table.wc-table { width:100%; border-collapse:collapse; font-size:13px; }
@@ -164,6 +166,16 @@ table.wc-table input { padding:6px 7px; font-size:13px; }
 .icon-btn.confirm-del { background:#A6402C; border-color:#A6402C; color:#fff; }
 .icon-btn.spinning svg { animation: wc-spin 0.8s linear infinite; }
 @keyframes wc-spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+.del-confirm-bubble {
+  position:absolute; bottom:calc(100% + 7px); right:0; z-index:3;
+  background:#A6402C; color:#fff; font-size:11.5px; font-weight:700;
+  padding:5px 10px; border-radius:6px; white-space:nowrap;
+  box-shadow:0 3px 10px rgba(0,0,0,0.18);
+}
+.del-confirm-bubble::after {
+  content:''; position:absolute; top:100%; right:11px;
+  border:5px solid transparent; border-top-color:#A6402C;
+}
 .icon-btn svg { width:15px; height:15px; }
 
 .banner { display:flex; gap:9px; padding:11px 12px; border-radius:6px; background:var(--candy); font-size:12.5px; line-height:1.4; }
@@ -238,7 +250,13 @@ function confirmGate(uid){
   delete pendingDeletes[uid];
   return true; // confirmed, caller should proceed with the delete
 }
-function delBtnClass(uid){ return isPendingDelete(uid) ? 'icon-btn confirm-del' : 'icon-btn'; }
+function delBtnHtml(uid, onclickCall){
+  const armed = isPendingDelete(uid);
+  return `<span style="position:relative; display:inline-block;">
+    ${armed ? `<span class="del-confirm-bubble">Delete?</span>` : ''}
+    <button class="icon-btn${armed?' confirm-del':''}" onclick="${onclickCall}">${ICONS.trash}</button>
+  </span>`;
+}
 
 const ICONS = {
   refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>',
@@ -433,7 +451,7 @@ function viewHandover(){
             ${esc(n.text)}
             <div class="note-meta">${esc(n.by||'Team')} · ${fmtDateShort(n.date)}</div>
           </div>
-          <button class="${delBtnClass('ho-'+tent+'-'+n.id)}" onclick="wcDeleteHandover('${tent}','${n.id}')">${ICONS.trash}</button>
+          ${delBtnHtml('ho-'+tent+'-'+n.id, `wcDeleteHandover('${tent}','${n.id}')`)}
         </div>`).join('')
       : `<div class="empty">${ICONS.empty}<div>No notes for this tent yet.</div></div>`}
     </div>
@@ -512,7 +530,7 @@ function viewMaintenance(){
             </div>
             <div class="row" style="gap:6px;">
               <button class="check-btn ${i.done?'checked':''}" onclick="wcToggleMaint('${i.id}')">${i.done?ICONS.check:''}</button>
-              <button class="${delBtnClass('mt-'+i.id)}" onclick="wcDeleteMaint('${i.id}')">${ICONS.trash}</button>
+              ${delBtnHtml('mt-'+i.id, `wcDeleteMaint('${i.id}')`)}
             </div>
           </div>
         </div>`;
@@ -638,7 +656,7 @@ function tsRowHtml(dayIso, r){
     <td>${fbCell}</td>
     <td class="tot-cell" id="tot-${r.id}">${minutesToHM(rowTotalMinutes(r))}</td>
     <td><input value="${esc(r.notes)}" style="min-width:110px;" placeholder="—" onchange="wcTsField('${dayIso}','${r.id}','notes',this.value)" /></td>
-    <td><button class="${delBtnClass('ts-'+dayIso+'-'+r.id)}" onclick="wcDeleteTsRow('${dayIso}','${r.id}')">${ICONS.trash}</button></td>
+    <td>${delBtnHtml('ts-'+dayIso+'-'+r.id, `wcDeleteTsRow('${dayIso}','${r.id}')`)}</td>
   </tr>`;
 }
 
@@ -848,7 +866,7 @@ window.wcSaveCalendar = async function(){
 
 /* ================= SHOPPING LIST ================= */
 const WEEKLY_STORES = ['Supermarket','Mitre 10','Gilmours','Other'];
-const ORDER_SUPPLIERS = ['Ashley & Co','Firewood','Other'];
+const ORDER_SUPPLIERS = ['Ashley & Co','Firewood','Botanical','Alcohol','Other'];
 
 function viewShopping(){
   const tab = ui.shoppingTab;
@@ -885,7 +903,7 @@ function viewShopping(){
             <span class="${i.checked?'checked-text':''}" style="font-size:14px;">${esc(i.item)}</span>
           </div>
           <span class="badge ${tab==='weekly'?'store':'order'}">${esc(i.store)}</span>
-          <button class="${delBtnClass('sh-'+i.id)}" onclick="wcDeleteShopping('${i.id}')">${ICONS.trash}</button>
+          ${delBtnHtml('sh-'+i.id, `wcDeleteShopping('${i.id}')`)}
         </div>`).join('')
       : `<div class="empty">${ICONS.empty}<div>Nothing on this list.</div></div>`}
     </div>
@@ -944,7 +962,7 @@ function viewTodo(){
             <button class="check-btn ${t.done?'checked':''}" onclick="wcToggleTodo('${tent}','${t.id}')">${t.done?ICONS.check:''}</button>
             <span class="${t.done?'checked-text':''}" style="font-size:14px;">${esc(t.text)}</span>
           </div>
-          <button class="${delBtnClass('td-'+tent+'-'+t.id)}" onclick="wcDeleteTodo('${tent}','${t.id}')">${ICONS.trash}</button>
+          ${delBtnHtml('td-'+tent+'-'+t.id, `wcDeleteTodo('${tent}','${t.id}')`)}
         </div>`).join('')
       : `<div class="empty">${ICONS.empty}<div>No tasks on the list for this tent.</div></div>`}
     </div>
@@ -1004,7 +1022,7 @@ function viewKeyInfo(){
               <div class="row" style="gap:6px;">
                 <span class="kv-value ${ui.revealedKeys[i.id]?'':'hidden-val'}">${esc(i.value)}</span>
                 <button class="icon-btn" onclick="wcRevealKey('${i.id}')">${ICONS.eye}</button>
-                <button class="${delBtnClass('ki-'+i.id)}" onclick="wcDeleteKeyInfo('${i.id}')">${ICONS.trash}</button>
+                ${delBtnHtml('ki-'+i.id, `wcDeleteKeyInfo('${i.id}')`)}
               </div>
             </div>`).join('')}
         </div>
