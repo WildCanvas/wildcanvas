@@ -1060,9 +1060,16 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
     extrasDetail: '',
     voucher: '',
     voucherValue: 0,
-    total: VOUCHER_AMOUNTS[selectedVoucher]
+    total: VOUCHER_AMOUNTS[selectedVoucher],
+    // Gift voucher metadata — required so create-checkout.js and the
+    // Apps Script webhook know this is a voucher purchase, not a booking
+    isGiftVoucher: true,
+    giftVoucherType: selectedVoucher,
+    giftVoucherName: VOUCHER_NAMES[selectedVoucher],
+    giftVoucherAmount: VOUCHER_AMOUNTS[selectedVoucher],
+    giftRecipient: recipient || '',
+    giftMessage: message || ''
   };
-
   fetch('/.netlify/functions/create-checkout', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -1084,7 +1091,6 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
     btn.disabled = false;
   });
 });
-
 // Live validation clear on type
 ['firstname','lastname','email','phone'].forEach(id => {
   document.getElementById(id).addEventListener('input', function() {
