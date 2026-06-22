@@ -1,0 +1,967 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('https://cdn.jsdelivr.net/gh/WildCanvas/wildcanvas@main/P22_Mackinac.otf') format('opentype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'P22Mackinac';
+  src: url('https://cdn.jsdelivr.net/gh/WildCanvas/wildcanvas@main/Fontspring-DEMO-P22Mackinac-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Baton';
+  src: url('https://cdn.jsdelivr.net/gh/WildCanvas/wildcanvas@main/Baton-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+#wc-app, #wc-app * { box-sizing: border-box; }
+#wc-app {
+  --bark:#3D2E1E;
+  --bark-mid:#6B4F3A;
+  --citrine:#FCB236;
+  --harvest:#C19965;
+  --cream:#FBF6EE;
+  --candy:#F3DAD3;
+  --muted:#8A7B6E;
+  --kowhai:#3F8F4F;
+  --pohutukawa:#C2412B;
+  --addons:#E0A526;
+  --roster:#7C5295;
+  --serif:'P22Mackinac', Georgia, serif;
+  --display:'Baton', Georgia, serif;
+  --sans:'Jost', system-ui, sans-serif;
+  --line: rgba(61,46,30,0.14);
+  --card: #FFFFFF;
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--bark);
+  background: var(--cream);
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(61,46,30,0.08);
+  position: relative;
+}
+#wc-app h1, #wc-app h2, #wc-app h3 { font-family:var(--serif); font-weight:400; color:var(--bark); margin:0; }
+#wc-app em { font-family:var(--display); font-style:italic; font-weight:500; color:var(--harvest); }
+#wc-app p { margin:0; line-height:1.45; }
+#wc-app button { font-family:var(--sans); cursor:pointer; border:none; background:none; color:inherit; }
+#wc-app input, #wc-app select, #wc-app textarea {
+  font-family:var(--sans); font-size:14px; color:var(--bark);
+  background:#fff; border:1px solid var(--line); border-radius:4px; padding:9px 11px; width:100%;
+}
+#wc-app input:focus, #wc-app select:focus, #wc-app textarea:focus { outline:2px solid var(--citrine); outline-offset:1px; }
+
+/* header */
+#wc-header {
+  background: var(--bark);
+  color: var(--cream);
+  padding: 18px 20px 14px;
+  position: sticky; top:0; z-index:5;
+}
+#wc-header .wc-word { font-family:var(--serif); font-size:22px; font-weight:400; letter-spacing:0.2px; }
+#wc-header .wc-word em { color: var(--citrine); font-family:var(--display); font-style:italic; font-weight:500; }
+#wc-header .wc-sub { font-size:11px; text-transform:uppercase; letter-spacing:2px; color: var(--harvest); margin-top:4px; font-weight:500; }
+
+/* nav — matches the candy-pink nav bar on wildcanvas.nz */
+#wc-nav { display:flex; overflow-x:auto; gap:2px; padding:0 8px; background:var(--candy); position:sticky; top:64px; z-index:5; scrollbar-width:none; border-bottom:1px solid rgba(61,46,30,0.12); }
+#wc-nav::-webkit-scrollbar{ display:none; }
+.navtab { display:flex; flex-direction:column; align-items:center; gap:5px; padding:10px 12px 9px; min-width:64px; flex-shrink:0; color: var(--muted); transition:color .15s; border-bottom:2.5px solid transparent; }
+.navtab svg { width:19px; height:19px; }
+.navtab span { font-size:10px; letter-spacing:0.05em; text-transform:uppercase; white-space:nowrap; font-weight:500; }
+.navtab.active { color: var(--bark); border-bottom-color: var(--citrine); }
+.navtab.active span { font-weight:700; }
+
+/* body */
+#wc-body { padding:18px 16px 36px; min-height:300px; }
+.section { display:flex; flex-direction:column; gap:14px; }
+
+.wc-eyebrow { font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:var(--harvest); font-weight:600; }
+.wc-section-head { display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:2px; }
+
+.card { background:var(--card); border:1px solid var(--line); border-radius:6px; padding:14px 15px; box-shadow: 0 2px 10px rgba(61,46,30,0.05); }
+.card.muted { background:transparent; border:1px dashed var(--line); box-shadow:none; }
+
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:11px 17px; border-radius:3px; font-weight:600; font-size:13.5px; transition:background .15s; }
+.btn-primary { background:var(--citrine); color:var(--bark); font-family:var(--display); font-style:italic; font-weight:500; text-transform:uppercase; letter-spacing:0.04em; }
+.btn-primary:active { background:#e7a430; }
+.btn-ghost { background:transparent; border:1px solid var(--line); color:var(--bark); }
+.btn-text { color:var(--harvest); font-weight:700; font-size:13px; padding:6px 2px; }
+.btn-danger-text { color:#A6402C; font-weight:600; font-size:12.5px; }
+.btn-sm { padding:7px 11px; font-size:12.5px; border-radius:3px; }
+.btn-block { width:100%; }
+
+.pillrow { display:flex; gap:8px; flex-wrap:wrap; }
+.pill { padding:8px 14px; border-radius:999px; font-size:12.5px; font-weight:600; border:1.4px solid var(--line); background:#fff; display:flex; align-items:center; gap:6px; transition:box-shadow .15s; }
+.pill.on { border-color:transparent; box-shadow:0 2px 8px rgba(61,46,30,0.10); }
+.pill .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.pill.kowhai.on { background:rgba(63,143,79,0.16); color:#2c5f37; border-color:rgba(63,143,79,0.45); }
+.pill.pohutukawa.on { background:rgba(194,65,43,0.13); color:var(--pohutukawa); border-color:rgba(194,65,43,0.45); }
+.pill.addons.on { background:rgba(224,165,38,0.20); color:#7a5610; border-color:rgba(224,165,38,0.5); }
+.pill.roster.on { background:rgba(124,82,149,0.16); color:#4f3361; border-color:rgba(124,82,149,0.45); }
+
+.badge { font-size:10.5px; font-weight:700; letter-spacing:0.3px; padding:4px 9px; border-radius:4px; text-transform:uppercase; white-space:nowrap; }
+.badge.u-today { background:rgba(194,65,43,0.16); color:#8a2f1f; }
+.badge.u-week { background:rgba(252,178,54,0.24); color:#7a5610; }
+.badge.u-month { background:rgba(193,153,101,0.28); color:#6b5436; }
+.badge.u-low { background:rgba(138,123,110,0.18); color:#5c5346; }
+.badge.who { background:var(--candy); color:#7a3a2c; }
+.badge.store { background:rgba(193,153,101,0.24); color:#6b5436; }
+.badge.order { background:rgba(61,46,30,0.10); color:var(--bark-mid); }
+
+.row { display:flex; align-items:flex-start; gap:10px; }
+.row.between { justify-content:space-between; align-items:center; }
+.field-label { font-size:12px; font-weight:600; color:var(--bark); margin-bottom:4px; display:block; }
+.formgrid { display:flex; flex-direction:column; gap:9px; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
+
+.note-card { display:flex; gap:10px; align-items:flex-start; }
+.note-flower { width:8px; height:8px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+.note-flower.kowhai { background:var(--kowhai); }
+.note-flower.pohutukawa { background:var(--pohutukawa); }
+.note-flower.addons { background:var(--addons); }
+.note-flower.roster { background:var(--roster); }
+.note-text { flex:1; font-size:14.5px; }
+.note-meta { font-size:11.5px; color:var(--muted); margin-top:3px; }
+.note-text.done { text-decoration:line-through; color:#a89a87; }
+.check-btn { width:23px; height:23px; border-radius:4px; border:1.6px solid var(--line); flex-shrink:0; display:flex; align-items:center; justify-content:center; background:#fff; transition:background .15s; }
+.check-btn.checked { background:var(--bark); border-color:var(--bark); color:#fff; }
+.check-btn svg { width:13px; height:13px; }
+
+table.wc-table { width:100%; border-collapse:collapse; font-size:13px; }
+table.wc-table th { text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:0.4px; color:var(--harvest); padding:4px 5px; border-bottom:1.5px solid var(--line); }
+table.wc-table td { padding:5px 5px; border-bottom:1px solid var(--line); vertical-align:middle; }
+table.wc-table input { padding:6px 7px; font-size:13px; }
+.tot-cell { font-weight:700; color:var(--bark); white-space:nowrap; font-size:12.5px; }
+
+.daytabs { display:flex; gap:5px; overflow-x:auto; padding-bottom:2px; }
+.daytab { flex-shrink:0; padding:7px 12px; border-radius:3px; font-size:12.5px; font-weight:600; background:#fff; border:1px solid var(--line); color:var(--bark); }
+.daytab.active { background:var(--bark); color:var(--cream); border-color:var(--bark); }
+
+.empty { text-align:center; padding:26px 14px; color:var(--muted); font-size:13.5px; }
+.empty svg { width:30px; height:30px; margin-bottom:8px; opacity:0.5; }
+
+.kv-row { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); }
+.kv-row:last-child { border-bottom:none; }
+.kv-label { font-size:12px; color:var(--muted); }
+.kv-value { font-family:var(--sans); font-weight:600; font-size:14px; }
+.kv-value.hidden-val { filter:blur(4px); user-select:none; }
+.tag-cat { font-size:10px; text-transform:uppercase; letter-spacing:0.5px; color:var(--harvest); font-weight:700; margin:14px 0 2px; }
+
+.icon-btn { width:30px; height:30px; border-radius:4px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); background:#fff; flex-shrink:0; }
+.icon-btn svg { width:15px; height:15px; }
+
+.banner { display:flex; gap:9px; padding:11px 12px; border-radius:6px; background:var(--candy); font-size:12.5px; line-height:1.4; }
+.banner svg { width:16px; height:16px; flex-shrink:0; margin-top:1px; color:var(--bark-mid); }
+
+.calendar-frame { width:100%; height:420px; border:1px solid var(--line); border-radius:4px; }
+.cal-event { border-bottom:1px solid var(--line); padding-bottom:9px; }
+.cal-event:last-child { border-bottom:none; padding-bottom:0; }
+.linklike { color:var(--harvest); text-decoration:underline; font-weight:600; }
+
+.weekrange { font-size:12.5px; color:var(--muted); }
+.add-form-toggle { display:flex; align-items:center; gap:6px; }
+hr.div { border:none; border-top:1px solid var(--line); margin:2px 0; }
+.subtab-row { display:flex; gap:6px; }
+.checked-text { text-decoration:line-through; color:#a89a87; }
+</style>
+
+<div id="wc-app">
+  <div id="wc-header">
+    <div class="wc-word">Wild Canvas <em>Team</em></div>
+    <div class="wc-sub">Kōwhai &amp; Pōhutukawa</div>
+  </div>
+  <div id="wc-nav"></div>
+  <div id="wc-body"></div>
+</div>
+
+<script>
+(function(){
+
+// ===== Set this to your deployed Apps Script URL (same one used for the calendar feeds) =====
+const STORAGE_API = 'https://script.google.com/macros/s/AKfycbz4BXl-GZmvTGDw1uB50xcFnBLz_WqpXgIU8ygd8OT3LPqAUQ0h5DBC4AuF1i243io/exec';
+
+function uid(){ return 'id'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function esc(s){ return (s===undefined||s===null) ? '' : String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+async function getJSON(key, fallback){
+  try {
+    const res = await fetch(STORAGE_API + '?action=get&key=' + encodeURIComponent(key));
+    const data = await res.json();
+    if(!data || data.value===undefined || data.value===null) return fallback;
+    return JSON.parse(data.value);
+  } catch(e){ return fallback; }
+}
+async function setJSON(key, value){
+  try {
+    await fetch(STORAGE_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // keeps this a "simple request" so the browser skips CORS preflight
+      body: JSON.stringify({ action: 'set', key: key, value: JSON.stringify(value) })
+    });
+  } catch(e){ console.error('save failed', key, e); }
+}
+
+const ICONS = {
+  refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>',
+  handover: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6a1 1 0 0 1 1 1v1H8V4a1 1 0 0 1 1-1Z"/><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 11h6M9 15h4"/></svg>',
+  maintenance: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.2 2.2-2-2Z"/></svg>',
+  timesheet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
+  shopping: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.5 11.5a2 2 0 0 1-2 1.5H7.5a2 2 0 0 1-2-1.5L4 7Z"/><path d="M8 7a4 4 0 0 1 8 0"/></svg>',
+  todo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2 2 5-5"/></svg>',
+  keyinfo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 4l3 3M13 7l2 2"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg>',
+  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',
+  warn: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg>',
+  empty: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V8l8-5 8 5v11M4 19h16M9 19v-6h6v6"/></svg>'
+};
+
+const TABS = [
+  {id:'handover', label:'Handover'},
+  {id:'maintenance', label:'Maintenance'},
+  {id:'timesheet', label:'Timesheet'},
+  {id:'calendar', label:'Calendar'},
+  {id:'shopping', label:'Shopping'},
+  {id:'todo', label:'To-Do'},
+  {id:'keyinfo', label:'Key Info'},
+];
+
+let state = {
+  handover: { kowhai: [], pohutukawa: [] },
+  maintenance: [],
+  todo: { kowhai: [], pohutukawa: [] },
+  shopping: { weekly: [], order: [] },
+  keyinfo: [],
+  calendarSettings: { kowhai:'', pohutukawa:'', team:'' },
+  roster: ['Shantelle','Dijana','Ann','Madison'],
+};
+
+let ui = {
+  activeTab: 'handover',
+  handoverTent: 'kowhai',
+  todoTent: 'kowhai',
+  maintShowDone: false,
+  shoppingTab: 'weekly',
+  timesheetMonday: null,
+  timesheetDay: null,
+  calendarEditing: false,
+  revealedKeys: {},
+};
+
+async function loadAll(){
+  const [handoverK, handoverP, maint, todoK, todoP, shopW, shopO, kinfo, calset, roster] = await Promise.all([
+    getJSON('handover-kowhai', []),
+    getJSON('handover-pohutukawa', []),
+    getJSON('maintenance-items', []),
+    getJSON('todo-kowhai', []),
+    getJSON('todo-pohutukawa', []),
+    getJSON('shopping-weekly', []),
+    getJSON('shopping-order', []),
+    getJSON('key-info', []),
+    getJSON('calendar-settings', {
+      kowhaiFeed:'https://script.google.com/macros/s/AKfycbz4BXl-GZmvTGDw1uB50xcFnBLz_WqpXgIU8ygd8OT3LPqAUQ0h5DBC4AuF1i243io/exec?tent=kowhai',
+      kowhaiLink:'https://calendar.google.com/calendar/u/0/r?cid=' + encodeURIComponent('c_8545a62640b178cb116b9bae1acc5aff068c7a2cee14c2570ad8766d7d598fe7@group.calendar.google.com'),
+      pohutukawaFeed:'https://script.google.com/macros/s/AKfycbz4BXl-GZmvTGDw1uB50xcFnBLz_WqpXgIU8ygd8OT3LPqAUQ0h5DBC4AuF1i243io/exec?tent=pohutukawa',
+      pohutukawaLink:'https://calendar.google.com/calendar/u/0/r?cid=' + encodeURIComponent('c_57a43025c4ef8b30b7033654a0ba9bd3673a445f46a990f3d0be05b9db9cab35@group.calendar.google.com'),
+      addonsFeed:'https://script.google.com/macros/s/AKfycbz4BXl-GZmvTGDw1uB50xcFnBLz_WqpXgIU8ygd8OT3LPqAUQ0h5DBC4AuF1i243io/exec?tent=addons',
+      addonsLink:'https://calendar.google.com/calendar/u/0/r?cid=' + encodeURIComponent('c_11a36f296ad86f93236bc65526b0b488f8004cf0704b67dc9fc4b4f11080daed@group.calendar.google.com'),
+      rosterFeed:'https://script.google.com/macros/s/AKfycbz4BXl-GZmvTGDw1uB50xcFnBLz_WqpXgIU8ygd8OT3LPqAUQ0h5DBC4AuF1i243io/exec?tent=roster',
+      rosterLink:'https://calendar.google.com/calendar/u/0/r?cid=' + encodeURIComponent('c_f19ef1538884c3c772489ad482c3495f51c794a389295700ac64b327c6bec413@group.calendar.google.com'),
+    }),
+    getJSON('staff-roster', ['Shantelle','Dijana','Ann','Madison']),
+  ]);
+  state.handover.kowhai = handoverK;
+  state.handover.pohutukawa = handoverP;
+  state.maintenance = maint;
+  state.todo.kowhai = todoK;
+  state.todo.pohutukawa = todoP;
+  state.shopping.weekly = shopW;
+  state.shopping.order = shopO;
+  state.keyinfo = kinfo;
+  state.calendarSettings = calset;
+  state.roster = roster;
+}
+
+/* ---------- date / week helpers ---------- */
+function pad(n){ return n<10? '0'+n : ''+n; }
+function isoDate(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function mondayOf(dateObj){
+  const d = new Date(dateObj);
+  const day = d.getDay(); // 0 Sun .. 6 Sat
+  const diff = (day===0? -6 : 1-day);
+  d.setDate(d.getDate()+diff);
+  d.setHours(0,0,0,0);
+  return d;
+}
+const DAY_NAMES = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+function weekDates(mondayIso){
+  const m = new Date(mondayIso+'T00:00:00');
+  const out = [];
+  for(let i=0;i<7;i++){ const d = new Date(m); d.setDate(m.getDate()+i); out.push(isoDate(d)); }
+  return out;
+}
+function fmtDateShort(iso){
+  const d = new Date(iso+'T00:00:00');
+  return d.toLocaleDateString('en-NZ', {day:'numeric', month:'short'});
+}
+function timeToMinutes(t){
+  if(!t) return null;
+  const [h,m] = t.split(':').map(Number);
+  if(isNaN(h)||isNaN(m)) return null;
+  return h*60+m;
+}
+function minutesToHM(mins){
+  if(mins===null || mins===undefined || isNaN(mins) || mins<=0) return '—';
+  const h = Math.floor(mins/60), m = mins%60;
+  return h+'h'+(m? ' '+m+'m' : '');
+}
+function rowTotalMinutes(row){
+  const s = timeToMinutes(row.start), f = timeToMinutes(row.finish);
+  if(s===null||f===null) return 0;
+  let diff = f-s;
+  if(diff<0) diff += 24*60;
+  return diff;
+}
+
+/* ---------- nav / render shell ---------- */
+function renderNav(){
+  const nav = document.getElementById('wc-nav');
+  nav.innerHTML = TABS.map(t=>`
+    <button class="navtab ${ui.activeTab===t.id?'active':''}" onclick="wcSwitchTab('${t.id}')">
+      ${ICONS[t.id]}<span>${t.label}</span>
+    </button>`).join('');
+}
+
+window.wcSwitchTab = function(id){
+  ui.activeTab = id;
+  renderNav();
+  renderBody();
+};
+
+function renderBody(){
+  const body = document.getElementById('wc-body');
+  switch(ui.activeTab){
+    case 'handover': body.innerHTML = viewHandover(); break;
+    case 'maintenance': body.innerHTML = viewMaintenance(); break;
+    case 'timesheet': body.innerHTML = viewTimesheet(); break;
+    case 'calendar': body.innerHTML = viewCalendar(); ensureCalendarFeeds(); break;
+    case 'shopping': body.innerHTML = viewShopping(); break;
+    case 'todo': body.innerHTML = viewTodo(); break;
+    case 'keyinfo': body.innerHTML = viewKeyInfo(); break;
+  }
+}
+
+function tentPillRow(activeVar, onclickName){
+  return `<div class="pillrow">
+    <button class="pill kowhai ${ui[activeVar]==='kowhai'?'on':''}" onclick="${onclickName}('kowhai')"><span class="dot" style="background:var(--kowhai)"></span>Kōwhai Tent</button>
+    <button class="pill pohutukawa ${ui[activeVar]==='pohutukawa'?'on':''}" onclick="${onclickName}('pohutukawa')"><span class="dot" style="background:var(--pohutukawa)"></span>Pōhutukawa Tent</button>
+  </div>`;
+}
+
+/* ================= HANDOVER NOTES ================= */
+window.wcSetHandoverTent = function(t){ ui.handoverTent = t; renderBody(); };
+
+function viewHandover(){
+  const tent = ui.handoverTent;
+  const list = state.handover[tent].slice().sort((a,b)=> (a.done===b.done? b.date.localeCompare(a.date) : (a.done?1:-1)));
+  const NAMES = ['Shantelle','Dijana','Emily','Dasha','Madison','Ann','Ben'];
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">For the next team member</div>
+      <h2>Handover notes</h2>
+    </div>
+    ${tentPillRow('handoverTent','wcSetHandoverTent')}
+    <div class="card formgrid">
+      <span class="field-label">Leave a note for next time</span>
+      <textarea id="ho-text" rows="2" placeholder="e.g. More tea bags, low on firewood at the deck box..."></textarea>
+      <div class="two-col">
+        <select id="ho-by">
+          <option value="">Your name</option>
+          ${NAMES.map(n=>`<option value="${n}">${n}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary" onclick="wcAddHandover()">${ICONS.plus} Add note</button>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:9px;">
+      ${list.length? list.map(n=>`
+        <div class="card note-card">
+          <button class="check-btn ${n.done?'checked':''}" onclick="wcToggleHandover('${tent}','${n.id}')">${n.done?ICONS.check:''}</button>
+          <div class="note-text ${n.done?'done':''}">
+            ${esc(n.text)}
+            <div class="note-meta">${esc(n.by||'Team')} · ${fmtDateShort(n.date)}</div>
+          </div>
+          <button class="icon-btn" onclick="wcDeleteHandover('${tent}','${n.id}')">${ICONS.trash}</button>
+        </div>`).join('')
+      : `<div class="empty">${ICONS.empty}<div>No notes for this tent yet.</div></div>`}
+    </div>
+  </div>`;
+}
+
+window.wcAddHandover = async function(){
+  const text = document.getElementById('ho-text').value.trim();
+  const by = document.getElementById('ho-by').value.trim();
+  if(!text) return;
+  const tent = ui.handoverTent;
+  state.handover[tent].unshift({ id: uid(), text, by, date: isoDate(new Date()), done:false });
+  await setJSON('handover-'+tent, state.handover[tent]);
+  renderBody();
+};
+window.wcToggleHandover = async function(tent, id){
+  const item = state.handover[tent].find(n=>n.id===id);
+  if(item){ item.done = !item.done; await setJSON('handover-'+tent, state.handover[tent]); renderBody(); }
+};
+window.wcDeleteHandover = async function(tent, id){
+  state.handover[tent] = state.handover[tent].filter(n=>n.id!==id);
+  await setJSON('handover-'+tent, state.handover[tent]);
+  renderBody();
+};
+
+/* ================= MAINTENANCE REGISTER ================= */
+const URGENCY = [
+  {id:'today', label:'Today', cls:'u-today'},
+  {id:'week', label:'This week', cls:'u-week'},
+  {id:'month', label:'This month', cls:'u-month'},
+  {id:'low', label:'Low priority', cls:'u-low'},
+];
+const RESPONSIBLE = ['Ben','Emily','Team'];
+const URGENCY_ORDER = {today:0, week:1, month:2, low:3};
+
+function viewMaintenance(){
+  let list = state.maintenance.slice();
+  if(!ui.maintShowDone) list = list.filter(i=>!i.done);
+  list.sort((a,b)=> (URGENCY_ORDER[a.urgency]-URGENCY_ORDER[b.urgency]) || b.date.localeCompare(a.date));
+  const doneCount = state.maintenance.filter(i=>i.done).length;
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">Around the farm</div>
+      <h2>Maintenance register</h2>
+    </div>
+    <div class="card formgrid">
+      <span class="field-label">What needs doing?</span>
+      <input id="mt-text" placeholder="e.g. Fix dripping tap in Kōwhai bathroom" />
+      <div class="three-col">
+        <select id="mt-urgency">
+          ${URGENCY.map(u=>`<option value="${u.id}">${u.label}</option>`).join('')}
+        </select>
+        <select id="mt-who">
+          ${RESPONSIBLE.map(r=>`<option value="${r}">${r}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary" onclick="wcAddMaint()">${ICONS.plus} Add</button>
+      </div>
+    </div>
+    <div class="row between">
+      <span class="field-label" style="margin:0;">${list.length} ${ui.maintShowDone? 'item(s)' : 'open item(s)'}</span>
+      <button class="btn-text" onclick="wcToggleMaintShowDone()">${ui.maintShowDone? 'Hide done' : 'Show done ('+doneCount+')'}</button>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:9px;">
+      ${list.length? list.map(i=>{
+        const u = URGENCY.find(x=>x.id===i.urgency) || URGENCY[3];
+        return `<div class="card">
+          <div class="row between" style="margin-bottom:6px;">
+            <span class="badge ${u.cls}">${u.label}</span>
+            <span class="badge who">${esc(i.who)}</span>
+          </div>
+          <div class="row between">
+            <div class="note-text ${i.done?'done':''}" style="flex:1;">${esc(i.text)}
+              <div class="note-meta">Added ${fmtDateShort(i.date)}</div>
+            </div>
+            <div class="row" style="gap:6px;">
+              <button class="check-btn ${i.done?'checked':''}" onclick="wcToggleMaint('${i.id}')">${i.done?ICONS.check:''}</button>
+              <button class="icon-btn" onclick="wcDeleteMaint('${i.id}')">${ICONS.trash}</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('')
+      : `<div class="empty">${ICONS.empty}<div>Nothing on the register${ui.maintShowDone?'':' right now'}.</div></div>`}
+    </div>
+  </div>`;
+}
+
+window.wcToggleMaintShowDone = function(){ ui.maintShowDone = !ui.maintShowDone; renderBody(); };
+window.wcAddMaint = async function(){
+  const text = document.getElementById('mt-text').value.trim();
+  if(!text) return;
+  const urgency = document.getElementById('mt-urgency').value;
+  const who = document.getElementById('mt-who').value;
+  state.maintenance.unshift({ id: uid(), text, urgency, who, date: isoDate(new Date()), done:false });
+  await setJSON('maintenance-items', state.maintenance);
+  renderBody();
+};
+window.wcToggleMaint = async function(id){
+  const item = state.maintenance.find(i=>i.id===id);
+  if(item){ item.done = !item.done; await setJSON('maintenance-items', state.maintenance); renderBody(); }
+};
+window.wcDeleteMaint = async function(id){
+  state.maintenance = state.maintenance.filter(i=>i.id!==id);
+  await setJSON('maintenance-items', state.maintenance);
+  renderBody();
+};
+
+/* ================= TIMESHEET ================= */
+let timesheetCache = {}; // mondayIso -> {days:{iso:[{id,name,start,finish,bns,fb,notes}]}}
+
+function ensureWeekData(mondayIso){
+  if(timesheetCache[mondayIso]) return timesheetCache[mondayIso];
+  const dates = weekDates(mondayIso);
+  const days = {};
+  dates.forEach(d=>{ days[d] = state.roster.map(name=>({id:uid(), name, start:'', finish:'', bns:'', fb:'', notes:''})); });
+  timesheetCache[mondayIso] = { days };
+  return timesheetCache[mondayIso];
+}
+
+async function loadWeek(mondayIso){
+  const saved = await getJSON('timesheet-'+mondayIso, null);
+  if(saved && saved.days){
+    timesheetCache[mondayIso] = saved;
+  } else {
+    ensureWeekData(mondayIso);
+  }
+}
+
+function viewTimesheet(){
+  if(!ui.timesheetMonday){
+    ui.timesheetMonday = isoDate(mondayOf(new Date()));
+  }
+  const mondayIso = ui.timesheetMonday;
+  const dates = weekDates(mondayIso);
+  if(!ui.timesheetDay) ui.timesheetDay = dates[0];
+  const wk = timesheetCache[mondayIso] || ensureWeekData(mondayIso);
+  const dayIso = ui.timesheetDay;
+  const dayRows = wk.days[dayIso] || [];
+
+  // weekly totals per name
+  const totals = {};
+  dates.forEach(d=> (wk.days[d]||[]).forEach(r=>{
+    totals[r.name] = (totals[r.name]||0) + rowTotalMinutes(r);
+  }));
+
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">Hours worked</div>
+      <h2>Timesheet</h2>
+    </div>
+    <div class="card">
+      <div class="row between" style="margin-bottom:8px;">
+        <span class="field-label" style="margin:0;">Week starting</span>
+        <input type="date" style="width:auto;" value="${mondayIso}" onchange="wcChangeWeek(this.value)" />
+      </div>
+      <div class="weekrange">${fmtDateShort(dates[0])} – ${fmtDateShort(dates[6])}</div>
+    </div>
+    <div class="daytabs">
+      ${dates.map((d,i)=>`<button class="daytab ${d===dayIso?'active':''}" onclick="wcSetTimesheetDay('${d}')">${DAY_NAMES[i].slice(0,3)}<br><span style="font-weight:400;opacity:0.8;">${fmtDateShort(d)}</span></button>`).join('')}
+    </div>
+    <div class="card" style="overflow-x:auto;">
+      <table class="wc-table">
+        <thead><tr>
+          <th>Name</th><th>Start</th><th>Finish</th><th>Massage<br>BNS</th><th>Massage<br>FB</th><th>Total</th><th>Notes</th><th></th>
+        </tr></thead>
+        <tbody id="ts-tbody">
+          ${dayRows.map(r=>tsRowHtml(dayIso, r)).join('')}
+        </tbody>
+      </table>
+      <button class="btn-text" onclick="wcAddTimesheetRow('${dayIso}')">${ICONS.plus} Add person for this day</button>
+    </div>
+    <div class="card">
+      <div class="field-label">Week total by person</div>
+      <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
+        ${Object.keys(totals).length? Object.entries(totals).map(([name,mins])=>`
+          <div class="kv-row"><span class="kv-label">${esc(name)}</span><span class="tot-cell">${minutesToHM(mins)}</span></div>
+        `).join('') : '<div class="empty" style="padding:10px;">No hours logged yet.</div>'}
+      </div>
+    </div>
+    <div>
+      <button class="btn-text" onclick="wcManageRoster()">Manage team list (${state.roster.length})</button>
+    </div>
+  </div>`;
+}
+
+function tsRowHtml(dayIso, r){
+  const isShantelle = (r.name||'').trim().toLowerCase()==='shantelle';
+  const bnsCell = isShantelle
+    ? `<input value="${esc(r.bns)}" style="width:48px;" onchange="wcTsField('${dayIso}','${r.id}','bns',this.value)" />`
+    : `<span style="color:#c4b8a6;">—</span>`;
+  const fbCell = isShantelle
+    ? `<input value="${esc(r.fb)}" style="width:48px;" onchange="wcTsField('${dayIso}','${r.id}','fb',this.value)" />`
+    : `<span style="color:#c4b8a6;">—</span>`;
+  return `<tr data-row-id="${r.id}">
+    <td><input value="${esc(r.name)}" style="min-width:78px;" onchange="wcTsField('${dayIso}','${r.id}','name',this.value)" /></td>
+    <td><input type="time" value="${esc(r.start)}" style="min-width:88px;" onchange="wcTsField('${dayIso}','${r.id}','start',this.value)" /></td>
+    <td><input type="time" value="${esc(r.finish)}" style="min-width:88px;" onchange="wcTsField('${dayIso}','${r.id}','finish',this.value)" /></td>
+    <td>${bnsCell}</td>
+    <td>${fbCell}</td>
+    <td class="tot-cell" id="tot-${r.id}">${minutesToHM(rowTotalMinutes(r))}</td>
+    <td><input value="${esc(r.notes)}" style="min-width:110px;" placeholder="—" onchange="wcTsField('${dayIso}','${r.id}','notes',this.value)" /></td>
+    <td><button class="icon-btn" onclick="wcDeleteTsRow('${dayIso}','${r.id}')">${ICONS.trash}</button></td>
+  </tr>`;
+}
+
+window.wcChangeWeek = async function(dateVal){
+  if(!dateVal) return;
+  const monday = isoDate(mondayOf(new Date(dateVal+'T00:00:00')));
+  ui.timesheetMonday = monday;
+  ui.timesheetDay = null;
+  await loadWeek(monday);
+  renderBody();
+};
+window.wcSetTimesheetDay = function(d){ ui.timesheetDay = d; renderBody(); };
+
+window.wcTsField = async function(dayIso, rowId, field, value){
+  const wk = timesheetCache[ui.timesheetMonday];
+  const row = (wk.days[dayIso]||[]).find(r=>r.id===rowId);
+  if(!row) return;
+  row[field] = value;
+  await setJSON('timesheet-'+ui.timesheetMonday, wk);
+  renderBody();
+};
+
+window.wcAddTimesheetRow = async function(dayIso){
+  const wk = timesheetCache[ui.timesheetMonday];
+  wk.days[dayIso] = wk.days[dayIso] || [];
+  wk.days[dayIso].push({id:uid(), name:'', start:'', finish:'', bns:'', fb:'', notes:''});
+  await setJSON('timesheet-'+ui.timesheetMonday, wk);
+  renderBody();
+};
+window.wcDeleteTsRow = async function(dayIso, rowId){
+  const wk = timesheetCache[ui.timesheetMonday];
+  wk.days[dayIso] = (wk.days[dayIso]||[]).filter(r=>r.id!==rowId);
+  await setJSON('timesheet-'+ui.timesheetMonday, wk);
+  renderBody();
+};
+
+window.wcManageRoster = async function(){
+  const current = state.roster.join(', ');
+  const next = prompt('Edit team list (comma separated):', current);
+  if(next===null) return;
+  state.roster = next.split(',').map(s=>s.trim()).filter(Boolean);
+  await setJSON('staff-roster', state.roster);
+  renderBody();
+};
+
+/* ================= CALENDAR ================= */
+let calFeedCache = {}; // url -> { events, loading, error }
+
+async function fetchFeed(url){
+  if(!url) return;
+  if(calFeedCache[url] && !calFeedCache[url].error) return; // already loaded or in flight
+  calFeedCache[url] = { loading:true };
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    calFeedCache[url] = { events: Array.isArray(data) ? data : [] };
+  } catch(e){
+    calFeedCache[url] = { error:true };
+  }
+}
+
+function ensureCalendarFeeds(){
+  const cs = state.calendarSettings;
+  const urls = CAL_DEFS.map(d => cs[d.key+'Feed']).filter(Boolean);
+  const toFetch = urls.filter(u => !calFeedCache[u]);
+  if(!toFetch.length) return;
+  Promise.all(toFetch.map(fetchFeed)).then(()=>{ if(ui.activeTab==='calendar') renderBody(); });
+}
+
+function fmtEventRange(ev){
+  try {
+    const start = new Date(ev.start);
+    let end = ev.end ? new Date(ev.end) : null;
+    if(ev.allDay && end){ end = new Date(end); end.setDate(end.getDate()-1); } // Google's all-day end is exclusive
+    const opts = {day:'numeric', month:'short'};
+    const startStr = start.toLocaleDateString('en-NZ', opts);
+    if(!end || isSameDay(start,end)) return startStr;
+    return startStr + ' – ' + end.toLocaleDateString('en-NZ', opts);
+  } catch(e){ return ''; }
+}
+function isSameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
+
+function feedListHtml(url, flowerClass){
+  if(!url) return '';
+  const cache = calFeedCache[url];
+  if(!cache || cache.loading) return `<div class="empty" style="padding:16px;">Loading bookings…</div>`;
+  if(cache.error) return ''; // quietly fall back to the "open calendar" link below — no scary message for daily use
+  const events = (cache.events||[]).slice().sort((a,b)=> new Date(a.start) - new Date(b.start));
+  if(!events.length) return `<div class="empty" style="padding:16px;">Nothing booked yet.</div>`;
+  return `<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:10px;">
+    ${events.map(ev=>`
+      <div class="cal-event">
+        <div class="row between">
+          <div class="row" style="gap:9px;">
+            ${flowerClass? `<span class="note-flower ${flowerClass}" style="margin-top:3px;"></span>` : ''}
+            <span style="font-weight:600; font-size:13.5px; color:var(--bark);">${esc(ev.title||'Booking')}</span>
+          </div>
+          <span class="weekrange" style="white-space:nowrap;">${fmtEventRange(ev)}</span>
+        </div>
+        ${ev.description? `<div class="note-meta" style="margin-top:5px; margin-left:${flowerClass?'17px':'0'}; white-space:pre-wrap;">${esc(ev.description)}</div>` : ''}
+      </div>`).join('')}
+  </div>`;
+}
+
+const CAL_DEFS = [
+  { key:'kowhai', label:'Kōwhai Tent', pillClass:'kowhai', flower:'kowhai' },
+  { key:'pohutukawa', label:'Pōhutukawa Tent', pillClass:'pohutukawa', flower:'pohutukawa' },
+  { key:'addons', label:'Add-Ons & Catering', pillClass:'addons', flower:'addons' },
+  { key:'roster', label:'Team Roster', pillClass:'roster', flower:'roster' },
+];
+
+function viewCalendar(){
+  const cs = state.calendarSettings;
+  const hasAny = CAL_DEFS.some(d => cs[d.key+'Feed'] || cs[d.key+'Link']);
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">Who's coming</div>
+      <h2>Calendar</h2>
+    </div>
+    ${!hasAny || ui.calendarEditing ? `
+      <div class="banner">${ICONS.warn}<div><strong>Tap "Open full calendar" on each card below</strong> — that opens your real Google Calendar with everything in it. The "feed URL" fields are there if you want to try showing bookings inline, but this chat-based preview blocks background requests to outside services, so it likely won't load here — the link is the reliable option for now.</div></div>
+      <div class="card formgrid">
+        ${CAL_DEFS.map(d=>`
+          <span class="field-label">${d.label} — link to open</span>
+          <input id="cal-${d.key}-link" value="${esc(cs[d.key+'Link'])}" placeholder="https://calendar.google.com/calendar/..." />
+        `).join('')}
+        <hr class="div" />
+        ${CAL_DEFS.map(d=>`
+          <span class="field-label">${d.label} — feed URL (optional, may not load here)</span>
+          <input id="cal-${d.key}-feed" value="${esc(cs[d.key+'Feed'])}" placeholder="https://script.google.com/macros/s/.../exec?tent=${d.key}" />
+        `).join('')}
+        <button class="btn btn-primary" onclick="wcSaveCalendar()">Save calendar links</button>
+      </div>
+    ` : `<button class="btn-text" onclick="wcEditCalendar()">Edit calendar links</button>`}
+
+    ${CAL_DEFS.map(d=>{
+      const feed = cs[d.key+'Feed'], link = cs[d.key+'Link'];
+      if(!feed && !link) return '';
+      return `<div class="card">
+        <div class="row between" style="margin-bottom:9px;">
+          ${d.pillClass? `<span class="pill ${d.pillClass} on"><span class="dot" style="background:var(--${d.flower})"></span>${d.label}</span>` : `<span class="field-label" style="margin:0;">${d.label}</span>`}
+          ${feed? `<button class="icon-btn" onclick="wcRefreshFeed('${esc(feed)}')">${ICONS.refresh}</button>` : ''}
+        </div>
+        ${feed? feedListHtml(feed, d.flower) : ''}
+        ${link? `<a class="btn btn-primary btn-block" href="${esc(link)}" target="_blank" rel="noopener">Open full calendar →</a>` : ''}
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+window.wcEditCalendar = function(){ ui.calendarEditing = true; renderBody(); };
+window.wcRefreshFeed = function(url){ delete calFeedCache[url]; renderBody(); ensureCalendarFeeds(); };
+window.wcSaveCalendar = async function(){
+  const next = {};
+  CAL_DEFS.forEach(d=>{
+    next[d.key+'Feed'] = document.getElementById('cal-'+d.key+'-feed').value.trim();
+    next[d.key+'Link'] = document.getElementById('cal-'+d.key+'-link').value.trim();
+  });
+  state.calendarSettings = next;
+  ui.calendarEditing = false;
+  await setJSON('calendar-settings', state.calendarSettings);
+  renderBody();
+};
+
+/* ================= SHOPPING LIST ================= */
+const WEEKLY_STORES = ['Supermarket','Mitre 10','Gilmours','Other'];
+const ORDER_SUPPLIERS = ['Ashley & Co','Firewood','Other'];
+
+function viewShopping(){
+  const tab = ui.shoppingTab;
+  const list = tab==='weekly'? state.shopping.weekly : state.shopping.order;
+  const stores = tab==='weekly'? WEEKLY_STORES : ORDER_SUPPLIERS;
+  const sorted = list.slice().sort((a,b)=> (a.checked===b.checked? 0 : (a.checked?1:-1)));
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">Stock up</div>
+      <h2>Shopping list</h2>
+    </div>
+    <div class="subtab-row">
+      <button class="pill ${tab==='weekly'?'on':''}" style="${tab==='weekly'?'background:var(--bark);color:var(--cream);border-color:var(--bark);':''}" onclick="wcSetShoppingTab('weekly')">Weekly shop</button>
+      <button class="pill ${tab==='order'?'on':''}" style="${tab==='order'?'background:var(--bark);color:var(--cream);border-color:var(--bark);':''}" onclick="wcSetShoppingTab('order')">Needs ordering</button>
+    </div>
+    <div class="card formgrid">
+      <span class="field-label">Add an item</span>
+      <input id="sh-item" placeholder="e.g. ${tab==='weekly'?'Tea bags':'Firewood — 1 trailer load'}" />
+      <div class="two-col">
+        <select id="sh-store">${stores.map(s=>`<option value="${s}">${s}</option>`).join('')}</select>
+        <button class="btn btn-primary" onclick="wcAddShopping()">${ICONS.plus} Add</button>
+      </div>
+    </div>
+    <div class="row between">
+      <span class="field-label" style="margin:0;">${list.length} item(s)</span>
+      ${list.some(i=>i.checked)? `<button class="btn-danger-text" onclick="wcClearChecked()">Clear ticked items</button>` : ''}
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      ${sorted.length? sorted.map(i=>`
+        <div class="card row between">
+          <div class="row" style="gap:10px; flex:1;">
+            <button class="check-btn ${i.checked?'checked':''}" onclick="wcToggleShopping('${i.id}')">${i.checked?ICONS.check:''}</button>
+            <span class="${i.checked?'checked-text':''}" style="font-size:14px;">${esc(i.item)}</span>
+          </div>
+          <span class="badge ${tab==='weekly'?'store':'order'}">${esc(i.store)}</span>
+          <button class="icon-btn" onclick="wcDeleteShopping('${i.id}')">${ICONS.trash}</button>
+        </div>`).join('')
+      : `<div class="empty">${ICONS.empty}<div>Nothing on this list.</div></div>`}
+    </div>
+  </div>`;
+}
+window.wcSetShoppingTab = function(t){ ui.shoppingTab = t; renderBody(); };
+window.wcAddShopping = async function(){
+  const item = document.getElementById('sh-item').value.trim();
+  if(!item) return;
+  const store = document.getElementById('sh-store').value;
+  const key = ui.shoppingTab==='weekly'? 'weekly' : 'order';
+  state.shopping[key].unshift({id:uid(), item, store, checked:false});
+  await setJSON('shopping-'+key, state.shopping[key]);
+  renderBody();
+};
+window.wcToggleShopping = async function(id){
+  const key = ui.shoppingTab==='weekly'? 'weekly' : 'order';
+  const it = state.shopping[key].find(i=>i.id===id);
+  if(it){ it.checked = !it.checked; await setJSON('shopping-'+key, state.shopping[key]); renderBody(); }
+};
+window.wcDeleteShopping = async function(id){
+  const key = ui.shoppingTab==='weekly'? 'weekly' : 'order';
+  state.shopping[key] = state.shopping[key].filter(i=>i.id!==id);
+  await setJSON('shopping-'+key, state.shopping[key]);
+  renderBody();
+};
+window.wcClearChecked = async function(){
+  const key = ui.shoppingTab==='weekly'? 'weekly' : 'order';
+  state.shopping[key] = state.shopping[key].filter(i=>!i.checked);
+  await setJSON('shopping-'+key, state.shopping[key]);
+  renderBody();
+};
+
+/* ================= TENT TO-DO ================= */
+window.wcSetTodoTent = function(t){ ui.todoTent = t; renderBody(); };
+function viewTodo(){
+  const tent = ui.todoTent;
+  const list = state.todo[tent].slice().sort((a,b)=> a.done===b.done? 0 : (a.done?1:-1));
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">When there's extra time</div>
+      <h2>Tent to-do list</h2>
+    </div>
+    ${tentPillRow('todoTent','wcSetTodoTent')}
+    <div class="card formgrid">
+      <span class="field-label">Add a task</span>
+      <div class="row" style="gap:8px;">
+        <input id="td-text" placeholder="e.g. Wipe down pizza oven, restock firewood basket" />
+        <button class="btn btn-primary btn-sm" onclick="wcAddTodo()">${ICONS.plus}</button>
+      </div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      ${list.length? list.map(t=>`
+        <div class="card row between">
+          <div class="row" style="gap:10px; flex:1;">
+            <button class="check-btn ${t.done?'checked':''}" onclick="wcToggleTodo('${tent}','${t.id}')">${t.done?ICONS.check:''}</button>
+            <span class="${t.done?'checked-text':''}" style="font-size:14px;">${esc(t.text)}</span>
+          </div>
+          <button class="icon-btn" onclick="wcDeleteTodo('${tent}','${t.id}')">${ICONS.trash}</button>
+        </div>`).join('')
+      : `<div class="empty">${ICONS.empty}<div>No tasks on the list for this tent.</div></div>`}
+    </div>
+  </div>`;
+}
+window.wcAddTodo = async function(){
+  const text = document.getElementById('td-text').value.trim();
+  if(!text) return;
+  const tent = ui.todoTent;
+  state.todo[tent].push({id:uid(), text, done:false});
+  await setJSON('todo-'+tent, state.todo[tent]);
+  renderBody();
+};
+window.wcToggleTodo = async function(tent, id){
+  const it = state.todo[tent].find(i=>i.id===id);
+  if(it){ it.done=!it.done; await setJSON('todo-'+tent, state.todo[tent]); renderBody(); }
+};
+window.wcDeleteTodo = async function(tent, id){
+  state.todo[tent] = state.todo[tent].filter(i=>i.id!==id);
+  await setJSON('todo-'+tent, state.todo[tent]);
+  renderBody();
+};
+
+/* ================= KEY INFO ================= */
+function viewKeyInfo(){
+  const groups = {};
+  state.keyinfo.forEach(i=>{ (groups[i.category]=groups[i.category]||[]).push(i); });
+  const catNames = Object.keys(groups);
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">Good to have on hand</div>
+      <h2>Key info</h2>
+    </div>
+    <div class="banner">${ICONS.warn}<div>This list is stored in plain text and visible to anyone with the app link — fine for shared things like wifi passwords and gate codes, but for anything sensitive (banking, Stripe, Xero logins) keep the real password in a proper password manager and just note a hint here.</div></div>
+    <div class="card formgrid">
+      <span class="field-label">Add an entry</span>
+      <input id="ki-category" placeholder="Category, e.g. Wifi & codes, Phone numbers, Logins" />
+      <div class="two-col">
+        <input id="ki-label" placeholder="Label, e.g. Kōwhai wifi" />
+        <input id="ki-value" placeholder="Value" />
+      </div>
+      <input id="ki-notes" placeholder="Notes (optional)" />
+      <button class="btn btn-primary" onclick="wcAddKeyInfo()">${ICONS.plus} Add</button>
+    </div>
+    ${catNames.length? catNames.map(cat=>`
+      <div>
+        <div class="tag-cat">${esc(cat)}</div>
+        <div class="card">
+          ${groups[cat].map(i=>`
+            <div class="kv-row">
+              <div>
+                <div class="kv-label">${esc(i.label)}</div>
+                ${i.notes? `<div class="note-meta">${esc(i.notes)}</div>` : ''}
+              </div>
+              <div class="row" style="gap:6px;">
+                <span class="kv-value ${ui.revealedKeys[i.id]?'':'hidden-val'}">${esc(i.value)}</span>
+                <button class="icon-btn" onclick="wcRevealKey('${i.id}')">${ICONS.eye}</button>
+                <button class="icon-btn" onclick="wcDeleteKeyInfo('${i.id}')">${ICONS.trash}</button>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`).join('')
+    : `<div class="empty">${ICONS.empty}<div>No key info saved yet.</div></div>`}
+  </div>`;
+}
+window.wcRevealKey = function(id){ ui.revealedKeys[id] = !ui.revealedKeys[id]; renderBody(); };
+window.wcAddKeyInfo = async function(){
+  const category = document.getElementById('ki-category').value.trim() || 'General';
+  const label = document.getElementById('ki-label').value.trim();
+  const value = document.getElementById('ki-value').value.trim();
+  const notes = document.getElementById('ki-notes').value.trim();
+  if(!label || !value) return;
+  state.keyinfo.push({id:uid(), category, label, value, notes});
+  await setJSON('key-info', state.keyinfo);
+  renderBody();
+};
+window.wcDeleteKeyInfo = async function(id){
+  state.keyinfo = state.keyinfo.filter(i=>i.id!==id);
+  await setJSON('key-info', state.keyinfo);
+  renderBody();
+};
+
+/* ================= INIT ================= */
+async function init(){
+  document.getElementById('wc-body').innerHTML = '<div class="empty">Loading…</div>';
+  await loadAll();
+  ui.timesheetMonday = isoDate(mondayOf(new Date()));
+  ui.timesheetDay = weekDates(ui.timesheetMonday)[0];
+  await loadWeek(ui.timesheetMonday);
+  renderNav();
+  renderBody();
+}
+init();
+
+})();
+</script>
