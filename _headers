@@ -1,0 +1,15 @@
+# Password-protects the /team page (or whatever path you put the app at) using Netlify's
+# Basic Auth support. Works on every Netlify plan, no upgrade needed.
+#
+# To change the password: edit the line below, commit, push — Netlify picks it up on the
+# next deploy (usually live within a minute or two).
+#
+# To give different staff their own login instead of one shared password, add more
+# Basic-Auth lines under the same path, one per person, e.g.:
+#   Basic-Auth: shantelle:herpassword
+#   Basic-Auth: dijana:herpassword
+# Each line is a separate valid login — handy if someone leaves and you only want to
+# revoke their line rather than changing everyone's password.
+
+/team/*
+  Basic-Auth: team:changeme123
