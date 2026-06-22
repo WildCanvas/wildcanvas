@@ -12,4 +12,4 @@
 # revoke their line rather than changing everyone's password.
 
 /team/*
-  Basic-Auth: team:changeme123
+  Basic-Auth: team:2332
