@@ -696,6 +696,14 @@ function isEventActiveToday(ev){
     return today >= start && today < end;
   } catch(e){ return false; }
 }
+function eventStartsWithinDays(ev, days){
+  try {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const limit = new Date(today); limit.setDate(limit.getDate()+days);
+    const start = new Date(ev.start); start.setHours(0,0,0,0);
+    return start > today && start <= limit;
+  } catch(e){ return false; }
+}
 
 function eventRowHtml(ev, flowerClass){
   return `<div class="cal-event">
@@ -720,11 +728,12 @@ function feedListHtml(url, flowerClass, calKey){
 
   const expanded = !!ui.calendarExpanded[calKey];
   const todayEvents = events.filter(isEventActiveToday);
-  const otherEvents = events.filter(ev => !isEventActiveToday(ev));
+  const upcomingEvents = events.filter(ev => eventStartsWithinDays(ev,7));
 
   if(expanded){
+    const combined = todayEvents.concat(upcomingEvents);
     return `<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:10px;">
-      ${events.map(ev=>eventRowHtml(ev, flowerClass)).join('')}
+      ${combined.length ? combined.map(ev=>eventRowHtml(ev, flowerClass)).join('') : `<div class="empty" style="padding:12px;">Nothing in the next 7 days.</div>`}
     </div>
     <button class="btn-text" onclick="wcToggleCalExpand('${calKey}')">Show today only</button>`;
   }
@@ -732,8 +741,8 @@ function feedListHtml(url, flowerClass, calKey){
   const todayHtml = todayEvents.length
     ? `<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:10px;">${todayEvents.map(ev=>eventRowHtml(ev, flowerClass)).join('')}</div>`
     : `<div class="empty" style="padding:12px;">Nothing today.</div>`;
-  const moreBtn = otherEvents.length
-    ? `<button class="btn-text" onclick="wcToggleCalExpand('${calKey}')">See ${otherEvents.length} more upcoming →</button>`
+  const moreBtn = upcomingEvents.length
+    ? `<button class="btn-text" onclick="wcToggleCalExpand('${calKey}')">See ${upcomingEvents.length} more in the next 7 days →</button>`
     : '';
   return todayHtml + moreBtn;
 }
