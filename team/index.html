@@ -254,6 +254,7 @@ let ui = {
   timesheetMonday: null,
   timesheetDay: null,
   calendarEditing: false,
+  calendarExpanded: {},
   revealedKeys: {},
 };
 
@@ -686,27 +687,60 @@ function fmtEventRange(ev){
 }
 function isSameDay(a,b){ return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate(); }
 
-function feedListHtml(url, flowerClass){
+function isEventActiveToday(ev){
+  try {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const start = new Date(ev.start); start.setHours(0,0,0,0);
+    const end = ev.end ? new Date(ev.end) : new Date(start.getTime()+86400000);
+    end.setHours(0,0,0,0);
+    return today >= start && today < end;
+  } catch(e){ return false; }
+}
+
+function eventRowHtml(ev, flowerClass){
+  return `<div class="cal-event">
+    <div class="row between">
+      <div class="row" style="gap:9px;">
+        ${flowerClass? `<span class="note-flower ${flowerClass}" style="margin-top:3px;"></span>` : ''}
+        <span style="font-weight:600; font-size:13.5px; color:var(--bark);">${esc(ev.title||'Booking')}</span>
+      </div>
+      <span class="weekrange" style="white-space:nowrap;">${fmtEventRange(ev)}</span>
+    </div>
+    ${ev.description? `<div class="note-meta" style="margin-top:5px; margin-left:${flowerClass?'17px':'0'}; white-space:pre-wrap;">${esc(ev.description)}</div>` : ''}
+  </div>`;
+}
+
+function feedListHtml(url, flowerClass, calKey){
   if(!url) return '';
   const cache = calFeedCache[url];
   if(!cache || cache.loading) return `<div class="empty" style="padding:16px;">Loading bookings…</div>`;
   if(cache.error) return ''; // quietly fall back to the "open calendar" link below — no scary message for daily use
   const events = (cache.events||[]).slice().sort((a,b)=> new Date(a.start) - new Date(b.start));
   if(!events.length) return `<div class="empty" style="padding:16px;">Nothing booked yet.</div>`;
-  return `<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:10px;">
-    ${events.map(ev=>`
-      <div class="cal-event">
-        <div class="row between">
-          <div class="row" style="gap:9px;">
-            ${flowerClass? `<span class="note-flower ${flowerClass}" style="margin-top:3px;"></span>` : ''}
-            <span style="font-weight:600; font-size:13.5px; color:var(--bark);">${esc(ev.title||'Booking')}</span>
-          </div>
-          <span class="weekrange" style="white-space:nowrap;">${fmtEventRange(ev)}</span>
-        </div>
-        ${ev.description? `<div class="note-meta" style="margin-top:5px; margin-left:${flowerClass?'17px':'0'}; white-space:pre-wrap;">${esc(ev.description)}</div>` : ''}
-      </div>`).join('')}
-  </div>`;
+
+  const expanded = !!ui.calendarExpanded[calKey];
+  const todayEvents = events.filter(isEventActiveToday);
+  const otherEvents = events.filter(ev => !isEventActiveToday(ev));
+
+  if(expanded){
+    return `<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:10px;">
+      ${events.map(ev=>eventRowHtml(ev, flowerClass)).join('')}
+    </div>
+    <button class="btn-text" onclick="wcToggleCalExpand('${calKey}')">Show today only</button>`;
+  }
+
+  const todayHtml = todayEvents.length
+    ? `<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:10px;">${todayEvents.map(ev=>eventRowHtml(ev, flowerClass)).join('')}</div>`
+    : `<div class="empty" style="padding:12px;">Nothing today.</div>`;
+  const moreBtn = otherEvents.length
+    ? `<button class="btn-text" onclick="wcToggleCalExpand('${calKey}')">See ${otherEvents.length} more upcoming →</button>`
+    : '';
+  return todayHtml + moreBtn;
 }
+window.wcToggleCalExpand = function(calKey){
+  ui.calendarExpanded[calKey] = !ui.calendarExpanded[calKey];
+  renderBody();
+};
 
 const CAL_DEFS = [
   { key:'kowhai', label:'Kōwhai Tent', pillClass:'kowhai', flower:'kowhai' },
@@ -748,7 +782,7 @@ function viewCalendar(){
           ${d.pillClass? `<span class="pill ${d.pillClass} on"><span class="dot" style="background:var(--${d.flower})"></span>${d.label}</span>` : `<span class="field-label" style="margin:0;">${d.label}</span>`}
           ${feed? `<button class="icon-btn" onclick="wcRefreshFeed('${esc(feed)}')">${ICONS.refresh}</button>` : ''}
         </div>
-        ${feed? feedListHtml(feed, d.flower) : ''}
+        ${feed? feedListHtml(feed, d.flower, d.key) : ''}
         ${link? `<a class="btn btn-primary btn-block" href="${esc(link)}" target="_blank" rel="noopener">Open full calendar →</a>` : ''}
       </div>`;
     }).join('')}
