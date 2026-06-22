@@ -110,6 +110,7 @@ html, body { margin:0; padding:0; background:#FBF6EE; }
 .pill .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .pill.kowhai.on { background:rgba(63,143,79,0.16); color:#2c5f37; border-color:rgba(63,143,79,0.45); }
 .pill.pohutukawa.on { background:rgba(194,65,43,0.13); color:var(--pohutukawa); border-color:rgba(194,65,43,0.45); }
+.pill.other.on { background:rgba(193,153,101,0.22); color:#6b5436; border-color:rgba(193,153,101,0.5); }
 .pill.addons.on { background:rgba(224,165,38,0.20); color:#7a5610; border-color:rgba(224,165,38,0.5); }
 .pill.roster.on { background:rgba(124,82,149,0.16); color:#4f3361; border-color:rgba(124,82,149,0.45); }
 
@@ -288,7 +289,7 @@ const TABS = [
 let state = {
   handover: { kowhai: [], pohutukawa: [] },
   maintenance: [],
-  todo: { kowhai: [], pohutukawa: [] },
+  todo: { kowhai: [], pohutukawa: [], other: [] },
   shopping: { weekly: [], order: [] },
   keyinfo: [],
   calendarSettings: { kowhai:'', pohutukawa:'', team:'' },
@@ -309,12 +310,13 @@ let ui = {
 };
 
 async function loadAll(){
-  const [handoverK, handoverP, maint, todoK, todoP, shopW, shopO, kinfo, calset, roster] = await Promise.all([
+  const [handoverK, handoverP, maint, todoK, todoP, todoO, shopW, shopO, kinfo, calset, roster] = await Promise.all([
     getJSON('handover-kowhai', []),
     getJSON('handover-pohutukawa', []),
     getJSON('maintenance-items', []),
     getJSON('todo-kowhai', []),
     getJSON('todo-pohutukawa', []),
+    getJSON('todo-other', []),
     getJSON('shopping-weekly', []),
     getJSON('shopping-order', []),
     getJSON('key-info', []),
@@ -335,6 +337,7 @@ async function loadAll(){
   state.maintenance = maint;
   state.todo.kowhai = todoK;
   state.todo.pohutukawa = todoP;
+  state.todo.other = todoO;
   state.shopping.weekly = shopW;
   state.shopping.order = shopO;
   state.keyinfo = kinfo;
@@ -411,10 +414,11 @@ function renderBody(){
   }
 }
 
-function tentPillRow(activeVar, onclickName){
+function tentPillRow(activeVar, onclickName, includeOther){
   return `<div class="pillrow">
     <button class="pill kowhai ${ui[activeVar]==='kowhai'?'on':''}" onclick="${onclickName}('kowhai')"><span class="dot" style="background:var(--kowhai)"></span>Kōwhai Tent</button>
     <button class="pill pohutukawa ${ui[activeVar]==='pohutukawa'?'on':''}" onclick="${onclickName}('pohutukawa')"><span class="dot" style="background:var(--pohutukawa)"></span>Pōhutukawa Tent</button>
+    ${includeOther? `<button class="pill other ${ui[activeVar]==='other'?'on':''}" onclick="${onclickName}('other')"><span class="dot" style="background:var(--harvest)"></span>Other</button>` : ''}
   </div>`;
 }
 
@@ -943,16 +947,19 @@ window.wcSetTodoTent = function(t){ ui.todoTent = t; renderBody(); };
 function viewTodo(){
   const tent = ui.todoTent;
   const list = state.todo[tent].slice().sort((a,b)=> a.done===b.done? 0 : (a.done?1:-1));
+  const placeholder = tent==='other'
+    ? 'e.g. Do the recycling, restock the office printer paper'
+    : 'e.g. Wipe down pizza oven, restock firewood basket';
   return `
   <div class="section">
     <div>
       <div class="wc-eyebrow">When there's extra time</div>
-      <h2>Tent to-do list</h2>
+      <h2>To-do list</h2>
     </div>
-    ${tentPillRow('todoTent','wcSetTodoTent')}
+    ${tentPillRow('todoTent','wcSetTodoTent', true)}
     <div class="card formgrid">
       <span class="field-label">Add a task</span>
-      <textarea id="td-text" rows="2" placeholder="e.g. Wipe down pizza oven, restock firewood basket"></textarea>
+      <textarea id="td-text" rows="2" placeholder="${placeholder}"></textarea>
       <button class="btn btn-primary" onclick="wcAddTodo()">${ICONS.plus} Add task</button>
     </div>
     <div style="display:flex; flex-direction:column; gap:8px;">
@@ -964,7 +971,7 @@ function viewTodo(){
           </div>
           ${delBtnHtml('td-'+tent+'-'+t.id, `wcDeleteTodo('${tent}','${t.id}')`)}
         </div>`).join('')
-      : `<div class="empty">${ICONS.empty}<div>No tasks on the list for this tent.</div></div>`}
+      : `<div class="empty">${ICONS.empty}<div>No tasks on this list yet.</div></div>`}
     </div>
   </div>`;
 }
