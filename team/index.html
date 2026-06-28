@@ -407,12 +407,16 @@ function renderBody(){
   switch(ui.activeTab){
     case 'handover': body.innerHTML = viewHandover(); break;
     case 'maintenance': body.innerHTML = viewMaintenance(); break;
-    case 'timesheet': body.innerHTML = viewTimesheet(); break;
+    case 'timesheet': body.innerHTML = viewTimesheet(); scrollActiveDayTabIntoView(); break;
     case 'calendar': body.innerHTML = viewCalendar(); ensureCalendarFeeds(); break;
     case 'shopping': body.innerHTML = viewShopping(); break;
     case 'todo': body.innerHTML = viewTodo(); break;
     case 'keyinfo': body.innerHTML = viewKeyInfo(); break;
   }
+}
+function scrollActiveDayTabIntoView(){
+  const el = document.querySelector('#ts-daytabs .daytab.active');
+  if(el) el.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
 }
 
 function tentPillRow(activeVar, onclickName, includeOther){
@@ -630,10 +634,13 @@ function viewTimesheet(){
       <button class="btn-text" onclick="wcToggleTimesheetView()">${viewMode==='day'? 'See week summary →' : '← Back to day view'}</button>
     </div>
     ${viewMode==='day' ? `
-      <div class="daytabs">
+      <div class="daytabs" id="ts-daytabs">
         ${dates.map((d,i)=>`<button class="daytab ${d===dayIso?'active':''}" onclick="wcSetTimesheetDay('${d}')">${DAY_NAMES[i].slice(0,3)}<br><span style="font-weight:400;opacity:0.8;">${fmtDateShort(d)}</span></button>`).join('')}
       </div>
       <div class="card" style="overflow-x:auto;">
+        <div class="row between" style="margin-bottom:10px;">
+          <h3 style="font-size:16px;">Now entering: ${DAY_NAMES[dates.indexOf(dayIso)]}, ${fmtDateShort(dayIso)}</h3>
+        </div>
         <table class="wc-table">
           <thead><tr>
             <th>Name</th><th>Start</th><th>Finish</th><th>Massage<br>BNS</th><th>Massage<br>FB</th><th>Total</th><th>Notes</th><th></th>
