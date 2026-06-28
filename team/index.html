@@ -591,6 +591,13 @@ async function loadWeek(mondayIso){
   }
 }
 
+function isWeekLocked(mondayIso){
+  const monday = new Date(mondayIso+'T00:00:00');
+  const unlockEnds = new Date(monday); unlockEnds.setDate(unlockEnds.getDate()+7); // the following Monday
+  const today = new Date(); today.setHours(0,0,0,0);
+  return today >= unlockEnds;
+}
+
 function viewTimesheet(){
   if(!ui.timesheetMonday){
     ui.timesheetMonday = isoDate(mondayOf(new Date()));
@@ -602,6 +609,7 @@ function viewTimesheet(){
   const dayIso = ui.timesheetDay;
   const dayRows = wk.days[dayIso] || [];
   const viewMode = ui.timesheetView || 'day';
+  const locked = isWeekLocked(mondayIso);
 
   // weekly totals per name
   const totals = {};
@@ -641,15 +649,16 @@ function viewTimesheet(){
         <div class="row between" style="margin-bottom:10px;">
           <h3 style="font-size:16px;">Now entering: ${DAY_NAMES[dates.indexOf(dayIso)]}, ${fmtDateShort(dayIso)}</h3>
         </div>
+        ${locked? `<div class="banner" style="margin-bottom:10px;">${ICONS.warn}<div>This week is locked — it's now read-only so past hours can't be changed after the fact. Reach out if something here needs correcting.</div></div>` : ''}
         <table class="wc-table">
           <thead><tr>
             <th>Name</th><th>Start</th><th>Finish</th><th>Massage<br>BNS</th><th>Massage<br>FB</th><th>Total</th><th>Notes</th><th></th>
           </tr></thead>
           <tbody id="ts-tbody">
-            ${dayRows.map(r=>tsRowHtml(dayIso, r)).join('')}
+            ${dayRows.map(r=>tsRowHtml(dayIso, r, locked)).join('')}
           </tbody>
         </table>
-        <button class="btn-text" onclick="wcAddTimesheetRow('${dayIso}')">${ICONS.plus} Add person for this day</button>
+        ${!locked? `<button class="btn-text" onclick="wcAddTimesheetRow('${dayIso}')">${ICONS.plus} Add person for this day</button>` : ''}
       </div>
     ` : weekSummaryHtml(wk, dates)}
     <div class="card">
@@ -700,23 +709,24 @@ window.wcToggleTimesheetView = function(){
   renderBody();
 };
 
-function tsRowHtml(dayIso, r){
+function tsRowHtml(dayIso, r, locked){
+  const dis = locked ? 'disabled' : '';
   const isShantelle = (r.name||'').trim().toLowerCase()==='shantelle';
   const bnsCell = isShantelle
-    ? `<input value="${esc(r.bns)}" style="width:48px;" onchange="wcTsField('${dayIso}','${r.id}','bns',this.value)" />`
+    ? `<input value="${esc(r.bns)}" style="width:48px;" ${dis} onchange="wcTsField('${dayIso}','${r.id}','bns',this.value)" />`
     : `<span style="color:#c4b8a6;">—</span>`;
   const fbCell = isShantelle
-    ? `<input value="${esc(r.fb)}" style="width:48px;" onchange="wcTsField('${dayIso}','${r.id}','fb',this.value)" />`
+    ? `<input value="${esc(r.fb)}" style="width:48px;" ${dis} onchange="wcTsField('${dayIso}','${r.id}','fb',this.value)" />`
     : `<span style="color:#c4b8a6;">—</span>`;
   return `<tr data-row-id="${r.id}">
-    <td><input value="${esc(r.name)}" style="min-width:78px;" onchange="wcTsField('${dayIso}','${r.id}','name',this.value)" /></td>
-    <td><input type="time" value="${esc(r.start)}" style="min-width:88px;" onchange="wcTsField('${dayIso}','${r.id}','start',this.value)" /></td>
-    <td><input type="time" value="${esc(r.finish)}" style="min-width:88px;" onchange="wcTsField('${dayIso}','${r.id}','finish',this.value)" /></td>
+    <td><input value="${esc(r.name)}" style="min-width:78px;" ${dis} onchange="wcTsField('${dayIso}','${r.id}','name',this.value)" /></td>
+    <td><input type="time" value="${esc(r.start)}" style="min-width:88px;" ${dis} onchange="wcTsField('${dayIso}','${r.id}','start',this.value)" /></td>
+    <td><input type="time" value="${esc(r.finish)}" style="min-width:88px;" ${dis} onchange="wcTsField('${dayIso}','${r.id}','finish',this.value)" /></td>
     <td>${bnsCell}</td>
     <td>${fbCell}</td>
     <td class="tot-cell" id="tot-${r.id}">${minutesToHM(rowTotalMinutes(r))}</td>
-    <td><input value="${esc(r.notes)}" style="min-width:110px;" placeholder="—" onchange="wcTsField('${dayIso}','${r.id}','notes',this.value)" /></td>
-    <td>${delBtnHtml('ts-'+dayIso+'-'+r.id, `wcDeleteTsRow('${dayIso}','${r.id}')`)}</td>
+    <td><input value="${esc(r.notes)}" style="min-width:110px;" placeholder="—" ${dis} onchange="wcTsField('${dayIso}','${r.id}','notes',this.value)" /></td>
+    <td>${locked ? '' : delBtnHtml('ts-'+dayIso+'-'+r.id, `wcDeleteTsRow('${dayIso}','${r.id}')`)}</td>
   </tr>`;
 }
 
@@ -731,6 +741,7 @@ window.wcChangeWeek = async function(dateVal){
 window.wcSetTimesheetDay = function(d){ ui.timesheetDay = d; renderBody(); };
 
 window.wcTsField = async function(dayIso, rowId, field, value){
+  if(isWeekLocked(ui.timesheetMonday)){ renderBody(); return; }
   const wk = timesheetCache[ui.timesheetMonday];
   const row = (wk.days[dayIso]||[]).find(r=>r.id===rowId);
   if(!row) return;
@@ -740,6 +751,7 @@ window.wcTsField = async function(dayIso, rowId, field, value){
 };
 
 window.wcAddTimesheetRow = async function(dayIso){
+  if(isWeekLocked(ui.timesheetMonday)) return;
   const wk = timesheetCache[ui.timesheetMonday];
   wk.days[dayIso] = wk.days[dayIso] || [];
   wk.days[dayIso].push({id:uid(), name:'', start:'', finish:'', bns:'', fb:'', notes:''});
@@ -747,6 +759,7 @@ window.wcAddTimesheetRow = async function(dayIso){
   renderBody();
 };
 window.wcDeleteTsRow = async function(dayIso, rowId){
+  if(isWeekLocked(ui.timesheetMonday)) return;
   if(!confirmGate('ts-'+dayIso+'-'+rowId)) return;
   const wk = timesheetCache[ui.timesheetMonday];
   wk.days[dayIso] = (wk.days[dayIso]||[]).filter(r=>r.id!==rowId);
