@@ -304,6 +304,7 @@ let ui = {
   shoppingTab: 'weekly',
   timesheetMonday: null,
   timesheetDay: null,
+  timesheetView: 'day',
   calendarEditing: false,
   calendarExpanded: {},
   revealedKeys: {},
@@ -596,11 +597,19 @@ function viewTimesheet(){
   const wk = timesheetCache[mondayIso] || ensureWeekData(mondayIso);
   const dayIso = ui.timesheetDay;
   const dayRows = wk.days[dayIso] || [];
+  const viewMode = ui.timesheetView || 'day';
 
   // weekly totals per name
   const totals = {};
   dates.forEach(d=> (wk.days[d]||[]).forEach(r=>{
     totals[r.name] = (totals[r.name]||0) + rowTotalMinutes(r);
+  }));
+
+  // weekly massage totals (Shantelle's BNS/FB columns)
+  let massageBns = 0, massageFb = 0;
+  dates.forEach(d=> (wk.days[d]||[]).forEach(r=>{
+    const b = parseFloat(r.bns); if(!isNaN(b)) massageBns += b;
+    const f = parseFloat(r.fb); if(!isNaN(f)) massageFb += f;
   }));
 
   return `
@@ -616,20 +625,26 @@ function viewTimesheet(){
       </div>
       <div class="weekrange">${fmtDateShort(dates[0])} – ${fmtDateShort(dates[6])}</div>
     </div>
-    <div class="daytabs">
-      ${dates.map((d,i)=>`<button class="daytab ${d===dayIso?'active':''}" onclick="wcSetTimesheetDay('${d}')">${DAY_NAMES[i].slice(0,3)}<br><span style="font-weight:400;opacity:0.8;">${fmtDateShort(d)}</span></button>`).join('')}
+    <div class="row between">
+      <span class="field-label" style="margin:0;">${viewMode==='day'? 'Day view' : 'Week summary'}</span>
+      <button class="btn-text" onclick="wcToggleTimesheetView()">${viewMode==='day'? 'See week summary →' : '← Back to day view'}</button>
     </div>
-    <div class="card" style="overflow-x:auto;">
-      <table class="wc-table">
-        <thead><tr>
-          <th>Name</th><th>Start</th><th>Finish</th><th>Massage<br>BNS</th><th>Massage<br>FB</th><th>Total</th><th>Notes</th><th></th>
-        </tr></thead>
-        <tbody id="ts-tbody">
-          ${dayRows.map(r=>tsRowHtml(dayIso, r)).join('')}
-        </tbody>
-      </table>
-      <button class="btn-text" onclick="wcAddTimesheetRow('${dayIso}')">${ICONS.plus} Add person for this day</button>
-    </div>
+    ${viewMode==='day' ? `
+      <div class="daytabs">
+        ${dates.map((d,i)=>`<button class="daytab ${d===dayIso?'active':''}" onclick="wcSetTimesheetDay('${d}')">${DAY_NAMES[i].slice(0,3)}<br><span style="font-weight:400;opacity:0.8;">${fmtDateShort(d)}</span></button>`).join('')}
+      </div>
+      <div class="card" style="overflow-x:auto;">
+        <table class="wc-table">
+          <thead><tr>
+            <th>Name</th><th>Start</th><th>Finish</th><th>Massage<br>BNS</th><th>Massage<br>FB</th><th>Total</th><th>Notes</th><th></th>
+          </tr></thead>
+          <tbody id="ts-tbody">
+            ${dayRows.map(r=>tsRowHtml(dayIso, r)).join('')}
+          </tbody>
+        </table>
+        <button class="btn-text" onclick="wcAddTimesheetRow('${dayIso}')">${ICONS.plus} Add person for this day</button>
+      </div>
+    ` : weekSummaryHtml(wk, dates)}
     <div class="card">
       <div class="field-label">Week total by person</div>
       <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
@@ -637,12 +652,46 @@ function viewTimesheet(){
           <div class="kv-row"><span class="kv-label">${esc(name)}</span><span class="tot-cell">${minutesToHM(mins)}</span></div>
         `).join('') : '<div class="empty" style="padding:10px;">No hours logged yet.</div>'}
       </div>
+      ${(massageBns>0 || massageFb>0) ? `
+        <hr class="div" style="margin:10px 0;" />
+        <div class="kv-row"><span class="kv-label">Massages — Back, Neck &amp; Shoulder</span><span class="tot-cell">${massageBns}</span></div>
+        <div class="kv-row"><span class="kv-label">Massages — Full Body</span><span class="tot-cell">${massageFb}</span></div>
+      ` : ''}
     </div>
     <div>
       <button class="btn-text" onclick="wcManageRoster()">Manage team list (${state.roster.length})</button>
     </div>
   </div>`;
 }
+
+function weekSummaryHtml(wk, dates){
+  const dayCards = dates.map((d,i)=>{
+    const rows = (wk.days[d]||[]).filter(r => (r.name||'').trim() || r.start || r.finish || (r.notes||'').trim() || r.bns || r.fb);
+    if(!rows.length) return '';
+    return `<div class="card">
+      <div class="field-label" style="margin-bottom:8px;">${DAY_NAMES[i]} · ${fmtDateShort(d)}</div>
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        ${rows.map(r=>{
+          const timeStr = (r.start||r.finish) ? `${esc(r.start||'—')} – ${esc(r.finish||'—')}` : '';
+          const tot = minutesToHM(rowTotalMinutes(r));
+          return `<div class="cal-event">
+            <div class="row between">
+              <span style="font-weight:600; font-size:13.5px; color:var(--bark);">${esc(r.name||'(no name)')}</span>
+              <span class="weekrange">${timeStr}${timeStr && tot!=='—' ? ' · ' : ''}${tot!=='—'? tot : ''}</span>
+            </div>
+            ${r.notes? `<div class="note-meta" style="margin-top:4px;">${esc(r.notes)}</div>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).filter(Boolean).join('');
+  return dayCards || `<div class="empty">${ICONS.empty}<div>Nothing logged this week yet.</div></div>`;
+}
+
+window.wcToggleTimesheetView = function(){
+  ui.timesheetView = (ui.timesheetView==='day') ? 'summary' : 'day';
+  renderBody();
+};
 
 function tsRowHtml(dayIso, r){
   const isShantelle = (r.name||'').trim().toLowerCase()==='shantelle';
