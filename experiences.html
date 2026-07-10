@@ -246,6 +246,13 @@ a { text-decoration: none; color: inherit; }
 }
 .detail-row select:focus { outline: none; border-color: var(--harvest); }
 
+.menu-list { list-style: none; padding: 0; margin: 0.7rem 0 0; font-size: 0.78rem; line-height: 1.65; color: var(--bark-mid); font-weight: 300; }
+.menu-list li { position: relative; padding-left: 0.9rem; margin-bottom: 0.3rem; }
+.menu-list li::before { content: '·'; position: absolute; left: 0; color: var(--harvest); font-weight: 700; }
+.menu-list li.menu-heading { padding-left: 0; margin: 0.5rem 0 0.25rem; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--harvest); font-weight: 500; }
+.menu-list li.menu-heading::before { content: none; }
+.menu-list li strong { color: var(--bark); font-weight: 500; }
+
 .extra-card-action {
   padding: 1.4rem 1.6rem; display: flex; flex-direction: column;
   align-items: flex-end; justify-content: space-between; min-width: 160px;
@@ -818,25 +825,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 
 var PIZZA_FLAVOURS = [
-  'Veggie - roasted capsicum, red onion, courgette, spinach, feta and basil pesto',
+  'Veggie - roasted capsicum, red onion, courgette, spinach, feta & basil pesto',
   'ABC - apricot chicken, bacon & cream cheese',
-  'Chicken & Cranberry - roasted chicken, cranberry and brie',
-  'Moroccan Lamb - pulled lamb, olives, feta, sundried tomato and tzatziki',
-  'Hawaiian - ham, pineapple and mozzarella',
-  'BBQ Meat Eater - pulled beef, bacon, salami, mozzarella and BBQ sauce'
+  'Chicken & Cranberry - roasted chicken, cranberry & brie',
+  'Pork Belly - pork belly, cream cheese & caramelised onion',
+  'Hawaiian - ham, pineapple & mozzarella',
+  'BBQ Meat Eater - pulled beef, bacon, salami, mozzarella & BBQ sauce'
 ];
 
-var DINNER_MAINS = [
-  'Peri Peri Chicken Legs',
-  'Beef & Blue Cheese Patties',
-  'Beef & Gouda Patties'
+var DINNER_SAUSAGE_STYLES = [
+  'Traditional Pork',
+  'Beef, Herb & Garlic'
 ];
+var DINNER_MAINS = DINNER_SAUSAGE_STYLES; // kept as DINNER_MAINS for compatibility with existing selection logic
 
 var DINNER_SALADS = [
-  'Watercress, Blue Cheese, Red Onion, Toasted Walnuts & Pear',
-  'Pumpkin, Feta & Orzo with Sundried Tomato Dressing',
-  'Broccoli, Cauliflower & Feta in Creamy Yoghurt Dressing',
-  'Roasted Roots, Bacon, Walnut & Orange (bacon optional)'
+  'Harissa Roasted Pumpkin, Garlic Yoghurt & Spiced Chickpea',
+  'Pumpkin, Feta & Orzo Salad with Sundried Tomato Dressing',
+  'Zingy Coleslaw with Spiced Cashews',
+  'Roasted Beetroot, Pickled Onion, Spiced Almond & Feta Salad'
 ];
 
 var EXTRAS = [
@@ -859,7 +866,7 @@ var EXTRAS = [
   {
     id: 'dinner', tents: 'both',
     name: 'Gourmet Dinner', tag: 'Both Tents',
-    desc: 'Per person. Beef scotch, sausages, Volare garlic bread, your choice of main, two salad choices and passionfruit cheesecake. Meat prepped and ready to cook; salads and cheesecake served ready to eat. For every 2 people you can choose 1 main meat and 2 salads.',
+    desc: 'Per person. Beef scotch fillet, Garlic & Herb chicken, Volare garlic bread, your choice of sausage style, two salad choices and passionfruit cheesecake. Meat prepped and ready to cook; salads and cheesecake served ready to eat. For every 2 people you can choose 1 sausage style and 2 salads.',
     img: 'wild-canvas-gourmet-dinner-glamping-waitomo.webp',
     alt: 'Wild Canvas gourmet dinner glamping Waitomo',
     price: 85, unit: 'NZD $85 per person (min. 2)', qty: true, qtyMin: 2, qtyMax: 8, step: 2, dinnerOptions: true, needsDay: true
@@ -915,6 +922,27 @@ function renderExtras() {
 
     var detailsHtml = '';
 
+    // Always-visible ingredient/menu reference lists (shown whether or not the extra is selected)
+    var menuHtml = '';
+    if (ex.id === 'pizza') {
+      menuHtml = '<ul class="menu-list">' + PIZZA_FLAVOURS.map(function(f) {
+        var parts = f.split(' - ');
+        return '<li><strong>' + parts[0] + '</strong> — ' + parts[1] + '</li>';
+      }).join('') + '</ul>';
+    }
+    if (ex.id === 'dinner') {
+      menuHtml = '<ul class="menu-list">'
+        + '<li>Beef scotch fillet</li>'
+        + '<li>Garlic & Herb chicken</li>'
+        + '<li>Sausages — choice of Traditional Pork or Beef, Herb & Garlic</li>'
+        + '<li>Volare garlic bread</li>'
+        + '<li class="menu-heading">Choose 2 salads</li>'
+        + DINNER_SALADS.map(function(s) { return '<li>' + s + '</li>'; }).join('')
+        + '<li class="menu-heading">Dessert</li>'
+        + '<li>Passionfruit cheesecake</li>'
+        + '</ul>';
+    }
+
     if (isSelected) {
       var s = selected[ex.id];
 
@@ -926,7 +954,8 @@ function renderExtras() {
           var cf = (s.flavours || [])[i] !== undefined ? s.flavours[i] : 0;
           detailsHtml += '<div class="detail-row"><label>Pizza ' + (i+1) + ' flavour</label><select onchange="setFlavour(\'' + ex.id + '\',' + i + ',this.value)">';
           PIZZA_FLAVOURS.forEach(function(f, fi) {
-            detailsHtml += '<option value="' + fi + '"' + (cf === fi ? ' selected' : '') + '>' + f.split(' - ')[0] + '</option>';
+            var flabel = f.replace(' - ', ' — ');
+            detailsHtml += '<option value="' + fi + '"' + (cf === fi ? ' selected' : '') + '>' + flabel + '</option>';
           });
           detailsHtml += '</select></div>';
         }
@@ -947,7 +976,7 @@ function renderExtras() {
           var curSet = s.dinnerSets[setN] || {main:0,salad1:0,salad2:1};
           detailsHtml += '<div style="margin-bottom:0.8rem;padding-bottom:0.8rem;border-bottom:1px solid rgba(61,46,30,0.08);">';
           detailsHtml += '<p style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--harvest);font-weight:500;margin-bottom:0.4rem;">' + setLabel + '</p>';
-          detailsHtml += '<div class="detail-row"><label>Main</label><select onchange="setDinnerField(\'' + ex.id + '\',' + setN + ',\'main\',this)">';
+          detailsHtml += '<div class="detail-row"><label>Sausage</label><select onchange="setDinnerField(\'' + ex.id + '\',' + setN + ',\'main\',this)">';
           DINNER_MAINS.forEach(function(m, mi) {
             detailsHtml += '<option value="' + mi + '"' + (curSet.main === mi ? ' selected' : '') + '>' + m + '</option>';
           });
@@ -1017,6 +1046,7 @@ function renderExtras() {
       + '<p class="extra-tag">' + ex.tag + '</p>'
       + '<h3>' + ex.name + '</h3>'
       + '<p>' + ex.desc + '</p>'
+      + menuHtml
       + detailsHtml
       + '</div>'
       + '<div class="extra-card-action">'
