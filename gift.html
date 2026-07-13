@@ -804,10 +804,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="field-hint">If blank, the voucher will be addressed to 'the lucky recipient'.</div>
         </div>
 
-        <div class="field">
-          <label for="message">Personal Message <span style="opacity:0.5;font-weight:300;text-transform:none;letter-spacing:0">(optional)</span></label>
-          <textarea id="message" name="message" placeholder="Add a note to include on the voucher…"></textarea>
-        </div>
 
         <button type="submit" class="btn-purchase" id="purchaseBtn" disabled>
           Select a voucher above to continue
@@ -836,7 +832,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="step">
         <div class="step-num">02</div>
         <div class="step-title">Fill in your details</div>
-        <div class="step-desc">Your name, phone, and email. Add the recipient's name and a personal message if you'd like.</div>
+        <div class="step-desc">Your name, phone, and email. Add the recipient's name if you'd like.</div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
@@ -1023,7 +1019,7 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
   const fname    = document.getElementById('firstname').value.trim();
   const lname    = document.getElementById('lastname').value.trim();
   const recipient= document.getElementById('recipient').value.trim();
-  const message  = document.getElementById('message').value.trim();
+  const message  = '';
 
   // Store details in sessionStorage so you can retrieve on success page
   sessionStorage.setItem('wc_order', JSON.stringify({
@@ -1034,7 +1030,7 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
     email: document.getElementById('email').value.trim(),
     phone: document.getElementById('phone').value.trim(),
     recipient: document.getElementById('recipient').value.trim(),
-    message: document.getElementById('message').value.trim()
+    message: ''
   }));
 
   // Call Netlify create-checkout function
