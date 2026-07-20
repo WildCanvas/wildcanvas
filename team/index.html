@@ -529,7 +529,7 @@ function viewHandover(){
         <button class="btn btn-primary" onclick="wcAddHandover()">${ICONS.plus} Add note</button>
       </div>
     </div>
-    ${gasCheckCard(tent, NAMES)}
+    ${tent==='kowhai' ? gasCheckCard(tent, NAMES) : ''}
     <div style="display:flex; flex-direction:column; gap:9px;">
       ${list.length? list.map(n=>`
         <div class="card note-card">
