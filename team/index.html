@@ -167,7 +167,15 @@ table.wc-table input { padding:6px 7px; font-size:13px; }
 .icon-btn.confirm-del { background:#A6402C; border-color:#A6402C; color:#fff; }
 .icon-btn.spinning svg { animation: wc-spin 0.8s linear infinite; }
 @keyframes wc-spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
-.del-confirm-bubble {
+.gas-card { border-radius:12px; padding:14px 15px; border:2px solid var(--line); }
+.gas-card.ok { background:#f0f9f1; border-color:rgba(63,143,79,0.35); }
+.gas-card.warn { background:#fff8ee; border-color:rgba(224,165,38,0.5); }
+.gas-card.alert { background:#fff0ee; border-color:rgba(194,65,43,0.5); animation: wc-pulse 2s ease-in-out infinite; }
+.gas-card.unknown { background:#f5f2ee; border-color:var(--line); }
+@keyframes wc-pulse { 0%,100%{ box-shadow:0 0 0 0 rgba(194,65,43,0.2); } 50%{ box-shadow:0 0 0 6px rgba(194,65,43,0); } }
+.gas-status { font-size:20px; margin-right:8px; }
+.gas-label { font-weight:600; font-size:14px; color:var(--bark); }
+.gas-since { font-size:12px; color:var(--muted); margin-top:3px; }
   position:absolute; bottom:calc(100% + 7px); right:0; z-index:3;
   background:#A6402C; color:#fff; font-size:11.5px; font-weight:700;
   padding:5px 10px; border-radius:6px; white-space:nowrap;
@@ -177,6 +185,10 @@ table.wc-table input { padding:6px 7px; font-size:13px; }
   content:''; position:absolute; top:100%; right:11px;
   border:5px solid transparent; border-top-color:#A6402C;
 }
+.status-badge { font-size:11px; font-weight:700; letter-spacing:0.3px; padding:5px 9px; border-radius:999px; white-space:nowrap; cursor:pointer; border:none; transition:background .15s; font-family:var(--sans); }
+.status-badge.pending { background:#f0ece6; color:#8a7d6b; }
+.status-badge.ordered { background:#dce8f5; color:#2a5f8f; }
+.status-badge.onway { background:rgba(224,165,38,0.22); color:#7a5610; }
 .icon-btn svg { width:15px; height:15px; }
 
 .banner { display:flex; gap:9px; padding:11px 12px; border-radius:6px; background:var(--candy); font-size:12.5px; line-height:1.4; }
@@ -290,6 +302,7 @@ let state = {
   handover: { kowhai: [], pohutukawa: [] },
   maintenance: [],
   todo: { kowhai: [], pohutukawa: [], other: [] },
+  gasChecks: { kowhai: null, pohutukawa: null },
   shopping: { weekly: [], order: [] },
   keyinfo: [],
   calendarSettings: { kowhai:'', pohutukawa:'', team:'' },
@@ -311,7 +324,7 @@ let ui = {
 };
 
 async function loadAll(){
-  const [handoverK, handoverP, maint, todoK, todoP, todoO, shopW, shopO, kinfo, calset, roster] = await Promise.all([
+  const [handoverK, handoverP, maint, todoK, todoP, todoO, shopW, shopO, kinfo, calset, roster, gasK, gasP] = await Promise.all([
     getJSON('handover-kowhai', []),
     getJSON('handover-pohutukawa', []),
     getJSON('maintenance-items', []),
@@ -332,6 +345,8 @@ async function loadAll(){
       rosterLink:'https://calendar.google.com/calendar/u/0/r?cid=' + encodeURIComponent('c_f19ef1538884c3c772489ad482c3495f51c794a389295700ac64b327c6bec413@group.calendar.google.com'),
     }),
     getJSON('staff-roster', ['Shantelle','Dijana','Ann','Madison']),
+    getJSON('gas-check-kowhai', null),
+    getJSON('gas-check-pohutukawa', null),
   ]);
   state.handover.kowhai = handoverK;
   state.handover.pohutukawa = handoverP;
@@ -344,6 +359,8 @@ async function loadAll(){
   state.keyinfo = kinfo;
   state.calendarSettings = calset;
   state.roster = roster;
+  state.gasChecks.kowhai = gasK;
+  state.gasChecks.pohutukawa = gasP;
 }
 
 /* ---------- date / week helpers ---------- */
@@ -430,6 +447,60 @@ function tentPillRow(activeVar, onclickName, includeOther){
 /* ================= HANDOVER NOTES ================= */
 window.wcSetHandoverTent = function(t){ ui.handoverTent = t; renderBody(); };
 
+function gasCheckCard(tent, NAMES){
+  const history = Array.isArray(state.gasChecks[tent]) ? state.gasChecks[tent] : (state.gasChecks[tent] ? [state.gasChecks[tent]] : []);
+  const latest = history.length ? history[history.length-1] : null;
+  const tentLabel = tent==='kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+  let statusClass = 'unknown', emoji = '🔘', sinceText = 'Never checked — please check now!';
+
+  if(latest && latest.checkedAt){
+    const ms = Date.now() - new Date(latest.checkedAt).getTime();
+    const daysAgo = ms / (1000*60*60*24);
+    const hoursAgo = ms / (1000*60*60);
+    if(hoursAgo < 1) sinceText = `Checked ${Math.round(ms/60000)}m ago by ${esc(latest.by||'team')}`;
+    else if(daysAgo < 1) sinceText = `Checked ${Math.round(hoursAgo)}h ago by ${esc(latest.by||'team')}`;
+    else sinceText = `Checked ${Math.floor(daysAgo)} day${Math.floor(daysAgo)===1?'':'s'} ago by ${esc(latest.by||'team')}`;
+    if(daysAgo < 2){ statusClass='ok'; emoji='🟢'; }
+    else if(daysAgo < 3){ statusClass='warn'; emoji='🟡'; }
+    else { statusClass='alert'; emoji='🔴'; }
+  }
+
+  const isAlert = statusClass==='alert' || statusClass==='unknown';
+  const recentHistory = history.slice().reverse().slice(0,8);
+  const historyHtml = recentHistory.length > 1 ? `
+    <hr class="div" style="margin:10px 0;" />
+    <div class="field-label" style="margin-bottom:6px; font-size:11px;">Check history</div>
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      ${recentHistory.map((h,i)=>{
+        const d = new Date(h.checkedAt);
+        const dateStr = d.toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short'});
+        const timeStr = d.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
+        return `<div class="note-meta" style="${i===0?'font-weight:600;color:var(--bark);':''}">${dateStr} ${timeStr} — ${esc(h.by||'team')}</div>`;
+      }).join('')}
+    </div>` : '';
+
+  return `<div class="gas-card ${statusClass}">
+    <div class="row between" style="align-items:flex-start; gap:10px;">
+      <div style="flex:1;">
+        <div class="row" style="align-items:center; gap:4px; margin-bottom:3px;">
+          <span class="gas-status">${emoji}</span>
+          <span class="gas-label">${tentLabel} bath water gas bottles</span>
+        </div>
+        <div class="gas-since">${sinceText}</div>
+        ${isAlert? `<div style="font-size:12px; color:#A6402C; font-weight:600; margin-top:4px;">⚠️ Guests may have no hot water — check now!</div>` : ''}
+      </div>
+      <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end; flex-shrink:0;">
+        <select id="gas-by-${tent}" style="font-size:12px; padding:5px 7px;">
+          <option value="">Your name</option>
+          ${NAMES.map(n=>`<option value="${n}">${n}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary btn-sm" onclick="wcMarkGasChecked('${tent}')">✓ Mark checked</button>
+      </div>
+    </div>
+    ${historyHtml}
+  </div>`;
+}
+
 function viewHandover(){
   const tent = ui.handoverTent;
   const list = state.handover[tent].slice().sort((a,b)=> (a.done===b.done? b.date.localeCompare(a.date) : (a.done?1:-1)));
@@ -452,6 +523,7 @@ function viewHandover(){
         <button class="btn btn-primary" onclick="wcAddHandover()">${ICONS.plus} Add note</button>
       </div>
     </div>
+    ${gasCheckCard(tent, NAMES)}
     <div style="display:flex; flex-direction:column; gap:9px;">
       ${list.length? list.map(n=>`
         <div class="card note-card">
@@ -466,6 +538,16 @@ function viewHandover(){
     </div>
   </div>`;
 }
+
+window.wcMarkGasChecked = async function(tent){
+  const by = (document.getElementById('gas-by-'+tent)||{}).value || '';
+  if(!by){ alert('Please select your name first.'); return; }
+  const existing = Array.isArray(state.gasChecks[tent]) ? state.gasChecks[tent] : (state.gasChecks[tent] ? [state.gasChecks[tent]] : []);
+  existing.push({ checkedAt: new Date().toISOString(), by });
+  state.gasChecks[tent] = existing;
+  await setJSON('gas-check-'+tent, state.gasChecks[tent]);
+  renderBody();
+};
 
 window.wcAddHandover = async function(){
   const text = document.getElementById('ho-text').value.trim();
@@ -969,23 +1051,37 @@ function viewShopping(){
       ${list.some(i=>i.checked)? `<button class="btn-danger-text" onclick="wcClearChecked()">Clear ticked items</button>` : ''}
     </div>
     <div style="display:flex; flex-direction:column; gap:8px;">
-      ${sorted.length? sorted.map(i=>`
+      ${sorted.length? sorted.map(i=>{
+        const status = i.status || 'pending';
+        const statusLabel = status==='ordered'? '📦 Ordered' : '+ Mark ordered';
+        return `
         <div class="card row between">
           <div class="row" style="gap:10px; flex:1;">
             <button class="check-btn ${i.checked?'checked':''}" onclick="wcToggleShopping('${i.id}')">${i.checked?ICONS.check:''}</button>
             <div style="flex:1;">
               <span class="${i.checked?'checked-text':''}" style="font-size:14px;">${esc(i.item)}</span>
-              ${i.date? `<div class="note-meta">${fmtDateShort(i.date)}</div>` : ''}
+              <div class="note-meta" style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:3px;">
+                ${i.date? `<span>${fmtDateShort(i.date)}</span>` : ''}
+                <button class="status-badge ${status}" onclick="wcCycleStatus('${i.id}')">${statusLabel}</button>
+              </div>
             </div>
           </div>
-          <span class="badge ${tab==='weekly'?'store':'order'}">${esc(i.store)}</span>
+          <span class="badge ${tab==='weekly'?'store':'order'}" style="flex-shrink:0;">${esc(i.store)}</span>
           ${delBtnHtml('sh-'+i.id, `wcDeleteShopping('${i.id}')`)}
-        </div>`).join('')
+        </div>`;
+      }).join('')
       : `<div class="empty">${ICONS.empty}<div>Nothing on this list.</div></div>`}
     </div>
   </div>`;
 }
-window.wcSetShoppingTab = function(t){ ui.shoppingTab = t; renderBody(); };
+window.wcCycleStatus = async function(id){
+  const key = ui.shoppingTab==='weekly'? 'weekly' : 'order';
+  const it = state.shopping[key].find(i=>i.id===id);
+  if(!it) return;
+  it.status = (it.status==='ordered') ? 'pending' : 'ordered';
+  await setJSON('shopping-'+key, state.shopping[key]);
+  renderBody();
+};
 window.wcAddShopping = async function(){
   const item = document.getElementById('sh-item').value.trim();
   if(!item) return;
