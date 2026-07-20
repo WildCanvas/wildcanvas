@@ -423,14 +423,18 @@ window.wcSwitchTab = function(id){
 
 function renderBody(){
   const body = document.getElementById('wc-body');
-  switch(ui.activeTab){
-    case 'handover': body.innerHTML = viewHandover(); break;
-    case 'maintenance': body.innerHTML = viewMaintenance(); break;
-    case 'timesheet': body.innerHTML = viewTimesheet(); scrollActiveDayTabIntoView(); break;
-    case 'calendar': body.innerHTML = viewCalendar(); ensureCalendarFeeds(); break;
-    case 'shopping': body.innerHTML = viewShopping(); break;
-    case 'todo': body.innerHTML = viewTodo(); break;
-    case 'keyinfo': body.innerHTML = viewKeyInfo(); break;
+  try {
+    switch(ui.activeTab){
+      case 'handover': body.innerHTML = viewHandover(); break;
+      case 'maintenance': body.innerHTML = viewMaintenance(); break;
+      case 'timesheet': body.innerHTML = viewTimesheet(); scrollActiveDayTabIntoView(); break;
+      case 'calendar': body.innerHTML = viewCalendar(); ensureCalendarFeeds(); break;
+      case 'shopping': body.innerHTML = viewShopping(); break;
+      case 'todo': body.innerHTML = viewTodo(); break;
+      case 'keyinfo': body.innerHTML = viewKeyInfo(); break;
+    }
+  } catch(e){
+    body.innerHTML = `<div class="empty" style="padding:30px;"><div style="color:#A6402C;font-weight:600;margin-bottom:8px;">Something went wrong loading this section.</div><div style="font-size:12px;color:var(--muted);">${esc(e.message||String(e))}</div><button class="btn-text" onclick="wcRefreshAll()" style="margin-top:12px;">Tap to refresh and try again</button></div>`;
   }
 }
 function scrollActiveDayTabIntoView(){
@@ -1027,7 +1031,7 @@ const ORDER_SUPPLIERS = ['Ashley & Co','Firewood','Botanical','Alcohol','Other']
 
 function viewShopping(){
   const tab = ui.shoppingTab;
-  const list = tab==='weekly'? state.shopping.weekly : state.shopping.order;
+  const list = (tab==='weekly'? state.shopping.weekly : state.shopping.order) || [];
   const stores = tab==='weekly'? WEEKLY_STORES : ORDER_SUPPLIERS;
   const sorted = list.slice().sort((a,b)=> (a.checked===b.checked? 0 : (a.checked?1:-1)));
   return `
