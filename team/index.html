@@ -1040,9 +1040,12 @@ function viewShopping(){
       <div class="wc-eyebrow">Stock up</div>
       <h2>Shopping list</h2>
     </div>
-    <div class="subtab-row">
-      <button class="daytab ${tab==='weekly'?'active':''}" onclick="wcSetShoppingTab('weekly')">Weekly shop</button>
-      <button class="daytab ${tab==='order'?'active':''}" onclick="wcSetShoppingTab('order')">Needs ordering</button>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span class="field-label" style="margin:0; white-space:nowrap;">Viewing:</span>
+      <select onchange="wcSetShoppingTab(this.value)" style="flex:1;">
+        <option value="weekly" ${tab==='weekly'?'selected':''}>Weekly shop</option>
+        <option value="order" ${tab==='order'?'selected':''}>Needs ordering</option>
+      </select>
     </div>
     <div class="card formgrid">
       <span class="field-label">Add an item</span>
