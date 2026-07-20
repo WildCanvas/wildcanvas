@@ -5,8 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Wild Canvas Team</title>
 <style>
-html, body { margin:0; padding:0; background:#FBF6EE; }
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+html, body { margin:0; padding:0; background:#FBF6EE; }
 
 @font-face {
   font-family: 'P22Mackinac';
@@ -1074,6 +1075,7 @@ function viewShopping(){
     </div>
   </div>`;
 }
+window.wcSetShoppingTab = function(t){ ui.shoppingTab = t; renderBody(); };
 window.wcCycleStatus = async function(id){
   const key = ui.shoppingTab==='weekly'? 'weekly' : 'order';
   const it = state.shopping[key].find(i=>i.id===id);
