@@ -101,6 +101,8 @@ input:focus,select:focus{border-color:#2A2535;outline:none;}
 .hold-item.hold-warn{border-left-color:#b08878;background:#FBF3F0;}
 .hold-days{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .55rem;background:#EAF0E6;color:#3D5A47;white-space:nowrap;flex-shrink:0;}
 .hold-days.warn{background:#F3DAD3;color:#8a5c4c;}
+.drag-selecting{background:#FCE8C7!important;outline:2px dashed #C19965;outline-offset:-2px;}
+.needs-inv-badge{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .55rem;background:#F3DAD3;color:#8a5c4c;white-space:nowrap;flex-shrink:0;}
 
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(42,37,53,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:1rem;}
@@ -255,6 +257,10 @@ input:focus,select:focus{border-color:#2A2535;outline:none;}
       <div style="font-size:.72rem;color:#7A6A58;margin-bottom:.75rem;">Any reservation with "hold" in the reason — agent holds not yet confirmed as bookings. Chase up anything that's been sitting a while.</div>
       <div id="holds-list" style="margin-bottom:1.75rem;"><div class="loading">Loading…</div></div>
 
+      <div class="block-title" style="font-size:.9rem;margin-bottom:.3rem;">Needs invoicing</div>
+      <div style="font-size:.72rem;color:#7A6A58;margin-bottom:.75rem;">Manual reservations flagged as needing an invoice you haven't created yet. Tick off once you've done it in Xero.</div>
+      <div id="invoicing-list" style="margin-bottom:1.75rem;"><div class="loading">Loading…</div></div>
+
       <div class="block-title" style="font-size:.9rem;margin-bottom:.6rem;">Currently reserved</div>
       <div id="blocked-list"><div class="loading">Loading…</div></div>
     </div>
@@ -275,12 +281,76 @@ input:focus,select:focus{border-color:#2A2535;outline:none;}
   </div>
 </div>
 
+<!-- CONFIRM HOLD → BOOKING MODAL -->
+<div class="modal-overlay" id="hold-modal" style="display:none;" onclick="closeHoldModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-title">Confirm hold as booking</div>
+      <button class="modal-close" onclick="closeHoldModal()">&times;</button>
+    </div>
+    <div class="modal-ref" id="hold-modal-sub"></div>
+    <div style="display:flex;flex-direction:column;gap:.75rem;">
+      <div class="fg"><label>Guest name</label><input type="text" id="hm-name"></div>
+      <div class="fg"><label>Email</label><input type="email" id="hm-email"></div>
+      <div class="fg"><label>Phone (optional)</label><input type="text" id="hm-phone"></div>
+      <div class="fg"><label>Country (optional)</label><input type="text" id="hm-country"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div class="fg"><label>Adults</label><input type="number" id="hm-adults" value="1" min="1"></div>
+        <div class="fg"><label>Kids</label><input type="number" id="hm-kids" value="0" min="0"></div>
+      </div>
+      <div class="fg"><label>Total paid (NZD)</label><input type="number" id="hm-total" min="0" step="0.01"></div>
+      <div class="fg"><label>Notes (optional)</label><input type="text" id="hm-notes"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-dark" onclick="submitConfirmHold()">Confirm booking</button>
+      <button class="btn btn-out" onclick="closeHoldModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD RESERVATION MODAL (calendar drag-select) -->
+<div class="modal-overlay" id="addres-modal" style="display:none;" onclick="closeAddResModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-hdr">
+      <div class="modal-title">Add reservation</div>
+      <button class="modal-close" onclick="closeAddResModal()">&times;</button>
+    </div>
+    <div class="modal-ref" id="addres-sub"></div>
+    <div style="display:flex;flex-direction:column;gap:.75rem;">
+      <div class="fg"><label>Guest / agent name</label><input type="text" id="ar-reason" placeholder="e.g. Beautiful Journeys - Aggie"></div>
+      <div class="fg"><label>Email (needed for Mailchimp or invoicing)</label><input type="email" id="ar-email"></div>
+
+      <label style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;text-transform:none;letter-spacing:0;color:#2A2535;margin-top:.25rem;">
+        <input type="checkbox" id="ar-calendar" checked style="width:auto;"> Add to Google Calendar
+      </label>
+      <label style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;text-transform:none;letter-spacing:0;color:#2A2535;">
+        <input type="checkbox" id="ar-mailchimp" style="width:auto;"> Add to Mailchimp
+      </label>
+      <label style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;text-transform:none;letter-spacing:0;color:#2A2535;">
+        <input type="checkbox" id="ar-needsinvoice" checked onchange="toggleInvoiceSubOptions()" style="width:auto;"> Needs an invoice
+      </label>
+      <div id="ar-invoice-suboptions" style="margin-left:1.6rem;display:flex;flex-direction:column;gap:.6rem;">
+        <label style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;text-transform:none;letter-spacing:0;color:#7A6A58;">
+          <input type="checkbox" id="ar-autoinvoice" onchange="toggleInvoiceAmount()" style="width:auto;"> Create automatically now (standard rate)
+        </label>
+        <div class="fg" id="ar-total-row" style="display:none;"><label>Total paid (NZD)</label><input type="number" id="ar-total" min="0" step="0.01"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-dark" onclick="submitAddReservation()">Save reservation</button>
+      <button class="btn btn-out" onclick="closeAddResModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── CONFIG ────────────────────────────────────────────────────────────────
 var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL78iWtDb2jUZ5yHhCO8wonBrmqO2lRGoRxjaVFvOtYBiDNTY_qPpBihWJfwm-WfWmUg/exec';
 
 // ── STATE ─────────────────────────────────────────────────────────────────
 var currentUser = null;
+var pendingHold = null;
+var pendingAddRes = null; // {tent, checkin, checkout} set when calendar drag-select finishes
 var allBookings = [];
 var allBlocked = [];
 var calYear = new Date().getFullYear();
@@ -341,6 +411,7 @@ function loadBlocked() {
       allBlocked = data.blocked || [];
       renderBlockedList();
       renderHoldsList();
+      renderInvoicingList();
     });
 }
 
@@ -535,14 +606,65 @@ function renderCalendar() {
   h += '</div></div>';
   document.getElementById('cal-grid-wrap').innerHTML = h;
 
-  // Event delegation
+  // Click to view existing bookings/reservations
   document.getElementById('cal-grid-wrap').onclick = function(e) {
-    var el = e.target.closest('[data-booking],[data-blocked],[data-date]');
+    var el = e.target.closest('[data-booking],[data-blocked]');
     if (!el) return;
     if (el.dataset.booking !== undefined) openBooking(allBookings[parseInt(el.dataset.booking)]);
     else if (el.dataset.blocked !== undefined) openBlockedCell(allBlocked[parseInt(el.dataset.blocked)]);
-    else if (el.dataset.date) quickBlock(el.dataset.date, el.dataset.tent);
   };
+
+  attachCalendarDragHandlers();
+}
+
+// ── DRAG-SELECT ON AVAILABLE DATES ─────────────────────────────────────────
+// Click a single date, or click-and-drag across several nights, to open the
+// Add Reservation modal pre-filled with that tent + date range.
+var dragTent = null, dragStartDate = null, dragCurrentDate = null, isDragging = false;
+
+function attachCalendarDragHandlers() {
+  var wrap = document.getElementById('cal-grid-wrap');
+
+  wrap.onmousedown = function(e) {
+    var el = e.target.closest('[data-date]');
+    if (!el) return;
+    isDragging = true;
+    dragTent = el.dataset.tent;
+    dragStartDate = el.dataset.date;
+    dragCurrentDate = el.dataset.date;
+    updateDragHighlight();
+    e.preventDefault();
+  };
+
+  wrap.onmouseover = function(e) {
+    if (!isDragging) return;
+    var el = e.target.closest('[data-date]');
+    if (!el || el.dataset.tent !== dragTent) return;
+    dragCurrentDate = el.dataset.date;
+    updateDragHighlight();
+  };
+
+  document.onmouseup = function() {
+    if (!isDragging) return;
+    isDragging = false;
+    var from = dragStartDate < dragCurrentDate ? dragStartDate : dragCurrentDate;
+    var to = dragStartDate < dragCurrentDate ? dragCurrentDate : dragStartDate;
+    clearDragHighlight();
+    openAddResModal(dragTent, from, addDaysToDateStr(to, 1));
+  };
+}
+
+function updateDragHighlight() {
+  clearDragHighlight();
+  var from = dragStartDate < dragCurrentDate ? dragStartDate : dragCurrentDate;
+  var to = dragStartDate < dragCurrentDate ? dragCurrentDate : dragStartDate;
+  document.querySelectorAll('[data-date][data-tent="' + dragTent + '"]').forEach(function(cell) {
+    if (cell.dataset.date >= from && cell.dataset.date <= to) cell.classList.add('drag-selecting');
+  });
+}
+
+function clearDragHighlight() {
+  document.querySelectorAll('.drag-selecting').forEach(function(cell){ cell.classList.remove('drag-selecting'); });
 }
 
 function openBlockedCell(blk) {
@@ -552,18 +674,7 @@ function openBlockedCell(blk) {
   }
 }
 
-function quickBlock(dateStr, tent) {
-  var tentLabel = tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
-  var reason = prompt('Reserve ' + tentLabel + ' on ' + fmtDate(dateStr) + '\n\nReason (optional — press OK to confirm):');
-  if (reason === null) return;
-  fetch(SCRIPT_URL, {
-    method: 'POST',
-    body: JSON.stringify({action:'block', tent:tent, date_from:dateStr, date_to:dateStr, reason:reason||'Manual reservation', blocked_by:currentUser.email})
-  })
-  .then(function(r){return r.json();})
-  .then(function(){ loadAll(); renderCalendar(); })
-  .catch(function(){ alert('Error reserving date.'); });
-}
+// (quickBlock replaced by the drag-select Add Reservation modal below)
 
 
 // ── BLOCK DATES ───────────────────────────────────────────────────────────
@@ -641,6 +752,7 @@ function renderHoldsList() {
   var itemsHtml = list.map(function(g) {
     var sortedDates = g.dates.slice().sort();
     var from = sortedDates[0], to = sortedDates[sortedDates.length - 1];
+    var checkoutDate = addDaysToDateStr(to, 1); // last blocked night + 1 = actual checkout date
     var tentLabel = g.tent === 'both' ? 'Both tents' : g.tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
     var createdDate = g.created ? new Date(g.created) : null;
     var daysPending = createdDate ? Math.round((today - createdDate) / 86400000) : null;
@@ -650,13 +762,17 @@ function renderHoldsList() {
     var pendingBadge = daysPending !== null
       ? '<div class="hold-days' + (isOverdue ? ' warn' : '') + '">' + daysPending + ' day' + (daysPending !== 1 ? 's' : '') + ' pending</div>'
       : '';
+    var holdArg = JSON.stringify({tent: g.tent, reason: g.reason, checkin: from, checkout: checkoutDate}).replace(/'/g, "&#39;");
 
     return '<div class="hold-item' + (isOverdue ? ' hold-warn' : '') + '">' +
       '<div>' +
         '<div class="blk-info">' + tentLabel + ' · ' + fmtDate(from) + (to !== from ? ' to ' + fmtDate(to) : '') + '</div>' +
         '<div class="blk-sub">' + g.reason + ' · ' + addedText + '</div>' +
       '</div>' +
-      pendingBadge +
+      '<div style="display:flex;align-items:center;gap:.6rem;">' +
+        pendingBadge +
+        '<button class="btn btn-dark btn-sm" onclick=\'openConfirmHoldModal(' + holdArg + ')\'>Confirm booking</button>' +
+      '</div>' +
     '</div>';
   }).join('');
 
@@ -667,6 +783,62 @@ function renderHoldsList() {
       '<div style="font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:#7A6A58;margin-bottom:.5rem;">Active holds</div>' +
       '<div style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;">' + itemsHtml + '</div>';
   }
+}
+
+// ── NEEDS INVOICING TRACKER ─────────────────────────────────────────────────
+// Groups Blocked-tab rows where invoiced === 'no' (set via the Add
+// Reservation modal when "needs an invoice" was ticked but not auto-created)
+// back into one card per reservation, with a manual "Mark as invoiced"
+// button for once you've created it yourself in Xero.
+function renderInvoicingList() {
+  var container = document.getElementById('invoicing-list');
+  if (!container) return;
+  var pending = allBlocked.filter(function(b){ return b.invoiced === 'no'; });
+
+  if (pending.length === 0) { container.innerHTML = '<div class="empty">Nothing waiting on an invoice</div>'; return; }
+
+  var groups = {};
+  pending.forEach(function(b) {
+    var key = b.tent + '|' + b.reason;
+    if (!groups[key]) groups[key] = { tent: b.tent, reason: b.reason, dates: [], created: b.created };
+    groups[key].dates.push(b.date_from);
+    if (b.created && (!groups[key].created || new Date(b.created) < new Date(groups[key].created))) {
+      groups[key].created = b.created;
+    }
+  });
+
+  var list = Object.keys(groups).map(function(k){ return groups[k]; });
+  list.sort(function(a,b){ return new Date(a.created||0) - new Date(b.created||0); });
+
+  container.innerHTML = list.map(function(g) {
+    var sortedDates = g.dates.slice().sort();
+    var from = sortedDates[0], to = sortedDates[sortedDates.length - 1];
+    var checkoutDate = addDaysToDateStr(to, 1);
+    var tentLabel = g.tent === 'both' ? 'Both tents' : g.tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+    var addedText = g.created ? 'Added ' + new Date(g.created).toLocaleDateString('en-NZ') : '';
+    var markArg = JSON.stringify({tent: g.tent, reason: g.reason, checkin: from, checkout: checkoutDate}).replace(/'/g, "&#39;");
+
+    return '<div class="hold-item">' +
+      '<div>' +
+        '<div class="blk-info">' + tentLabel + ' · ' + fmtDate(from) + (to !== from ? ' to ' + fmtDate(to) : '') + '</div>' +
+        '<div class="blk-sub">' + g.reason + (addedText ? ' · ' + addedText : '') + '</div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:.6rem;">' +
+        '<div class="needs-inv-badge">Needs invoice</div>' +
+        '<button class="btn btn-dark btn-sm" onclick=\'markInvoicedClient(' + markArg + ')\'>Mark as invoiced</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function markInvoicedClient(hold) {
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({action:'markInvoiced', tent: hold.tent, reason: hold.reason, checkin: hold.checkin, checkout: hold.checkout})
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(){ loadBlocked(); })
+  .catch(function(){ alert('Error marking as invoiced.'); });
 }
 
 function removeBlock(row) {
@@ -720,6 +892,144 @@ function closeModal(e) {
   }
 }
 
+// ── CONFIRM HOLD → BOOKING MODAL ───────────────────────────────────────────
+function openConfirmHoldModal(hold) {
+  pendingHold = hold; // {tent, reason, checkin, checkout}
+  var tentLabel = hold.tent === 'both' ? 'Both tents' : hold.tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+  document.getElementById('hold-modal-sub').textContent =
+    tentLabel + ' · ' + fmtDate(hold.checkin) + ' → ' + fmtDate(hold.checkout) + ' · Hold: ' + hold.reason;
+  document.getElementById('hm-name').value = '';
+  document.getElementById('hm-email').value = '';
+  document.getElementById('hm-phone').value = '';
+  document.getElementById('hm-country').value = '';
+  document.getElementById('hm-adults').value = 1;
+  document.getElementById('hm-kids').value = 0;
+  document.getElementById('hm-total').value = '';
+  document.getElementById('hm-notes').value = '';
+  document.getElementById('hold-modal').style.display = 'flex';
+}
+
+function closeHoldModal(e) {
+  if (!e || e.target === document.getElementById('hold-modal')) {
+    document.getElementById('hold-modal').style.display = 'none';
+    pendingHold = null;
+  }
+}
+
+function submitConfirmHold() {
+  if (!pendingHold) return;
+  var name = document.getElementById('hm-name').value.trim();
+  var email = document.getElementById('hm-email').value.trim();
+  if (!name || !email) { alert('Guest name and email are required.'); return; }
+
+  var payload = {
+    action: 'confirmHold',
+    tent: pendingHold.tent,
+    holdReason: pendingHold.reason,
+    checkin: pendingHold.checkin,
+    checkout: pendingHold.checkout,
+    name: name,
+    email: email,
+    phone: document.getElementById('hm-phone').value.trim(),
+    country: document.getElementById('hm-country').value.trim(),
+    adults: parseInt(document.getElementById('hm-adults').value) || 1,
+    kids: parseInt(document.getElementById('hm-kids').value) || 0,
+    total: parseFloat(document.getElementById('hm-total').value) || 0,
+    notes: document.getElementById('hm-notes').value.trim()
+  };
+
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if (res.success) {
+        closeHoldModal();
+        loadAll();
+      } else {
+        alert('Error confirming booking. Please try again.');
+      }
+    })
+    .catch(function(){ alert('Error confirming booking. Please try again.'); });
+}
+
+// ── ADD RESERVATION MODAL (calendar drag-select) ───────────────────────────
+function openAddResModal(tent, checkin, checkout) {
+  pendingAddRes = { tent: tent, checkin: checkin, checkout: checkout };
+  var tentLabel = tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+  var lastNight = addDaysToDateStr(checkout, -1);
+  document.getElementById('addres-sub').textContent =
+    tentLabel + ' · ' + fmtDate(checkin) + (lastNight !== checkin ? ' → ' + fmtDate(lastNight) : '');
+  document.getElementById('ar-reason').value = '';
+  document.getElementById('ar-email').value = '';
+  document.getElementById('ar-total').value = '';
+  document.getElementById('ar-calendar').checked = true;
+  document.getElementById('ar-mailchimp').checked = false;
+  document.getElementById('ar-needsinvoice').checked = true;
+  document.getElementById('ar-autoinvoice').checked = false;
+  toggleInvoiceSubOptions();
+  toggleInvoiceAmount();
+  document.getElementById('addres-modal').style.display = 'flex';
+}
+
+function closeAddResModal(e) {
+  if (!e || e.target === document.getElementById('addres-modal')) {
+    document.getElementById('addres-modal').style.display = 'none';
+    pendingAddRes = null;
+  }
+}
+
+function toggleInvoiceSubOptions() {
+  var show = document.getElementById('ar-needsinvoice').checked;
+  document.getElementById('ar-invoice-suboptions').style.display = show ? 'flex' : 'none';
+}
+
+function toggleInvoiceAmount() {
+  var show = document.getElementById('ar-needsinvoice').checked && document.getElementById('ar-autoinvoice').checked;
+  document.getElementById('ar-total-row').style.display = show ? 'flex' : 'none';
+}
+
+function submitAddReservation() {
+  if (!pendingAddRes) return;
+  var reason = document.getElementById('ar-reason').value.trim();
+  if (!reason) { alert('Please enter a guest or agent name.'); return; }
+
+  var addMailchimp = document.getElementById('ar-mailchimp').checked;
+  var needsInvoice = document.getElementById('ar-needsinvoice').checked;
+  var autoInvoice = needsInvoice && document.getElementById('ar-autoinvoice').checked;
+  var email = document.getElementById('ar-email').value.trim();
+
+  if ((addMailchimp || autoInvoice) && !email) {
+    alert('An email is needed to add to Mailchimp or create an invoice.');
+    return;
+  }
+
+  var payload = {
+    action: 'addReservation',
+    tent: pendingAddRes.tent,
+    checkin: pendingAddRes.checkin,
+    checkout: pendingAddRes.checkout,
+    reason: reason,
+    blocked_by: currentUser.email,
+    email: email,
+    total: parseFloat(document.getElementById('ar-total').value) || 0,
+    addToCalendar: document.getElementById('ar-calendar').checked,
+    addToMailchimp: addMailchimp,
+    needsInvoice: needsInvoice,
+    createInvoiceNow: autoInvoice
+  };
+
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if (res.success) {
+        closeAddResModal();
+        loadAll();
+      } else {
+        alert('Error saving reservation. Please try again.');
+      }
+    })
+    .catch(function(){ alert('Error saving reservation. Please try again.'); });
+}
+
 function cancelBooking(ref) {
   if (!confirm('Cancel booking ' + ref + '? This cannot be undone.')) return;
   fetch(SCRIPT_URL, {
@@ -744,6 +1054,12 @@ function showTab(name) {
 
 // ── HELPERS ───────────────────────────────────────────────────────────────
 function dsStr(y,m,d){ return y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'); }
+
+function addDaysToDateStr(dateStr, days) {
+  var d = parseDate(dateStr);
+  d.setDate(d.getDate() + days);
+  return dsStr(d.getFullYear(), d.getMonth(), d.getDate());
+}
 
 function parseDate(s) {
   if (!s) return null;
