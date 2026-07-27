@@ -806,6 +806,7 @@ function renderHoldsList() {
       '<div style="display:flex;align-items:center;gap:.6rem;">' +
         pendingBadge +
         '<button class="btn btn-dark btn-sm" onclick=\'openConfirmHoldModal(' + holdArg + ')\'>Confirm booking</button>' +
+        '<button class="blk-del" onclick=\'releaseHoldClient(' + holdArg + ')\'>Remove</button>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -983,6 +984,20 @@ function submitConfirmHold() {
       }
     })
     .catch(function(){ alert('Error confirming booking. Please try again.'); });
+}
+
+function releaseHoldClient(hold) {
+  if (!confirm('Remove this hold entirely? This deletes it from the Reserved list and Calendar. This cannot be undone.')) return;
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({action:'releaseHold', tent: hold.tent, reason: hold.reason, checkin: hold.checkin, checkout: hold.checkout})
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(res){
+    if (res.success) { loadBlocked(); }
+    else { alert('Error removing hold.'); }
+  })
+  .catch(function(){ alert('Error removing hold.'); });
 }
 
 // ── ADD RESERVATION MODAL (calendar drag-select) ───────────────────────────
