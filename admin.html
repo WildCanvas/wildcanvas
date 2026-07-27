@@ -652,6 +652,40 @@ function attachCalendarDragHandlers() {
     clearDragHighlight();
     openAddResModal(dragTent, from, addDaysToDateStr(to, 1));
   };
+
+  // Touch equivalents — elementFromPoint since touchmove doesn't retarget
+  // per-element the way mouseover does.
+  wrap.ontouchstart = function(e) {
+    var touch = e.touches[0];
+    var el = document.elementFromPoint(touch.clientX, touch.clientY);
+    el = el && el.closest('[data-date]');
+    if (!el) return;
+    isDragging = true;
+    dragTent = el.dataset.tent;
+    dragStartDate = el.dataset.date;
+    dragCurrentDate = el.dataset.date;
+    updateDragHighlight();
+  };
+
+  wrap.ontouchmove = function(e) {
+    if (!isDragging) return;
+    e.preventDefault(); // hold the gesture for date-selection rather than page scroll
+    var touch = e.touches[0];
+    var el = document.elementFromPoint(touch.clientX, touch.clientY);
+    el = el && el.closest('[data-date]');
+    if (!el || el.dataset.tent !== dragTent) return;
+    dragCurrentDate = el.dataset.date;
+    updateDragHighlight();
+  };
+
+  document.ontouchend = function() {
+    if (!isDragging) return;
+    isDragging = false;
+    var from = dragStartDate < dragCurrentDate ? dragStartDate : dragCurrentDate;
+    var to = dragStartDate < dragCurrentDate ? dragCurrentDate : dragStartDate;
+    clearDragHighlight();
+    openAddResModal(dragTent, from, addDaysToDateStr(to, 1));
+  };
 }
 
 function updateDragHighlight() {
