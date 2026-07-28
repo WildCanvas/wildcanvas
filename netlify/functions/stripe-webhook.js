@@ -1,12 +1,12 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const WEBHOOK_SECRET = 'whsec_YtheTyuKuOaQNCFy3BubTN0I8RbZ7MHK';
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL78iWtDb2jUZ5yHhCO8wonBrmqO2lRGoRxjaVFvOtYBiDNTY_qPpBihWJfwm-WfWmUg/exec';
+const VOUCHER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEImSBGEUMwHFuLtViKLnF8V9512AKIDtN1FjhUJonFbo9x7FEFkO1VxWT2QcZbqAN/exec';
 
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
-
   let stripeEvent;
   try {
     stripeEvent = stripe.webhooks.constructEvent(
@@ -19,11 +19,32 @@ exports.handler = async function(event) {
     return { statusCode: 400, body: 'Webhook Error: ' + err.message };
   }
 
+  const fetch = require('node-fetch');
+
+  // ── GIFT VOUCHER PURCHASE ─────────────────────────────────────────────────
+  if (stripeEvent.type === 'payment_intent.succeeded') {
+    const intent = stripeEvent.data.object;
+    const meta = intent.metadata || {};
+    if (meta.isGiftVoucher === 'true') {
+      try {
+        const response = await fetch(VOUCHER_SCRIPT_URL, {
+          method: 'POST',
+          body: event.body,
+          redirect: 'follow'
+        });
+        console.log('Voucher Apps Script response:', response.status);
+      } catch (err) {
+        console.error('Voucher Apps Script error:', err.message);
+      }
+    }
+    return { statusCode: 200, body: JSON.stringify({ received: true }) };
+  }
+
   if (stripeEvent.type === 'checkout.session.completed') {
     const session = stripeEvent.data.object;
     const meta = session.metadata || {};
 
-    // ── EXPERIENCE / ADD-ONS PURCHASE ──────────────────────────────────────
+    // ── EXPERIENCE / ADD-ONS PURCHASE ────────────────────────────────────────
     if (meta.type === 'experience') {
       const experienceData = {
         action: 'experiencePurchase',
@@ -38,9 +59,7 @@ exports.handler = async function(event) {
         total:        (session.amount_total / 100),
         sessionId:    session.id,
       };
-
       try {
-        const fetch = require('node-fetch');
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -51,16 +70,13 @@ exports.handler = async function(event) {
       } catch (err) {
         console.error('Apps Script error (experience):', err.message);
       }
-
       return { statusCode: 200, body: JSON.stringify({ received: true }) };
     }
 
-    // ── STANDARD BOOKING PURCHASE ───────────────────────────────────────────
-    // Only process if we have booking metadata
+    // ── STANDARD BOOKING PURCHASE ─────────────────────────────────────────────
     if (!meta.ref) {
       return { statusCode: 200, body: 'No metadata, skipping' };
     }
-
     const bookingData = {
       action: 'booking',
       ref: meta.ref,
@@ -80,9 +96,7 @@ exports.handler = async function(event) {
       voucherValue: parseFloat(meta.voucherValue) || 0,
       notes: meta.notes || ''
     };
-
     try {
-      const fetch = require('node-fetch');
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
