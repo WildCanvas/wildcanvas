@@ -85,8 +85,8 @@ body{font-family:Georgia,serif;background:#DFD39D;color:#2A2535;min-height:100vh
 .form-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:.75rem;align-items:end;}
 .fg{display:flex;flex-direction:column;gap:.3rem;}
 label{font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;color:#7A6A58;}
-input,select{font-family:Georgia,serif;font-size:.84rem;color:#2A2535;background:#fff;border:1.5px solid rgba(42,37,53,.18);padding:.5rem .7rem;width:100%;}
-input:focus,select:focus{border-color:#2A2535;outline:none;}
+input,select,textarea{font-family:Georgia,serif;font-size:.84rem;color:#2A2535;background:#fff;border:1.5px solid rgba(42,37,53,.18);padding:.5rem .7rem;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
 
 /* BLOCKED LIST */
 .blocked-list{display:flex;flex-direction:column;gap:.5rem;margin-top:1rem;}
@@ -316,9 +316,28 @@ input:focus,select:focus{border-color:#2A2535;outline:none;}
       <button class="modal-close" onclick="closeAddResModal()">&times;</button>
     </div>
     <div class="modal-ref" id="addres-sub"></div>
+
+    <div style="display:flex;gap:.5rem;margin-bottom:1rem;">
+      <button type="button" id="ar-mode-quick" class="btn btn-dark btn-sm" style="flex:1;" onclick="setAddResMode('quick')">Quick block</button>
+      <button type="button" id="ar-mode-full" class="btn btn-out btn-sm" style="flex:1;" onclick="setAddResMode('full')">Full details</button>
+    </div>
+
     <div style="display:flex;flex-direction:column;gap:.75rem;">
       <div class="fg"><label>Guest / agent name</label><input type="text" id="ar-reason" placeholder="e.g. Beautiful Journeys - Aggie"></div>
       <div class="fg"><label>Email (needed for Mailchimp or invoicing)</label><input type="email" id="ar-email"></div>
+
+      <div id="ar-full-fields" style="display:none;flex-direction:column;gap:.75rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+          <div class="fg"><label>Phone</label><input type="text" id="ar-phone"></div>
+          <div class="fg"><label>Country</label><input type="text" id="ar-country"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+          <div class="fg"><label>Adults</label><input type="number" id="ar-adults" value="1" min="1"></div>
+          <div class="fg"><label>Kids</label><input type="number" id="ar-kids" value="0" min="0"></div>
+        </div>
+      </div>
+
+      <div class="fg"><label>Notes (added to the Calendar event)</label><textarea id="ar-notes" rows="2" style="resize:vertical;"></textarea></div>
 
       <label style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;text-transform:none;letter-spacing:0;color:#2A2535;margin-top:.25rem;">
         <input type="checkbox" id="ar-calendar" checked style="width:auto;"> Add to Google Calendar
@@ -339,6 +358,7 @@ input:focus,select:focus{border-color:#2A2535;outline:none;}
     <div class="modal-actions">
       <button class="btn btn-dark" onclick="submitAddReservation()">Save reservation</button>
       <button class="btn btn-out" onclick="closeAddResModal()">Cancel</button>
+
     </div>
   </div>
 </div>
@@ -1001,6 +1021,8 @@ function releaseHoldClient(hold) {
 }
 
 // ── ADD RESERVATION MODAL (calendar drag-select) ───────────────────────────
+var addResMode = 'quick';
+
 function openAddResModal(tent, checkin, checkout) {
   pendingAddRes = { tent: tent, checkin: checkin, checkout: checkout };
   var tentLabel = tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
@@ -1009,6 +1031,11 @@ function openAddResModal(tent, checkin, checkout) {
     tentLabel + ' · ' + fmtDate(checkin) + (lastNight !== checkin ? ' → ' + fmtDate(lastNight) : '');
   document.getElementById('ar-reason').value = '';
   document.getElementById('ar-email').value = '';
+  document.getElementById('ar-phone').value = '';
+  document.getElementById('ar-country').value = '';
+  document.getElementById('ar-adults').value = 1;
+  document.getElementById('ar-kids').value = 0;
+  document.getElementById('ar-notes').value = '';
   document.getElementById('ar-total').value = '';
   document.getElementById('ar-calendar').checked = true;
   document.getElementById('ar-mailchimp').checked = false;
@@ -1016,7 +1043,16 @@ function openAddResModal(tent, checkin, checkout) {
   document.getElementById('ar-autoinvoice').checked = false;
   toggleInvoiceSubOptions();
   toggleInvoiceAmount();
+  setAddResMode('quick');
   document.getElementById('addres-modal').style.display = 'flex';
+}
+
+function setAddResMode(mode) {
+  addResMode = mode;
+  var isFull = mode === 'full';
+  document.getElementById('ar-full-fields').style.display = isFull ? 'flex' : 'none';
+  document.getElementById('ar-mode-quick').className = isFull ? 'btn btn-out btn-sm' : 'btn btn-dark btn-sm';
+  document.getElementById('ar-mode-full').className = isFull ? 'btn btn-dark btn-sm' : 'btn btn-out btn-sm';
 }
 
 function closeAddResModal(e) {
@@ -1059,6 +1095,11 @@ function submitAddReservation() {
     reason: reason,
     blocked_by: currentUser.email,
     email: email,
+    phone: addResMode === 'full' ? document.getElementById('ar-phone').value.trim() : '',
+    country: addResMode === 'full' ? document.getElementById('ar-country').value.trim() : '',
+    adults: addResMode === 'full' ? (parseInt(document.getElementById('ar-adults').value) || 1) : 1,
+    kids: addResMode === 'full' ? (parseInt(document.getElementById('ar-kids').value) || 0) : 0,
+    notes: document.getElementById('ar-notes').value.trim(),
     total: parseFloat(document.getElementById('ar-total').value) || 0,
     addToCalendar: document.getElementById('ar-calendar').checked,
     addToMailchimp: addMailchimp,
