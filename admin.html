@@ -315,7 +315,11 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
       <div class="modal-title">Add reservation</div>
       <button class="modal-close" onclick="closeAddResModal()">&times;</button>
     </div>
-    <div class="modal-ref" id="addres-sub"></div>
+    <div class="modal-ref" id="addres-tent-label"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:.6rem 0 1rem;">
+      <div class="fg"><label>Check-in</label><input type="date" id="ar-checkin"></div>
+      <div class="fg"><label>Check-out</label><input type="date" id="ar-checkout"></div>
+    </div>
 
     <div style="display:flex;gap:.5rem;margin-bottom:1rem;">
       <button type="button" id="ar-mode-quick" class="btn btn-dark btn-sm" style="flex:1;" onclick="setAddResMode('quick')">Quick block</button>
@@ -1024,11 +1028,11 @@ function releaseHoldClient(hold) {
 var addResMode = 'quick';
 
 function openAddResModal(tent, checkin, checkout) {
-  pendingAddRes = { tent: tent, checkin: checkin, checkout: checkout };
+  pendingAddRes = { tent: tent };
   var tentLabel = tent === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
-  var lastNight = addDaysToDateStr(checkout, -1);
-  document.getElementById('addres-sub').textContent =
-    tentLabel + ' · ' + fmtDate(checkin) + (lastNight !== checkin ? ' → ' + fmtDate(lastNight) : '');
+  document.getElementById('addres-tent-label').textContent = tentLabel + ' — check the dates below before saving';
+  document.getElementById('ar-checkin').value = checkin;
+  document.getElementById('ar-checkout').value = checkout;
   document.getElementById('ar-reason').value = '';
   document.getElementById('ar-email').value = '';
   document.getElementById('ar-phone').value = '';
@@ -1077,6 +1081,11 @@ function submitAddReservation() {
   var reason = document.getElementById('ar-reason').value.trim();
   if (!reason) { alert('Please enter a guest or agent name.'); return; }
 
+  var checkin = document.getElementById('ar-checkin').value;
+  var checkout = document.getElementById('ar-checkout').value;
+  if (!checkin || !checkout) { alert('Please set both a check-in and check-out date.'); return; }
+  if (checkout <= checkin) { alert('Check-out must be after check-in.'); return; }
+
   var addMailchimp = document.getElementById('ar-mailchimp').checked;
   var needsInvoice = document.getElementById('ar-needsinvoice').checked;
   var autoInvoice = needsInvoice && document.getElementById('ar-autoinvoice').checked;
@@ -1090,8 +1099,8 @@ function submitAddReservation() {
   var payload = {
     action: 'addReservation',
     tent: pendingAddRes.tent,
-    checkin: pendingAddRes.checkin,
-    checkout: pendingAddRes.checkout,
+    checkin: checkin,
+    checkout: checkout,
     reason: reason,
     blocked_by: currentUser.email,
     email: email,
