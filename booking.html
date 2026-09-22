@@ -778,6 +778,25 @@ function toStep3() {
   S.hdyhau = hdyhauVal === 'Other' && hdyhauOther ? 'Other: ' + hdyhauOther : hdyhauVal;
   if (!S.fn || !S.ln || !S.em || !S.ph || !S.cn) { alert('Please fill in all required fields (*).'); return; }
   if (S.em.indexOf('@') < 0) { alert('Please enter a valid email address.'); return; }
+
+  // Log a booking draft so we can follow up if they don't complete checkout.
+  // Fire-and-forget: never blocks the flow or surfaces an error to the guest.
+  try {
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'draftBooking',
+        ref: S.ref,
+        tent: TNAMES[S.tent] || S.tent,
+        checkin: S.ci,
+        checkout: S.co,
+        name: S.fn + ' ' + S.ln,
+        email: S.em,
+        phone: S.ph
+      })
+    }).catch(function(){});
+  } catch (e) {}
+
   renderExtras();
   goStep(3);
 }
