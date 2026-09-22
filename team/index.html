@@ -453,6 +453,15 @@ function tentPillRow(activeVar, onclickName, includeOther){
 /* ================= HANDOVER NOTES ================= */
 window.wcSetHandoverTent = function(t){ ui.handoverTent = t; renderBody(); };
 
+function gasBottleBar(kg){
+  if(kg===null||kg===undefined||kg==='') return '';
+  const n = parseFloat(kg);
+  if(isNaN(n)) return '';
+  const pct = Math.max(0, Math.min(100, ((n-20)/(30-20))*100));
+  const colour = pct>50 ? 'var(--kowhai)' : pct>20 ? 'var(--addons)' : 'var(--pohutukawa)';
+  return `<div style="height:6px; background:var(--line); border-radius:3px; margin-top:4px;"><div style="height:6px; width:${pct}%; background:${colour}; border-radius:3px;"></div></div>`;
+}
+
 function gasCheckCard(tent, NAMES){
   const history = Array.isArray(state.gasChecks[tent]) ? state.gasChecks[tent] : (state.gasChecks[tent] ? [state.gasChecks[tent]] : []);
   const latest = history.length ? history[history.length-1] : null;
@@ -463,97 +472,87 @@ function gasCheckCard(tent, NAMES){
     const ms = Date.now() - new Date(latest.checkedAt).getTime();
     const daysAgo = ms / (1000*60*60*24);
     const hoursAgo = ms / (1000*60*60);
-    if(hoursAgo < 1) sinceText = `Checked ${Math.round(ms/60000)}m ago by ${esc(latest.by||'team')}`;
-    else if(daysAgo < 1) sinceText = `Checked ${Math.round(hoursAgo)}h ago by ${esc(latest.by||'team')}`;
-    else sinceText = `Checked ${Math.floor(daysAgo)} day${Math.floor(daysAgo)===1?'':'s'} ago by ${esc(latest.by||'team')}`;
-    if(daysAgo < 2){ statusClass='ok'; emoji='🟢'; }
-    else if(daysAgo < 3){ statusClass='warn'; emoji='🟡'; }
-    else { statusClass='alert'; emoji='🔴'; }
+    const b1 = parseFloat(latest.bottle1), b2 = parseFloat(latest.bottle2);
+    const lowestKg = (!isNaN(b1) && !isNaN(b2)) ? Math.min(b1,b2) : (!isNaN(b1)?b1:(!isNaN(b2)?b2:null));
+    const gasLow = lowestKg!==null && lowestKg < 23;
+    const gasCritical = lowestKg!==null && lowestKg < 21;
+    const b1Str = !isNaN(b1) ? `${b1}kg` : '—';
+    const b2Str = !isNaN(b2) ? `${b2}kg` : '—';
+    if(hoursAgo < 1) sinceText = `Checked ${Math.round(ms/60000)}m ago by ${esc(latest.by||'team')} · Bottle 1: ${b1Str}, Bottle 2: ${b2Str}`;
+    else if(daysAgo < 1) sinceText = `Checked ${Math.round(hoursAgo)}h ago by ${esc(latest.by||'team')} · Bottle 1: ${b1Str}, Bottle 2: ${b2Str}`;
+    else sinceText = `Checked ${Math.floor(daysAgo)} day${Math.floor(daysAgo)===1?'':'s'} ago by ${esc(latest.by||'team')} · Bottle 1: ${b1Str}, Bottle 2: ${b2Str}`;
+    if(gasCritical || daysAgo >= 3){ statusClass='alert'; emoji='🔴'; }
+    else if(gasLow || daysAgo >= 2){ statusClass='warn'; emoji='🟡'; }
+    else { statusClass='ok'; emoji='🟢'; }
   }
 
   const isAlert = statusClass==='alert' || statusClass==='unknown';
+  const b1Latest = latest ? (latest.bottle1||''): '';
+  const b2Latest = latest ? (latest.bottle2||''): '';
   const recentHistory = history.slice().reverse().slice(0,8);
   const historyHtml = recentHistory.length > 1 ? `
     <hr class="div" style="margin:10px 0;" />
     <div class="field-label" style="margin-bottom:6px; font-size:11px;">Check history</div>
-    <div style="display:flex; flex-direction:column; gap:4px;">
+    <div style="display:flex; flex-direction:column; gap:5px;">
       ${recentHistory.map((h,i)=>{
         const d = new Date(h.checkedAt);
         const dateStr = d.toLocaleDateString('en-NZ',{weekday:'short',day:'numeric',month:'short'});
         const timeStr = d.toLocaleTimeString('en-NZ',{hour:'2-digit',minute:'2-digit'});
-        return `<div class="note-meta" style="${i===0?'font-weight:600;color:var(--bark);':''}">${dateStr} ${timeStr} — ${esc(h.by||'team')}</div>`;
+        const b1 = h.bottle1!==undefined&&h.bottle1!=='' ? `${h.bottle1}kg` : '—';
+        const b2 = h.bottle2!==undefined&&h.bottle2!=='' ? `${h.bottle2}kg` : '—';
+        return `<div class="note-meta" style="${i===0?'font-weight:600;color:var(--bark);':''}">
+          ${dateStr} ${timeStr} — ${esc(h.by||'team')} &nbsp;·&nbsp; B1: ${b1} &nbsp; B2: ${b2}
+        </div>`;
       }).join('')}
     </div>` : '';
 
   return `<div class="gas-card ${statusClass}">
-    <div class="row between" style="align-items:flex-start; gap:10px;">
-      <div style="flex:1;">
-        <div class="row" style="align-items:center; gap:4px; margin-bottom:3px;">
-          <span class="gas-status">${emoji}</span>
-          <span class="gas-label">${tentLabel} bath water gas bottles</span>
-        </div>
-        <div class="gas-since">${sinceText}</div>
-        ${isAlert? `<div style="font-size:12px; color:#A6402C; font-weight:600; margin-top:4px;">⚠️ Guests may have no hot water — check now!</div>` : ''}
+    <div style="margin-bottom:10px;">
+      <div class="row" style="align-items:center; gap:4px; margin-bottom:3px;">
+        <span class="gas-status">${emoji}</span>
+        <span class="gas-label">${tentLabel} bath water gas bottles</span>
       </div>
-      <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end; flex-shrink:0;">
+      <div class="gas-since">${sinceText}</div>
+      ${isAlert? `<div style="font-size:12px; color:#A6402C; font-weight:600; margin-top:4px;">⚠️ Guests may have no hot water — check now!</div>` : ''}
+      <div class="note-meta" style="margin-top:5px;">30kg = full &nbsp;·&nbsp; 20kg = empty</div>
+    </div>
+    <div class="formgrid" style="gap:8px;">
+      <div class="two-col">
+        <div>
+          <label class="field-label" style="margin-bottom:3px;">Bottle 1 (kg)</label>
+          <input type="number" id="gas-b1-${tent}" min="18" max="32" step="0.5" placeholder="e.g. 28" value="${esc(b1Latest)}" style="text-align:center;" />
+          ${gasBottleBar(b1Latest)}
+        </div>
+        <div>
+          <label class="field-label" style="margin-bottom:3px;">Bottle 2 (kg)</label>
+          <input type="number" id="gas-b2-${tent}" min="18" max="32" step="0.5" placeholder="e.g. 25" value="${esc(b2Latest)}" style="text-align:center;" />
+          ${gasBottleBar(b2Latest)}
+        </div>
+      </div>
+      <div class="two-col">
         <select id="gas-by-${tent}" style="font-size:12px; padding:5px 7px;">
           <option value="">Your name</option>
           ${NAMES.map(n=>`<option value="${n}">${n}</option>`).join('')}
         </select>
-        <button class="btn btn-primary btn-sm" onclick="wcMarkGasChecked('${tent}')">✓ Mark checked</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="wcMarkGasChecked('${tent}')">✓ Save check</button>
       </div>
     </div>
     ${historyHtml}
   </div>`;
 }
 
-function viewHandover(){
-  const tent = ui.handoverTent;
-  const list = state.handover[tent].slice().sort((a,b)=> (a.done===b.done? b.date.localeCompare(a.date) : (a.done?1:-1)));
-  const NAMES = ['Shantelle','Dijana','Emily','Dasha','Madison','Ann','Ben'];
-  return `
-  <div class="section">
-    <div>
-      <div class="wc-eyebrow">For the next team member</div>
-      <h2>Handover notes</h2>
-    </div>
-    ${tentPillRow('handoverTent','wcSetHandoverTent')}
-    <div class="card formgrid">
-      <span class="field-label">Leave a note for next time</span>
-      <textarea id="ho-text" rows="2" placeholder="e.g. More tea bags, low on firewood at the deck box..."></textarea>
-      <div class="two-col">
-        <select id="ho-by">
-          <option value="">Your name</option>
-          ${NAMES.map(n=>`<option value="${n}">${n}</option>`).join('')}
-        </select>
-        <button class="btn btn-primary" onclick="wcAddHandover()">${ICONS.plus} Add note</button>
-      </div>
-    </div>
-    ${tent==='kowhai' ? gasCheckCard(tent, NAMES) : ''}
-    <div style="display:flex; flex-direction:column; gap:9px;">
-      ${list.length? list.map(n=>`
-        <div class="card note-card">
-          <button class="check-btn ${n.done?'checked':''}" onclick="wcToggleHandover('${tent}','${n.id}')">${n.done?ICONS.check:''}</button>
-          <div class="note-text ${n.done?'done':''}">
-            ${esc(n.text)}
-            <div class="note-meta">${esc(n.by||'Team')} · ${fmtDateShort(n.date)}</div>
-          </div>
-          ${delBtnHtml('ho-'+tent+'-'+n.id, `wcDeleteHandover('${tent}','${n.id}')`)}
-        </div>`).join('')
-      : `<div class="empty">${ICONS.empty}<div>No notes for this tent yet.</div></div>`}
-    </div>
-  </div>`;
-}
-
 window.wcMarkGasChecked = async function(tent){
   const by = (document.getElementById('gas-by-'+tent)||{}).value || '';
   if(!by){ alert('Please select your name first.'); return; }
+  const bottle1 = (document.getElementById('gas-b1-'+tent)||{}).value || '';
+  const bottle2 = (document.getElementById('gas-b2-'+tent)||{}).value || '';
   const existing = Array.isArray(state.gasChecks[tent]) ? state.gasChecks[tent] : (state.gasChecks[tent] ? [state.gasChecks[tent]] : []);
-  existing.push({ checkedAt: new Date().toISOString(), by });
+  existing.push({ checkedAt: new Date().toISOString(), by, bottle1, bottle2 });
   state.gasChecks[tent] = existing;
   await setJSON('gas-check-'+tent, state.gasChecks[tent]);
   renderBody();
 };
+
 
 window.wcAddHandover = async function(){
   const text = document.getElementById('ho-text').value.trim();
