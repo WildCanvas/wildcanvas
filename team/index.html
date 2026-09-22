@@ -553,6 +553,43 @@ window.wcMarkGasChecked = async function(tent){
   renderBody();
 };
 
+function viewHandover(){
+  const tent = ui.handoverTent;
+  const list = state.handover[tent].slice().sort((a,b)=> (a.done===b.done? b.date.localeCompare(a.date) : (a.done?1:-1)));
+  const NAMES = ['Shantelle','Dijana','Emily','Dasha','Madison','Ann','Ben'];
+  return `
+  <div class="section">
+    <div>
+      <div class="wc-eyebrow">For the next team member</div>
+      <h2>Handover notes</h2>
+    </div>
+    ${tentPillRow('handoverTent','wcSetHandoverTent')}
+    <div class="card formgrid">
+      <span class="field-label">Leave a note for next time</span>
+      <textarea id="ho-text" rows="2" placeholder="e.g. More tea bags, low on firewood at the deck box..."></textarea>
+      <div class="two-col">
+        <select id="ho-by">
+          <option value="">Your name</option>
+          ${NAMES.map(n=>`<option value="${n}">${n}</option>`).join('')}
+        </select>
+        <button class="btn btn-primary" onclick="wcAddHandover()">${ICONS.plus} Add note</button>
+      </div>
+    </div>
+    ${tent==='kowhai' ? gasCheckCard(tent, NAMES) : ''}
+    <div style="display:flex; flex-direction:column; gap:9px;">
+      ${list.length? list.map(n=>`
+        <div class="card note-card">
+          <button class="check-btn ${n.done?'checked':''}" onclick="wcToggleHandover('${tent}','${n.id}')">${n.done?ICONS.check:''}</button>
+          <div class="note-text ${n.done?'done':''}">
+            ${esc(n.text)}
+            <div class="note-meta">${esc(n.by||'Team')} · ${fmtDateShort(n.date)}</div>
+          </div>
+          ${delBtnHtml('ho-'+tent+'-'+n.id, `wcDeleteHandover('${tent}','${n.id}')`)}
+        </div>`).join('')
+      : `<div class="empty">${ICONS.empty}<div>No notes for this tent yet.</div></div>`}
+    </div>
+  </div>`;
+}
 
 window.wcAddHandover = async function(){
   const text = document.getElementById('ho-text').value.trim();
