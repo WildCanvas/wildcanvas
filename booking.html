@@ -358,7 +358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="navbtns">
           <button class="btn btn-out" onclick="resetTent()">&#8592; Back</button>
-          <button class="btn btn-dark" onclick="toStep2()">Continue &#8594;</button>
+          <button class="btn btn-dark" id="to-step2-btn" onclick="toStep2()">Continue &#8594;</button>
         </div>
       </div>
     </div>
@@ -517,19 +517,47 @@ var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
 var BLK = { kowhai: [], pohutukawa: [] };
 var BLK_LOADED = false;
+var BLK_FAILED = false;
 var BLK_PROMISE = null;
 
-// Kick off availability fetch immediately on page load — before any tent is selected
-BLK_PROMISE = fetch(SCRIPT_URL + '?action=availability')
-  .then(function(r){ return r.json(); })
-  .then(function(data){
-    BLK.kowhai = data.kowhai || [];
-    BLK.pohutukawa = data.pohutukawa || [];
-    BLK_LOADED = true;
-  })
-  .catch(function(){
-    BLK_LOADED = true;
-  });
+// Kick off availability fetch immediately on page load — before any tent is selected.
+// IMPORTANT: a failed/timed-out fetch must NOT be treated the same as "nothing is
+// blocked" — that would silently show every date as available. So on failure we
+// retry once before giving up, and only then fall back to an error state.
+function fetchAvailabilityOnce() {
+  return fetch(SCRIPT_URL + '?action=availability').then(function(r){ return r.json(); });
+}
+
+function fetchAvailability() {
+  return fetchAvailabilityOnce()
+    .then(function(data){
+      BLK.kowhai = data.kowhai || [];
+      BLK.pohutukawa = data.pohutukawa || [];
+      BLK_LOADED = true;
+      BLK_FAILED = false;
+    })
+    .catch(function(){
+      return new Promise(function(resolve){
+        setTimeout(function(){
+          fetchAvailabilityOnce()
+            .then(function(data){
+              BLK.kowhai = data.kowhai || [];
+              BLK.pohutukawa = data.pohutukawa || [];
+              BLK_LOADED = true;
+              BLK_FAILED = false;
+              resolve();
+            })
+            .catch(function(){
+              BLK_LOADED = true;
+              BLK_FAILED = true;
+              resolve();
+            });
+        }, 1500);
+      });
+    });
+}
+
+BLK_PROMISE = fetchAvailability();
 
 function loadAvailability(callback) {
   if (BLK_LOADED) { if(callback) callback(); return; }
@@ -631,6 +659,12 @@ function renderCal() {
   document.getElementById('cal-mo').textContent = MONTHS[S.mo] + ' ' + S.yr;
   var g = document.getElementById('cal-grid');
   g.innerHTML = '';
+  if (BLK_FAILED) {
+    g.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:1.5rem;color:#b08878;font-size:.85rem;">' +
+      "Couldn't load availability. Please refresh the page and try again." +
+      '<br><button class="btn btn-out" style="margin-top:.75rem;" onclick="location.reload()">Refresh</button></div>';
+    return;
+  }
   for (var i=0; i<7; i++) {
     var e = document.createElement('div');
     e.className = 'cdow';
@@ -761,10 +795,55 @@ function genRef() {
 function toStep2() {
   if (!S.tent) { alert('Please choose a tent.'); return; }
   if (!S.ci || !S.co) { alert('Please select your check-in and check-out dates.'); return; }
-  S.ref = genRef();
-  document.getElementById('refbox').style.display = 'inline-flex';
-  document.getElementById('refcode').textContent = S.ref;
-  goStep(2);
+
+  var btn = document.getElementById('to-step2-btn');
+  var origLabel = btn.textContent;
+  btn.textContent = 'Checking availability…';
+  btn.disabled = true;
+
+  // Re-fetch availability to guard against a stale calendar (e.g. a tab left
+  // open/backgrounded for a while) letting an already-blocked date through.
+  fetchAvailabilityOnce()
+    .then(function(data) {
+      BLK.kowhai = data.kowhai || [];
+      BLK.pohutukawa = data.pohutukawa || [];
+
+      var conflict = false;
+      var cur = new Date(S.ci + 'T00:00:00');
+      var end = new Date(S.co + 'T00:00:00');
+      while (cur < end) {
+        var ds2 = cur.getFullYear() + '-' +
+          String(cur.getMonth()+1).padStart(2,'0') + '-' +
+          String(cur.getDate()).padStart(2,'0');
+        if (isBlocked(S.tent, ds2)) { conflict = true; break; }
+        cur.setDate(cur.getDate() + 1);
+      }
+
+      btn.textContent = origLabel;
+      btn.disabled = false;
+
+      if (conflict) {
+        alert('Sorry, one of your selected dates was just booked. Please choose new dates.');
+        S.ci = null; S.co = null;
+        renderCal();
+        return;
+      }
+
+      S.ref = genRef();
+      document.getElementById('refbox').style.display = 'inline-flex';
+      document.getElementById('refcode').textContent = S.ref;
+      goStep(2);
+    })
+    .catch(function() {
+      // Don't block a real guest if this particular re-check fails to load —
+      // fall back to proceeding; the final Confirm & Pay step re-checks again anyway.
+      btn.textContent = origLabel;
+      btn.disabled = false;
+      S.ref = genRef();
+      document.getElementById('refbox').style.display = 'inline-flex';
+      document.getElementById('refcode').textContent = S.ref;
+      goStep(2);
+    });
 }
 
 function toStep3() {
