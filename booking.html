@@ -519,6 +519,12 @@ var BLK = { kowhai: [], pohutukawa: [] };
 var BLK_LOADED = false;
 var BLK_FAILED = false;
 var BLK_PROMISE = null;
+var BLK_FETCHED_AT = 0;
+// The availability endpoint is slow (re-scans the whole Bookings sheet on
+// every call — can take 10+ seconds). Only worth re-hitting it if the data
+// on hand might actually be stale; a guest who picked dates and clicked
+// Continue moments after the calendar loaded doesn't need to wait twice.
+var BLK_FRESH_WINDOW_MS = 2 * 60 * 1000;
 
 // Kick off availability fetch immediately on page load — before any tent is selected.
 // IMPORTANT: a failed/timed-out fetch must NOT be treated the same as "nothing is
@@ -535,6 +541,7 @@ function fetchAvailability() {
       BLK.pohutukawa = data.pohutukawa || [];
       BLK_LOADED = true;
       BLK_FAILED = false;
+      BLK_FETCHED_AT = Date.now();
     })
     .catch(function(){
       return new Promise(function(resolve){
@@ -545,6 +552,7 @@ function fetchAvailability() {
               BLK.pohutukawa = data.pohutukawa || [];
               BLK_LOADED = true;
               BLK_FAILED = false;
+              BLK_FETCHED_AT = Date.now();
               resolve();
             })
             .catch(function(){
@@ -792,9 +800,44 @@ function genRef() {
   return p + '-' + (Math.floor(Math.random()*90000)+10000);
 }
 
+function hasDateConflict_() {
+  var cur = new Date(S.ci + 'T00:00:00');
+  var end = new Date(S.co + 'T00:00:00');
+  while (cur < end) {
+    var ds2 = cur.getFullYear() + '-' +
+      String(cur.getMonth()+1).padStart(2,'0') + '-' +
+      String(cur.getDate()).padStart(2,'0');
+    if (isBlocked(S.tent, ds2)) return true;
+    cur.setDate(cur.getDate() + 1);
+  }
+  return false;
+}
+
+function proceedToStep2_(conflict) {
+  if (conflict) {
+    alert('Sorry, one of your selected dates was just booked. Please choose new dates.');
+    S.ci = null; S.co = null;
+    renderCal();
+    return;
+  }
+  S.ref = genRef();
+  document.getElementById('refbox').style.display = 'inline-flex';
+  document.getElementById('refcode').textContent = S.ref;
+  goStep(2);
+}
+
 function toStep2() {
   if (!S.tent) { alert('Please choose a tent.'); return; }
   if (!S.ci || !S.co) { alert('Please select your check-in and check-out dates.'); return; }
+
+  // The availability endpoint is slow, so only re-hit it if the data we're
+  // holding could plausibly be stale (tab backgrounded/resumed a while, etc).
+  // Most guests pick dates and click Continue within moments of the calendar
+  // loading — for them, skip straight through with no extra wait.
+  if (BLK_LOADED && !BLK_FAILED && (Date.now() - BLK_FETCHED_AT) < BLK_FRESH_WINDOW_MS) {
+    proceedToStep2_(hasDateConflict_());
+    return;
+  }
 
   var btn = document.getElementById('to-step2-btn');
   var origLabel = btn.textContent;
@@ -807,42 +850,17 @@ function toStep2() {
     .then(function(data) {
       BLK.kowhai = data.kowhai || [];
       BLK.pohutukawa = data.pohutukawa || [];
-
-      var conflict = false;
-      var cur = new Date(S.ci + 'T00:00:00');
-      var end = new Date(S.co + 'T00:00:00');
-      while (cur < end) {
-        var ds2 = cur.getFullYear() + '-' +
-          String(cur.getMonth()+1).padStart(2,'0') + '-' +
-          String(cur.getDate()).padStart(2,'0');
-        if (isBlocked(S.tent, ds2)) { conflict = true; break; }
-        cur.setDate(cur.getDate() + 1);
-      }
-
+      BLK_FETCHED_AT = Date.now();
       btn.textContent = origLabel;
       btn.disabled = false;
-
-      if (conflict) {
-        alert('Sorry, one of your selected dates was just booked. Please choose new dates.');
-        S.ci = null; S.co = null;
-        renderCal();
-        return;
-      }
-
-      S.ref = genRef();
-      document.getElementById('refbox').style.display = 'inline-flex';
-      document.getElementById('refcode').textContent = S.ref;
-      goStep(2);
+      proceedToStep2_(hasDateConflict_());
     })
     .catch(function() {
       // Don't block a real guest if this particular re-check fails to load —
       // fall back to proceeding; the final Confirm & Pay step re-checks again anyway.
       btn.textContent = origLabel;
       btn.disabled = false;
-      S.ref = genRef();
-      document.getElementById('refbox').style.display = 'inline-flex';
-      document.getElementById('refcode').textContent = S.ref;
-      goStep(2);
+      proceedToStep2_(false);
     });
 }
 
