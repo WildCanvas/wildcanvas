@@ -311,8 +311,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="cal-sec" style="display:none">
       <div class="cal-sec">
         <div class="sec-title" id="cal-title">Select your dates</div>
-        <div class="sec-sub">Click check-in then check-out</div>
-        <div class="minstay">Minimum 1 night. 3-night minimum: 22 Dec &ndash; 5 Jan.</div>
+        <div class="sec-sub">Click check-in then check-out &middot; 1-night minimum stay</div>
+        <div class="minstay">Exception: 3-night minimum for stays between 22 Dec &ndash; 5 Jan.</div>
         <div class="cal-card">
           <div class="cal-hdr">
             <button class="cnav" onclick="chMo(-1)">&#8249;</button>
@@ -321,7 +321,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="cgrid" id="cal-grid"></div>
           <div class="clegend">
-            <div class="cleg"><span class="cdot" style="background:#3D5A47"></span>Available</div>
+            <div class="cleg"><span class="cdot" style="background:#EAF0E6;border:1px solid rgba(42,37,53,.18)"></span>Available</div>
             <div class="cleg"><span class="cdot" style="background:#F3DAD3;border:1px solid rgba(42,37,53,.18)"></span>Unavailable</div>
             <div class="cleg"><span class="cdot" style="background:#2A2535"></span>Your selection</div>
           </div>
@@ -376,7 +376,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="fg"><label>Email address *</label><input type="email" id="em" placeholder="Email address"></div>
         <div class="fg"><label>Phone number *</label><input type="tel" id="ph" placeholder="Phone number"></div>
         <div class="fg"><label>Country *</label>
-          <select id="cn">
+          <select id="cn" onchange="toggleOtherCountry(this)">
             <option value="">Select your country&hellip;</option>
             <option>New Zealand</option><option>Australia</option><option>United Kingdom</option>
             <option>United States</option><option>Canada</option><option>Germany</option>
@@ -385,6 +385,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <option>Singapore</option><option>South Korea</option><option>India</option>
             <option>South Africa</option><option>Brazil</option><option>Puerto Rico</option><option>Other</option>
           </select>
+          <input type="text" id="cn-other" placeholder="Please tell us your country&hellip;" style="display:none;margin-top:.5rem;">
         </div>
         <div class="fg full"><label>Notes or special requests</label>
           <textarea id="no" placeholder="Dietary requirements, special occasion, accessibility needs&hellip;"></textarea>
@@ -400,7 +401,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <option>RedNote</option>
             <option>AI (ChatGPT / Claude / other)</option>
             <option>Magazine</option>
-            <option>Returning guest</option>
+            <option>I am a returning guest</option>
             <option>Gifted a stay</option>
             <option>Other</option>
           </select>
@@ -869,12 +870,15 @@ function toStep3() {
   S.ln = document.getElementById('ln').value.trim();
   S.em = document.getElementById('em').value.trim();
   S.ph = document.getElementById('ph').value.trim();
-  S.cn = document.getElementById('cn').value;
+  var cnVal = document.getElementById('cn').value;
+  var cnOther = document.getElementById('cn-other').value.trim();
+  S.cn = cnVal === 'Other' && cnOther ? cnOther : cnVal;
   S.no = document.getElementById('no').value.trim();
   var hdyhauVal = document.getElementById('hdyhau').value;
   var hdyhauOther = document.getElementById('hdyhau-other').value.trim();
   S.hdyhau = hdyhauVal === 'Other' && hdyhauOther ? 'Other: ' + hdyhauOther : hdyhauVal;
   if (!S.fn || !S.ln || !S.em || !S.ph || !S.cn) { alert('Please fill in all required fields (*).'); return; }
+  if (cnVal === 'Other' && !cnOther) { alert('Please tell us your country.'); return; }
   if (S.em.indexOf('@') < 0) { alert('Please enter a valid email address.'); return; }
 
   // Log a booking draft so we can follow up if they don't complete checkout.
@@ -1290,6 +1294,11 @@ function setPizzaFlavour(sel) {
 
 function toggleOther(sel) {
   var other = document.getElementById('hdyhau-other');
+  other.style.display = sel.value === 'Other' ? 'block' : 'none';
+  if (sel.value !== 'Other') other.value = '';
+}
+function toggleOtherCountry(sel) {
+  var other = document.getElementById('cn-other');
   other.style.display = sel.value === 'Other' ? 'block' : 'none';
   if (sel.value !== 'Other') other.value = '';
 }
