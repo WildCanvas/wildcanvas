@@ -41,8 +41,17 @@
 /product-page/option-1-back-neck-and-shoulder-for-two-gguests  /experiences.html  301
 /product-page/*                                                /experiences.html  301
 
-# News — keep pointing to Wix until migrated
-/news/*             https://www.wildcanvas.nz/news/:splat  301
+# Old Wix blog posts — send to the closest page (was a redirect loop)
+/news/the-ultimate-girls-weekend                       /pohutukawa   301
+/news/opening-of-the-pohutukawa-tent                   /pohutukawa   301
+/news/the-new-kōwhai-tent-has-arrived                  /kowhai       301
+/news/the-new-k%C5%8Dwhai-tent-has-arrived             /kowhai       301
+/news/waitomo-hilltop-glamping-is-now-wild-canvas      /about        301
+/news/our-airbnb-best-design-stay-award                /media        301
+/news/kia-ora                                          /media        301
+/news/5-star-glamping                                  /             301
+/news/new-glampsite                                    /             301
+/news/*                                                /news         301
 
 # Catch-all — anything not matched goes to home
 /*                  /index.html           200

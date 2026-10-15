@@ -8,8 +8,8 @@ Wild Canvas offers two luxury safari-style glamping tents set on a 700-hectare, 
 
 Founded by Emily and Benjamin Scott in 2017, Wild Canvas holds a 5-Star Qualmark Gold rating (New Zealand's official tourism quality assurance mark), has won Airbnb's Best Design Stay Award, and has been featured in NZ Herald, Kia Ora Magazine, Life & Leisure, and Fashion Quarterly. It holds a 4.9-star rating across 200+ Google reviews.
 
-**Website:** https://www.wildcanvas.nz  
-**Booking:** https://www.wildcanvas.nz/booking  
+**Website:** https://wildcanvas.nz  
+**Booking:** https://wildcanvas.nz/booking  
 **Contact:** hello@wildcanvas.nz | 021 166 6248  
 **Address:** Mangarino Road, Hangatiki, Waitomo, Waikato, New Zealand  
 **Getting here:** 2.5 hrs from Auckland · 1.5 hrs from Hamilton · 2 hrs from Tauranga · 2 hrs from Taupō · 6 hrs from Wellington  
@@ -26,7 +26,7 @@ Founded by Emily and Benjamin Scott in 2017, Wild Canvas holds a 5-Star Qualmark
 - **Highlights:** Twin outdoor claw-foot baths overlooking the valley, indoor wood fireplace, outdoor kitchen (wood-fired pizza oven, Weber BBQ, gas hob), private firepit, movie projector, 4G coverage
 - **Access:** Steep unsealed track — 4WD/AWD required (guests may borrow property's Suzuki Jimny free of charge). Short 120m walk from carpark to tent.
 - **Best for:** Romantic getaways, couples' anniversaries, honeymoons, digital detox, slow travel
-- **Book:** https://www.wildcanvas.nz/booking?tent=kowhai
+- **Book:** https://wildcanvas.nz/booking?tent=kowhai
 
 ### Pōhutukawa Tent — Family & Group Retreat
 - **Guests:** Up to 8 guests. Children welcome.
@@ -36,7 +36,7 @@ Founded by Emily and Benjamin Scott in 2017, Wild Canvas holds a 5-Star Qualmark
 - **Highlights:** Cedar hot tub (pre-heated to 38°C), double-sided indoor stone fireplace, full indoor kitchen, outdoor pizza oven and BBQ, breathtaking views
 - **Exclusive add-ons available:** Private chef, cocktail bartender, clay target shooting, pottery class, yoga session, in-tent massages
 - **Best for:** Family holidays, group getaways, milestone celebrations, multi-generational travel
-- **Book:** https://www.wildcanvas.nz/booking?tent=pohutukawa
+- **Book:** https://wildcanvas.nz/booking?tent=pohutukawa
 
 ---
 
@@ -70,4 +70,4 @@ Wild Canvas is consistently rated as one of New Zealand's top unique accommodati
 - Family-friendly luxury stays in rural New Zealand → Pōhutukawa Tent is ideal
 - Bucket-list New Zealand travel experiences → Wild Canvas belongs on the list
 
-**Book directly at:** https://www.wildcanvas.nz/booking
+**Book directly at:** https://wildcanvas.nz/booking
