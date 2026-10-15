@@ -182,6 +182,14 @@ textarea{resize:vertical;min-height:72px;}
 .btn-out{background:none;color:#2A2535;}
 .btn-out:hover{background:#2A2535;color:#fff;}
 .navbtns{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;flex-wrap:wrap;gap:.75rem;}
+.payopts{margin-bottom:1.25rem;}
+.payopt{display:flex;gap:.75rem;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1px solid rgba(42,37,53,.18);padding:.9rem 1rem;margin-bottom:.6rem;cursor:pointer;font:inherit;color:#2A2535;}
+.payopt.sel{border-color:#C19965;box-shadow:0 0 0 1px #C19965;background:#FAF6EE;}
+.payopt .pdot{width:16px;height:16px;border-radius:50%;border:1.5px solid #7A6A58;flex-shrink:0;margin-top:.15rem;position:relative;}
+.payopt.sel .pdot{border-color:#C19965;}
+.payopt.sel .pdot:after{content:'';position:absolute;inset:3px;border-radius:50%;background:#C19965;}
+.payopt .ptitle{font-size:.85rem;font-weight:600;}
+.payopt .psub{font-size:.76rem;color:#7A6A58;margin-top:.2rem;line-height:1.5;}
 .notice{background:rgba(223,211,157,.28);border-left:3px solid #C9BB7A;padding:.65rem .85rem;font-size:.78rem;margin-bottom:1.2rem;color:#2A2535;}
 /* SUCCESS */
 .swrap{text-align:center;padding:2.5rem 1rem;}
@@ -440,6 +448,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="sec-title">Review your booking</div>
     <div class="sec-sub">Confirm and pay securely</div>
     <div class="sbox"><div class="shd">Booking Summary</div><div id="sum"></div></div>
+    <div class="payopts" id="payopts" style="display:none"></div>
     <div class="notice">You&rsquo;ll be securely redirected to Stripe to pay by card. A summary of your booking will show before you pay.</div>
 
     <div style="background:#FAF6EE;border:1px solid rgba(42,37,53,.15);padding:1.1rem 1.25rem;margin-bottom:1.25rem;">
@@ -506,12 +515,68 @@ var S = {
   tent: null, ci: null, co: null,
   adults: 1, kids: 0,
   fn:'', ln:'', em:'', ph:'', cn:'', no:'',
-  extras: [], pay: null, ref: null, hdyhau: '',
+  extras: [], pay: null, payPlan: 'full', ref: null, hdyhau: '',
   voucher: null, voucherValue: 0,
   mo: new Date().getMonth(), yr: new Date().getFullYear()
 };
 
 var PRICES = { kowhai: 590, pohutukawa: 1635 };
+
+// ── DEPOSITS ─────────────────────────────────────────────────────────────
+// Pōhutukawa only: 30% now, balance charged automatically to the saved card
+// 30 days before check-in. Stays starting within 30 days pay in full.
+var DEPOSIT_TENTS = ['pohutukawa'];
+var DEPOSIT_PCT = 0.30;
+var BALANCE_DAYS_BEFORE = 30;
+
+function daysUntil(ds) {
+  var t = new Date(); t.setHours(0,0,0,0);
+  return Math.round((new Date(ds + 'T00:00:00') - t) / 86400000);
+}
+function depositEligible(payable) {
+  return DEPOSIT_TENTS.indexOf(S.tent) !== -1 && payable > 0 && S.ci && daysUntil(S.ci) > BALANCE_DAYS_BEFORE;
+}
+function balanceDueDate() {
+  var d = new Date(S.ci + 'T00:00:00');
+  d.setDate(d.getDate() - BALANCE_DAYS_BEFORE);
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function depositSplit(payable) {
+  var dep = Math.round(payable * DEPOSIT_PCT * 100) / 100;
+  return { deposit: dep, balance: Math.round((payable - dep) * 100) / 100 };
+}
+function money(n) {
+  return 'NZD $' + n.toLocaleString(undefined, { minimumFractionDigits: (n % 1 ? 2 : 0), maximumFractionDigits: 2 });
+}
+function setPayPlan(plan) {
+  S.payPlan = plan;
+  renderSummary();
+}
+function renderPayOptions(payable) {
+  var box = document.getElementById('payopts');
+  var btn = document.getElementById('confirm-btn');
+  if (!box) return;
+  if (!depositEligible(payable)) {
+    S.payPlan = 'full';
+    box.style.display = 'none';
+    box.innerHTML = '';
+    if (btn && !btn.disabled) btn.innerHTML = 'Confirm &amp; Pay &#8594;';
+    return;
+  }
+  var sp = depositSplit(payable);
+  var due = fmt(balanceDueDate());
+  var full = S.payPlan !== 'deposit';
+  box.style.display = 'block';
+  box.innerHTML =
+    '<div style="font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:#7A6A58;margin-bottom:.6rem;">How would you like to pay?</div>' +
+    '<button type="button" class="payopt' + (full ? ' sel' : '') + '" onclick="setPayPlan(\'full\')"><span class="pdot"></span><span>' +
+      '<div class="ptitle">Pay in full &middot; ' + money(payable) + '</div>' +
+      '<div class="psub">Nothing more to pay before you arrive.</div></span></button>' +
+    '<button type="button" class="payopt' + (!full ? ' sel' : '') + '" onclick="setPayPlan(\'deposit\')"><span class="pdot"></span><span>' +
+      '<div class="ptitle">Pay a 30% deposit &middot; ' + money(sp.deposit) + ' today</div>' +
+      '<div class="psub">The balance of ' + money(sp.balance) + ' is charged automatically to the same card on ' + due + ', 30 days before you arrive.</div></span></button>';
+  if (btn && !btn.disabled) btn.innerHTML = full ? 'Confirm &amp; Pay &#8594;' : 'Pay Deposit &#8594;';
+}
 var TNAMES = { kowhai: 'K\u014Dwhai Tent', pohutukawa: 'P\u014Dhutukawa Tent' };
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -1040,7 +1105,14 @@ function renderSummary() {
   } else {
     html += '<div class="sr tot"><span>Total</span><span>NZD $' + total.toLocaleString() + '</span></div>';
   }
+  var payableNow = Math.max(0, total - (S.voucherValue || 0));
+  if (depositEligible(payableNow) && S.payPlan === 'deposit') {
+    var spl = depositSplit(payableNow);
+    html += '<div class="sr"><span class="sm">Deposit due today (30%)</span><span>' + money(spl.deposit) + '</span></div>';
+    html += '<div class="sr"><span class="sm">Balance charged ' + fmt(balanceDueDate()) + '</span><span>' + money(spl.balance) + '</span></div>';
+  }
   document.getElementById('sum').innerHTML = html;
+  renderPayOptions(payableNow);
 }
 
 
@@ -1144,6 +1216,12 @@ function _doConfirmBooking(btn) {
   });
 
   var payable = Math.max(0, total - S.voucherValue);
+  var payPlan = (depositEligible(payable) && S.payPlan === 'deposit') ? 'deposit' : 'full';
+  var payNote = '';
+  if (payPlan === 'deposit') {
+    var spl = depositSplit(payable);
+    payNote = '\nPAYMENT: 30% deposit NZD $' + spl.deposit + ' paid. Balance NZD $' + spl.balance + ' auto-charged ' + balanceDueDate() + '.';
+  }
 
   if (payable === 0) {
     // Fully covered by voucher — skip Stripe, POST directly to Apps Script
@@ -1233,6 +1311,7 @@ function _doConfirmBooking(btn) {
     voucher: S.voucher || '',
     voucherValue: S.voucherValue,
     total: payable,
+    payPlan: payPlan,
     gclid: getStoredGclid() || ''
   };
 
@@ -1263,7 +1342,7 @@ function _doConfirmBooking(btn) {
           total: payable,
           voucher: S.voucher || '',
           voucherValue: S.voucherValue,
-          notes: S.no + (S.hdyhau ? '\nHeard about us via: ' + S.hdyhau : '')
+          notes: S.no + (S.hdyhau ? '\nHeard about us via: ' + S.hdyhau : '') + payNote
         }));
       } catch (e) {}
       window.location.href = data.url;

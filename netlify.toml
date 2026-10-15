@@ -4,3 +4,7 @@
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["sharp", "@napi-rs/canvas"]
+
+# Charge Pōhutukawa deposit balances daily at 9am NZ (20:00 UTC)
+[functions."charge-balances"]
+  schedule = "0 20 * * *"
