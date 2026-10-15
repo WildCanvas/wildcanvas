@@ -77,6 +77,12 @@ exports.handler = async function(event) {
     if (!meta.ref) {
       return { statusCode: 200, body: 'No metadata, skipping' };
     }
+    // Deposit bookings: record the full booking value, and note the payment plan
+    const isDeposit = meta.paymentPlan === 'deposit';
+    const paymentNote = isDeposit
+      ? '\nPAYMENT: 30% deposit NZD $' + meta.depositAmount + ' paid. Balance NZD $' +
+        meta.balanceAmount + ' auto-charged ' + meta.balanceDueDate + '.'
+      : '';
     const bookingData = {
       action: 'booking',
       ref: meta.ref,
@@ -91,10 +97,13 @@ exports.handler = async function(event) {
       adults: parseInt(meta.adults) || 1,
       kids: parseInt(meta.kids) || 0,
       extras: meta.extras || 'None',
-      total: (session.amount_total / 100),
+      total: isDeposit ? parseFloat(meta.bookingTotal) : (session.amount_total / 100),
+      amountPaid: (session.amount_total / 100),
+      balanceDue: isDeposit ? parseFloat(meta.balanceAmount) : 0,
+      balanceDueDate: isDeposit ? meta.balanceDueDate : '',
       voucher: meta.voucher || '',
       voucherValue: parseFloat(meta.voucherValue) || 0,
-      notes: meta.notes || ''
+      notes: (meta.notes || '') + paymentNote
     };
     try {
       const response = await fetch(SCRIPT_URL, {
