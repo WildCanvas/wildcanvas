@@ -51,7 +51,18 @@ async function chargeBalance(pi) {
     }
   }
 
-  if (!pi.customer || !pi.payment_method || !(amount > 0)) {
+  // Use the guest's default card if they've updated it via the Stripe customer portal,
+  // otherwise the card they paid the deposit with.
+  let paymentMethod = pi.payment_method;
+  if (pi.customer) {
+    try {
+      const cust = await stripe.customers.retrieve(pi.customer);
+      const def = cust && cust.invoice_settings && cust.invoice_settings.default_payment_method;
+      if (def) paymentMethod = typeof def === 'string' ? def : def.id;
+    } catch (e) { console.log('Could not read customer default card:', e.message); }
+  }
+
+  if (!pi.customer || !paymentMethod || !(amount > 0)) {
     await markDeposit(pi.id, { balanceStatus: 'failed', balanceNote: 'Missing saved card or amount — charge manually' });
     return { ref: m.ref, result: 'failed (no saved card)' };
   }
@@ -61,7 +72,7 @@ async function chargeBalance(pi) {
       amount,
       currency: 'nzd',
       customer: pi.customer,
-      payment_method: pi.payment_method,
+      payment_method: paymentMethod,
       off_session: true,
       confirm: true,
       description: label,
