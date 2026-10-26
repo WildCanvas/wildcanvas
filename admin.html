@@ -41,6 +41,17 @@ body{font-family:Georgia,serif;background:#DFD39D;color:#2A2535;min-height:100vh
 .stat{background:#FAF6EE;border:1px solid rgba(42,37,53,.12);padding:1rem 1.2rem;}
 .stat-val{font-size:1.6rem;font-weight:700;font-style:italic;color:#2A2535;}
 .stat-lbl{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:#7A6A58;margin-top:.2rem;}
+.bal-wrap{background:#FAF6EE;border:1px solid rgba(42,37,53,.12);padding:1.1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:.5rem;}
+.bal-hdr{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.25rem;}
+.bal-title{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:#7A6A58;}
+.bal-total{font-size:1.3rem;font-weight:700;font-style:italic;color:#2A2535;}
+.bal-total span{font-size:.72rem;font-weight:400;font-style:normal;color:#7A6A58;}
+.bal-item{background:#fff;border:1px solid rgba(42,37,53,.12);border-left:4px solid #3D5A47;padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;}
+.bal-item:hover{border-color:#2A2535;}
+.bal-right{text-align:right;flex-shrink:0;}
+.bal-amt{font-size:.9rem;font-weight:700;color:#2A2535;}
+.bal-when{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#7A6A58;margin-top:.15rem;}
+.bal-sub{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#7A6A58;margin-top:.5rem;}
 
 /* CALENDAR */
 .cal-wrap{background:#FAF6EE;border:1px solid rgba(42,37,53,.12);padding:1.25rem;margin-bottom:1.5rem;}
@@ -193,6 +204,7 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
         <div class="stat"><div class="stat-val" id="s-revenue">—</div><div class="stat-lbl">Future revenue</div></div>
         <div class="stat"><div class="stat-val" id="s-total">—</div><div class="stat-lbl">All bookings</div></div>
       </div>
+      <div id="balances-overview"></div>
       <div id="holds-list-overview"></div>
       <div id="upcoming-list" class="bookings-list"><div class="loading">Loading bookings…</div></div>
     </div>
@@ -457,10 +469,62 @@ function renderOverview() {
   document.getElementById('s-revenue').textContent = 'NZD $' + Math.round(revenue).toLocaleString();
   document.getElementById('s-total').textContent = allBookings.filter(function(b){return b.status !== 'Cancelled';}).length;
 
+  renderBalances();
+
   var list = document.getElementById('upcoming-list');
   if (upcoming.length === 0) { list.innerHTML = '<div class="empty">No upcoming bookings</div>'; return; }
   list.innerHTML = '<div style="font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:#7A6A58;margin-bottom:.75rem;">Upcoming stays</div>' +
     upcoming.slice(0,5).map(function(b){ return bookingCard(b); }).join('');
+}
+
+// ── BALANCES OWING (deposit bookings) ─────────────────────────────────────
+// Reads the PAYMENT line the booking system writes into notes:
+// "PAYMENT: 30% deposit NZD $X paid. Balance NZD $Y auto-charged YYYY-MM-DD."
+// Balances are charged by the daily Netlify job; once the charge date has
+// passed the row moves to "recently charged" (confirm in Stripe if in doubt).
+function renderBalances() {
+  var box = document.getElementById('balances-overview');
+  if (!box) return;
+  var now = new Date();
+  var today = dsStr(now.getFullYear(), now.getMonth(), now.getDate()); // local date, not UTC
+  var rows = allBookings.map(function(b){
+    if (b.status === 'Cancelled') return null;
+    var m = String(b.notes || '').match(/Balance NZD \$([\d.,]+) auto-charged (\d{4}-\d{2}-\d{2})/);
+    if (!m) return null;
+    return { b: b, amount: parseFloat(m[1].replace(/,/g, '')) || 0, date: m[2] };
+  }).filter(Boolean).sort(function(a, z){ return a.date > z.date ? 1 : -1; });
+
+  var owing = rows.filter(function(r){ return r.date >= today; });
+  var recent = rows.filter(function(r){ return r.date < today && r.b.checkin >= today; });
+  if (!owing.length && !recent.length) { box.innerHTML = ''; return; }
+
+  var total = owing.reduce(function(s, r){ return s + r.amount; }, 0);
+  var money = function(n){ return 'NZD $' + n.toLocaleString('en-NZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+  var esc = function(s){ return String(s || '').replace(/[&<>"']/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]; }); };
+  var fmtY = function(d){ return new Date(d + 'T12:00:00').toLocaleDateString('en-NZ', { day: 'numeric', month: 'short', year: 'numeric' }); };
+  var item = function(r, label){
+    var days = Math.round((new Date(r.date) - new Date(today)) / 86400000);
+    var when = label || (days === 0 ? 'Charging today' : days === 1 ? 'Tomorrow' : 'In ' + days + ' days');
+    return '<div class="bal-item" onclick="openBookingByRef(\'' + esc(r.b.ref) + '\')">' +
+      '<div><div class="blk-info"><strong>' + esc(r.b.name) + '</strong> · ' + esc(r.b.tent) + ' · ' + fmtY(r.b.checkin) + '</div>' +
+      '<div class="blk-sub">' + esc(r.b.ref) + ' · balance charged ' + fmtY(r.date) + '</div></div>' +
+      '<div class="bal-right"><div class="bal-amt">' + money(r.amount) + '</div><div class="bal-when">' + when + '</div></div></div>';
+  };
+
+  var html = '<div class="bal-wrap">' +
+    '<div class="bal-hdr"><div class="bal-title">Balances owing</div>' +
+    '<div class="bal-total">' + money(total) + '<span> across ' + owing.length + ' booking' + (owing.length === 1 ? '' : 's') + '</span></div></div>' +
+    owing.map(function(r){ return item(r); }).join('');
+  if (recent.length) {
+    html += '<div class="bal-sub">Recently charged — check Stripe if a payment failed</div>' +
+      recent.map(function(r){ return item(r, 'Charged'); }).join('');
+  }
+  box.innerHTML = html + '</div>';
+}
+
+function openBookingByRef(ref) {
+  var b = allBookings.filter(function(x){ return x.ref === ref; })[0];
+  if (b) openBooking(b);
 }
 
 // ── BOOKINGS LIST ─────────────────────────────────────────────────────────
