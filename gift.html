@@ -619,6 +619,14 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
   ]
 }
 </script>
+<style id="wc-mobile-polish">
+/* Mobile readability and tap targets */
+@media (max-width: 600px) {
+  .eyebrow, .perk, .trust > span, .stars, .voucher-tag, .tag, .voucher-link, .price-label, .field > label, .term-item > h4, .footer-col > h4, .social-links > a { font-size: 11px !important; }
+  .footer-col a { padding: 0.3rem 0; }
+  .social-links a { display: inline-block; padding: 0.6rem 0; }
+}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -689,7 +697,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- ═══ HERO ══════════════════════════════════ -->
 <section class="hero">
   <!-- PHOTO: Replace the src below with your chosen image URL -->
-  <img class="hero-img"
+  <img fetchpriority="high" class="hero-img"
     src="wild-canvas-gift-voucher-luxury-glamping-waitomo.webp"
     alt="Wild Canvas luxury glamping Waitomo"/>
   <div class="hero-text" style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;">
@@ -701,7 +709,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     </div>
     <div class="hero-stamp" style="">
-      <img src="wild-canvas-where-time-stops-stamp.svg" alt="Wild Canvas Glamping Escapes — where time stops and memories are made" style="width:130px;height:auto;opacity:0.55;"/>
+      <img loading="lazy" decoding="async" src="wild-canvas-where-time-stops-stamp.svg" alt="Wild Canvas Glamping Escapes — where time stops and memories are made" style="width:130px;height:auto;opacity:0.55;"/>
     </div>
   </div>
 </section>
@@ -929,7 +937,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-grid">
     <div>
       <div class="footer-logo">
-        <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+        <img loading="lazy" decoding="async" src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
           onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/>
       </div>
       <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>

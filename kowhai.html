@@ -742,6 +742,38 @@ footer { background: var(--bark); padding: 3.5rem 3.5rem 2rem; }
   ]
 }
 </script>
+<style id="wc-mobile-polish">
+/* Mobile readability and tap targets */
+@media (max-width: 600px) {
+  .eyebrow, .fact-label, .glance-item-label, .stay-time, .pc-counter, .note-item > h4, .addon-link, .footer-col > h4, .social-links > a { font-size: 11px !important; }
+  .footer-col a { padding: 0.3rem 0; }
+  .social-links a { display: inline-block; padding: 0.6rem 0; }
+  table { table-layout: fixed; }
+  th, td { padding: 0.75rem 0.5rem !important; overflow-wrap: anywhere; }
+  th { letter-spacing: 0.08em !important; }
+}
+</style>
+<style id="wc-book-bar-css">
+.wc-book-bar { display: none; }
+@media (max-width: 900px) {
+  .wc-book-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 150;
+    padding: 0.75rem 1.2rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: var(--cream); border-top: 1px solid rgba(61,46,30,0.15);
+    box-shadow: 0 -6px 20px rgba(61,46,30,0.08);
+    transform: translateY(110%); transition: transform 0.3s ease; text-decoration: none;
+  }
+  .wc-book-bar.show { transform: translateY(0); }
+  .wc-book-bar-info { font-size: 0.8rem; color: var(--bark); line-height: 1.35; }
+  .wc-book-bar-info strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 1rem; }
+  .wc-book-bar-btn {
+    background: var(--citrine); color: var(--bark); padding: 0.8rem 1.1rem; white-space: nowrap;
+    font-family: var(--display); font-style: italic; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.95rem;
+  }
+}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -817,7 +849,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- HERO PHOTO -->
 <div class="hero">
-  <img class="hero-photo"
+  <img fetchpriority="high" class="hero-photo"
     src="kowhai-tent-luxury-glamping-waitomo-new-zealand.webp"
     alt="Kōwhai Tent luxury glamping Waitomo New Zealand"/>
   <div class="hero-text">
@@ -827,7 +859,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="hero-sub">High above the Waitomo hills, the Kōwhai Tent is a private world entirely your own. Redesigned in 2025. Slow mornings, twin outdoor baths, an open fire, and complete seclusion.</p>
     </div>
     <div class="hero-stamp-cta">
-      <img src="wild-canvas-kowhai-tent-stamp-green.svg" alt="Kōwhai Tent — Wild Canvas Glamping" style="width:130px;height:auto;opacity:0.85"/>
+      <img loading="lazy" decoding="async" src="wild-canvas-kowhai-tent-stamp-green.svg" alt="Kōwhai Tent — Wild Canvas Glamping" style="width:130px;height:auto;opacity:0.85"/>
       <a href="https://wildcanvas.nz/booking?tent=kowhai" class="btn-primary">Check Availability</a>
     </div>
   </div>
@@ -870,7 +902,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="body-text">Thoughtfully redesigned in 2025, the Kōwhai Tent captures the essence of slow living. Inside, you'll find an indoor fireplace, polished floors and soft layers of natural linen. The design is cosy yet refined, with moody hues, tactile materials, and framed hilltop views through glass doors that open to the deck. The tent is fully insulated with double-glazed glass throughout, keeping you cosy in every season.</p>
       <p class="body-text" style="margin-top:1rem">Outside, a native landscape design invites you to unwind. Soak in the twin claw foot baths overlooking the valley, share stories by the firepit, or cook under the stars in your private outdoor kitchen.</p>
       <div style="display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap">
-        <a href="https://wildcanvas.nz/booking" class="btn-primary">Book the Kōwhai Tent</a>
+        <a href="https://wildcanvas.nz/booking?tent=kowhai" class="btn-primary">Book the Kōwhai Tent</a>
         <a href="#glance" class="btn-outline">See What's Included</a>
       </div>
     </div>
@@ -878,13 +910,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="carousel" id="introCarousel">
         <div class="carousel-inner" id="carouselInner">
           <div class="carousel-item active">
-            <img src="kowhai-tent-interior-views-waitomo.webp" alt="Kōwhai Tent interior with panoramic Waitomo views"/>
+            <img loading="lazy" decoding="async" src="kowhai-tent-interior-views-waitomo.webp" alt="Kōwhai Tent interior with panoramic Waitomo views"/>
           </div>
           <div class="carousel-item">
-            <img src="kowhai-tent-outdoor-bath-waitomo-new-zealand.webp" alt="Outdoor bath at Kōwhai Tent Waitomo New Zealand"/>
+            <img loading="lazy" decoding="async" src="kowhai-tent-outdoor-bath-waitomo-new-zealand.webp" alt="Outdoor bath at Kōwhai Tent Waitomo New Zealand"/>
           </div>
           <div class="carousel-item">
-            <img src="kowhai-tent-outdoor-cinema-campfire-waitomo.webp" alt="Outdoor cinema and campfire at Kōwhai Tent Waitomo"/>
+            <img loading="lazy" decoding="async" src="kowhai-tent-outdoor-cinema-campfire-waitomo.webp" alt="Outdoor cinema and campfire at Kōwhai Tent Waitomo"/>
           </div>
         </div>
         <div class="carousel-footer">
@@ -945,7 +977,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </section>
-<img class="photo-full"
+<img loading="lazy" decoding="async" class="photo-full"
   src="glamping_nz.webp"
   alt="Kōwhai Tent at sunset, Wild Canvas Waitomo"/>
 
@@ -959,7 +991,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="body-text" style="margin-top:1rem">From the carpark it is a short 120m walk uphill to the tent, so pack light and wear comfortable shoes.</p>
     </div>
     <div>
-      <img src="kowhai-tent-4wd-track-suzuki-jimny-waitomo.jpg"
+      <img loading="lazy" decoding="async" src="kowhai-tent-4wd-track-suzuki-jimny-waitomo.jpg"
         alt="Suzuki Jimny on the 4WD track to Kōwhai Tent Wild Canvas Waitomo"
         style="width:100%;height:420px;object-fit:cover;display:block;object-position:center"/>
     </div>
@@ -974,7 +1006,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div style="max-width:800px;margin:0 auto;">
       <!-- VIDEO: Kōwhai Tent -->
       <div class="video-card" onclick="playVideo(this,'G5w4i3riZNc')" style="cursor:pointer;position:relative;background:var(--bark);overflow:hidden">
-        <img
+        <img loading="lazy" decoding="async"
           src="https://img.youtube.com/vi/G5w4i3riZNc/maxresdefault.jpg"
           alt="Kōwhai Tent at Wild Canvas Waitomo"
           style="width:100%;height:460px;object-fit:cover;display:block;opacity:0.75;transition:opacity 0.3s"/>
@@ -996,7 +1028,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h2 class="section-title" style="margin-bottom:1.5rem;">What Kōwhai Tent guests <em>say</em></h2>
   </div>
   <div style="text-align:center;margin-bottom:3.5rem;">
-    <img src="quote-marks.png" alt="" style="height:80px;width:auto;display:inline-block;"/>
+    <img loading="lazy" decoding="async" src="quote-marks.png" alt="" style="height:80px;width:auto;display:inline-block;"/>
   </div>
   <div style="max-width:1100px;margin:0 auto">
     <!-- Google Reviews: Elfsight widget -->
@@ -1011,8 +1043,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="eyebrow">What's Included</p>
       <h2 class="section-title">Stocked and <em>ready for you</em></h2>
       <p class="body-text">Everything has been chosen with care, locally sourced where possible, sustainably made, and ready for you to unwind and enjoy the moment.</p>
-      <a href="https://wildcanvas.nz/booking" class="btn-primary" style="margin-top:2rem;display:inline-block">Reserve Your Stay</a>
-      <img
+      <a href="https://wildcanvas.nz/booking?tent=kowhai" class="btn-primary" style="margin-top:2rem;display:inline-block">Reserve Your Stay</a>
+      <img loading="lazy" decoding="async"
         src="wild-canvas-kowhai-tent-floor-plan.png"
         alt="Kōwhai Tent floor plan"
         style="width:70%;opacity:0.88;display:block;margin-top:2.5rem"/>
@@ -1336,7 +1368,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="https://wildcanvas.nz/waitomo" class="btn-outline" style="margin-top:2rem;display:inline-block">Discover Waitomo</a>
     </div>
     <div class="fade-up">
-      <img
+      <img loading="lazy" decoding="async"
         src="waitomo-ruakuri-walk-new-zealand.webp"
         alt="Ruakuri Walk Waitomo New Zealand"
         style="width:100%;height:380px;object-fit:cover"/>
@@ -1350,7 +1382,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <h2 class="section-title">Your private hilltop <em>awaits</em></h2>
   <p class="body-text">The Kōwhai Tent books quickly, especially weekends and holidays. Check availability now to secure your dates.</p>
   <div class="book-actions">
-    <a href="https://wildcanvas.nz/booking" class="btn-primary" style="padding:1rem 2.8rem">Reserve the Kōwhai Tent</a>
+    <a href="https://wildcanvas.nz/booking?tent=kowhai" class="btn-primary" style="padding:1rem 2.8rem">Reserve the Kōwhai Tent</a>
     <a href="https://wildcanvas.nz/gift" class="btn-outline" style="padding:1rem 2.8rem">Buy a Gift Voucher</a>
   </div>
   <p class="availability-note">Questions? Email <a href="mailto:hello@wildcanvas.nz" style="color:var(--harvest)">hello@wildcanvas.nz</a> or call <a href="tel:0211666248" style="color:var(--harvest)">021 166 6248</a></p>
@@ -1361,7 +1393,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-grid">
     <div>
       <div class="footer-logo">
-        <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+        <img loading="lazy" decoding="async" src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
           onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/>
       </div>
       <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
@@ -1504,6 +1536,23 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12 });
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+<!-- Mobile booking bar -->
+<a class="wc-book-bar" id="wc-book-bar" href="https://wildcanvas.nz/booking?tent=kowhai">
+  <span class="wc-book-bar-info"><strong>Kōwhai Tent</strong>NZD $590 per night</span>
+  <span class="wc-book-bar-btn">Check dates</span>
+</a>
+<script>
+(function(){
+  var bar=document.getElementById('wc-book-bar'); if(!bar) return;
+  var footer=document.querySelector('footer'), footerVisible=false;
+  if(footer && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(e){ footerVisible=e[0].isIntersecting; update(); }).observe(footer);
+  }
+  function update(){ bar.classList.toggle('show', window.scrollY>500 && !footerVisible); }
+  window.addEventListener('scroll', update, {passive:true}); update();
+})();
 </script>
 </body>
 </html>

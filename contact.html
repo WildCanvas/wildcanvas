@@ -170,6 +170,14 @@ footer{background:var(--bark);padding:3.5rem 3.5rem 2rem;}
   footer{padding:3rem 1.5rem 1.5rem;}
 }
 </style>
+<style id="wc-mobile-polish">
+/* Mobile readability and tap targets */
+@media (max-width: 600px) {
+  .eyebrow, .contact-label, .quick-link > span, .field > label, .map-btn, .social-name, .footer-col > h4, .social-links > a { font-size: 11px !important; }
+  .footer-col a { padding: 0.3rem 0; }
+  .social-links a { display: inline-block; padding: 0.6rem 0; }
+}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -239,7 +247,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- HERO -->
 <div class="hero">
-  <img class="hero-photo"
+  <img fetchpriority="high" class="hero-photo"
     src="contact-wild-canvas-glamping-waitomo-night.webp"
     alt="Pōhutukawa Tent at Wild Canvas glamping Waitomo under a starry night sky"/>
   <div class="hero-text">
@@ -404,7 +412,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer>
   <div class="footer-grid">
     <div>
-      <div class="footer-logo"><img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+      <div class="footer-logo"><img loading="lazy" decoding="async" src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
         onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/></div>
       <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
     </div>

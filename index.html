@@ -670,6 +670,14 @@ footer { background: var(--bark); padding: 4rem 3.5rem 2rem; }
   ]
 }
 </script>
+<style id="wc-mobile-polish">
+/* Mobile readability and tap targets */
+@media (max-width: 600px) {
+  .tent-tag, .pill, .tent-link, .stat-label, .exp-link, .footer-col > h4, .social-links > a { font-size: 11px !important; }
+  .footer-col a { padding: 0.3rem 0; }
+  .social-links a { display: inline-block; padding: 0.6rem 0; }
+}
+</style>
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
@@ -745,7 +753,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- HERO -->
 <div class="hero" style="line-height:0; padding-top:76px; background:var(--candy)">
-  <img class="hero-photo"
+  <img fetchpriority="high" class="hero-photo"
     src="luxury-glamping-waitomo-new-zealand.webp"
     alt="Luxury glamping Waitomo New Zealand — Wild Canvas"/>
   <div class="hero-text">
@@ -767,11 +775,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="press-logos-strip">
   <p class="press-as-seen">As seen in</p>
   <div class="press-logos-row">
-    <img src="life-leisure.png" alt="Life and Leisure" class="press-logo press-logo-ll"/>
-    <img src="logo-kiaora.png" alt="Kia Ora Magazine" class="press-logo press-logo-kiaora"/>
-    <img src="nz-herald-logo.png" alt="NZ Herald" class="press-logo press-logo-herald"/>
-    <img src="fashion-quarterly.png" alt="Fashion Quarterly" class="press-logo press-logo-fq"/>
-    <img src="qualmark.png" alt="5-Star Qualmark Gold" class="press-logo press-logo-qualmark"/>
+    <img loading="lazy" decoding="async" src="life-leisure.png" alt="Life and Leisure" class="press-logo press-logo-ll"/>
+    <img loading="lazy" decoding="async" src="logo-kiaora.png" alt="Kia Ora Magazine" class="press-logo press-logo-kiaora"/>
+    <img loading="lazy" decoding="async" src="nz-herald-logo.png" alt="NZ Herald" class="press-logo press-logo-herald"/>
+    <img loading="lazy" decoding="async" src="fashion-quarterly.png" alt="Fashion Quarterly" class="press-logo press-logo-fq"/>
+    <img loading="lazy" decoding="async" src="qualmark.png" alt="5-Star Qualmark Gold" class="press-logo press-logo-qualmark"/>
   </div>
   <a href="https://g.page/wildcanvas" target="_blank" rel="noopener" class="review-badge" aria-label="Read our Google reviews, rated 5.0 out of 5">
     <span class="review-stars" aria-hidden="true">★★★★★</span>
@@ -829,7 +837,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- FULL WIDTH PHOTO -->
-<img class="photo-full"
+<img loading="lazy" decoding="async" class="photo-full"
   src="waitomo-glamping-hot-tub-aerial-views.webp"
   alt="Waitomo glamping cedar hot tub aerial views Wild Canvas"/>
 
@@ -842,7 +850,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="tents-grid">
     <div class="tent-card">
-      <img class="tent-photo"
+      <img loading="lazy" decoding="async" class="tent-photo"
         src="kowhai-tent-sunset-hilltop-waitomo-new-zealand.webp"
         alt="Kōwhai Tent luxury glamping for couples"/>
       <div class="tent-info">
@@ -859,7 +867,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div class="tent-card">
-      <img class="tent-photo"
+      <img loading="lazy" decoding="async" class="tent-photo"
         src="pohutukawa-tent-sunrise-mist-hilltop-waitomo-new-zealand.webp"
         alt="Pōhutukawa Tent family glamping Waitomo"/>
       <div class="tent-info tent-info-poh">
@@ -962,7 +970,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- LOCATION -->
-<img class="location-mobile-photo" src="waitomo-glowworm-cave-tubing-new-zealand.webp" alt="Glowworm cave tubing Waitomo New Zealand"/>
+<img loading="lazy" decoding="async" class="location-mobile-photo" src="waitomo-glowworm-cave-tubing-new-zealand.webp" alt="Glowworm cave tubing Waitomo New Zealand"/>
 
 <section class="section location-section">
   <div class="location-inner">
@@ -1002,7 +1010,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div class="fade-up">
-      <img
+      <img loading="lazy" decoding="async"
         src="waitomo-glowworm-cave-tubing-new-zealand.webp"
         alt="Glowworm cave tubing Waitomo New Zealand"
         style="width:100%;height:420px;object-fit:cover"/>
@@ -1076,7 +1084,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="footer-grid">
     <div>
       <div class="footer-logo">
-        <img src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
+        <img loading="lazy" decoding="async" src="Wild_Canvas_Logo_Black.png" alt="Wild Canvas"
           onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Georgia,serif;font-size:1.1rem;color:rgba(251,246,238,0.6);letter-spacing:0.1em\'>Wild Canvas</span>'"/>
       </div>
       <p class="footer-tagline">New Zealand's first and only 5-Star Qualmark glamping experience. Two private hilltop tents in the heart of Waitomo.</p>
