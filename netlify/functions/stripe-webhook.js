@@ -1,11 +1,16 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const WEBHOOK_SECRET = 'whsec_YtheTyuKuOaQNCFy3BubTN0I8RbZ7MHK';
+// Stored in Netlify (Project configuration → Environment variables), never in this file
+const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL78iWtDb2jUZ5yHhCO8wonBrmqO2lRGoRxjaVFvOtYBiDNTY_qPpBihWJfwm-WfWmUg/exec';
 const VOUCHER_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwEImSBGEUMwHFuLtViKLnF8V9512AKIDtN1FjhUJonFbo9x7FEFkO1VxWT2QcZbqAN/exec';
 
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+  if (!WEBHOOK_SECRET) {
+    console.error('STRIPE_WEBHOOK_SECRET is not set in Netlify environment variables');
+    return { statusCode: 500, body: 'Webhook secret not configured' };
   }
   let stripeEvent;
   try {
@@ -26,15 +31,27 @@ exports.handler = async function(event) {
     const intent = stripeEvent.data.object;
     const meta = intent.metadata || {};
     if (meta.isGiftVoucher === 'true') {
+      // The voucher script can take longer than Netlify's 10-second limit.
+      // Google keeps running it after we stop waiting, so reply to Stripe after
+      // 8 seconds rather than letting the request time out (which made Stripe resend).
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 8000);
       try {
         const response = await fetch(VOUCHER_SCRIPT_URL, {
           method: 'POST',
           body: event.body,
-          redirect: 'follow'
+          redirect: 'follow',
+          signal: controller.signal
         });
         console.log('Voucher Apps Script response:', response.status);
       } catch (err) {
-        console.error('Voucher Apps Script error:', err.message);
+        if (err.name === 'AbortError') {
+          console.log('Voucher Apps Script still running after 8s; replied to Stripe so it does not resend');
+        } else {
+          console.error('Voucher Apps Script error:', err.message);
+        }
+      } finally {
+        clearTimeout(timer);
       }
     }
     return { statusCode: 200, body: JSON.stringify({ received: true }) };
