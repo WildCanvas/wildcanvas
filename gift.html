@@ -398,6 +398,44 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
 }
 .footer-links a:hover { color: rgba(251,246,238,0.75); }
 
+/* ── TRUST STRIP ─────────────────────── */
+.trust {
+  max-width: 1100px; margin: 0 auto; padding: 1.6rem 3.5rem 0;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 0.5rem 1.6rem; text-align: center;
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--bark-mid); font-weight: 500;
+}
+.trust span { white-space: nowrap; }
+.trust a { color: var(--bark); text-decoration: none; border-bottom: 1px solid rgba(193,153,101,0.6); }
+.trust a:hover { color: var(--harvest); }
+.trust .stars { color: var(--harvest); letter-spacing: 0.05em; margin-right: 0.3rem; }
+
+/* ── CHRISTMAS NOTE (shown Nov–24 Dec by script) ── */
+.xmas-note {
+  display: none; margin-top: 1.2rem; font-size: 0.85rem; color: var(--bark);
+  font-weight: 400; border-left: 2px solid var(--harvest); padding-left: 0.9rem; max-width: 560px;
+}
+.xmas-note.show { display: block; }
+
+/* ── WHERE ───────────────────────────── */
+.where-note {
+  font-size: 0.82rem; line-height: 1.75; color: var(--bark-mid); font-weight: 300;
+  margin: -1.2rem 0 2.2rem; max-width: 520px;
+}
+.where-note strong { font-weight: 500; color: var(--bark); }
+
+/* ── VOUCHER PHOTOS & LINKS ──────────── */
+.voucher-photo {
+  display: block; width: 100%; aspect-ratio: 16 / 7; object-fit: cover;
+}
+.voucher-link {
+  display: inline-block; margin-top: 0.9rem; font-size: 0.66rem;
+  letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500;
+  color: var(--harvest); text-decoration: none; border-bottom: 1px solid rgba(193,153,101,0.5);
+}
+.voucher-link:hover { color: var(--bark); }
+
 /* ── VALIDATION ───────────────────────── */
 .field input.error, .field textarea.error {
   border-color: rgba(180,60,60,0.5);
@@ -419,6 +457,9 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
   .hero-stamp img { width: 110px !important; margin-right: 0 !important; opacity: 0.55; }
   .perks { flex-direction: column; align-items: flex-start; padding-left: 1.5rem; }
   .perk { border-right: none; border-bottom: 1px solid rgba(74,55,40,0.15); width: 100%; padding: 0.8rem 0; }
+  .trust { padding: 1.4rem 1.5rem 0; gap: 0.6rem 1.2rem; }
+  .trust span { white-space: normal; }
+  .where-note { margin-top: -1rem; }
   .how-section, .terms-section { padding: 3rem 1.5rem; }
   footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
 }
@@ -656,6 +697,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="eyebrow">Wild Canvas Gift Vouchers</p>
       <h1>The gift of somewhere <em>unforgettable</em></h1>
       <p class="hero-sub">For the person who doesn't need more stuff. A night away, a slow morning, a hot tub or bath outside, a fire, and memories they'll actually keep.</p>
+      <p class="xmas-note" id="xmas-note">Buying for Christmas? Your voucher arrives by email within minutes, even on Christmas Eve.</p>
 
     </div>
     <div class="hero-stamp" style="">
@@ -672,6 +714,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="perk"><span class="perk-dash"></span> Secure payment via Stripe</div>
 </div>
 
+<!-- ═══ TRUST ═════════════════════════════════ -->
+<div class="trust">
+  <span>New Zealand's first 5-Star Qualmark glamping</span>
+  <span>Airbnb Best Design Stay 2023</span>
+  <span>As featured in NZ Herald &amp; Fashion Quarterly</span>
+  <span><a href="https://g.page/wildcanvas" target="_blank" rel="noopener"><span class="stars" aria-hidden="true">★★★★★</span>5.0 from 200+ Google reviews</a></span>
+</div>
+
 <!-- ═══ MAIN ═══════════════════════════════════ -->
 <div class="page-body">
 
@@ -679,17 +729,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="vouchers-col">
     <h2>Choose your <em>voucher</em></h2>
     <p class="vouchers-intro">Three experiences to choose from — a romantic night for two, our ultimate couple's package, or the full Pōhutukawa experience for families and groups. Select one below, then fill in your details.</p>
+    <p class="where-note">Two private hilltop tents on our family farm in <strong>Waitomo</strong>, minutes from the glowworm caves. About 2.5 hours from Auckland and an hour from Hamilton.</p>
 
     <div class="voucher-options">
 
       <!-- VOUCHER 1 -->
       <div class="voucher" id="v1" onclick="selectVoucher(1)" role="radio" aria-checked="false" tabindex="0">
+        <img class="voucher-photo" src="gift-voucher-kowhai-tent-hilltop-outdoor-baths-waitomo.webp" alt="The Kōwhai Tent on its private hilltop, with twin outdoor baths below, Waitomo" loading="lazy"/>
         <div class="voucher-inner">
           <div class="voucher-select">
             <div class="radio-ring"><div class="radio-dot"></div></div>
           </div>
           <div class="voucher-body">
-            <p class="voucher-tag">Kowhai Tent · Adults Only</p>
+            <p class="voucher-tag">Kōwhai Tent · Adults Only</p>
             <h3 class="voucher-name">One Night Stay</h3>
             <p class="voucher-desc">A night in the Kōwhai Tent for two — private hilltop, twin outdoor baths, indoor fireplace, pizza oven, campfire, and movie projector.</p>
             <div class="voucher-includes">
@@ -699,6 +751,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <span class="tag">Pizza Oven</span>
               <span class="tag">Movie Projector</span>
             </div>
+            <a class="voucher-link" href="/kowhai" target="_blank" rel="noopener" onclick="event.stopPropagation()">See the Kōwhai Tent &rarr;</a>
           </div>
           <div class="voucher-price">
             <div class="price-amount">$590</div>
@@ -709,12 +762,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- VOUCHER 2 -->
       <div class="voucher" id="v2" onclick="selectVoucher(2)" role="radio" aria-checked="false" tabindex="0">
+        <img class="voucher-photo" src="gift-voucher-kowhai-tent-champagne-outdoor-baths-waitomo.webp" alt="A couple toasting with Champagne in the twin outdoor baths at the Kōwhai Tent" loading="lazy"/>
         <div class="voucher-inner">
           <div class="voucher-select">
             <div class="radio-ring"><div class="radio-dot"></div></div>
           </div>
           <div class="voucher-body">
-            <p class="voucher-tag">Kowhai Tent · Adults Only</p>
+            <p class="voucher-tag">Kōwhai Tent · Adults Only</p>
             <h3 class="voucher-name">The Ultimate One Night Stay</h3>
             <p class="voucher-desc">Everything in the standard stay, plus a ready-to-cook gourmet dinner, in-tent massages for two, and a bottle of Champagne on arrival.</p>
             <div class="voucher-includes">
@@ -724,6 +778,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <span class="tag">Champagne</span>
               <span class="tag">All Kōwhai Inclusions</span>
             </div>
+            <a class="voucher-link" href="/kowhai" target="_blank" rel="noopener" onclick="event.stopPropagation()">See the Kōwhai Tent &rarr;</a>
           </div>
           <div class="voucher-price">
             <div class="price-amount">$1,159</div>
@@ -734,12 +789,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- VOUCHER 3 -->
       <div class="voucher" id="v3" onclick="selectVoucher(3)" role="radio" aria-checked="false" tabindex="0">
+        <img class="voucher-photo" src="gift-voucher-pohutukawa-tent-hilltop-waitomo.webp" alt="The Pōhutukawa Tent on its hilltop above the Waitomo valleys" loading="lazy"/>
         <div class="voucher-inner">
           <div class="voucher-select">
             <div class="radio-ring"><div class="radio-dot"></div></div>
           </div>
           <div class="voucher-body">
-            <p class="voucher-tag">Pohutukawa Tent · Families &amp; Groups</p>
+            <p class="voucher-tag">Pōhutukawa Tent · Families &amp; Groups</p>
             <h3 class="voucher-name">One Night Stay</h3>
             <p class="voucher-desc">A night in the Pōhutukawa Tent — four bedrooms, cedar hot tub, full indoor kitchen, underfloor heating, 360° views. Up to 8 guests. Kids welcome.</p>
             <div class="voucher-includes">
@@ -749,6 +805,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <span class="tag">4 Bedrooms</span>
               <span class="tag">360° Views</span>
             </div>
+            <a class="voucher-link" href="/pohutukawa" target="_blank" rel="noopener" onclick="event.stopPropagation()">See the Pōhutukawa Tent &rarr;</a>
           </div>
           <div class="voucher-price">
             <div class="price-amount">$1,635</div>
@@ -900,7 +957,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-legal">© 2025 Wild Canvas · Mangarino Road, Hangatiki, Waitomo, New Zealand</p>
+    <p class="footer-legal">© <span id="footer-year">2026</span> Wild Canvas · Mangarino Road, Hangatiki, Waitomo, New Zealand<br>Wild Canvas® is a registered trade mark of Wild Canvas Limited.</p>
     <div class="social-links">
       <a href="https://www.facebook.com/waitomoglamping" target="_blank">Facebook</a>
       <a href="http://www.instagram.com/wildcanvas.nz" target="_blank">Instagram</a>
@@ -1108,7 +1165,7 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
   const stored = JSON.parse(sessionStorage.getItem('wc_order') || '{}');
 
   // Hide main page content
-  document.querySelectorAll('.hero, .perks, .page-body, .how-section, .terms-section').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.hero, .perks, .trust, .page-body, .how-section, .terms-section').forEach(el => el.style.display = 'none');
 
   // Build success screen
   const div = document.createElement('div');
@@ -1139,5 +1196,15 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
 })();
 </script>
 
+<script>
+(function(){
+  var d = new Date(), m = d.getMonth(), day = d.getDate();
+  // Show the Christmas note from 1 November to 24 December each year
+  if (m === 10 || (m === 11 && day <= 24)) {
+    var n = document.getElementById('xmas-note'); if (n) n.classList.add('show');
+  }
+  var y = document.getElementById('footer-year'); if (y) y.textContent = d.getFullYear();
+})();
+</script>
 </body>
 </html>
