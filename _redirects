@@ -1,5 +1,11 @@
 # Wild Canvas — Netlify Redirects
 
+# Old domain: send everything on waitomoglamping.nz to wildcanvas.nz
+https://waitomoglamping.nz/*      https://wildcanvas.nz/:splat   301!
+https://www.waitomoglamping.nz/*  https://wildcanvas.nz/:splat   301!
+http://waitomoglamping.nz/*       https://wildcanvas.nz/:splat   301!
+http://www.waitomoglamping.nz/*   https://wildcanvas.nz/:splat   301!
+
 # Clean URLs (200 = serve file without changing browser address)
 /about          /about.html          200
 /kowhai         /kowhai.html         200
