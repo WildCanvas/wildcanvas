@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Borrow the 4WD · Wild Canvas</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'P22Mackinac'; src: url('P22_Mackinac.otf') format('opentype'); font-weight: 400; }
+@font-face { font-family: 'Baton'; src: url('Baton-MediumItalic.otf') format('opentype'); font-weight: 500; font-style: italic; }
+
+:root {
+  --candy: #F3DAD3; --harvest: #C19965; --cream: #FBF6EE; --off-white: #F7F1E6;
+  --bark: #3D2E1E; --bark-mid: #6B4F3A; --muted: #8A7B6E;
+  --serif: 'P22Mackinac', Georgia, serif;
+  --display: 'Baton', Georgia, serif;
+  --sans: 'Jost', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); font-weight: 300; background: var(--cream); color: var(--bark); min-height: 100vh; }
+
+.wc-nav {
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.2rem 1rem; background: rgba(243,218,211,0.96);
+  border-bottom: 1px solid rgba(61,46,30,0.08);
+}
+.wc-nav img { height: 46px; width: auto; display: block; }
+
+.wrap { max-width: 520px; margin: 0 auto; padding: 4rem 1.25rem 6rem; text-align: center; }
+.eyebrow {
+  font-size: 0.63rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--harvest); font-weight: 500; margin-bottom: 0.9rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+}
+.eyebrow::before, .eyebrow::after { content: ''; width: 20px; height: 1px; background: var(--harvest); }
+h1 {
+  font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 7vw, 2.6rem);
+  line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 1.2rem;
+}
+h1 em { font-family: var(--display); font-style: italic; color: var(--harvest); }
+p { font-size: 0.98rem; line-height: 1.8; color: var(--bark-mid); margin-bottom: 1rem; }
+.stay {
+  font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); font-weight: 500; margin: 1.6rem 0 2rem;
+}
+button {
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; background: var(--bark); color: var(--cream);
+  border: 0; border-radius: 2px; padding: 1.1rem 1.5rem; width: 100%; cursor: pointer;
+  transition: background 0.15s;
+}
+button:hover { background: var(--bark-mid); }
+button:disabled { opacity: 0.6; cursor: default; }
+.small { font-size: 0.85rem; color: var(--muted); margin-top: 1.4rem; }
+.hide { display: none; }
+.loading { color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<nav class="wc-nav">
+  <a href="https://wildcanvas.nz"><img src="https://wildcanvas.nz/Wild_Canvas_Logo_Black.png" alt="Wild Canvas"></a>
+</nav>
+
+<main class="wrap">
+  <p class="eyebrow">Getting here</p>
+
+  <div id="loading"><p class="loading">One moment…</p></div>
+
+  <div id="ready" class="hide">
+    <h1>Borrow the <em>4WD</em></h1>
+    <p>Hi <span class="fname"></span>, our track needs a 4WD or AWD vehicle. If you're driving a 2WD, you're welcome to use our automatic 4WD, free of charge. It drives like any regular car.</p>
+    <p class="stay"><span class="tent"></span> · check-in <span class="checkin"></span></p>
+    <button id="yes" type="button">Yes, I'd like to borrow it</button>
+    <p class="small hide" id="err">Something went wrong. Please try again, or just reply to your booking email.</p>
+  </div>
+
+  <div id="done" class="hide">
+    <h1>All <em>set</em></h1>
+    <p>Thanks <span class="fname"></span>. The 4WD will be ready for you when you arrive on <span class="checkin"></span>.</p>
+    <p>We've emailed you a photo of where to find the key, so you'll have it handy on the day.</p>
+  </div>
+
+  <div id="already" class="hide">
+    <h1>You're all <em>set</em></h1>
+    <p>Thanks <span class="fname"></span>, we already have you down for the 4WD. It'll be ready when you arrive on <span class="checkin"></span>.</p>
+    <p class="small">The photo of where to find the key is in the email we sent you. If you can't find it, just reply to your booking email.</p>
+  </div>
+
+  <div id="notfound" class="hide">
+    <h1>We couldn't find your <em>booking</em></h1>
+    <p>Sorry, this link didn't match an upcoming stay. Just reply to your booking email to let us know you'd like the 4WD, and we'll have it ready.</p>
+  </div>
+</main>
+
+<script>
+(function () {
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzL78iWtDb2jUZ5yHhCO8wonBrmqO2lRGoRxjaVFvOtYBiDNTY_qPpBihWJfwm-WfWmUg/exec';
+  var params = new URLSearchParams(window.location.search);
+  var query = 'ref=' + encodeURIComponent(params.get('ref') || '') + '&e=' + encodeURIComponent(params.get('e') || '');
+
+  function show(id) {
+    ['loading', 'ready', 'done', 'already', 'notfound'].forEach(function (s) {
+      document.getElementById(s).classList.toggle('hide', s !== id);
+    });
+  }
+  function fill(d) {
+    document.querySelectorAll('.fname').forEach(function (el) { el.textContent = d.firstName || ''; });
+    document.querySelectorAll('.tent').forEach(function (el) { el.textContent = d.tent || ''; });
+    document.querySelectorAll('.checkin').forEach(function (el) { el.textContent = d.checkin || ''; });
+  }
+
+  if (!params.get('e')) { show('notfound'); return; }
+
+  fetch(SCRIPT_URL + '?action=jimny&' + query)
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      fill(d);
+      show(d.status === 'ready' || d.status === 'already' ? d.status : 'notfound');
+    })
+    .catch(function () { show('notfound'); });
+
+  var btn = document.getElementById('yes');
+  btn.addEventListener('click', function () {
+    btn.disabled = true;
+    btn.textContent = 'One moment…';
+    document.getElementById('err').classList.add('hide');
+    fetch(SCRIPT_URL + '?action=jimnyconfirm&' + query)
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (d.status === 'ok' || d.status === 'already') { show('done'); return; }
+        throw new Error(d.status);
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = "Yes, I'd like to borrow it";
+        document.getElementById('err').classList.remove('hide');
+      });
+  });
+})();
+</script>
+</body>
+</html>
