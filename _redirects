@@ -59,5 +59,10 @@ http://www.waitomoglamping.nz/*   https://wildcanvas.nz/:splat   301!
 /news/new-glampsite                                    /             301
 /news/*                                                /news         301
 
-# Catch-all — anything not matched goes to home
-/*                  /index.html           200
+# Old Wix pages Bing still has on file
+/food2              /experiences          301
+/check-in           /faq                  301
+
+# Anything else: a real "page not found" (not a copy of the homepage,
+# which search engines saw as duplicate pages)
+/*                  /404.html             404
