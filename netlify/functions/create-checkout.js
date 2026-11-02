@@ -1,5 +1,22 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
+// Alipay is offered alongside cards for one-off payments (popular with Chinese
+// travellers). It can't be charged again later, so deposit bookings stay card-only.
+// If Stripe ever rejects Alipay (e.g. it gets switched off in the dashboard),
+// fall back to cards so checkout never breaks.
+async function createSession(params) {
+  try {
+    return await stripe.checkout.sessions.create(params);
+  } catch (err) {
+    const pmt = params.payment_method_types || [];
+    if (pmt.length > 1 && /payment[_ ]method/i.test(String(err && err.message))) {
+      console.warn('Checkout: retrying card-only after error:', err.message);
+      return await stripe.checkout.sessions.create(Object.assign({}, params, { payment_method_types: ['card'] }));
+    }
+    throw err;
+  }
+}
+
 // ── DEPOSITS (Pōhutukawa only) ─────────────────────────────────────────────
 const DEPOSIT_PCT = 0.30;
 const BALANCE_DAYS_BEFORE = 30;
@@ -51,8 +68,8 @@ if (data.type === 'experience') {
     gclid:         data.gclid         || '',
   };
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
+  const session = await createSession({
+    payment_method_types: ['card', 'alipay'],
     line_items: [{
       price_data: {
         currency: 'nzd',
@@ -159,7 +176,7 @@ if (data.type === 'experience') {
     if (isDeposit) paymentIntentData.setup_future_usage = 'off_session';
 
     const sessionParams = {
-      payment_method_types: ['card'],
+      payment_method_types: isDeposit ? ['card'] : ['card', 'alipay'],
       line_items: [
         {
           price_data: {
@@ -198,7 +215,7 @@ if (data.type === 'experience') {
       };
     }
 
-    const session = await stripe.checkout.sessions.create(sessionParams);
+    const session = await createSession(sessionParams);
 
     return {
       statusCode: 200,
