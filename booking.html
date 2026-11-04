@@ -336,7 +336,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="cleg"><span class="cdot" style="background:#F3DAD3;border:1px solid rgba(42,37,53,.18)"></span>Unavailable</div>
             <div class="cleg"><span class="cdot" style="background:#2A2535"></span>Your selection</div>
           </div>
-          <p class="clist">Your dates already taken? <a href="/faq#cancellation-list">Join the cancellation list</a> and we&rsquo;ll let you know if a spot opens up.</p>
+          <p class="clist">Hoping for a weekend that&rsquo;s already booked? <a href="/faq#cancellation-list">Join the weekend cancellation list</a> and we&rsquo;ll let you know if it opens up.</p>
         </div>
 
         <div id="datebar" style="display:none">
@@ -1490,6 +1490,9 @@ loadAvailability(function(){});
   const tent = params.get('tent');
   if (tent === 'kowhai' || tent === 'pohutukawa') {
     window.addEventListener('DOMContentLoaded', function() {
+      // ?date=YYYY-MM-DD opens the calendar on that month (used by cancellation-list emails)
+      var dm = /^(\d{4})-(\d{2})-\d{2}$/.exec(params.get('date') || '');
+      if (dm) { S.yr = +dm[1]; S.mo = +dm[2] - 1; }
       selTent(tent);
       setTimeout(function() {
         const cal = document.getElementById('cal-sec');
