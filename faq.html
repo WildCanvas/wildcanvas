@@ -154,7 +154,7 @@ a{text-decoration:none;color:inherit;}
 .tent-compare-col ul{margin-top:0;}
 
 /* CANCELLATION LIST */
-.cancel-section{background:var(--pistachio);padding:5rem 3.5rem;}
+.cancel-section{background:var(--pistachio);padding:5rem 3.5rem;scroll-margin-top:2.5rem;}
 .cancel-inner{max-width:900px;margin:0 auto;}
 .cancel-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;}
 .cancel-card{background:var(--cream);padding:2.5rem;}
@@ -847,7 +847,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- CANCELLATION LIST -->
-<section class="cancel-section">
+<section class="cancel-section" id="cancellation-list">
   <div class="cancel-inner">
     <p class="eyebrow">Weekend Cancellation Lists</p>
     <h2 style="font-family:var(--serif);font-size:clamp(1.5rem,2.5vw,2rem);font-weight:400;color:var(--bark);margin-bottom:0.7rem;">Be first to know when <em style="font-family:var(--display);font-style:italic;color:var(--harvest)">a spot opens up</em></h2>
@@ -1027,7 +1027,7 @@ function handleSignup(e, successId, tent) {
   btn.disabled = true;
   var base = 'https://waitomoglamping.us1.list-manage.com/subscribe/post-json?u=701d2cc7568e38eac9ddd0862&id=012e1538e0&f_id=0052cae4f0';
   var callbackName = 'mc_cb_' + Date.now();
-  var tag = tent === 'Kowhai' ? '5789310' : '5689926';
+  var tag = tent === 'Kowhai' ? '5789310' : '5789314';
   var url = base + '&EMAIL=' + encodeURIComponent(email) + '&FNAME=' + encodeURIComponent(fname) + '&tags=' + tag + '&b_701d2cc7568e38eac9ddd0862_012e1538e0=&c=' + callbackName;
   window[callbackName] = function(data) {
     delete window[callbackName];
