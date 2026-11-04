@@ -113,6 +113,12 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
 .hold-days{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .55rem;background:#EAF0E6;color:#3D5A47;white-space:nowrap;flex-shrink:0;}
 .hold-days.warn{background:#F3DAD3;color:#8a5c4c;}
 .drag-selecting{background:#FCE8C7!important;outline:2px dashed #C19965;outline-offset:-2px;}
+.cl-out{margin-top:.85rem;font-size:.8rem;line-height:1.55;color:#2A2535;}
+.cl-out:empty{display:none;}
+.cl-ready{background:#EAF0E6;border:1px solid rgba(61,90,71,.25);padding:.85rem 1rem;}
+.cl-ready .btn{margin-top:.6rem;display:inline-block;text-decoration:none;}
+.cl-err{display:block;background:#FBF3F0;border:1px solid #F3DAD3;color:#8a5c4c;padding:.7rem .9rem;}
+.cl-wait{color:#7A6A58;font-style:italic;}
 .needs-inv-badge{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .55rem;background:#F3DAD3;color:#8a5c4c;white-space:nowrap;flex-shrink:0;}
 
 /* MODAL */
@@ -265,6 +271,23 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
           <div class="fg"><label>&nbsp;</label><button class="btn btn-dark" onclick="addBlock()">Reserve dates</button></div>
         </div>
       </div>
+      <div class="block-form">
+        <div class="block-title" style="margin-bottom:.3rem;">Email a cancellation list</div>
+        <div style="font-size:.72rem;color:#7A6A58;margin-bottom:1rem;">When dates come free, this prepares an email to that tent&rsquo;s cancellation list. Nothing is sent until you press Send in Mailchimp.</div>
+        <div class="form-row" style="grid-template-columns:1fr 1fr 1fr auto;">
+          <div class="fg"><label>Tent</label>
+            <select id="cl-tent">
+              <option value="kowhai">Kōwhai</option>
+              <option value="pohutukawa">Pōhutukawa</option>
+            </select>
+          </div>
+          <div class="fg"><label>Check-in</label><input type="date" id="cl-from"></div>
+          <div class="fg"><label>Check-out</label><input type="date" id="cl-to"></div>
+          <div class="fg"><label>&nbsp;</label><button class="btn btn-dark" onclick="cancelListDraft(document.getElementById('cl-tent').value, document.getElementById('cl-from').value, document.getElementById('cl-to').value, 'cl-out')">Prepare email</button></div>
+        </div>
+        <div class="cl-out" id="cl-out"></div>
+      </div>
+
       <div class="block-title" style="font-size:.9rem;margin-bottom:.3rem;">Active holds</div>
       <div style="font-size:.72rem;color:#7A6A58;margin-bottom:.75rem;">Any reservation with "hold" in the reason — agent holds not yet confirmed as bookings. Chase up anything that's been sitting a while.</div>
       <div id="holds-list" style="margin-bottom:1.75rem;"><div class="loading">Loading…</div></div>
@@ -1002,10 +1025,13 @@ function openBooking(b) {
   }).join('');
 
   var actions = '<a href="mailto:'+b.email+'?subject=Your Wild Canvas Booking '+b.ref+'" class="btn btn-dark btn-sm">Email guest</a>';
+  currentModalBooking = b;
   if (b.status !== 'Cancelled') {
     actions += '<button class="btn btn-red btn-sm" onclick="cancelBooking(\''+b.ref+'\')">Cancel booking</button>';
+  } else if (isFutureStay(b)) {
+    actions += '<button class="btn btn-out btn-sm" onclick="cancelListForBooking()">Email cancellation list</button>';
   }
-  document.getElementById('modal-actions').innerHTML = actions;
+  document.getElementById('modal-actions').innerHTML = actions + '<div class="cl-out" id="modal-cl-out" style="flex-basis:100%;"></div>';
   document.getElementById('modal').style.display = 'flex';
 }
 
@@ -1200,8 +1226,67 @@ function cancelBooking(ref) {
     body: JSON.stringify({action:'update_status', ref:ref, status:'Cancelled'})
   })
   .then(function(r){return r.json();})
-  .then(function(){ closeModal(); loadAll(); })
+  .then(function(){
+    loadAll();
+    var b = currentModalBooking;
+    if (b && b.ref === ref && isFutureStay(b)) {
+      var tentName = tentKey(b.tent) === 'kowhai' ? 'Kōwhai' : 'Pōhutukawa';
+      document.getElementById('modal-ref').textContent = (b.ref||'') + ' · Cancelled';
+      document.getElementById('modal-actions').innerHTML =
+        '<div style="flex-basis:100%;font-size:.82rem;color:#2A2535;margin-bottom:.4rem;">Booking cancelled. Want to let the ' + tentName + ' cancellation list know these dates are free?</div>' +
+        '<button class="btn btn-dark btn-sm" onclick="cancelListForBooking()">Email cancellation list</button>' +
+        '<button class="btn btn-out btn-sm" onclick="closeModal()">Not now</button>' +
+        '<div class="cl-out" id="modal-cl-out" style="flex-basis:100%;"></div>';
+    } else {
+      closeModal();
+    }
+  })
   .catch(function(){ alert('Error updating booking.'); });
+}
+
+// ── CANCELLATION LIST EMAIL ───────────────────────────────────────────────
+// Prepares a Mailchimp draft for the tent's cancellation list. Never sends:
+// Emily reviews it in Mailchimp and presses Send herself.
+var currentModalBooking = null;
+
+function tentKey(t) { return /k[oō]whai/i.test(String(t||'')) ? 'kowhai' : 'pohutukawa'; }
+
+function isFutureStay(b) {
+  var ci = parseDate(b && b.checkin);
+  var today = new Date(); today.setHours(0,0,0,0);
+  return !!ci && ci >= today;
+}
+
+function cancelListForBooking() {
+  var b = currentModalBooking;
+  if (!b) return;
+  cancelListDraft(tentKey(b.tent), toDateStr(b.checkin), toDateStr(b.checkout), 'modal-cl-out');
+}
+
+function escHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; });
+}
+
+function cancelListDraft(tent, checkin, checkout, outId) {
+  var out = document.getElementById(outId);
+  if (!tent || !checkin || !checkout) { out.innerHTML = '<span class="cl-err">Choose a tent and both dates.</span>'; return; }
+  if (checkout <= checkin) { out.innerHTML = '<span class="cl-err">Check-out needs to be after check-in.</span>'; return; }
+  out.innerHTML = '<span class="cl-wait">Preparing the email…</span>';
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'cancellationDraft', tent: tent, checkin: checkin, checkout: checkout })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if (!d || !d.ok) { out.innerHTML = '<span class="cl-err">' + escHtml((d && d.error) || 'Something went wrong.') + '</span>'; return; }
+    out.innerHTML = '<div class="cl-ready">' +
+      (d.existing ? 'An email for these dates was already prepared earlier. ' : 'Email ready. ') +
+      'It will go to <strong>' + escHtml(d.recipients) + '</strong> people on the ' + escHtml(d.listName) + '.<br>' +
+      '<strong>Nothing has been sent yet.</strong> Check it over in Mailchimp, then press Send.<br>' +
+      '<a class="btn btn-dark btn-sm" href="' + escHtml(d.url) + '" target="_blank" rel="noopener">Review &amp; send in Mailchimp &rarr;</a>' +
+      '</div>';
+  })
+  .catch(function(){ out.innerHTML = '<span class="cl-err">Couldn&rsquo;t reach the booking system. Please try again.</span>'; });
 }
 
 // ── TABS ──────────────────────────────────────────────────────────────────
