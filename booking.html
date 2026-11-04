@@ -116,6 +116,8 @@ body{font-family:'P22Mackinac',Georgia,serif;background:#F3DAD3;color:#2A2535;li
 .clegend{display:flex;gap:1rem;margin-top:.75rem;flex-wrap:wrap;}
 .cleg{display:flex;align-items:center;gap:.3rem;font-size:.66rem;color:#7A6A58;}
 .cdot{width:11px;height:11px;display:inline-block;}
+.clist{margin:.85rem 0 0;padding-top:.75rem;border-top:1px solid rgba(42,37,53,.15);font-size:.75rem;color:#2A2535;line-height:1.5;}
+.clist a{color:#2A2535;font-weight:700;text-decoration:underline;text-underline-offset:2px;}
 /* DATE BAR */
 .dbar{background:#2A2535;color:#fff;padding:.85rem 1.25rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.75rem;margin-bottom:1.25rem;}
 @media(max-width:400px){.dbar{grid-template-columns:1fr;}.darr{display:none;}}
@@ -334,6 +336,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="cleg"><span class="cdot" style="background:#F3DAD3;border:1px solid rgba(42,37,53,.18)"></span>Unavailable</div>
             <div class="cleg"><span class="cdot" style="background:#2A2535"></span>Your selection</div>
           </div>
+          <p class="clist">Your dates already taken? <a href="/faq#cancellation-list">Join the cancellation list</a> and we&rsquo;ll let you know if a spot opens up.</p>
         </div>
 
         <div id="datebar" style="display:none">
