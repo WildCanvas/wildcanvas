@@ -270,7 +270,10 @@ label.cat-chip{cursor:pointer;}
           <div class="block-title" style="margin-bottom:.3rem;">Catering orders</div>
           <div style="font-size:.72rem;color:#7A6A58;">From the Add Ons calendar. Meat order dates allow for the overnight courier (weekdays only); pizzas are ordered the day before. Tick things off as you order them.</div>
         </div>
-        <button class="btn btn-out btn-sm" onclick="emailCateringNow(this)">Email me this list</button>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <button class="btn btn-out btn-sm" onclick="draftPizzaOrder(this)">Draft cafe pizza email</button>
+          <button class="btn btn-out btn-sm" onclick="emailCateringNow(this)">Email me this list</button>
+        </div>
       </div>
       <div id="catering-todo"></div>
       <div id="catering-list"><div class="loading">Loading…</div></div>
@@ -1444,6 +1447,17 @@ function toggleCateringOrdered(oi, ii, el) {
       it.ordered = ordered; renderCatering();
     })
     .catch(function(){ el.checked = !ordered; el.disabled = false; alert('Couldn\'t save that. Please try again.'); });
+}
+
+function draftPizzaOrder(btn) {
+  btn.disabled = true; var txt = btn.textContent; btn.textContent = 'Drafting…';
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'pizzaDraft', email: currentUser.email }) })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      btn.textContent = !d || !d.ok ? 'Couldn\'t draft' : d.none ? 'No pizzas next 7 days' : 'In Gmail Drafts ✓ (' + d.pizzas + ')';
+    })
+    .catch(function(){ btn.textContent = 'Couldn\'t draft'; })
+    .then(function(){ setTimeout(function(){ btn.textContent = txt; btn.disabled = false; }, 4000); });
 }
 
 function emailCateringNow(btn) {
