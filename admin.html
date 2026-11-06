@@ -28,8 +28,8 @@ body{font-family:Georgia,serif;background:#DFD39D;color:#2A2535;min-height:100vh
 .hdr-signout:hover{border-color:#fff;color:#fff;}
 
 /* NAV TABS */
-.tabs{background:#FAF6EE;border-bottom:2px solid rgba(42,37,53,.1);display:flex;padding:0 1.5rem;}
-.tab{padding:.8rem 1.25rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:#7A6A58;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tabs{background:#FAF6EE;border-bottom:2px solid rgba(42,37,53,.1);display:flex;padding:0 1.5rem;overflow-x:auto;}
+.tab{white-space:nowrap;padding:.8rem 1.25rem;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;color:#7A6A58;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;}
 .tab.active{color:#2A2535;border-bottom-color:#FCB236;}
 .tab:hover{color:#2A2535;}
 
@@ -158,7 +158,7 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
 
 @media(max-width:600px){
   .stats{grid-template-columns:1fr 1fr;}
-  .form-row{grid-template-columns:1fr 1fr;}
+  .form-row,.form-row[style]{grid-template-columns:1fr 1fr!important;}
   .cal-grid{overflow-x:auto;}
 }
 </style>
@@ -198,6 +198,7 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
     <div class="tab" onclick="showTab('calendar')">Calendar</div>
     <div class="tab" onclick="showTab('bookings')">Bookings</div>
     <div class="tab" onclick="showTab('block')">Reserved</div>
+    <div class="tab" onclick="showTab('clay')">Clay shooting</div>
   </div>
 
   <div class="main">
@@ -251,6 +252,31 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
         </select>
       </div>
       <div id="bookings-list" class="bookings-list"><div class="loading">Loading bookings…</div></div>
+    </div>
+
+    <!-- CLAY SHOOTING TAB -->
+    <div id="tab-clay" style="display:none;">
+      <div class="block-form">
+        <div class="block-title" style="margin-bottom:.3rem;">Add a clay shoot</div>
+        <div style="font-size:.72rem;color:#7A6A58;margin-bottom:1rem;">For shoots booked by phone, email or agents. Shoots booked online show up below automatically.</div>
+        <div class="form-row" style="grid-template-columns:1fr 1.4fr 1fr 1.6fr auto;">
+          <div class="fg"><label>Date</label><input type="date" id="clay-date"></div>
+          <div class="fg"><label>Guest</label><input type="text" id="clay-guest" placeholder="Name or agent"></div>
+          <div class="fg"><label>Tent</label>
+            <select id="clay-tent">
+              <option value="POH">Pōhutukawa</option>
+              <option value="KOW">Kōwhai</option>
+              <option value="">Not staying</option>
+            </select>
+          </div>
+          <div class="fg"><label>Notes</label><input type="text" id="clay-notes" placeholder="Time, group size, paid?"></div>
+          <div class="fg"><label>&nbsp;</label><button class="btn btn-dark" onclick="addClayShoot()">Add</button></div>
+        </div>
+        <div class="cl-out" id="clay-out"></div>
+      </div>
+      <div class="block-title" style="font-size:.9rem;margin-bottom:.3rem;">Upcoming clay shoots</div>
+      <div style="font-size:.72rem;color:#7A6A58;margin-bottom:.75rem;">Everything on the Add Ons calendar mentioning clay, plus Pōhutukawa bookings with clay in their extras.</div>
+      <div id="clay-list" style="display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.75rem;"><div class="loading">Loading…</div></div>
     </div>
 
     <!-- BLOCK DATES TAB -->
@@ -1291,13 +1317,81 @@ function cancelListDraft(tent, checkin, checkout, outId) {
 
 // ── TABS ──────────────────────────────────────────────────────────────────
 function showTab(name) {
-  ['overview','calendar','bookings','block'].forEach(function(t){
+  var TABS = ['overview','calendar','bookings','block','clay'];
+  TABS.forEach(function(t){
     document.getElementById('tab-'+t).style.display = t===name?'block':'none';
   });
   document.querySelectorAll('.tab').forEach(function(t,i){
-    t.className = 'tab' + (['overview','calendar','bookings','block'][i]===name?' active':'');
+    t.className = 'tab' + (TABS[i]===name?' active':'');
   });
   if (name==='calendar') renderCalendar();
+  if (name==='clay') loadClay();
+}
+
+// ── CLAY TARGET SHOOTING ──────────────────────────────────────────────────
+// Reads upcoming clay shoots from the Add Ons calendar (online + manual) and
+// Pōhutukawa bookings with clay in their extras. "Add" puts a new all-day
+// event on the Add Ons calendar, so staff see it there too.
+function clayDate(s) {
+  var d = parseDate(s); if (!d) return s || '—';
+  var opts = {weekday:'short', day:'numeric', month:'short'};
+  if (d.getFullYear() !== new Date().getFullYear()) opts.year = 'numeric';
+  return d.toLocaleDateString('en-NZ', opts);
+}
+
+function loadClay() {
+  var box = document.getElementById('clay-list');
+  box.innerHTML = '<div class="loading">Loading…</div>';
+  fetch(SCRIPT_URL + '?action=clay&email=' + encodeURIComponent(currentUser.email))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var list = (d && d.shoots) || [];
+      if (!list.length) { box.innerHTML = '<div class="empty">No upcoming clay shoots</div>'; return; }
+      var today = new Date(); today.setHours(0,0,0,0);
+      box.innerHTML = list.map(function(c){
+        var days = Math.round((parseDate(c.date) - today) / 86400000);
+        var soon = days <= 14;
+        var badge = '<div class="hold-days' + (soon ? ' warn' : '') + '">' + (days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : 'In ' + days + ' days') + '</div>';
+        var sub = [c.guest ? 'Staying: ' + escHtml(c.guest) : '', c.notes ? escHtml(c.notes) : ''].filter(Boolean).join(' · ');
+        var del = c.manual ? '<button class="blk-del" onclick="removeClayShoot(\'' + escHtml(c.id) + '\', this)">Remove</button>' : '';
+        return '<div class="hold-item">' +
+          '<div><div class="blk-info">' + clayDate(c.date) + ' · ' + escHtml(c.title) + (c.manual ? ' <span style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#7A6A58;">· manual</span>' : '') + '</div>' +
+          (sub ? '<div class="blk-sub">' + sub + '</div>' : '') + '</div>' +
+          '<div style="display:flex;align-items:center;gap:.6rem;">' + badge + del + '</div>' +
+        '</div>';
+      }).join('');
+    })
+    .catch(function(){ box.innerHTML = '<div class="empty">Couldn&rsquo;t load clay shoots. Please refresh.</div>'; });
+}
+
+function addClayShoot() {
+  var out = document.getElementById('clay-out');
+  var date = document.getElementById('clay-date').value;
+  var guest = document.getElementById('clay-guest').value.trim();
+  if (!date || !guest) { out.innerHTML = '<span class="cl-err">Add a date and a guest name.</span>'; return; }
+  out.innerHTML = '<span class="cl-wait">Adding…</span>';
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({
+    action: 'addClay', email: currentUser.email, date: date, guest: guest,
+    tent: document.getElementById('clay-tent').value,
+    notes: document.getElementById('clay-notes').value.trim()
+  })})
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if (!d || !d.ok) { out.innerHTML = '<span class="cl-err">' + escHtml((d && d.error) || 'Couldn&rsquo;t add it.') + '</span>'; return; }
+    out.innerHTML = '';
+    ['clay-date','clay-guest','clay-notes'].forEach(function(id){ document.getElementById(id).value = ''; });
+    loadClay();
+  })
+  .catch(function(){ out.innerHTML = '<span class="cl-err">Couldn&rsquo;t reach the booking system. Please try again.</span>'; });
+}
+
+function removeClayShoot(id, btn) {
+  if (!confirm('Remove this clay shoot from the Add Ons calendar?')) return;
+  btn.disabled = true;
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'removeClay', email: currentUser.email, id: id }) })
+    .then(function(r){ return r.json(); })
+    .then(function(){ loadClay(); })
+    .catch(function(){ btn.disabled = false; alert('Couldn\'t remove it. Please try again.'); });
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────
