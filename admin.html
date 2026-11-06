@@ -113,6 +113,14 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
 .hold-days{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .55rem;background:#EAF0E6;color:#3D5A47;white-space:nowrap;flex-shrink:0;}
 .hold-days.warn{background:#F3DAD3;color:#8a5c4c;}
 .drag-selecting{background:#FCE8C7!important;outline:2px dashed #C19965;outline-offset:-2px;}
+#tab-catering label{text-transform:none;letter-spacing:0;}
+.cat-chip{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;padding:.3rem .6rem;background:#FAF6EE;border:1px solid rgba(42,37,53,.15);color:#2A2535;cursor:default;}
+label.cat-chip{cursor:pointer;}
+.cat-chip input{width:auto;margin:0;}
+.cat-chip.due{background:#FBF3F0;border-color:#b08878;}
+.cat-chip.done{background:#EAF0E6;border-color:rgba(61,90,71,.35);}
+.cat-by{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:#7A6A58;}
+.cat-chip.due .cat-by{color:#b0412e;}
 .cl-out{margin-top:.85rem;font-size:.8rem;line-height:1.55;color:#2A2535;}
 .cl-out:empty{display:none;}
 .cl-ready{background:#EAF0E6;border:1px solid rgba(61,90,71,.25);padding:.85rem 1rem;}
@@ -198,6 +206,7 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
     <div class="tab" onclick="showTab('calendar')">Calendar</div>
     <div class="tab" onclick="showTab('bookings')">Bookings</div>
     <div class="tab" onclick="showTab('block')">Reserved</div>
+    <div class="tab" onclick="showTab('catering')">Catering</div>
     <div class="tab" onclick="showTab('clay')">Clay shooting</div>
   </div>
 
@@ -252,6 +261,19 @@ input:focus,select:focus,textarea:focus{border-color:#2A2535;outline:none;}
         </select>
       </div>
       <div id="bookings-list" class="bookings-list"><div class="loading">Loading bookings…</div></div>
+    </div>
+
+    <!-- CATERING TAB -->
+    <div id="tab-catering" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+        <div>
+          <div class="block-title" style="margin-bottom:.3rem;">Catering orders</div>
+          <div style="font-size:.72rem;color:#7A6A58;">From the Add Ons calendar. Meat order dates allow for the overnight courier (weekdays only); pizzas are ordered the day before. Tick things off as you order them.</div>
+        </div>
+        <button class="btn btn-out btn-sm" onclick="emailCateringNow(this)">Email me this list</button>
+      </div>
+      <div id="catering-todo"></div>
+      <div id="catering-list"><div class="loading">Loading…</div></div>
     </div>
 
     <!-- CLAY SHOOTING TAB -->
@@ -1317,7 +1339,7 @@ function cancelListDraft(tent, checkin, checkout, outId) {
 
 // ── TABS ──────────────────────────────────────────────────────────────────
 function showTab(name) {
-  var TABS = ['overview','calendar','bookings','block','clay'];
+  var TABS = ['overview','calendar','bookings','block','catering','clay'];
   TABS.forEach(function(t){
     document.getElementById('tab-'+t).style.display = t===name?'block':'none';
   });
@@ -1326,6 +1348,111 @@ function showTab(name) {
   });
   if (name==='calendar') renderCalendar();
   if (name==='clay') loadClay();
+  if (name==='catering') loadCatering();
+}
+
+// ── CATERING ORDERS ───────────────────────────────────────────────────────
+// Next 4 weeks of catering from the Add Ons calendar, with "order by" dates
+// for meat (dinner packs) and pizzas, and an Ordered tick saved on the event.
+var cateringData = [];
+
+function cateringDate(s) {
+  var d = parseDate(s); if (!d) return s || '—';
+  return d.toLocaleDateString('en-NZ', {weekday:'short', day:'numeric', month:'short'});
+}
+
+function loadCatering() {
+  var box = document.getElementById('catering-list');
+  box.innerHTML = '<div class="loading">Loading…</div>';
+  document.getElementById('catering-todo').innerHTML = '';
+  fetch(SCRIPT_URL + '?action=catering&email=' + encodeURIComponent(currentUser.email))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      cateringData = ((d && d.orders) || []).map(function(o){
+        o.guest = String(o.guest || '').replace(/^[^\wĀ-ž]+/, '').replace(/\s*·\s*\d+ nights?$/, '').trim();
+        return o;
+      });
+      renderCatering();
+    })
+    .catch(function(){ box.innerHTML = '<div class="empty">Couldn&rsquo;t load catering. Please refresh.</div>'; });
+}
+
+function renderCatering() {
+  var box = document.getElementById('catering-list');
+  var todoBox = document.getElementById('catering-todo');
+  var today = new Date(); today.setHours(0,0,0,0);
+  var ymd = function(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
+  var addD = function(n){ var d = new Date(today); d.setDate(d.getDate() + n); return d; };
+  var in7 = ymd(addD(7)), in14 = ymd(addD(14));
+  var daysTo = function(s){ return Math.round((parseDate(s) - today) / 86400000); };
+
+  // To order soon
+  var todo = [];
+  cateringData.forEach(function(o, oi){
+    o.items.forEach(function(it, ii){
+      if (it.lead && !it.ordered && it.orderBy < in7) todo.push({o:o, it:it, oi:oi, ii:ii});
+    });
+  });
+  todo.sort(function(a,b){ return a.it.orderBy < b.it.orderBy ? -1 : 1; });
+  todoBox.innerHTML = todo.length ? '<div class="block-form" style="border-left:4px solid #b08878;">' +
+    '<div class="block-title" style="font-size:.9rem;margin-bottom:.6rem;">To order in the next 7 days</div>' +
+    todo.map(function(x){
+      var dd = daysTo(x.it.orderBy);
+      var when = dd < 0 ? '<b style="color:#b0412e;">Overdue</b>' : dd === 0 ? '<b style="color:#b0412e;">Today</b>' : dd === 1 ? '<b>Tomorrow</b>' : 'By ' + cateringDate(x.it.orderBy);
+      return '<label style="display:flex;gap:.6rem;align-items:flex-start;font-size:.8rem;margin-bottom:.45rem;cursor:pointer;">' +
+        '<input type="checkbox" style="width:auto;margin-top:.15rem;" onchange="toggleCateringOrdered(' + x.oi + ',' + x.ii + ',this)">' +
+        '<span>' + when + ' — ' + (x.it.kind === 'dinner' ? 'order meat' : 'order pizzas') + (x.it.qty ? ' (' + x.it.qty + ')' : '') +
+        ' · ' + (x.o.tent ? x.o.tent + ' · ' : '') + escHtml(x.o.guest || x.o.title) + ' · ' + cateringDate(x.o.date) + '</span></label>';
+    }).join('') + '</div>' : '';
+
+  if (!cateringData.length) { box.innerHTML = '<div class="empty">No catering in the next four weeks</div>'; return; }
+
+  var groups = [['This week', function(o){ return o.date < in7; }], ['Next week', function(o){ return o.date >= in7 && o.date < in14; }], ['Later', function(o){ return o.date >= in14; }]];
+  box.innerHTML = groups.map(function(g){
+    var rows = cateringData.map(function(o, oi){ return {o:o, oi:oi}; }).filter(function(x){ return g[1](x.o); });
+    if (!rows.length) return '';
+    return '<div class="block-title" style="font-size:.9rem;margin:1.25rem 0 .5rem;">' + g[0] + '</div>' +
+      '<div style="display:flex;flex-direction:column;gap:.5rem;">' + rows.map(function(x){
+        var o = x.o;
+        var chips = o.items.map(function(it, ii){
+          var label = (it.qty ? it.qty + ' × ' : '') + escHtml(it.label);
+          if (!it.lead) return '<span class="cat-chip">' + label + '</span>';
+          var dd = daysTo(it.orderBy);
+          var cls = it.ordered ? ' done' : (dd <= 1 ? ' due' : '');
+          return '<label class="cat-chip' + cls + '"><input type="checkbox" ' + (it.ordered ? 'checked ' : '') +
+            'onchange="toggleCateringOrdered(' + x.oi + ',' + ii + ',this)">' + label +
+            ' <span class="cat-by">' + (it.ordered ? 'ordered' : 'order by ' + cateringDate(it.orderBy)) + '</span></label>';
+        }).join('');
+        return '<div class="hold-item" style="align-items:flex-start;flex-direction:column;gap:.45rem;">' +
+          '<div class="blk-info"><b>' + cateringDate(o.date) + '</b> · ' + (o.tent ? o.tent + ' · ' : '') + escHtml(o.guest || o.title) + '</div>' +
+          '<div style="display:flex;flex-wrap:wrap;gap:.4rem;">' + chips + '</div>' +
+          (o.details && o.items.some(function(i){ return i.kind === 'dinner' || i.kind === 'pizza'; }) ? '<div class="blk-sub">' + escHtml(o.details) + '</div>' : '') +
+        '</div>';
+      }).join('') + '</div>';
+  }).join('');
+}
+
+function toggleCateringOrdered(oi, ii, el) {
+  var o = cateringData[oi], it = o && o.items[ii];
+  if (!it) return;
+  var ordered = el.checked;
+  el.disabled = true;
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'cateringOrdered', email: currentUser.email, id: o.id, kind: it.kind, ordered: ordered }) })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if (!d || !d.ok) throw new Error();
+      it.ordered = ordered; renderCatering();
+    })
+    .catch(function(){ el.checked = !ordered; el.disabled = false; alert('Couldn\'t save that. Please try again.'); });
+}
+
+function emailCateringNow(btn) {
+  btn.disabled = true; var txt = btn.textContent; btn.textContent = 'Sending…';
+  fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'cateringDigest', email: currentUser.email }) })
+    .then(function(r){ return r.json(); })
+    .then(function(d){ btn.textContent = d && d.ok ? 'Sent ✓' : 'Couldn\'t send'; })
+    .catch(function(){ btn.textContent = 'Couldn\'t send'; })
+    .then(function(){ setTimeout(function(){ btn.textContent = txt; btn.disabled = false; }, 3000); });
 }
 
 // ── CLAY TARGET SHOOTING ──────────────────────────────────────────────────
