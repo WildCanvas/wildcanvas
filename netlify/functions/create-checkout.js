@@ -49,6 +49,14 @@ exports.handler = async function(event) {
     if (!total || total <= 0) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid total amount.' }) };
     }
+
+    // Catering (platters, pizzas, dinners) needs a week's notice
+    const CATERING_RE = /pizza|platter|gourmet dinner/i;
+    if (!isGiftVoucher && checkin && /^\d{4}-\d{2}-\d{2}$/.test(checkin) &&
+        CATERING_RE.test(String(extras || '') + ' ' + String(data.extrasDetail || '')) &&
+        daysBetween(todayNZ(), checkin) < 7) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Catering needs at least a week\u2019s notice, so it can\u2019t be added online for this date. Please email hello@wildcanvas.nz and we\u2019ll see what we can do.' }) };
+    }
 // ── EXPERIENCE / ADD-ONS CHECKOUT ───────────────────────────────────────
 if (data.type === 'experience') {
   const description = data.extrasDetail
