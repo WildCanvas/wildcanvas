@@ -154,6 +154,10 @@ textarea{resize:vertical;min-height:72px;}
 .xcard.sel{border-color:#3D5A47;background:rgba(61,90,71,.04);}
 .xcard.enq{border-style:dashed;}
 .xcard.enq.sel{border-color:#3D5A47;border-style:dashed;}
+.xcard.xoff{cursor:default;opacity:.6;}
+.xcard.xoff:hover{border-color:rgba(42,37,53,.18);}
+.xlate{font-size:.74rem;color:#2A2535;margin-top:.5rem;line-height:1.45;}
+.xlate a{color:#2A2535;}
 .xbadge{display:inline-block;background:#DFD39D;color:#2A2535;font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;padding:.16rem .42rem;margin-bottom:.38rem;}
 .xname{font-size:.86rem;font-weight:700;font-style:italic;color:#2A2535;margin-bottom:.18rem;}
 .xdesc{font-size:.74rem;color:#7A6A58;line-height:1.4;}
@@ -665,6 +669,13 @@ async function validateVoucherCode(code) {
   }
 }
 
+// Catering needs a week's notice. Within that, guests email us instead.
+var CATERING_IDS = ['platter','pizza','dinner'];
+var CATERING_NOTICE_DAYS = 7;
+function cateringTooLate(id) {
+  return CATERING_IDS.indexOf(id) !== -1 && S.ci && daysUntil(S.ci) < CATERING_NOTICE_DAYS;
+}
+
 var EXTRAS = [
   {id:'platter',tents:'both',name:'Antipasto Platter',desc:'Seed crackers, bruschetta, salami, pastrami, smoked salmon, cheeses, stuffed peppers, hummus and more. Ready on arrival.',price:'NZD $89',num:89},
   {id:'champagne',tents:'both',name:'Champagne',desc:'Veuve Clicquot Brut Champagne, 750ml — presented in a beautiful ice bucket.',price:'NZD $99',num:99},
@@ -984,6 +995,16 @@ function renderExtras() {
   for (var i=0; i<EXTRAS.length; i++) {
     var ex = EXTRAS[i];
     if (ex.tents !== 'both' && ex.tents !== S.tent) continue;
+    if (cateringTooLate(ex.id)) {
+      S.extras = S.extras.filter(function(x){ return x.id !== ex.id; });
+      var off = document.createElement('div');
+      off.className = 'xcard xoff';
+      off.innerHTML = '<div class="xname">'+ex.name+'</div><div class="xdesc">'+ex.desc+'</div><div class="xprice">'+ex.price+'</div>' +
+        '<div class="xlate">Catering needs at least a week&rsquo;s notice, so it can&rsquo;t be added online for this stay. ' +
+        'If you&rsquo;d like it, email us at <a href="mailto:hello@wildcanvas.nz?subject='+encodeURIComponent(ex.name+' request')+'">hello@wildcanvas.nz</a> and we&rsquo;ll see what we can do.</div>';
+      g.appendChild(off);
+      continue;
+    }
     var item = getExtra(ex.id);
     var sel = !!item;
     var el = document.createElement('button');
