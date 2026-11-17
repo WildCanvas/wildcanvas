@@ -1200,6 +1200,16 @@ document.getElementById('voucherForm').addEventListener('submit', function(e) {
   const footer = document.querySelector('footer');
   footer.insertAdjacentElement('beforebegin', div);
 
+  // Conversion tracking (Meta Pixel, Google Ads, GA4 via GTM's Booking Complete trigger) — gift_voucher_purchase
+  if (stored.price) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'booking_complete', booking_ref: 'GIFT-' + Date.now(), tent: 'gift_voucher', total: Number(stored.price) || 0, voucher: '', currency: 'NZD' });
+    if (typeof gtag === 'function') {
+      gtag('event', 'purchase', { transaction_id: 'GIFT-' + Date.now(), value: Number(stored.price) || 0, currency: 'NZD',
+        items: [{ item_id: 'gift_voucher', item_name: stored.voucher || 'Gift voucher', quantity: 1, price: Number(stored.price) || 0 }] });
+    }
+  }
+
   // Clear session storage
   sessionStorage.removeItem('wc_order');
 })();
