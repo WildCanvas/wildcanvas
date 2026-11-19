@@ -421,6 +421,7 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
 .hero-cta:hover{background:#e7a430;}
 .hero-cta span{font-family:var(--sans);font-style:normal;font-weight:500;letter-spacing:0.06em;font-size:0.8rem;margin-left:0.5rem;}
 #vouchers{scroll-margin-top:96px;}
+.form-card{scroll-margin-top:90px;}
 
 /* ── WHERE ───────────────────────────── */
 .where-note {
@@ -1042,6 +1043,12 @@ function selectVoucher(id) {
   const btn = document.getElementById('purchaseBtn');
   btn.disabled = false;
   btn.textContent = 'Continue to Payment →';
+
+  // On phones the details form sits below all the vouchers, so bring it into view
+  if (window.matchMedia('(max-width: 860px)').matches) {
+    const card = document.querySelector('.form-card');
+    if (card) setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250);
+  }
 }
 
 // Keyboard support
