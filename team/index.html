@@ -191,6 +191,11 @@ table.wc-table input { padding:6px 7px; font-size:13px; }
 .status-badge.ordered { background:#dce8f5; color:#2a5f8f; }
 .status-badge.onway { background:rgba(224,165,38,0.22); color:#7a5610; }
 .icon-btn svg { width:15px; height:15px; }
+#wc-app .safety-sec .check-btn { border:1.6px solid rgba(61,46,30,0.35); background:#fff; }
+#wc-app .safety-sec .check-btn.checked { background:var(--pistachio); border-color:var(--pistachio); }
+#wc-app .safety-sec .icon-btn { border:1px solid var(--line); background:#fff; }
+#wc-app .safety-sec .icon-btn.confirm-del { background:#A6402C; border-color:#A6402C; color:#fff; }
+#wc-app .safety-sec .btn-ghost { border:1px solid rgba(61,46,30,0.3); }
 
 .banner { display:flex; gap:9px; padding:11px 12px; border-radius:6px; background:var(--candy); font-size:12.5px; line-height:1.4; }
 .banner svg { width:16px; height:16px; flex-shrink:0; margin-top:1px; color:var(--bark-mid); }
@@ -281,6 +286,7 @@ const ICONS = {
   calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>',
   shopping: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.5 11.5a2 2 0 0 1-2 1.5H7.5a2 2 0 0 1-2-1.5L4 7Z"/><path d="M8 7a4 4 0 0 1 8 0"/></svg>',
   todo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.5l2 2 5-5"/></svg>',
+  safety: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6l-7-3Z"/><path d="M12 9v4M12 16h.01"/></svg>',
   keyinfo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 4l3 3M13 7l2 2"/></svg>',
   check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg>',
   plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
@@ -293,17 +299,17 @@ const ICONS = {
 const TABS = [
   {id:'handover', label:'Handover'},
   {id:'maintenance', label:'Maintenance'},
+  {id:'safety', label:'Safety'},
   {id:'timesheet', label:'Timesheet'},
   {id:'calendar', label:'Calendar'},
   {id:'shopping', label:'Shopping'},
-  {id:'todo', label:'To-Do'},
   {id:'keyinfo', label:'Key Info'},
 ];
 
 let state = {
   handover: { kowhai: [], pohutukawa: [] },
   maintenance: [],
-  todo: { kowhai: [], pohutukawa: [], other: [] },
+  safety: [],
   gasChecks: { kowhai: null, pohutukawa: null },
   shopping: { weekly: [], order: [] },
   keyinfo: [],
@@ -314,8 +320,9 @@ let state = {
 let ui = {
   activeTab: 'handover',
   handoverTent: 'kowhai',
-  todoTent: 'kowhai',
   maintShowDone: false,
+  safetyShowClosed: false,
+  safetyOpenId: null,
   shoppingTab: 'weekly',
   timesheetMonday: null,
   timesheetDay: null,
@@ -326,13 +333,11 @@ let ui = {
 };
 
 async function loadAll(){
-  const [handoverK, handoverP, maint, todoK, todoP, todoO, shopW, shopO, kinfo, calset, roster, gasK, gasP] = await Promise.all([
+  const [handoverK, handoverP, maint, safety, shopW, shopO, kinfo, calset, roster, gasK, gasP] = await Promise.all([
     getJSON('handover-kowhai', []),
     getJSON('handover-pohutukawa', []),
     getJSON('maintenance-items', []),
-    getJSON('todo-kowhai', []),
-    getJSON('todo-pohutukawa', []),
-    getJSON('todo-other', []),
+    getJSON('safety-register', []),
     getJSON('shopping-weekly', []),
     getJSON('shopping-order', []),
     getJSON('key-info', []),
@@ -353,9 +358,7 @@ async function loadAll(){
   state.handover.kowhai = handoverK;
   state.handover.pohutukawa = handoverP;
   state.maintenance = maint;
-  state.todo.kowhai = todoK;
-  state.todo.pohutukawa = todoP;
-  state.todo.other = todoO;
+  state.safety = safety;
   state.shopping.weekly = shopW;
   state.shopping.order = shopO;
   state.keyinfo = kinfo;
@@ -430,7 +433,7 @@ function renderBody(){
       case 'timesheet': body.innerHTML = viewTimesheet(); scrollActiveDayTabIntoView(); break;
       case 'calendar': body.innerHTML = viewCalendar(); ensureCalendarFeeds(); break;
       case 'shopping': body.innerHTML = viewShopping(); break;
-      case 'todo': body.innerHTML = viewTodo(); break;
+      case 'safety': body.innerHTML = viewSafety(); break;
       case 'keyinfo': body.innerHTML = viewKeyInfo(); break;
     }
   } catch(e){
@@ -692,6 +695,172 @@ window.wcDeleteMaint = async function(id){
   state.maintenance = state.maintenance.filter(i=>i.id!==id);
   await setJSON('maintenance-items', state.maintenance);
   renderBody();
+};
+
+/* ================= HEALTH & SAFETY REGISTER ================= */
+const SAFETY_TYPES = [
+  {id:'injury', label:'Injury'},
+  {id:'nearmiss', label:'Near miss'},
+  {id:'hazard', label:'Hazard'},
+  {id:'damage', label:'Property damage'},
+];
+const SAFETY_SEVERITY = [
+  {id:'minor', label:'Minor', cls:'u-month'},
+  {id:'moderate', label:'Needed treatment', cls:'u-week'},
+  {id:'serious', label:'Serious', cls:'u-today'},
+];
+const SAFETY_PLACES = ['Kōwhai Tent','Pōhutukawa Tent','Farm / track','Other'];
+const SAFETY_WHO = ['Guest','Staff','Contractor','Other'];
+const SAFETY_NAMES = ['Emily','Ben','Shantelle','Dijana','Dasha','Madison','Ann'];
+
+function safetyLabel(list, id){ const x = list.find(i=>i.id===id); return x? x.label : id; }
+
+function viewSafety(){
+  let list = state.safety.slice();
+  if(!ui.safetyShowClosed) list = list.filter(i=>!i.closed);
+  list.sort((a,b)=> (b.date||'').localeCompare(a.date||'') || (b.created||'').localeCompare(a.created||''));
+  const closedCount = state.safety.filter(i=>i.closed).length;
+  const openActions = state.safety.filter(i=>!i.closed).reduce((n,i)=> n + (i.actions||[]).filter(a=>!a.done).length, 0);
+  return `
+  <div class="section safety-sec">
+    <div>
+      <div class="wc-eyebrow">Health &amp; safety</div>
+      <h2>Incident register</h2>
+    </div>
+    <div class="banner">${ICONS.warn}<div><b>Someone seriously hurt?</b> Call 111 first. For a serious injury or a dangerous near miss, don't move anything, tell Emily or Ben straight away, and notify WorkSafe on 0800 030 040.</div></div>
+
+    <div class="card formgrid">
+      <span class="field-label" style="margin:0;">Report an incident, near miss or hazard</span>
+      <div class="two-col">
+        <div><span class="field-label">Date</span><input id="sf-date" type="date" value="${isoDate(new Date())}" /></div>
+        <div><span class="field-label">Reported by</span>
+          <select id="sf-by">${SAFETY_NAMES.map(n=>`<option>${n}</option>`).join('')}</select></div>
+      </div>
+      <div class="two-col">
+        <div><span class="field-label">Type</span>
+          <select id="sf-type">${SAFETY_TYPES.map(t=>`<option value="${t.id}">${t.label}</option>`).join('')}</select></div>
+        <div><span class="field-label">Where</span>
+          <select id="sf-place">${SAFETY_PLACES.map(p=>`<option>${p}</option>`).join('')}</select></div>
+      </div>
+      <div class="two-col">
+        <div><span class="field-label">Who was involved</span>
+          <select id="sf-who">${SAFETY_WHO.map(p=>`<option>${p}</option>`).join('')}</select></div>
+        <div><span class="field-label">Name (optional)</span><input id="sf-name" placeholder="e.g. guest name" /></div>
+      </div>
+      <div><span class="field-label">What happened?</span>
+        <textarea id="sf-what" rows="3" placeholder="e.g. Metal part came off the log splitter while a guest was using it"></textarea></div>
+      <div><span class="field-label">Injury / damage (if any)</span>
+        <input id="sf-injury" placeholder="e.g. Bruised forearm, no treatment needed" /></div>
+      <div><span class="field-label">What was done straight away?</span>
+        <input id="sf-immediate" placeholder="e.g. Splitter taken out of use and locked in shed" /></div>
+      <div><span class="field-label">How serious?</span>
+        <select id="sf-sev">${SAFETY_SEVERITY.map(v=>`<option value="${v.id}">${v.label}</option>`).join('')}</select></div>
+      <button class="btn btn-primary" onclick="wcAddSafety()">${ICONS.plus} Save report</button>
+    </div>
+
+    <div class="row between">
+      <span class="field-label" style="margin:0;">${list.length} ${ui.safetyShowClosed? 'record(s)' : 'open record(s)'}${openActions? ' · '+openActions+' action(s) to do' : ''}</span>
+      <button class="btn-text" onclick="wcToggleSafetyShowClosed()">${ui.safetyShowClosed? 'Hide closed' : 'Show closed ('+closedCount+')'}</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:9px;">
+      ${list.length? list.map(safetyCard).join('')
+      : `<div class="empty">${ICONS.empty}<div>Nothing ${ui.safetyShowClosed?'recorded':'open'} on the register.</div></div>`}
+    </div>
+  </div>`;
+}
+
+function safetyCard(i){
+  const sev = SAFETY_SEVERITY.find(v=>v.id===i.severity) || SAFETY_SEVERITY[0];
+  const open = ui.safetyOpenId===i.id;
+  const actions = i.actions||[];
+  const todo = actions.filter(a=>!a.done).length;
+  const line = (label, val)=> val? `<div style="margin-top:6px;"><span class="kv-label">${label}</span><div style="font-size:13.5px;">${esc(val)}</div></div>` : '';
+  return `<div class="card" style="${i.closed?'opacity:0.7;':''}">
+    <div class="row between" style="margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+      <div class="row" style="gap:6px; flex-wrap:wrap;">
+        <span class="badge ${sev.cls}">${esc(sev.label)}</span>
+        <span class="badge store">${esc(safetyLabel(SAFETY_TYPES, i.type))}</span>
+        ${i.closed? '<span class="badge u-low">Closed</span>' : (todo? `<span class="badge who">${todo} to do</span>` : '')}
+      </div>
+      <span class="note-meta" style="margin:0;">${i.date? fmtDateShort(i.date) : ''}</span>
+    </div>
+    <div class="note-text" style="cursor:pointer;" onclick="wcOpenSafety('${i.id}')">${esc(i.what)}
+      <div class="note-meta">${esc(i.place)} · ${esc(i.who)}${i.name? ' ('+esc(i.name)+')' : ''} · reported by ${esc(i.by)} · <span style="color:var(--harvest); font-weight:600;">${open? 'Hide details' : 'Details & actions'}</span></div>
+    </div>
+    ${open? `
+      ${line('Injury / damage', i.injury)}
+      ${line('Done straight away', i.immediate)}
+      ${i.severity==='serious'? `<div class="banner" style="margin-top:10px;">${ICONS.warn}<div>Serious incident: check whether WorkSafe needs to be notified (0800 030 040) and keep the area and equipment as they are until you know.</div></div>` : ''}
+      <div style="margin-top:12px;">
+        <span class="field-label">Follow-up actions</span>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          ${actions.length? actions.map(a=>`
+            <div class="row between">
+              <div class="row" style="gap:8px; flex:1;">
+                <button class="check-btn ${a.done?'checked':''}" onclick="wcToggleSafetyAction('${i.id}','${a.id}')">${a.done?ICONS.check:''}</button>
+                <div style="flex:1;"><span class="${a.done?'checked-text':''}" style="font-size:13.5px;">${esc(a.text)}</span>
+                  <div class="note-meta">${esc(a.who||'')}${a.doneDate? ' · done '+fmtDateShort(a.doneDate) : ''}</div></div>
+              </div>
+              ${delBtnHtml('sfa-'+a.id, `wcDeleteSafetyAction('${i.id}','${a.id}')`)}
+            </div>`).join('') : '<div class="note-meta">No actions yet.</div>'}
+        </div>
+        <div class="row" style="gap:6px; margin-top:8px;">
+          <input id="sfa-text-${i.id}" placeholder="e.g. Replace splitter head, check all tools" style="flex:2;" />
+          <select id="sfa-who-${i.id}" style="flex:1;">${['Ben','Emily','Team'].map(r=>`<option>${r}</option>`).join('')}</select>
+          <button class="icon-btn" style="width:38px; height:38px;" onclick="wcAddSafetyAction('${i.id}')">${ICONS.plus}</button>
+        </div>
+      </div>
+      <div class="row between" style="margin-top:12px;">
+        <button class="btn btn-ghost btn-sm" onclick="wcToggleSafetyClosed('${i.id}')">${i.closed? 'Reopen' : 'Mark closed'}</button>
+        ${delBtnHtml('sf-'+i.id, `wcDeleteSafety('${i.id}')`)}
+      </div>` : ''}
+  </div>`;
+}
+
+async function saveSafety(){ await setJSON('safety-register', state.safety); renderBody(); }
+window.wcToggleSafetyShowClosed = function(){ ui.safetyShowClosed = !ui.safetyShowClosed; renderBody(); };
+window.wcOpenSafety = function(id){ ui.safetyOpenId = ui.safetyOpenId===id? null : id; renderBody(); };
+window.wcAddSafety = async function(){
+  const v = id => (document.getElementById(id).value||'').trim();
+  const what = v('sf-what');
+  if(!what){ document.getElementById('sf-what').focus(); return; }
+  const item = { id: uid(), created: new Date().toISOString(), date: v('sf-date') || isoDate(new Date()),
+    by: v('sf-by'), type: v('sf-type'), place: v('sf-place'), who: v('sf-who'), name: v('sf-name'),
+    what, injury: v('sf-injury'), immediate: v('sf-immediate'), severity: v('sf-sev'), actions: [], closed: false };
+  state.safety.unshift(item);
+  ui.safetyOpenId = item.id;
+  await saveSafety();
+};
+window.wcAddSafetyAction = async function(id){
+  const it = state.safety.find(i=>i.id===id); if(!it) return;
+  const text = (document.getElementById('sfa-text-'+id).value||'').trim(); if(!text) return;
+  it.actions = it.actions||[];
+  it.actions.push({ id: uid(), text, who: document.getElementById('sfa-who-'+id).value, done:false, date: isoDate(new Date()) });
+  await saveSafety();
+};
+window.wcToggleSafetyAction = async function(id, aid){
+  const it = state.safety.find(i=>i.id===id); if(!it) return;
+  const a = (it.actions||[]).find(x=>x.id===aid); if(!a) return;
+  a.done = !a.done; a.doneDate = a.done? isoDate(new Date()) : null;
+  await saveSafety();
+};
+window.wcDeleteSafetyAction = async function(id, aid){
+  if(!confirmGate('sfa-'+aid)) return;
+  const it = state.safety.find(i=>i.id===id); if(!it) return;
+  it.actions = (it.actions||[]).filter(x=>x.id!==aid);
+  await saveSafety();
+};
+window.wcToggleSafetyClosed = async function(id){
+  const it = state.safety.find(i=>i.id===id); if(!it) return;
+  it.closed = !it.closed; it.closedDate = it.closed? isoDate(new Date()) : null;
+  await saveSafety();
+};
+window.wcDeleteSafety = async function(id){
+  if(!confirmGate('sf-'+id)) return;
+  state.safety = state.safety.filter(i=>i.id!==id);
+  if(ui.safetyOpenId===id) ui.safetyOpenId = null;
+  await saveSafety();
 };
 
 /* ================= TIMESHEET ================= */
@@ -1150,61 +1319,6 @@ window.wcClearChecked = async function(){
   const key = ui.shoppingTab==='weekly'? 'weekly' : 'order';
   state.shopping[key] = state.shopping[key].filter(i=>!i.checked);
   await setJSON('shopping-'+key, state.shopping[key]);
-  renderBody();
-};
-
-/* ================= TENT TO-DO ================= */
-window.wcSetTodoTent = function(t){ ui.todoTent = t; renderBody(); };
-function viewTodo(){
-  const tent = ui.todoTent;
-  const list = state.todo[tent].slice().sort((a,b)=> a.done===b.done? 0 : (a.done?1:-1));
-  const placeholder = tent==='other'
-    ? 'e.g. Do the recycling, restock the office printer paper'
-    : 'e.g. Wipe down pizza oven, restock firewood basket';
-  return `
-  <div class="section">
-    <div>
-      <div class="wc-eyebrow">When there's extra time</div>
-      <h2>To-do list</h2>
-    </div>
-    ${tentPillRow('todoTent','wcSetTodoTent', true)}
-    <div class="card formgrid">
-      <span class="field-label">Add a task</span>
-      <textarea id="td-text" rows="2" placeholder="${placeholder}"></textarea>
-      <button class="btn btn-primary" onclick="wcAddTodo()">${ICONS.plus} Add task</button>
-    </div>
-    <div style="display:flex; flex-direction:column; gap:8px;">
-      ${list.length? list.map(t=>`
-        <div class="card row between">
-          <div class="row" style="gap:10px; flex:1;">
-            <button class="check-btn ${t.done?'checked':''}" onclick="wcToggleTodo('${tent}','${t.id}')">${t.done?ICONS.check:''}</button>
-            <div style="flex:1;">
-              <span class="${t.done?'checked-text':''}" style="font-size:14px;">${esc(t.text)}</span>
-              ${t.date? `<div class="note-meta">${fmtDateShort(t.date)}</div>` : ''}
-            </div>
-          </div>
-          ${delBtnHtml('td-'+tent+'-'+t.id, `wcDeleteTodo('${tent}','${t.id}')`)}
-        </div>`).join('')
-      : `<div class="empty">${ICONS.empty}<div>No tasks on this list yet.</div></div>`}
-    </div>
-  </div>`;
-}
-window.wcAddTodo = async function(){
-  const text = document.getElementById('td-text').value.trim();
-  if(!text) return;
-  const tent = ui.todoTent;
-  state.todo[tent].push({id:uid(), text, done:false, date: isoDate(new Date())});
-  await setJSON('todo-'+tent, state.todo[tent]);
-  renderBody();
-};
-window.wcToggleTodo = async function(tent, id){
-  const it = state.todo[tent].find(i=>i.id===id);
-  if(it){ it.done=!it.done; await setJSON('todo-'+tent, state.todo[tent]); renderBody(); }
-};
-window.wcDeleteTodo = async function(tent, id){
-  if(!confirmGate('td-'+tent+'-'+id)) return;
-  state.todo[tent] = state.todo[tent].filter(i=>i.id!==id);
-  await setJSON('todo-'+tent, state.todo[tent]);
   renderBody();
 };
 
