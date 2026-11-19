@@ -697,8 +697,29 @@ function fmt(s){ if(!s)return '\u2014'; return pd(s).toLocaleDateString('en-NZ',
 function minStay(s){ var p=s.split('-').map(Number); var v=p[1]*100+p[2]; return(v>=1222||v<=105)?3:1; }
 function isBlocked(tent,s){ return BLK[tent] && BLK[tent].indexOf(s)>=0; }
 
+// Booking funnel tracking for GA4: no personal details are sent, only tent, dates and amounts.
+function wcTrack(name, params) {
+  try {
+    var p = params || {};
+    if (S && S.tent && !p.tent) p.tent = S.tent;
+    if (typeof gtag === 'function') gtag('event', name, p);
+  } catch (e) {}
+}
+function wcStayParams() {
+  var n = (S.ci && S.co) ? Math.round((pd(S.co) - pd(S.ci)) / 86400000) : 0;
+  return {
+    tent: S.tent,
+    nights: n,
+    checkin_month: S.ci ? S.ci.slice(0, 7) : '',
+    days_ahead: S.ci ? Math.round((pd(S.ci) - new Date(new Date().toDateString())) / 86400000) : '',
+    value: n * (PRICES[S.tent] || 0),
+    currency: 'NZD'
+  };
+}
+
 function selTent(t) {
   S.tent = t;
+  wcTrack('booking_tent_selected', { tent: t });
   S.ci = null;
   S.co = null;
   document.getElementById('tc-k').className = 'tcard' + (t==='kowhai' ? ' sel' : '');
@@ -743,6 +764,7 @@ function chMo(d) {
   S.mo += d;
   if (S.mo > 11) { S.mo = 0; S.yr++; }
   if (S.mo < 0) { S.mo = 11; S.yr--; }
+  wcTrack('booking_calendar_month', { month: S.yr + '-' + String(S.mo + 1).padStart(2, '0') });
   renderCal();
 }
 
@@ -825,11 +847,12 @@ function clickDate(s) {
         if (isBlocked(S.tent, ds2) && ds2 !== s) { hasBlk = true; break; }
         cur.setDate(cur.getDate()+1);
       }
-      if (hasBlk) { alert('Your range includes unavailable dates. Please choose different dates.'); return; }
+      if (hasBlk) { wcTrack('booking_dates_unavailable', { checkin_month: S.ci.slice(0, 7) }); alert('Your range includes unavailable dates. Please choose different dates.'); return; }
       var nights = Math.round((pd(s) - pd(S.ci)) / 86400000);
       var ms = minStay(S.ci);
-      if (nights < ms) { alert('Minimum ' + ms + ' night' + (ms>1?'s':'') + ' required for this period.'); return; }
+      if (nights < ms) { wcTrack('booking_min_stay_blocked', { checkin_month: S.ci.slice(0, 7), min_nights: ms }); alert('Minimum ' + ms + ' night' + (ms>1?'s':'') + ' required for this period.'); return; }
       S.co = s;
+      wcTrack('booking_dates_selected', wcStayParams());
     }
   }
   renderCal(); updBar();
@@ -898,6 +921,7 @@ function hasDateConflict_() {
 
 function proceedToStep2_(conflict) {
   if (conflict) {
+    wcTrack('booking_dates_taken', wcStayParams());
     alert('Sorry, one of your selected dates was just booked. Please choose new dates.');
     S.ci = null; S.co = null;
     renderCal();
@@ -906,6 +930,7 @@ function proceedToStep2_(conflict) {
   S.ref = genRef();
   document.getElementById('refbox').style.display = 'inline-flex';
   document.getElementById('refcode').textContent = S.ref;
+  wcTrack('begin_checkout', wcStayParams());
   goStep(2);
 }
 
@@ -981,11 +1006,14 @@ function toStep3() {
     }).catch(function(){});
   } catch (e) {}
 
+  var dp = wcStayParams(); dp.country = S.cn || ''; dp.heard_via = S.hdyhau || '';
+  wcTrack('booking_details_entered', dp);
   renderExtras();
   goStep(3);
 }
 
 function toStep4() {
+  wcTrack('booking_review', wcStayParams());
   renderSummary();
   goStep(4);
 }
@@ -1166,6 +1194,7 @@ async function applyVoucher() {
 }
 
 function confirmBooking() {
+  wcTrack('add_payment_info', wcStayParams());
   var btn = document.getElementById('confirm-btn');
   btn.textContent = 'Checking availability…';
   btn.disabled = true;
