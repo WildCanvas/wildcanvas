@@ -135,7 +135,7 @@ body { font-family: var(--sans); font-weight: 300; background: var(--cream); col
 }
 .hero-img {
   width: 100%; height: 520px;
-  object-fit: cover; object-position: center 40%;
+  object-fit: cover; object-position: center 60%;
   display: block;
 }
 .hero-text {
@@ -417,6 +417,10 @@ footer p a { color: rgba(251,246,238,0.45); text-decoration: none; }
   font-weight: 400; border-left: 2px solid var(--harvest); padding-left: 0.9rem; max-width: 560px;
 }
 .xmas-note.show { display: block; }
+.hero-cta{display:inline-block;margin-top:1.4rem;font-size:1rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;font-style:italic;font-family:var(--display);padding:0.75rem 1.6rem;background:var(--citrine);color:var(--bark);text-decoration:none;transition:background 0.3s;}
+.hero-cta:hover{background:#e7a430;}
+.hero-cta span{font-family:var(--sans);font-style:normal;font-weight:500;letter-spacing:0.06em;font-size:0.8rem;margin-left:0.5rem;}
+#vouchers{scroll-margin-top:96px;}
 
 /* ── WHERE ───────────────────────────── */
 .where-note {
@@ -698,13 +702,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="hero">
   <!-- PHOTO: Replace the src below with your chosen image URL -->
   <img fetchpriority="high" class="hero-img"
-    src="wild-canvas-gift-voucher-luxury-glamping-waitomo.webp"
-    alt="Wild Canvas luxury glamping Waitomo"/>
+    src="gift-voucher-hero-kowhai-outdoor-baths-champagne-waitomo.webp"
+    alt="A couple toasting with Champagne in the twin outdoor baths at the Kōwhai Tent, Waitomo"/>
   <div class="hero-text" style="display:grid;grid-template-columns:1fr auto;align-items:end;gap:2rem;">
     <div>
       <p class="eyebrow">Wild Canvas Gift Vouchers</p>
       <h1>The gift of somewhere <em>unforgettable</em></h1>
       <p class="hero-sub">For the person who doesn't need more stuff. A night away, a slow morning, a hot tub or bath outside, a fire, and memories they'll actually keep.</p>
+      <a href="#vouchers" class="hero-cta">Choose a voucher <span>· from $590</span></a>
       <p class="xmas-note" id="xmas-note">Buying for Christmas? Your voucher arrives by email within minutes, even on Christmas Eve.</p>
 
     </div>
@@ -735,7 +740,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- LEFT: Voucher selection -->
   <div class="vouchers-col">
-    <h2>Choose your <em>voucher</em></h2>
+    <h2 id="vouchers">Choose your <em>voucher</em></h2>
     <p class="vouchers-intro">Three experiences to choose from — a romantic night for two, our ultimate couple's package, or the full Pōhutukawa experience for families and groups. Select one below, then fill in your details.</p>
     <p class="where-note">Two private hilltop tents on our family farm in <strong>Waitomo</strong>, minutes from the glowworm caves. About 2.5 hours from Auckland and an hour from Hamilton.</p>
 
@@ -770,7 +775,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- VOUCHER 2 -->
       <div class="voucher" id="v2" onclick="selectVoucher(2)" role="radio" aria-checked="false" tabindex="0">
-        <img class="voucher-photo" src="gift-voucher-kowhai-tent-champagne-outdoor-baths-waitomo.webp" alt="A couple toasting with Champagne in the twin outdoor baths at the Kōwhai Tent" loading="lazy"/>
+        <img class="voucher-photo" src="gift-voucher-kowhai-ultimate-bedroom-fireplace-waitomo.webp" alt="The Kōwhai Tent bedroom with the fire lit, ready for an evening in" loading="lazy"/>
         <div class="voucher-inner">
           <div class="voucher-select">
             <div class="radio-ring"><div class="radio-dot"></div></div>
